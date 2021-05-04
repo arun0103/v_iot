@@ -28,6 +28,7 @@
 
                 </div>
             </div>
+            <!-- <user_profile></user_profile> -->
         </div>
     </div>
 </div>
@@ -41,10 +42,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <img src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}"style="width:150px; height:150px; float: left; border-radius:50%; margin-right:25px">
-        <form enctype="multipart/form-data" action="/profile" method="POST">
-            <input type="file" name="avatar" style="position:absolute; left:170px;top:10px">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <form enctype="multipart/form-data" action="/updateProfilePicture" method="POST">
+          <img id="preview_avatar" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}"style="width:150px; height:150px; float: left; border-radius:50%; margin-right:25px">
+            <input id="input_choose_file" type="file" name="avatar" style="position:absolute; left:170px;top:10px">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}"><br/>
             <input type="submit" value="Change" class="btn btn-small btn-primary" style="position:absolute; right:10px;top:10px">
         </form>
       </div>
@@ -74,19 +75,13 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" onClick="uploadAvatar()">Save changes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
-<script>
-    export default{
-        data():{
-
-        }
-    }
-</script>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{asset('js/profile.js')}}"></script>
 @endsection
 

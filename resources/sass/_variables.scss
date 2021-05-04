@@ -2,7 +2,7 @@
 $body-bg: #f8fafc;
 
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
+$font-family-sans-serif: 'Roberto', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
@@ -17,3 +17,31 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+
+.rotate{
+    color: #38c172;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+
+    @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+    @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+    @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg);} }
+}
+.float-right{
+    float:right;
+}
+.navbar-white {
+    background-color: #87bde6;
+    color: #040506;
+}
+.content-wrapper {
+    background-color: #3979a9;
+}
+
+[class*="sidebar-dark-"] {
+    background-color: #0a5e9c;
+}
+.layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*="navbar"]) {
+    background-color: #87bde6;
+}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -27,14 +28,22 @@ class HomeController extends Controller
     {
         //Get user info
         $loggedInUser = Auth::user();
+        $loggedInUser->last_login = Carbon::now();
+        $loggedInUser->save();
         Session(['user_name', $loggedInUser->name]);
         Session(['role', $loggedInUser->role]);
-        return view('home');
+        $users = User::all();
+        return view('home')->with(['population'=>$users]);
     }
 
     public function logout(){
         Auth::logout();
         // return response()->json(['message' => 'Logged Out'], 200);
         return view('welcome');
+    }
+
+    public function getProfileInfo(){
+        $user = Auth::user();
+        return response()->json('data',$user);
     }
 }

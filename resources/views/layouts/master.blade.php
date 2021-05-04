@@ -6,12 +6,15 @@
   <title>{{ config('app.name', 'Voltea') }}</title>
 
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
+  
+ @yield('css')
+
 </head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<body class="hold-transition sidebar-mini layout-navbar-fixed">
+<div class="wrapper" >
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light fixed">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -91,7 +94,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <!-- <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3"> -->
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Nora Silvester
@@ -149,7 +152,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link">
       <img src="{{asset('../img/voltea-logo.png')}}" alt="Logo" class="brand-image" style="opacity: .8">
@@ -157,7 +160,7 @@
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar layout-fixed">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
@@ -167,18 +170,6 @@
           <a href="{{route('userProfile')}}" class="d-block">{{Auth::check() ? Auth::user()->name : null}}</a>
         </div>
       </div>
-
-      <!-- SidebarSearch Form -->
-      <!-- <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div> -->
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -206,7 +197,7 @@
                 </li>
             @endif
             <li class="nav-item">
-                <a href="pages/widgets.html" class="nav-link">
+                <a href="{{route('devices')}}" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                     Devices
@@ -263,6 +254,10 @@
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
+    <div class="sidebar-custom">
+      <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
+      <a href="#" class="btn btn-secondary hide-on-collapse pos-right">Help</a>
+    </div>
   </aside>
 
   <!-- Content Wrapper. Contains page content -->

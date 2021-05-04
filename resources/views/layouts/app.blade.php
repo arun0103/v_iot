@@ -19,12 +19,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body style="background:#47c5ee">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    <img src="{{asset('../img/voltea-logo.png')}}" alt="Logo" class="brand-image" style="opacity: .8; margin-left:-21px; margin-top:-20px"> <span style="color:#47c5ee; font-size:85px">IOT</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -78,6 +78,28 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+
     </div>
+<!-- Main Footer -->
+<style>
+    .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-color: #3286c2;
+    padding: 0 10px;
+}
+</style>
+    <footer class="page-footer fixed-bottom font-small bg-dark p-3 flex justify-content-center">
+        <!-- To the right -->
+        <div class="float-right d-none d-sm-inline">
+        Code By: Arun Amatya
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2021 <a href="https://voltea.com">Voltea</a>.</strong> All rights reserved.
+    </footer>
 </body>
 </html>
