@@ -31,14 +31,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('users')->insert([
-            'name' => "Arun Amatya",
-            'email' => 'arun.amatya12345@gmail.com',
-            'password' => Hash::make('123456789'),
-            'role'  => 'S',
-            'created_by' => 1,
 
-        ]);
     }
 
     /**
