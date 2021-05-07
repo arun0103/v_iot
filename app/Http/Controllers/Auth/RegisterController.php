@@ -71,7 +71,7 @@ class RegisterController extends Controller
             'role' => 'U',
             'created_by' =>'0'
         ]);
-        $user->createdy_by = $user->id;
+        $user->created_by = $user->id;
         $user->save();
         return $user;
     }
