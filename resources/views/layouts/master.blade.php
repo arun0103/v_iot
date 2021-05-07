@@ -6,7 +6,7 @@
   <title>{{ config('app.name', 'Voltea') }}</title>
 
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
-  
+
  @yield('css')
 
 </head>
@@ -196,15 +196,17 @@
                     </a>
                 </li>
             @endif
-            <li class="nav-item">
-                <a href="{{route('devices')}}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Devices
-                    <span class="right badge badge-danger">New</span>
-                </p>
-                </a>
-            </li>
+            @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
+                <li class="nav-item">
+                    <a href="{{route('devices')}}" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Devices
+                        <span class="right badge badge-danger">New</span>
+                    </p>
+                    </a>
+                </li>
+            @endif
             <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
