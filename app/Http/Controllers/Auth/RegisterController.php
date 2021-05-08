@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Notifications\HelloNewUser;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -73,6 +74,7 @@ class RegisterController extends Controller
         ]);
         $user->created_by = $user->id;
         $user->save();
+        $user->notify(new HelloNewUser());
         return $user;
     }
 }
