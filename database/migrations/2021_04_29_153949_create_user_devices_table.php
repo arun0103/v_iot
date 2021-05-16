@@ -15,11 +15,11 @@ class CreateUserDevicesTable extends Migration
     {
         Schema::create('user_devices', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('device_id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('device_id');
+            $table->string('device_name')->nullable();
             $table->decimal('lat',10,7)->nullable();
             $table->decimal('long',10,7)->nullable();
-            $table->string('device_name');
             $table->timestamps();
         });
     }

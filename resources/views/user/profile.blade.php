@@ -33,28 +33,31 @@
     </div>
 </div>
 <div class="modal" tabindex="-1" role="dialog" id="avatar_edit_modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Change {{Auth::user()->name}}'s Avatar</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form enctype="multipart/form-data" action="/updateProfilePicture" method="POST">
-          <img id="preview_avatar" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}"style="width:150px; height:150px; float: left; border-radius:50%; margin-right:25px">
-            <input id="input_choose_file" type="file" name="avatar" style="position:absolute; left:170px;top:10px">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}"><br/>
-            <input type="submit" value="Change" class="btn btn-small btn-primary" style="position:absolute; right:10px;top:10px">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
+
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change {{Auth::user()->name}}'s Avatar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="form_image_upload" class="image-upload" enctype="multipart/form-data" action="api/addUserAvatar" method="POST">
+                <div class="modal-body">
+                        {{ csrf_field() }}
+                        <img id="preview_avatar" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}"style="width:150px; height:150px; float: left; border-radius:50%; margin-right:25px">
+                        <input id="input_choose_file" type="file" name="avatar" style="position:absolute; left:170px;top:10px">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}"><br/>
+                        <!-- <input type="submit" value="Change" class="btn btn-small btn-primary" style="position:absolute; right:10px;top:10px"> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn_upload_avatar">Save changes</button>
+                    <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+            </div>
+        </div>
+
 </div>
 <div class="modal" tabindex="-1" role="dialog" id="profile_edit_modal">
   <div class="modal-dialog" role="document">
@@ -75,13 +78,13 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onClick="uploadAvatar()">Save changes</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="{{asset('js/profile.js')}}"></script>
+<script type="module" src="{{asset('js/profile.js')}}"></script>
 @endsection
 

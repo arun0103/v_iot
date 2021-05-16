@@ -22,3 +22,13 @@ Route::get('/getUserProfile',[App\Http\Controllers\HomeController::class,'getPro
 
 //Super Admin
 Route::get('/getUsers',[App\Http\Controllers\SuperController::class,'getAllUsers']);
+
+
+
+
+
+
+//User
+Route::get('/searchDevice', [App\Http\Controllers\HomeController::class,'searchDevice']);
+Route::post('/addUserDevice', [App\Http\Controllers\HomeController::class,'addUserDevice']);
+Route::post('/addUserAvatar', [App\Http\Controllers\HomeController::class,'addUserAvatar']);

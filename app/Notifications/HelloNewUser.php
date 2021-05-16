@@ -7,6 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
+use Auth;
+use Session;
+
 class HelloNewUser extends Notification
 {
     use Queueable;
@@ -40,7 +43,9 @@ class HelloNewUser extends Notification
      */
     public function toMail($notifiable)
     {
+
         return (new MailMessage)
+                    ->greeting('Hello! '.Session::get('username'))
                     ->line('Welcome to Voltea-IOT.')
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');

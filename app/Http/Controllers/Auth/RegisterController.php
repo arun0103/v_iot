@@ -9,6 +9,7 @@ use App\Notifications\HelloNewUser;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Session;
 
 class RegisterController extends Controller
 {
@@ -74,6 +75,7 @@ class RegisterController extends Controller
         ]);
         $user->created_by = $user->id;
         $user->save();
+        Session(['username'=>$user->name]);
         $user->notify(new HelloNewUser());
         return $user;
     }

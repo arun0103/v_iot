@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Device;
+use App\Models\UserDevices;
+
 use Auth;
 use Carbon\Carbon;
+
+
 
 class HomeController extends Controller
 {
@@ -33,7 +38,10 @@ class HomeController extends Controller
         Session(['user_name', $loggedInUser->name]);
         Session(['role', $loggedInUser->role]);
         $users = User::all();
-        return view('home')->with(['population'=>$users]);
+        $userDevices = UserDevices::where('user_id',$loggedInUser->id)->get();
+        //dd($userDevices);
+        return view('home')->with(['population'=>$users])
+                            ->with(['userDevices'=>$userDevices]);
     }
 
     public function logout(){
@@ -45,5 +53,59 @@ class HomeController extends Controller
     public function getProfileInfo(){
         $user = Auth::user();
         return response()->json('data',$user);
+    }
+
+    public function addUserAvatar(Request $req){
+        $req->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageName = time().'.'.$req['avatar']->getClientOriginalExtension();
+
+        $req->avatar->move(public_path('uploads/avatars'), $imageName);
+
+        /* Store $imageName name in DATABASE from HERE */
+        $user = Auth::user();
+        $user->avatar = $imageName;
+        $user->save();
+
+        return back()
+            ->with('success','You have successfully upload image.')
+            ->with('image',$imageName);
+    }
+    public function addUserDevice(Request $req){
+        $user = Auth::user();
+        $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->first();
+        if($searchDevice != null){
+            $userDevice = UserDevices::where([['user_id',$user->id],['device_id',$searchDevice->id]])->get();
+            if($userDevice != null){
+                $added = new UserDevices;
+                $added->user_id = $user->id;
+                $added->device_id = $searchDevice->id;
+                $added->save();
+                $response =[
+                    'message' => 'Success',
+                    'description' =>'Added',
+                    'data' => $added
+                ];
+            }
+            else{
+                $response =[
+                    'message' => 'Error',
+                    'description' =>'Already Exists'
+                ];
+            }
+        }else{
+            $response =[
+                'message' => 'Error',
+                'description' =>'Device Not Found In Database. Please Call Voltea Office'
+            ];
+        }
+        return response($response);
+    }
+
+    public function searchDevice(Request $req){
+        $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->get();
+        return response($searchDevice);
     }
 }

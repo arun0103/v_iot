@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);
+@charset "UTF-8";@import url(https://fonts.googleapis.com/css?family=Nunito);
 /*!
  *   AdminLTE v3.1.0
  *   Author: Colorlib
@@ -46,6 +46,10 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+.f-r{
+    float:right;
 }
 
 html {
@@ -53956,7 +53960,7 @@ a.ui-button:active,
  * http://api.jqueryui.com/category/theming/
  */
 
-@charset "UTF-8";
+
 .rotate {
   color: #38c172;
   -webkit-animation: spin 4s linear infinite;
@@ -64200,31 +64204,37 @@ h3 {
   }
 }
 .fa-rotate-90 {
+    filter:"progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
   transform: rotate(90deg);
 }
 
 .fa-rotate-180 {
+  filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
   transform: rotate(180deg);
 }
 
 .fa-rotate-270 {
+  filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
   transform: rotate(270deg);
 }
 
 .fa-flip-horizontal {
+  filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
   transform: scale(-1, 1);
 }
 
 .fa-flip-vertical {
+  filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
   transform: scale(1, -1);
 }
 
 .fa-flip-both, .fa-flip-horizontal.fa-flip-vertical {
+  filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
   transform: scale(-1, -1);
 }

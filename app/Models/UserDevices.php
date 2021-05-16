@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class UserDevices extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'device_name',
-        'user_id',
-        'device_id',
-        'lat',
-        'lng'
+        'user_id', 'device_id',
+
+        'device_name', 'lat', 'lng'
     ];
 }
