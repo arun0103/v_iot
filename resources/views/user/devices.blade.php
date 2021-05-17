@@ -40,7 +40,7 @@
                             </div>
                             <!-- <i class="btn fas fa-sync-alt"></i> -->
                             <div class="card-tools">
-                                <button type="button" id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#modal-add">Add New</button>
+                                <button type="button" id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-device">Add New</button>
                             </div>
                         </div>
                         <div class="card-body table-responsive table-striped p-0">
@@ -53,7 +53,8 @@
                                 <thead>
                                     <tr>
                                         <th>S.N</th>
-                                        <th>Device Name</th>
+                                        <th>Device Number</th>
+                                        <th>Device Name / Model</th>
                                         <th>Location</th>
                                         <th># Assigned Users</th>
                                         <th>Last Data Received Time</th>
@@ -65,6 +66,7 @@
                                 @foreach($devices as $device)
                                     <tr >
                                         <td>{{$device->serial_number}}</td>
+                                        <td>{{$device->device_number}}</td>
                                         <td>{{$device->model}} DiUse</td>
                                         <td>{{$device->lat}}_0,0_{{$device->lng}}</td>
                                         <td>0</td>
@@ -72,34 +74,17 @@
                                             date time
                                         </td>
                                         <td>
-                                            <a class="nav-link" data-toggle="dropdown" href="#">
-                                                <i class="fas fa-angle-down"></i>
-                                            </a>
+                                            <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                 <a href="#" class="dropdown-item">
-                                                    <!-- Message Start -->
-                                                    <div class="media">
-                                                        <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                                        <!-- <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle"> -->
-                                                        <!-- <div class="media-body">
-                                                            <h3 class="dropdown-item-title">
-                                                            Brad Diesel
-                                                            <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                                            </h3>
-                                                            <p class="text-sm">Call me whenever you can...</p>
-                                                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                                        </div> -->
-                                                    </div>
-                                                    <!-- Message End -->
+                                                    <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
                                                 </a>
-
-                                            <div class="dropdown-divider"></div>
+                                                <div class="dropdown-divider"></div>
                                                 <a href="#" class="dropdown-item"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
-                                            <div class="dropdown-divider"></div>
+                                                <div class="dropdown-divider"></div>
                                                 <a href="#" class="dropdown-item dropdown-footer"><i class="far fa-trash-alt"></i> Delete Device</a>
                                             </div>
                                             <!-- </div> -->
-
                                         </td>
                                     </tr>
                                 @endforeach
@@ -111,9 +96,8 @@
             </div>
         </div>
         <!-- /.container-fluid -->
-        <div class="modal fade" id="modal-add">
-            <form id="form_addUser" class="form-horizontal" method="post" action="/addNewDevice" autocomplete="no">
-
+        <div class="modal fade" id="modal-add-device">
+            <form id="form_addDevice" class="form-horizontal" method="post" action="/addNewDevice" autocomplete="no">
                 {{ csrf_field() }}
                 <div class="modal-dialog modal-lg" >
                     <div class="modal-content">
@@ -140,12 +124,18 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
+                                                <label for="inputDN" class="control-label">Device Number</label>
+                                                <input type="text" class="form-control" id="inputDN" placeholder="Device Number" name="device_number" autocomplete="no">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
                                             <label for="reseller_id" class="control-label">Reseller</label>
                                                 <select name="reseller_id" id="select_reseller_id" class="form-control">
-                                                    <option value="null"> --  Select  -- </option>
-                                                    <option value="0">A</option>
-                                                    <option value="1">B</option>
-                                                    <option value="2">C</option>
+                                                    <option value="-1"> --  Select  -- </option>
+                                                    @foreach($users as $user)
+                                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -188,8 +178,7 @@
         </div>
         <!-- /.modal -->
         <div class="modal fade" id="modal-assign-user">
-            <form id="form_assign_user" class="form-horizontal" method="post" action="/addNewUserDevice" autocomplete="no">
-
+            <form id="form_assign_user" class="form-horizontal" method="post" action="/assignUserDevice" autocomplete="no">
                 {{ csrf_field() }}
                 <div class="modal-dialog modal-lg" >
                     <div class="modal-content">
@@ -199,16 +188,16 @@
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
-                            <div class="row roundPadding20" id="addNewDevice">
+                            <div class="row roundPadding20">
                                 <div class="col-sm-12">
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label for="user_type" class="control-label">User Type</label>
-                                                <select name="user_type" id="select_user_type" class="form-control" onChange="populateUser(select_user_type)">
-                                                    <option value="null"> --  Select  -- </option>
-                                                    <option value="0">User</option>
-                                                    <option value="1">Reseller</option>
+                                                <select name="user_type" id="select_user_type" class="form-control">
+                                                    <option> --  Select  -- </option>
+                                                    <option value="U">User</option>
+                                                    <option value="R">Reseller</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -217,15 +206,16 @@
                                                 <label for="user_type" class="control-label">User</label>
                                                 <select name="user_type" id="select_user" class="form-control">
                                                     <option value="null"> --  Select  -- </option>
-                                                    <option value="0"></option>
-                                                    <option value="1">Reseller</option>
+                                                    @foreach($users as $user)
+                                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label for="inputSN" class="control-label">Serial Number</label>
-                                                <input type="text" class="form-control" id="inputSN" placeholder="Serial Number" name="serial_number" autocomplete="no">
+                                                <label for="inputSN_verify" class="control-label">Serial Number</label>
+                                                <input type="text" class="form-control" id="inputSN_verify" placeholder="Serial Number" name="serial_number" autocomplete="no">
                                             </div>
                                         </div>
                                     </div>
@@ -234,7 +224,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="btn_confirm" value="Add">Add</button>
+                            <button type="submit" class="btn btn-primary" id="btn_confirm_assign_user" value="Add">Add</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
