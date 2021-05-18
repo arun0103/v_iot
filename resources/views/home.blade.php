@@ -252,20 +252,27 @@
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
-                                        <label for="selectTimeFrame" class="control-label">Time Frame</label>
-                                            <select name="timeframe" id="timeframe_conductivity" class="form-control">
+                                        <label for="selectTimeFrame" class="control-label">Time Range</label>
+                                            <select name="selectTimeFrame" id="timeframe_conductivity" class="form-control">
                                                 <option>-- Select --</option>
-                                                <option value="minutes">Minutes</option>
-                                                <option value="hours">Hours</option>
-                                                <option value="days">Days</option>
-                                                <option value="months">Months</option>
+                                                <option value="last_hour">Last hour</option>
+                                                <option value="last_24_hour">Last 24 Hours</option>
+                                                <option value="custom">Custom</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-6">
+                                </div>
+                                <div class="row" id ="conductivity_custom_time">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="inputNumber" class="control-label">Number</label>
-                                            <input type="number" min="1" class="form-control" id="inputNumber" placeholder="Number" name="number" autocomplete="no">
+                                        <label for="inputFromDate_conductivity" class="control-label">From</label>
+                                            <input class="form-control datepicker" id="inputFromDate_conductivity" name="from_date_conductivity" width="234" placeholder="MM / DD / YYYY"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                        <label for="inputToDate_conductivity" class="control-label">To</label>
+                                            <input class="form-control datepicker" id="inputToDate_conductivity" name="to_date_conductivity" width="234" placeholder="MM / DD / YYYY"/>
                                         </div>
                                     </div>
                                 </div>
@@ -308,17 +315,24 @@
                                         <label for="timeFrame_volume" class="control-label">Time Frame</label>
                                             <select name="timeFrame_volume" id="timeframe_volume" class="form-control">
                                                 <option>-- Select --</option>
-                                                <option value="minutes">Minutes</option>
-                                                <option value="hours">Hours</option>
-                                                <option value="days">Days</option>
-                                                <option value="months">Months</option>
+                                                <option value="last_hour">Last hour</option>
+                                                <option value="last_24_hour">Last 24 Hours</option>
+                                                <option value="custom">Custom</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-6">
+                                </div>
+                                <div class="row" id="volume_custom_time">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="inputNumber_volume" class="control-label">Number</label>
-                                            <input type="number" min="1" class="form-control" id="inputNumber_volume" placeholder="Number" name="number_volume" autocomplete="no">
+                                        <label for="inputFromDate_volume" class="control-label">From</label>
+                                            <input class="form-control datepicker" id="inputFromDate_volume" name="from_date_volume" width="234" placeholder="MM / DD / YYYY"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                        <label for="inputToDate_volume" class="control-label">To</label>
+                                            <input class="form-control datepicker" id="inputToDate_volume" name="to_date_volume" width="234" placeholder="MM / DD / YYYY"/>
                                         </div>
                                     </div>
                                 </div>
@@ -356,7 +370,8 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
+        $('#conductivity_custom_time').hide();
+        $('#volume_custom_time').hide();
     });
     $('#btn_confirm_add_device').on('click', function() {
             var serial = $('#inputSerialNumber').val();
@@ -404,6 +419,21 @@
             }
         });
     }
+    $('#timeframe_conductivity').on('change', function(){
+        if($('#timeframe_conductivity').val() == 'custom'){
+            $('#conductivity_custom_time').show();
+        }else{
+            $('#conductivity_custom_time').hide();
+        }
+    })
+    $('#timeframe_volume').on('change', function(){
+        if($('#timeframe_volume').val() == 'custom'){
+            $('#volume_custom_time').show();
+        }else{
+            $('#volume_custom_time').hide();
+        }
+    })
+
 </script>
 
 @endsection
