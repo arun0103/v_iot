@@ -32,114 +32,118 @@
                 <div class="col-12">
                     <!-- Default box -->
                     @if($userDevices->count()>0)
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Device Name </h3>
+                        @foreach($userDevices as $device)
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Device Name </h3>
 
-                            <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                <i class="fas fa-times"></i>
-                            </button> -->
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3 box float-right ">
-                                    <div class="card card-outline card-success">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Status </h3>
-                                            <div class="card-tools">
-                                            <i class="btn fas fa-sync-alt"></i>
-                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
-                                            </button> -->
-                                            </div>
-                                            <!-- /.card-tools -->
-                                        </div>
-                                        <!-- /.card-header -->
-                                        <div class="card-body">
-                                            <span style="color:green"><i class="fas fa fa-certificate blink_me"> </i> RUNNING</span>
-                                            <br/>
-                                            <span><b>Duration  : </b> 02:10:20</span><br/>
-                                            <span><b>Last Data @ </b> 11:00:00</span>
-                                        </div>
-                                        <!-- /.card-body -->
-                                    </div>
-                                </div>
-                                <div class="col-md-3 box float-right ">
-                                    <div class="card card-outline card-success">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Conductivity </h3>
-
-                                            <div class="card-tools">
-                                                <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i>
-                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                            </button>
-                                            </div>
-                                            <!-- /.card-tools -->
-                                        </div>
-                                        <!-- /.card-header -->
-                                        <div class="card-body">
-                                        <i class="fas fa fa-certificate" style="color:green">Good</i>
-
-                                        </div>
-                                        <!-- /.card-body -->
-                                    </div>
-                                </div>
-                                <div class="col-md-3 box float-right ">
-                                    <div class="card card-outline card-success">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Volume </h3>
-
-                                            <div class="card-tools">
-                                                <i id="volume_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
-                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                            </button>
-                                            </div>
-                                            <!-- /.card-tools -->
-                                        </div>
-                                        <!-- /.card-header -->
-                                        <div class="card-body">
-                                        <p>Daily : <i>2 L</i></p>
-                                        <p>Monthly : <i>60 L</i></p>
-                                        <p>Yearly : <i>800 L</i></p>
-
-                                        </div>
-                                        <!-- /.card-body -->
-                                    </div>
-                                </div>
-                                <div class="col-md-3 box float-right ">
-                                    <div class="card card-outline card-success">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Alarms</h3>
-
-                                            <div class="card-tools">
-                                            <i class="btn fas fa-table"></i>
-                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                            </button>
-                                            </div>
-                                            <!-- /.card-tools -->
-                                        </div>
-                                        <!-- /.card-header -->
-                                        <div class="card-body">
-                                        <p>No alarms!</p>
-
-                                        </div>
-                                        <!-- /.card-body -->
-                                    </div>
+                                <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <!-- <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                    <i class="fas fa-times"></i>
+                                </button> -->
                                 </div>
                             </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3 box float-right ">
+                                        <div class="card card-outline card-success">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Status </h3>
+                                                <div class="card-tools">
+                                                <i class="btn fas fa-sync-alt"></i>
+                                                <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                                                </button> -->
+                                                </div>
+                                                <!-- /.card-tools -->
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                                <span style="color:green"><i class="fas fa fa-certificate blink_me"> </i> RUNNING</span>
+                                                <br/>
+                                                <span><b>Duration  : </b> 02:10:20</span><br/>
+                                                <span><b>Last Data @ </b> 11:00:00</span>
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 box float-right ">
+                                        <div class="card card-outline card-success">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Conductivity </h3>
+
+                                                <div class="card-tools">
+                                                    <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i>
+                                                <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
+                                                </button>
+                                                </div>
+                                                <!-- /.card-tools -->
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                            <i class="fas fa fa-certificate" style="color:green"> Good</i>
+
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 box float-right ">
+                                        <div class="card card-outline card-success">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Volume </h3>
+
+                                                <div class="card-tools">
+                                                    <i id="volume_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
+                                                <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
+                                                </button>
+                                                </div>
+                                                <!-- /.card-tools -->
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                            <p>Daily : <i>2 L</i></p>
+                                            <p>Monthly : <i>60 L</i></p>
+                                            <p>Yearly : <i>800 L</i></p>
+
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 box float-right ">
+                                        <div class="card card-outline card-success">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Alarms</h3>
+
+                                                <div class="card-tools">
+                                                <i class="btn fas fa-table"></i>
+                                                <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
+                                                </button>
+                                                </div>
+                                                <!-- /.card-tools -->
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                            <p>No alarms!</p>
+
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+
+                                <p>Total Cycles : <b id="total_cycle_count">400/500</b> <button class="btn btn-outline-danger"  id="btn_device_reset"><i class=" fa fa-recycle"> Reset</i></button> <span id="last_reset_date"></span></p>
+
+                                <p>Last Servicing: <b>01/01/2020</b></p>
+                                <p><i><b>Recommended: </b>Replace carbon filter after next 100 cycles</i></p>
+                            </div>
+                            <!-- /.card-footer-->
                         </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <p>Total Cycles : <b>400/500</b></p>
-                            <p>Last Servicing: <b>01/01/2020</b></p>
-                            <p><i><b>Recommended: </b>Replace carbon filter after next 100 cycles</i></p>
-                        </div>
-                        <!-- /.card-footer-->
-                    </div>
+                        @endforeach
                     <!-- /.card -->
                     @endif
                     @if($userDevices->count()<=0)
@@ -372,7 +376,15 @@
         });
         $('#conductivity_custom_time').hide();
         $('#volume_custom_time').hide();
+
+        $('#btn_device_reset').click(function(){
+        console.log('Reset');
+        $('#last_reset_date') .html( "<span>Last Reset @ <em>"+ new Date().toJSON().slice(0,10).replace(/-/g,'/') +"</em></span>" );
+        $('#total_cycle_count').text("0/500")
+    })
     });
+
+
     $('#btn_confirm_add_device').on('click', function() {
             var serial = $('#inputSerialNumber').val();
             var device = $('#inputDeviceNumber').val();
@@ -433,6 +445,8 @@
             $('#volume_custom_time').hide();
         }
     })
+
+
 
 </script>
 

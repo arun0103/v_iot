@@ -12,6 +12,15 @@ jQuery(document).ready(function($){
 
         }
         console.log('Refreshing with new data');
+        $('.fa-sync-alt').animate(
+            { deg: 360 },
+            {
+              duration: 1200,
+              step: function(now) {
+                $(this).css({ transform: 'rotate(' + now + 'deg)' });
+              }
+            }
+          );
     }, 60000); // Repeat every 60000 milliseconds (1 minute) * 5
 
 

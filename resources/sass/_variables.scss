@@ -45,3 +45,6 @@ $cyan: #6cb2eb;
 .layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*="navbar"]) {
     background-color: #87bde6;
 }
+.breadcrumb-item.active {
+    color: #fafcff;
+}
