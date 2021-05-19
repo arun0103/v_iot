@@ -35,8 +35,8 @@ Route::group(['middleware' => ['auth', 'super']], function() {
     Route::get('/admin/users',[App\Http\Controllers\SuperController::class,'users'])->name('users');
     Route::post('/addNewUser',[App\Http\Controllers\SuperController::class,'create_user']);
 
-    Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->name('devices');
     Route::post('/addNewDevice',[App\Http\Controllers\SuperController::class,'create_device']);
     Route::post('/assignUserDevice',[App\Http\Controllers\SuperController::class,'assignUserDevice']);
 
-  });
+});
+Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->name('devices');

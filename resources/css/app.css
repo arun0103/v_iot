@@ -4,3 +4,6 @@
 .breadcrumb-item.active {
     color: #fafcff;
 }
+.center{
+    margin: 0 auto;
+}

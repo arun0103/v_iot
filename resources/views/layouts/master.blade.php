@@ -197,7 +197,7 @@
                     </a>
                 </li>
             @endif
-            @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
+            @if(Auth::user()->role == 'S' || Auth::user()->role == 'R')
                 <li class="nav-item">
                     <a href="{{route('devices')}}" class="nav-link">
                     <i class="nav-icon fas fa-th"></i>
@@ -259,7 +259,7 @@
     <!-- /.sidebar -->
     <div class="sidebar-custom">
       <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
-      <a href="#" class="btn btn-secondary hide-on-collapse pos-right">Help</a>
+      <a href="#" class="btn btn-secondary hide-on-collapse pos-right float-right">Help</a>
     </div>
   </aside>
 

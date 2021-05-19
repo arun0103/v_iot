@@ -35,8 +35,10 @@
                         @foreach($userDevices as $device)
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Device Name </h3>
-
+                                <h3 class="card-title">{{$device->device_name}} </h3>
+                                @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
+                                    <button class="btn btn-primary btn-sm" style="margin-left:10px">Control</button>
+                                @endif
                                 <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                     <i class="fas fa-minus"></i>
@@ -53,7 +55,7 @@
                                             <div class="card-header">
                                                 <h3 class="card-title">Status </h3>
                                                 <div class="card-tools">
-                                                <i class="btn fas fa-sync-alt"></i>
+                                                <i class="btn fas fa-sync-alt center"></i>
                                                 <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
                                                 </button> -->
                                                 </div>
@@ -65,8 +67,18 @@
                                                 <br/>
                                                 <span><b>Duration  : </b> 02:10:20</span><br/>
                                                 <span><b>Last Data @ </b> 11:00:00</span>
+                                                @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
+                                                </br></br>
+                                                <p><b>Device Health :</b><i style="color:green; font-weight:bold">Good</i></p>
+                                                @endif
                                             </div>
                                             <!-- /.card-body -->
+                                            <div class="card-footer">
+                                                <div class="row flex">
+
+                                                    <button class="btn btn-primary center">Stop</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3 box float-right ">
@@ -75,7 +87,7 @@
                                                 <h3 class="card-title">Conductivity </h3>
 
                                                 <div class="card-tools">
-                                                    <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i>
+                                                    <!-- <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i> -->
                                                 <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
                                                 </button>
                                                 </div>
@@ -83,8 +95,7 @@
                                             </div>
                                             <!-- /.card-header -->
                                             <div class="card-body">
-                                            <i class="fas fa fa-certificate" style="color:green"> Good</i>
-
+                                                <i class="fas fa fa-certificate" style="color:green"> Below 5%</i>
                                             </div>
                                             <!-- /.card-body -->
                                         </div>
@@ -265,22 +276,24 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row" id ="conductivity_custom_time">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-2 conductivity_custom_time">
                                         <div class="form-group">
                                         <label for="inputFromDate_conductivity" class="control-label">From</label>
                                             <input class="form-control datepicker" id="inputFromDate_conductivity" name="from_date_conductivity" width="234" placeholder="MM / DD / YYYY"/>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-2 conductivity_custom_time">
                                         <div class="form-group">
                                         <label for="inputToDate_conductivity" class="control-label">To</label>
-                                            <input class="form-control datepicker" id="inputToDate_conductivity" name="to_date_conductivity" width="234" placeholder="MM / DD / YYYY"/>
+                                            <input class="form-control datepicker" id="inputToDate_conductivity" disabled name="to_date_conductivity" width="234" placeholder="MM / DD / YYYY"/>
                                         </div>
                                     </div>
+                                    <div class="col-md-2">
+                                        <button id="reload_graph" class="btn btn-warning">Reload the Graph</button>
+                                    </div>
+
                                 </div>
-                                <p>
+                                    <p>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <canvas id="conductivityChart" width="400vh" height="200vh"></canvas>
@@ -325,21 +338,23 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row" id="volume_custom_time">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-2 volume_custom_time">
                                         <div class="form-group">
                                         <label for="inputFromDate_volume" class="control-label">From</label>
-                                            <input class="form-control datepicker" id="inputFromDate_volume" name="from_date_volume" width="234" placeholder="MM / DD / YYYY"/>
+                                            <input class="form-control datepicker" id="inputFromDate_volume" name="from_date_volume" width="234" placeholder="MM/DD/YYYY"/>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-2 volume_custom_time">
                                         <div class="form-group">
                                         <label for="inputToDate_volume" class="control-label">To</label>
-                                            <input class="form-control datepicker" id="inputToDate_volume" name="to_date_volume" width="234" placeholder="MM / DD / YYYY"/>
+                                            <input class="form-control datepicker" id="inputToDate_volume" disabled name="to_date_volume" width="234" placeholder="MM/DD/YYYY"/>
                                         </div>
                                     </div>
+                                    <div class="col-md-2">
+                                        <button id="reload_graph" class="btn btn-warning">Reload the Graph</button>
+                                    </div>
                                 </div>
+
                                 <p>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -374,44 +389,47 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        $('#conductivity_custom_time').hide();
-        $('#volume_custom_time').hide();
+        $('.conductivity_custom_time').hide();
+        $('.volume_custom_time').hide();
+        $('#reload_graph').hide();
 
-        $('#btn_device_reset').click(function(){
-        console.log('Reset');
-        $('#last_reset_date') .html( "<span>Last Reset @ <em>"+ new Date().toJSON().slice(0,10).replace(/-/g,'/') +"</em></span>" );
-        $('#total_cycle_count').text("0/500")
-    })
+
+        $('#btn_device_reset').on('click', function(){
+            $('#last_reset_date') .html( "<span>Last Reset @ <em>"+ new Date().toJSON().slice(0,10).replace(/-/g,'/') +"</em></span>" );
+            $('#total_cycle_count').text("0/500")
+        })
+
+        $('#inputFromDate_volume').on('change', function(){
+            console.log('HI from date')
+            $('#inputToDate_volume').val($('#inputFromDate_volume').val()).change()
+        })
     });
 
 
     $('#btn_confirm_add_device').on('click', function() {
-            var serial = $('#inputSerialNumber').val();
-            var device = $('#inputDeviceNumber').val();
-            console.log(serial +  " ---- " + device);
-            searchDevice();
-            $.ajax({
-                method: "POST",
-                url: "api/addUserDevice",
-                data: { "_token": "{{ csrf_token() }}","serial_number": serial, "device_number": device }
-                })
-                .done(function( msg ) {
-                    switch(msg['message']){
-                        case 'Error':
-                            alert('Device Not Found In Database. Please Call Voltea Office');
-                            break;
-                        case 'Success':
-                            alert('Device Added');
-                            break;
-                        default:
-                            console.log(msg);
-
-                    }
-                    console.log( msg );
-            });
+        var serial = $('#inputSerialNumber').val();
+        var device = $('#inputDeviceNumber').val();
+        //console.log(serial +  " ---- " + device);
+        searchDevice();
+        $.ajax({
+            method: "POST",
+            url: "api/addUserDevice",
+            data: { "_token": "{{ csrf_token() }}","serial_number": serial, "device_number": device }
+        })
+        .done(function( msg ) {
+            switch(msg['message']){
+                case 'Error':
+                    alert('Device Not Found In Database!');
+                    break;
+                case 'Success':
+                    alert('Device Added');
+                    break;
+                default:
+                    console.log(msg);
+            }
+            console.log( msg );
         });
-
-
+    });
 
     function searchDevice(){
         var serial = $('#inputSerialNumber').val();
@@ -431,22 +449,22 @@
             }
         });
     }
+
     $('#timeframe_conductivity').on('change', function(){
         if($('#timeframe_conductivity').val() == 'custom'){
-            $('#conductivity_custom_time').show();
+            $('.conductivity_custom_time').show();
         }else{
-            $('#conductivity_custom_time').hide();
+            $('.conductivity_custom_time').hide();
         }
     })
     $('#timeframe_volume').on('change', function(){
         if($('#timeframe_volume').val() == 'custom'){
-            $('#volume_custom_time').show();
+            $('.volume_custom_time').show();
         }else{
-            $('#volume_custom_time').hide();
+            $('.volume_custom_time').hide();
         }
+        $('#reload_graph').show();
     })
-
-
 
 </script>
 
