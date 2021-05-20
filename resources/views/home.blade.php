@@ -423,8 +423,10 @@
                     break;
                 case 'Success':
                     alert('Device Added');
+                    $('#modal-add-new-device').modal('toggle');
                     break;
                 default:
+                alert('Default message: check in console')
                     console.log(msg);
             }
             console.log( msg );

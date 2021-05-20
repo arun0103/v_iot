@@ -58,7 +58,7 @@ class SuperController extends Controller
         elseif($loggedInUser->role == 'R'){
             $users = User::where('created_by', $loggedInUser->id)->get();
             $resellerUserDevices = Device::where('created_by', $loggedInUser->id)->get();
-            return view('user/devices')->with(['devices'=>$resellerUserDevices])>with(['users'=>$users]);
+            return view('user/devices')->with(['devices'=>$resellerUserDevices])->with(['users'=>$users]);
         }
         return view('home');
     }

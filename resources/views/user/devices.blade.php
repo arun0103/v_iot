@@ -38,17 +38,11 @@
                                     <h2>List of Devices</h2>
                                     <!-- <input class="form-control" type="filter" placeholder="Filter Device" aria-label="Filter"> -->
                             </div>
-                            <!-- <i class="btn fas fa-sync-alt"></i> -->
                             <div class="card-tools">
                                 <button type="button" id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-device">Add New</button>
                             </div>
                         </div>
                         <div class="card-body table-responsive table-striped p-0">
-                            <div class="row">
-                                <div class="col-md-12">
-
-                                </div>
-                            </div>
                             <table class="table table-striped table-valign-middle datatable" id="deviceTable">
                                 <thead>
                                     <tr>
@@ -60,7 +54,6 @@
                                         <th>Last Data Received Time</th>
                                         <th>More</th>
                                     </tr>
-
                                 </thead>
                                 <tbody>
                                 @foreach($devices as $device)
@@ -185,7 +178,8 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="modal-title">Assign User Device</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <div class="row roundPadding20">
