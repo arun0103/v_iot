@@ -37,8 +37,19 @@ class HomeController extends Controller
         $loggedInUser->save();
         Session(['user_name', $loggedInUser->name]);
         Session(['role', $loggedInUser->role]);
-        $users = User::all();
-        $userDevices = UserDevices::where('user_id',$loggedInUser->id)->get();
+        if($loggedInUser->role == 'S'){
+            $users = User::all();
+            $userDevices = UserDevices::all();
+            return view('super/dashboard')->with(['users'=>$users])
+            ->with(['userDevices'=>$userDevices]);
+        }elseif($loggedInUser->role =='R'){
+            $users = User::where('added_by',$loggedInUser)->get();
+            $userDevices = UserDevices::where('user_id',$loggedInUser->id)->get();
+        }
+        else{
+            $users = $loggedInUser;
+            $userDevices = UserDevices::where('user_id',$loggedInUser->id)->get();
+        }
         //dd($userDevices);
         return view('home')->with(['population'=>$users])
                             ->with(['userDevices'=>$userDevices]);
