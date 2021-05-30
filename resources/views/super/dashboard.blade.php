@@ -1,9 +1,7 @@
 @extends('layouts.master')
 
 @section('css')
-<style>
 
-</style>
 @endsection
 @section('content')
 
@@ -33,11 +31,12 @@
                         <div class="info-box">
                             <span class="info-box-icon bg-success elevation-1"><i id="running" class="fas fa-cog "></i></span>
 
-                            <div class="info-box-content">
+                            <div class="info-box-content" id="running-devices">
                                 <span class="info-box-text">Running</span>
                                 <span class="info-box-number">
-                                10
-                                <!-- <small>%</small> -->
+                                {{$devices->count()}}
+                                <small>/</small>
+                                {{$devices->count()}}
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -51,8 +50,9 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Standby</span>
                                 <span class="info-box-number">
-                                10
-                                <small>%</small>
+                                0
+                                <small>/</small>
+                                {{$devices->count()}}
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -66,8 +66,9 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Idle</span>
                                 <span class="info-box-number">
-                                10
-                                <small>%</small>
+                                0
+                                <small>/</small>
+                                {{$devices->count()}}
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -81,8 +82,9 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Cleaning</span>
                                 <span class="info-box-number">
-                                10
-                                <small>%</small>
+                                0
+                                <small>/</small>
+                                {{$devices->count()}}
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -91,91 +93,68 @@
                     </div>
 
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h3 style="margin:0 auto">All Devices</h3>
-                        <table class="table table-hover">
+                <div class="row" id="table-total-devices">
+                    <div class="col-lg-12 col-md-12">
+                        <h3>All Devices</h3>
+                        <table class="table table-hover table-responsive datatable">
                             <thead class="thead-dark">
                                 <th>S.N</th>
-                                <th>Device Name</th>
-                                <th>Location</th>
+                                <th>Model</th>
+                                <th>#Users</th>
                                 <th>Status</th>
                                 <th>Duration</th>
-                                <th>Conductivity</th>
+                                <th>EC</th>
+                                <th>Pure Flow</th>
+                                <th>Waste Flow</th>
+                                <th>Pure Voltage</th>
+                                <th>Waste Voltage</th>
+                                <th>Volume</th>
                                 <th>Cycles</th>
+                                <th>Module Health</th>
+                                <th>Alarm Setpoints</th>
+                                <th>Recovery</th>
                                 <th>Actions</th>
                             </thead>
                             <tbody>
-                                <tr class="table-success">
-                                    <td>1</td>
-                                    <td>DiUse</td>
-                                    <td>View Map</td>
-                                    <td>Running</td>
-                                    <td>00:01:15</td>
-                                    <td>Within 5%</td>
-                                    <td>120/500</td>
-                                    <td>
-                                        <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
-                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                            <a href="#" class="dropdown-item">
-                                                <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="#" class="dropdown-item"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
-                                            <a href="#" class="dropdown-item"><i class="fas fa-database"></i> View Data</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
-                                        </div>
-                                        <!-- </div> -->
-                                    </td>
-                                </tr>
-                                <tr class="table-warning">
-                                    <td>2</td>
-                                    <td>DiUse</td>
-                                    <td>View Map</td>
-                                    <td>Idle</td>
-                                    <td>00:01:15</td>
-                                    <td>Within 5%</td>
-                                    <td>200/500</td>
-                                    <td>
-                                        <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
-                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                            <a href="#" class="dropdown-item">
-                                                <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="#" class="dropdown-item"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
-                                        </div>
-                                        <!-- </div> -->
-                                    </td>
-                                </tr>
-                                <tr class="table-info">
-                                    <td>3</td>
-                                    <td>DiUse</td>
-                                    <td>View Map</td>
-                                    <td>Cleaning</td>
-                                    <td>00:01:15</td>
-                                    <td>Within 5%</td>
-                                    <td>50/500</td>
-                                    <td>
-                                        <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
-                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                            <a href="#" class="dropdown-item">
-                                                <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="#" class="dropdown-item"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
-                                        </div>
-                                        <!-- </div> -->
-                                    </td>
-                                </tr>
+                                @foreach($devices as $device)
+                                    <tr class="table-success">
+                                        <td>{{$device->serial_number}}</td>
+                                        <td>{{$device->model != null ? $device->model : 'DiUse'}}</td>
+                                        <td>{{$device->associatedUsers->count()}}</td>
+                                        <td>Running</td>
+                                        <td>00:01:15</td>
+                                        <td>Within 5%</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>120/500</td>
+                                        <td>Good</td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>
+                                            <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
+                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">
+                                                    <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="dropdown-item"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
+                                                <a href="#" class="dropdown-item"><i class="fas fa-database"></i> View Data</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
+                                            </div>
+                                            <!-- </div> -->
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div id="div-running-devices-container" class="no-display">
+                    @include('super.table-running')
                 </div>
             </div>
         </section>
@@ -202,7 +181,15 @@
 
         //shake
 
+
+        $('#running-devices').on('click', function(){
+            console.log('Clicked on running')
+            $("#div-running-devices-container").addClass('display-block').removeClass('no-display');
+            $('#table-total-devices').addClass('no-display');
+        })
     });
+
+
 </script>
 
 @endsection

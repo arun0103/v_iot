@@ -39,9 +39,9 @@ class HomeController extends Controller
         Session(['role', $loggedInUser->role]);
         if($loggedInUser->role == 'S'){
             $users = User::all();
-            $userDevices = UserDevices::all();
+            $devices = Device::with('associatedUsers')->get();
             return view('super/dashboard')->with(['users'=>$users])
-            ->with(['userDevices'=>$userDevices]);
+            ->with(['devices'=>$devices]);
         }elseif($loggedInUser->role =='R'){
             $users = User::where('added_by',$loggedInUser)->get();
             $userDevices = UserDevices::where('user_id',$loggedInUser->id)->get();
@@ -55,10 +55,14 @@ class HomeController extends Controller
                             ->with(['userDevices'=>$userDevices]);
     }
 
+    public function login(){
+        return view('auth/login');
+    }
+
     public function logout(){
         Auth::logout();
         // return response()->json(['message' => 'Logged Out'], 200);
-        return view('welcome');
+        return view('auth/login');
     }
 
     public function getProfileInfo(){
@@ -68,10 +72,10 @@ class HomeController extends Controller
 
     public function addUserAvatar(Request $req){
         $req->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' => 'required|image|mimes:jpeg,jpg,gif|max:2048',
         ]);
 
-        $imageName = time().'.'.$req['avatar']->getClientOriginalExtension();
+        $imageName = Auth::user()->id.'_'.time().'.'.$req['avatar']->getClientOriginalExtension();
 
         $req->avatar->move(public_path('uploads/avatars'), $imageName);
 
@@ -79,10 +83,21 @@ class HomeController extends Controller
         $user = Auth::user();
         $user->avatar = $imageName;
         $user->save();
-
-        return back()
-            ->with('success','You have successfully upload image.')
-            ->with('image',$imageName);
+        $response =[
+            'message'=>"Success",
+            'imageName' =>$imageName
+        ];
+        return response($response);
+        // return back()
+        //     ->with('success','You have successfully upload image.')
+        //     ->with('image',$imageName);
+    }
+    public function updateProfile(Request $req){
+        $loggedInUser = Auth::user();
+        $loggedInUser->name = $req->name;
+        $loggedInUser->email= $req->email;
+        $loggedInUser->save();
+        return response()->json(['data',$loggedInUser]);
     }
     public function addUserDevice(Request $req){
         $user = Auth::user();

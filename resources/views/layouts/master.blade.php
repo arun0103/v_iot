@@ -161,13 +161,13 @@
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar layout-fixed">
+    <div class="sidebar" style="margin-top:55px">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}" class="img-circle elevation-2" alt="User Image">
+          <img id="img_profile" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}" class="img-circle elevation-2 float-left" alt="User Image">
         </div>
-        <div class="info">
+        <div class="info" style="line-height:36px">
           <a href="{{route('userProfile')}}" class="d-block">{{Auth::check() ? Auth::user()->name : null}}</a>
         </div>
       </div>
@@ -257,10 +257,10 @@
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
-    <div class="sidebar-custom">
+    <!-- <div class="sidebar-custom">
       <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
       <a href="#" class="btn btn-secondary hide-on-collapse pos-right float-right">Help</a>
-    </div>
+    </div> -->
   </aside>
 
   <!-- Content Wrapper. Contains page content -->

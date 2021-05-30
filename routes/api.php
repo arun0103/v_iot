@@ -32,3 +32,5 @@ Route::get('/getUsers',[App\Http\Controllers\SuperController::class,'getAllUsers
 Route::get('/searchDevice', [App\Http\Controllers\HomeController::class,'searchDevice']);
 Route::post('/addUserDevice', [App\Http\Controllers\HomeController::class,'addUserDevice']);
 Route::post('/addUserAvatar', [App\Http\Controllers\HomeController::class,'addUserAvatar']);
+Route::post('/updateAvatar', [App\Http\Controllers\HomeController::class,'updateAvatar']);
+Route::post('/updateProfile', [App\Http\Controllers\HomeController::class,'updateProfile']);

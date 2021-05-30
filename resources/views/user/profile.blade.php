@@ -1,31 +1,41 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="container" id='profileApp'>
-    <div class="row ">
+<div class="container" id='app'>
+    <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><h3>{{Auth::user()->name}}'s Profile</h3>
-                    <span style="float:right; position:absolute; top:10px;right:10px">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profile_edit_modal">Edit</button></span>
+                <div class="card-header">
+                        <h1 class="card-title">{{Auth::user()->name}}'s Profile</h1>
+                        <div class="card-tools">
+                        <span style="float:right; position:absolute; top:10px;right:10px">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profile_edit_modal">Edit</button>
+                        </span>
+                        </div>
                 </div>
-
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2">
-                            <img id="img_avatar_preview" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}"style="width:150px; height:150px; float: left; border-radius:50%; margin-right:25px">
-                            <button id="btn_change_avatar" type="button" class="btn btn-primary" data-toggle="modal" data-target="#avatar_edit_modal" style="position:absolute; left:55px;bottom:30px;">Change</button>
+                        <div class="col-md-4 col-sm-4 center">
+                            <img id="img_avatar_preview" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}"style="width:150px; height:150px;  border-radius:20%; margin-right:25px">
+                            <button id="btn_change_avatar" type="button" class="btn btn-primary" data-toggle="modal" data-target="#avatar_edit_modal" style="position:absolute; left:55px;bottom:-15px;">Change</button>
                         </div>
-                        <div class="col-md-6" style="margin-left:20px">
+
+                    </div>
+                    <div class="row" style="margin-top:20px">
+                        <div class="col-md-4 col-sm-12 ">
                             <h5 style="text-decoration:underline">Personal Information</h5>
                             <table>
-                                <tr><th>Name</th>               <td>&nbsp;:&nbsp;</td>  <td>{{Auth::user()->name}}</td></tr>
-                                <tr><th>Email</th>               <td>&nbsp;:&nbsp;</td>  <td>{{Auth::user()->email}}</td></tr>
+                                <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td>{{Auth::user()->name}}</td></tr>
+                                <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td>{{Auth::user()->email}}</td></tr>
+                                <tr><th>Mobile</th><td>&nbsp;:&nbsp;</td>  <td>{{'9841973742'}}</td></tr>
                             </table>
-
                         </div>
-                    </div>
 
+                        <div class="col-lg-4 col-md-4 center" id="membership_info">
+                            <span><b>Member Since  <i id="info_member_since">01/01/2021</i></b></span>
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <!-- <user_profile></user_profile> -->
@@ -44,15 +54,22 @@
             </div>
             <form id="form_image_upload" class="image-upload" enctype="multipart/form-data" action="api/addUserAvatar" method="POST">
                 <div class="modal-body">
-                        {{ csrf_field() }}
-                        <img id="preview_avatar" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}"style="width:150px; height:150px; float: left; border-radius:50%; margin-right:25px">
-                        <input id="input_choose_file" type="file" name="avatar" style="position:absolute; left:170px;top:10px">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}"><br/>
-                        <!-- <input type="submit" value="Change" class="btn btn-small btn-primary" style="position:absolute; right:10px;top:10px"> -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                             @csrf
+                            <img id="preview_avatar" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}"style="width:150px; height:150px; float: left; border-radius:50%; margin-right:25px">
+                            <input id="input_choose_file" type="file" name="avatar" style="position:absolute; left:170px;top:10px">
+                        </div>
+                        <div class="col-lg-12">
+                            <span class="text-danger" id="image-input-error"></span>
+                        </div>
+
+                    </div>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btn_upload_avatar">Save changes</button>
-                    <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="btn_upload_avatar">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </form>
             </div>
@@ -68,19 +85,24 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <h5 style="text-decoration:underline">Personal Information</h5>
-        <table>
-            <tr><th>Name</th>               <td>&nbsp;:&nbsp;</td>  <td><input type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
-            <tr><th>Email</th>               <td>&nbsp;:&nbsp;</td>  <td><input type="text" id="txt_role" value="{{Auth::user()->email}}"></td></tr>
-
-
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+        <form id="form_profile_info" action="api/updateProfile" method="POST">
+            {{ csrf_field() }}
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                    <h5 style="text-decoration:underline">Personal Information</h5>
+                    <table class="table">
+                        <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
+                        <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="email" id="txt_email" value="{{Auth::user()->email}}"></td></tr>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </form>
     </div>
   </div>
 </div>

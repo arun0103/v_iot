@@ -18,5 +18,8 @@ class Device extends Model
         'created_by'
     ];
 
+    public function associatedUsers(){
+        return $this->hasMany(UserDevices::class);
+    }
 
 }

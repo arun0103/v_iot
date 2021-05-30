@@ -423,12 +423,14 @@
                         <h4 class="modal-title" id="modal-title">Conductivity</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <div class="modal-body"  style="padding:10px">
+                    <div class="modal-body" style="padding:10px">
                         <div class="row roundPadding20"  style="padding:20px">
-                            <p><i>Conductivity is how we measure the amount of minerals content in the water.</i></p>
-                            <p><b style="color:blue">Within 5%</b><br> <i>The unit is removing the right amount of minerals.</i></p>
-                            <p><b style="color:#dcdc1f">Within 10%</b><br> <i>The unit is removing most of the minerals.</i></p>
-                            <p><b style="color:orange">Above 10%</b><br> <i>The unit is having a hard time keeping up removing the appropriate amount of minerals. <br>Keep in mind this could be due to changes in feed water quality, startup of the unit or drop in unit’s performance. <br>Allow some time for the unit to stabilize   <br>Contact specialized personnel if problem persists.</i></p>
+                            <div class="col-lg-12">
+                                <p><i>Conductivity is how we measure the amount of minerals content in the water.</i></p>
+                                <p><b style="color:blue">Within 5%</b><br> <i>The unit is removing the right amount of minerals.</i></p>
+                                <p><b style="color:#dcdc1f">Within 10%</b><br> <i>The unit is removing most of the minerals.</i></p>
+                                <p><b style="color:orange">Above 10%</b><br> <i>The unit is having a hard time keeping up removing the appropriate amount of minerals. <br>Keep in mind this could be due to changes in feed water quality, startup of the unit or drop in unit’s performance. <br>Allow some time for the unit to stabilize   <br>Contact specialized personnel if problem persists.</i></p>
+                            </div>
                         </div>
                     </div>
                 </div>

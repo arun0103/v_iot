@@ -47,8 +47,14 @@ $cyan: #6cb2eb;
 }
 
 .center{
-    margin: 0 auto;
+    margin: 0 auto!important;
 }
+// .center {
+//     margin: auto;
+//     width: 60%;
+//     //border: 5px solid #FFFF00;
+//     padding: 10px;
+//     }
 .breadcrumb-item.active {
     color: #87bde6 !important;
 }
@@ -62,4 +68,19 @@ $cyan: #6cb2eb;
 .sidebar-custom{
     position: absolute !important;
     bottom: 0px;
+}
+
+///////dashboard
+
+.no-display{
+    display:none !important;
+}
+table {
+    width: 100%;
+  }
+  #membership_info {display:block;margin:0 auto;}
+
+  @media all and (max-width:480px) {
+
+    div, img, #membership_info, #info_member_since {display:block;margin:0 auto;}
 }

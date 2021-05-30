@@ -22,7 +22,14 @@ jQuery(document).ready(function($){
             }
           );
     }, 60000); // Repeat every 60000 milliseconds (1 minute) * 5
-
+    $(document).on('click', '.sidebar-toggle', function () {
+        if ($('body').hasClass("sidebar-collapse") && $('body').hasClass("sidebar-open")) {
+           $('body').removeClass("sidebar-collapse");
+        }
+    });
+    //$('body').Layout();
+$('[data-toggle="push-menu"]').PushMenu();
+$('[data-widget="treeview"]').Treeview();
 
 });
 $('#conductivity_chart').on('click', function(){
