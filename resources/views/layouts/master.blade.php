@@ -8,7 +8,7 @@
 
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
- @yield('css')
+ @yield('head')
 
 </head>
 <body class="hold-transition sidebar-mini layout-navbar-fixed">

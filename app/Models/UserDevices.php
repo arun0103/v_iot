@@ -14,4 +14,7 @@ class UserDevices extends Model
 
         'device_name', 'lat', 'lng'
     ];
+    public function deviceDetails(){
+        return $this->belongsTo('App\Models\Device','device_id','id');
+    }
 }

@@ -70,35 +70,7 @@ class HomeController extends Controller
         return response()->json('data',$user);
     }
 
-    public function addUserAvatar(Request $req){
-        $req->validate([
-            'avatar' => 'required|image|mimes:jpeg,jpg,gif|max:2048',
-        ]);
 
-        $imageName = Auth::user()->id.'_'.time().'.'.$req['avatar']->getClientOriginalExtension();
-
-        $req->avatar->move(public_path('uploads/avatars'), $imageName);
-
-        /* Store $imageName name in DATABASE from HERE */
-        $user = Auth::user();
-        $user->avatar = $imageName;
-        $user->save();
-        $response =[
-            'message'=>"Success",
-            'imageName' =>$imageName
-        ];
-        return response($response);
-        // return back()
-        //     ->with('success','You have successfully upload image.')
-        //     ->with('image',$imageName);
-    }
-    public function updateProfile(Request $req){
-        $loggedInUser = Auth::user();
-        $loggedInUser->name = $req->name;
-        $loggedInUser->email= $req->email;
-        $loggedInUser->save();
-        return response()->json(['data',$loggedInUser]);
-    }
     public function addUserDevice(Request $req){
         $user = Auth::user();
         $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->first();

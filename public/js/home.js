@@ -27,9 +27,7 @@ jQuery(document).ready(function($){
            $('body').removeClass("sidebar-collapse");
         }
     });
-    //$('body').Layout();
-$('[data-toggle="push-menu"]').PushMenu();
-$('[data-widget="treeview"]').Treeview();
+
 
 });
 $('#conductivity_chart').on('click', function(){
@@ -170,3 +168,7 @@ $('#volume_chart').on('click', function(){
     });
 });
 
+$('tr a.link_view_users' ).on('click', function() {
+    var trid = $(this).closest('tr').attr('id'); // table row ID
+    console.log(trid)
+  });

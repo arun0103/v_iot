@@ -117,7 +117,7 @@
                             </thead>
                             <tbody>
                                 @foreach($devices as $device)
-                                    <tr class="table-success">
+                                    <tr class="table-success" id="{{$device->id}}">
                                         <td>{{$device->serial_number}}</td>
                                         <td>{{$device->model != null ? $device->model : 'DiUse'}}</td>
                                         <td>{{$device->associatedUsers->count()}}</td>
@@ -140,8 +140,8 @@
                                                     <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
                                                 </a>
                                                 <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
-                                                <a href="#" class="dropdown-item"><i class="fas fa-database"></i> View Data</a>
+                                                <a id="link_view_users" href="#" class="dropdown-item link_view_users"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
+                                                <a id="link_view_data" href="#" class="dropdown-item"><i class="fas fa-database"></i> View Data</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
                                             </div>
@@ -159,6 +159,37 @@
             </div>
         </section>
     </div>
+
+<div class="modal" tabindex="-1" role="dialog" id="view_userDevices_modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit {{Auth::user()->name}}'s Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form id="form_profile_info" action="api/updateProfile" method="POST">
+            {{ csrf_field() }}
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                    <h5 style="text-decoration:underline">Personal Information</h5>
+                    <table class="table">
+                        <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
+                        <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="email" id="txt_email" value="{{Auth::user()->email}}"></td></tr>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="module" src="{{asset('js/home.js')}}"></script>
