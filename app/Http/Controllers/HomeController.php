@@ -65,10 +65,7 @@ class HomeController extends Controller
         return view('auth/login');
     }
 
-    public function getProfileInfo(){
-        $user = Auth::user();
-        return response()->json('data',$user);
-    }
+
 
 
     public function addUserDevice(Request $req){

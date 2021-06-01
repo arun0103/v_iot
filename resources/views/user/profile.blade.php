@@ -3,10 +3,10 @@
 <link rel="stylesheet" href="{{ asset('css/profile_body.css') }}">
 @endsection
 @section('content')
-<div class="container" id='app'>
+<div class="container" id='app' style="z-index: 99999 !important;">
     <div class="row">
         <div class="col-md-12">
-            <div id="content" class="content content-full-width">
+            <div id="content" class="content">
                 <!-- begin profile -->
                 <div class="profile">
                     <div class="profile-header">
@@ -16,25 +16,26 @@
                         <!-- BEGIN profile-header-content -->
                         <div class="profile-header-content">
                             <!-- BEGIN profile-header-img -->
-                            <div class="profile-header-img">
-                                <img id="img_avatar_preview" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}"style="width:150px; height:150px;  margin-right:25px">
-                                <button id="btn_change_avatar" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#avatar_edit_modal" style="position:absolute; left:0px;bottom:0px;">Change</button>
+                            <div class="profile-header-img" style="z-index: index 999999999999;">
+                                <img id="img_avatar_preview" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}"style="width:250px; height:150px;  margin-right:25px">
+                                <button id="btn_change_avatar" hidden type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#avatar_edit_modal" style="position:absolute; left:0px;bottom:0px;">Change</button>
                             </div>
                             <!-- END profile-header-img -->
                             <!-- BEGIN profile-header-info -->
                             <div class="profile-header-info">
                                 <h4 class="m-t-10 m-b-5">{{Auth::user()->name}}</h4>
-                                <span><b>Member since  <i id="info_member_since">01/01/2021</i></b></span>
-                                <p class="m-b-10">UXUI + Frontend Developer</p>
-                                <p class="m-b-10">Voltea Nepal Team</p>
-                                <!-- <a href="#" class="btn btn-sm btn-info mb-2">Edit Profile</a> -->
+                                <p class="m-b-10"><span><b>Member since  <i id="info_member_since">{{Auth::user()->created_at}}</i></b><i id="info_member_since_edit" hidden></i></span></p>
+                                <span id="user_profile_profession">UXUI + Frontend Developer</span>
+                                <p class="m-b-10"><span id="user_profile_institution">Voltea Nepal Team</span></p>
+                                <button id="btn_cancel_edit_user_profile" hidden type="button" class="btn btn-sm btn-light" >Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button id="btn_edit_user_profile" type="button" class="btn btn-sm btn-primary" >Edit</button>
                             </div>
                             <!-- END profile-header-info -->
                         </div>
                         <!-- END profile-header-content -->
                         <!-- BEGIN profile-header-tab -->
-                        <ul class="profile-header-tab nav nav-tabs">
-                            <li class="nav-item"><a href="#profile-personal-info" class="nav-link active show " data-toggle="tab">Personal Information</a></li>
+                        <ul class="profile-header-tab nav nav-tabs" style="margin-left:-140px">
+                            <li class="nav-item"><a href="#profile-personal-info" class="nav-link active show " data-toggle="tab">Personal Info</a></li>
                             <li class="nav-item"><a id="nav_user_devices" href="#profile-devices" class="nav-link" data-toggle="tab">Devices</a></li>
                             <li class="nav-item"><a href="#profile-activities" class="nav-link" data-toggle="tab">Recent Activities</a></li>
                         </ul>
@@ -43,84 +44,85 @@
                 </div>
                 <!-- end profile -->
                 <!-- begin profile-content -->
-                <div class="profile-content">
+                <div class="profile-content" style="margin:-10px -20px">
                     <!-- begin tab-content -->
                     <div class="tab-content p-0">
-                    <div class="tab-pane fade active show" id="profile-personal-info">
-                        <div class="col-md-12">
-                            <div class="loader"></div>
-                            <div class="card mb-3">
-                                <div class="card-header">
-                                    <h3 class="card-title">Personal Information</h3>
-                                    <div class="card-tools">
-                                    <button id="btn_edit_user_info" type="button" class="btn btn-sm btn-primary" >Edit</button>
-                                        <!-- <input class="form-control" type="filter" placeholder="Filter User" aria-label="Filter"> -->
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Full Name</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary" id="div_user_name"><span id="txt_user_name">{{Auth::user()->name}}</span> </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Email</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary" id="div_user_email"><span id="txt_user_email"> {{Auth::user()->email}}</span></div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Phone</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary" id="div_user_phone"><span id="txt_user_phone"> (977) 015533082</span></div>
-                                    </div><hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Mobile</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary" id="div_user_mobile"><span id="txt_user_mobile"> (977) 9841973742</span></div>
-                                    </div><hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Address</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary" id="div_user_address"><span id="txt_user_address"> Sanepa-2, Lalitpur</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade active show" id="profile-devices">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title">Devices</div>
-                                        <div class="card-tools">
-                                            <button class="btn btn-sm btn-primary">Add</button>
+                        <div class="tab-pane fade active show" id="profile-personal-info">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="loader"></div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Personal Information</h3>
+                                            <div class="card-tools">
+                                                <button id="btn_edit_user_info" type="button" class="btn btn-sm btn-primary" >Edit</button>
+                                            </div>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table">
-                                                <thead>
-                                                    <td>Serial Number</td>
-                                                    <td>Device Number</td>
-                                                    <td>Name</td>
-                                                </thead>
-                                                <tbody id="content_device"></tbody>
-                                            </table>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Full Name</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary" id="div_user_name"><span id="txt_user_name">{{Auth::user()->name}}</span> </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Email</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary" id="div_user_email"><span id="txt_user_email"> {{Auth::user()->email}}</span></div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Phone</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary" id="div_user_phone"><span id="txt_user_phone"> (977) 015533082</span></div>
+                                            </div><hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Mobile</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary" id="div_user_mobile"><span id="txt_user_mobile"> (977) 9841973742</span></div>
+                                            </div><hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Address</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary" id="div_user_address"><span id="txt_user_address"> Sanepa-2, Lalitpur</span></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="tab-pane fade display-none" id="profile-devices">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="card-title">Devices</div>
+                                            <div class="card-tools">
+                                                <button class="btn btn-sm btn-primary">Add</button>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table">
+                                                    <thead>
+                                                        <td>Serial Number</td>
+                                                        <td>Device Number</td>
+                                                        <td>Name</td>
+                                                    </thead>
+                                                    <tbody id="content_device"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <!-- end #profile-devices tab -->
                     <!-- begin #profile-activities tab -->
-                    <div class="tab-pane fade active show" id="profile-activities">
+                    <div class="tab-pane fade display-none" id="profile-activities">
                         <!-- begin timeline -->
                         <ul class="timeline">
                             <li>
@@ -143,7 +145,7 @@
                                         <span class="pull-right text-muted">joined Voltea IOT</span>
                                     </div>
                                     <div class="timeline-content">
-                                        <h3>Voltea welcomes you !!!</h3>
+                                        <h3>Voltea IOT welcomes you !!!</h3><hr>
                                         <p>
                                             Welcome to Voltea IOT!<br/><br/>
                                             We are here to show you what the device is doing.<br/><br/>
@@ -240,6 +242,8 @@
         </div>
 
 </div>
+
+<!-- might not need later -->
 <div class="modal" tabindex="-1" role="dialog" id="profile_edit_modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -275,7 +279,11 @@
 <script type="module" src="{{asset('js/profile.js')}}"></script>
 <script type="text/javascript">
     $(window).load(function() {
-        $(".loader").fadeOut("slow");
+        // $('#profile-activities').addCSS('display-none');
+        // $('#profile-devices').addCSS('display-none');
+        $('#info_member_since').text($('#info_member_since').text().split(' ')[0])
+
+        $(".loader").fadeOut("fast");
 });
 </script>
 @endsection

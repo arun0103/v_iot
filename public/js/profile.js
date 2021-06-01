@@ -1,4 +1,60 @@
+var profession, institution;
 
+$('#btn_edit_user_profile').on('click',function(){
+    if($('#btn_edit_user_profile').text()=='Edit'){
+        $('#info_member_since_edit').removeAttr('hidden');
+        $('#info_member_since_edit').text('You cannot go back to future!')
+        $('#btn_change_avatar').removeAttr('hidden');
+        $('#btn_cancel_edit_user_profile').removeAttr('hidden');
+        $('#btn_edit_user_profile').text('Save');
+        $('#btn_edit_user_profile').addClass('btn-success');
+
+        profession = $('#user_profile_profession').text();
+        institution = $('#user_profile_institution').text();
+
+        $('#user_profile_profession').html('<input type="text" class="form-control form-control-sm col-md-4" id="input_user_profession" value="'+profession+'"><p class="edit_info" >Let us know your profession!</p>')
+        $('#user_profile_institution').html('<input type="text" class="form-control form-control-sm col-md-4" id="input_user_institution" value="'+institution+'"><p class="edit_info" >In which company do you work?</p>')
+
+    }
+    else{ //Save button clicked
+        // get new data
+        profession = $('#input_user_profession').val();
+        institution = $('#input_user_institution').val();
+        // Perform databse operation and rename edit button
+
+        //change button text
+        $('#btn_edit_user_profile').text('Edit');
+        // remove inputs
+        $('#input_user_profession').remove();
+        $('#input_user_institution').remove();
+        // hide buttons and edit informations
+        $('#btn_cancel_edit_user_profile').attr('hidden','hidden')
+        $('#info_member_since_edit').attr('hidden','hidden')
+        $('.edit_info').attr('hidden','hidden')
+        // replace data to view
+        $('#user_profile_profession').html('<span id="txt_user_name">'+profession+'</span> ')
+        $('#user_profile_institution').html('<span id="txt_user_name">'+institution+'</span> ')
+    }
+});
+
+$('#btn_cancel_edit_user_profile').on('click',function(){
+    //hide buttons
+    $('#btn_change_avatar').attr('hidden','hidden')
+    $('#btn_cancel_edit_user_profile').attr('hidden','hidden')
+    // hide edit informations
+    $('#info_member_since_edit').attr('hidden','hidden')
+    $('.edit_info').attr('hidden','hidden')
+
+    $('#btn_edit_user_profile').text('Edit');
+    $('#btn_edit_user_profile').removeClass('btn-success');
+
+    $('#input_user_profession').remove();
+    $('#input_user_institution').remove();
+
+    $('#user_profile_profession').html('<span id="txt_user_name">'+profession+'</span> ')
+    $('#user_profile_institution').html('<span id="txt_user_name">'+institution+'</span> ')
+
+});
 
 ////////////////////////////////////////////////////////////////////////////
 ///////// AVATAR UPLOAD PREVIEW//////

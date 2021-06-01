@@ -54167,6 +54167,19 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^=col-]:last-
 }
 
 @charset "UTF-8";
+/**
+    sidebar
+***/
+.image#img_avatar_preview {
+  width: 160px;
+  height: 150px;
+}
+
+#div_sidebar_userName {
+  font-size: 20px;
+  line-height: 25px;
+}
+
 .rotate {
   color: #38c172;
   -webkit-animation: spin 4s linear infinite;

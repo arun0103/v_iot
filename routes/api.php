@@ -18,7 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/getUserProfile',[App\Http\Controllers\HomeController::class,'getProfileInfo'])->middleware('auth');
 
 //Super Admin
 Route::get('/getUsers',[App\Http\Controllers\SuperController::class,'getAllUsers']);
@@ -37,3 +36,4 @@ Route::post('/updateProfile', [App\Http\Controllers\ProfileController::class,'up
 
 //Profile page routes
 Route::get('/getDevices', [App\Http\Controllers\ProfileController::class,'getDevices']);
+Route::get('/getUserProfile',[App\Http\Controllers\ProfileController::class,'getProfileInfo'])->middleware('auth');

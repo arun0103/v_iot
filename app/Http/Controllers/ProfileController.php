@@ -54,4 +54,9 @@ class ProfileController extends Controller
         $loggedInUser->save();
         return response()->json(['data',$loggedInUser]);
     }
+
+    public function getProfileInfo(){
+        $user = Auth::user();
+        return response()->json('data',$user);
+    }
 }

@@ -8,7 +8,31 @@
     background: url('images/pageLoader.gif') 50% 50% no-repeat rgb(249,249,249);
     opacity: .8;
 }
+.display-none{
+    display: hidden;
+}
+/* #btn_edit_user_profile{
+    margin-right:-15px;
+} */
+.edit_info{
+    margin-top:-25px;
+}
+#info_member_since_edit, .edit_info{
+    color:yellow;
+    font-weight: bolder;
+    float:right;
+}
+#btn_edit_user_profile, #btn_cancel_edit_user_profile{
+    float:right;
+}
+#img_avatar_preview{
+    width:450px;
+    height:300px;
+    border-radius: 5px;
 
+}
+
+/* /////////////////////////// */
 body{
     margin-top:20px;
     background:#eee;
@@ -230,7 +254,7 @@ input {
 }
 
 .profile-image {
-    height: 175px;
+    height: 300px;
     line-height: 175px;
     text-align: center;
     font-size: 72px;
