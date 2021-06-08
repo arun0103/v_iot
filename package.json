@@ -30,6 +30,7 @@
         "axios": "^0.21.1",
         "chart.js": "^3.2.1",
         "datatables.net": "^1.10.24",
+        "jspdf": "^2.3.1",
         "sweetalert2": "^10.16.7"
     }
 }

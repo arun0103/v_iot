@@ -39,19 +39,22 @@ class HomeController extends Controller
         Session(['role', $loggedInUser->role]);
         if($loggedInUser->role == 'S'){
             $users = User::all();
-            $devices = Device::with('associatedUsers')->get();
+            $devices = Device::with('userDevices')->get();
             return view('super/dashboard')->with(['users'=>$users])
-            ->with(['devices'=>$devices]);
+                                            ->with(['devices'=>$devices]);
         }elseif($loggedInUser->role =='R'){
-            $users = User::where('added_by',$loggedInUser)->get();
-            $userDevices = UserDevices::where('user_id',$loggedInUser->id)->get();
+            $users = User::where([['reseller_id',$loggedInUser->reseller_id],['role','U']])->get();
+
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->get();
+            return view('home')->with(['users'=>$users])
+                    ->with(['userDevices'=>$devices]);
         }
         else{
             $users = $loggedInUser;
             $userDevices = UserDevices::where('user_id',$loggedInUser->id)->get();
         }
         //dd($userDevices);
-        return view('home')->with(['population'=>$users])
+        return view('home')->with(['users'=>$users])
                             ->with(['userDevices'=>$userDevices]);
     }
 
@@ -71,12 +74,13 @@ class HomeController extends Controller
     public function addUserDevice(Request $req){
         $user = Auth::user();
         $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->first();
-        if($searchDevice != null){
+        if($searchDevice != null){ // if device is registered in database by Super Admin
             $userDevice = UserDevices::where([['user_id',$user->id],['device_id',$searchDevice->id]])->get();
             if($userDevice != null){
                 $added = new UserDevices;
                 $added->user_id = $user->id;
                 $added->device_id = $searchDevice->id;
+                $added->device_name = $req->device_name;
                 $added->save();
                 $response =[
                     'message' => 'Success',

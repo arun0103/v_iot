@@ -18,11 +18,10 @@ class CreateDevicesTable extends Migration
             $table->string("serial_number")->unique();
             $table->string("device_number")->unique();
             $table->string("model")->nullable();
-            $table->date("manufactured_date");
-            $table->date("installation_date");
+            $table->string("firmware");
+            $table->date("installation_date")->nullable();
             $table->integer("reseller_id")->nullable();
-            $table->boolean("is_under_warranty")->default(true);
-            $table->integer("created_by");
+            $table->bigInteger("created_by");
             $table->timestamps();
         });
     }

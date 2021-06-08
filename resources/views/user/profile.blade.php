@@ -4,6 +4,7 @@
 @endsection
 @section('content')
 <div class="container" id='app' style="z-index: 99999 !important;">
+@csrf
     <div class="row">
         <div class="col-md-12">
             <div id="content" class="content">
@@ -23,10 +24,10 @@
                             <!-- END profile-header-img -->
                             <!-- BEGIN profile-header-info -->
                             <div class="profile-header-info">
-                                <h4 class="m-t-10 m-b-5">{{Auth::user()->name}}</h4>
-                                <p class="m-b-10"><span><b>Member since  <i id="info_member_since">{{Auth::user()->created_at}}</i></b><i id="info_member_since_edit" hidden></i></span></p>
-                                <span id="user_profile_profession">UXUI + Frontend Developer</span>
-                                <p class="m-b-10"><span id="user_profile_institution">Voltea Nepal Team</span></p>
+                                <h4 class="m-t-10 m-b-5">{{$user->name}}</h4>
+                                <p class="m-b-10"><span><b>Member since  <i id="info_member_since">{{$user->created_at}}</i></b><i id="info_member_since_edit" hidden></i></span></p>
+                                <span id="user_profile_profession">{{$user->profile!=null?$user->profile['profession']:" "}}</span>
+                                <p class="m-b-10"><span id="user_profile_institution">{{$user->profile!=null?$user->profile['institution']:" "}}</span></p>
                                 <button id="btn_cancel_edit_user_profile" hidden type="button" class="btn btn-sm btn-light" >Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button id="btn_edit_user_profile" type="button" class="btn btn-sm btn-primary" >Edit</button>
                             </div>
@@ -56,6 +57,7 @@
                                             <h3 class="card-title">Personal Information</h3>
                                             <div class="card-tools">
                                                 <button id="btn_edit_user_info" type="button" class="btn btn-sm btn-primary" >Edit</button>
+                                                <button id="btn_cancel_edit_user_personal" hidden type="button" class="btn btn-sm btn-light" >Cancel</button>
                                             </div>
                                         </div>
                                         <div class="card-body">
@@ -70,26 +72,26 @@
                                                 <div class="col-sm-3">
                                                     <h6 class="mb-0">Email</h6>
                                                 </div>
-                                                <div class="col-sm-9 text-secondary" id="div_user_email"><span id="txt_user_email"> {{Auth::user()->email}}</span></div>
+                                                <div class="col-sm-9 text-secondary" id="div_user_email"><span id="txt_user_email">{{$user->email}}</span></div>
                                             </div>
                                             <hr>
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <h6 class="mb-0">Phone</h6>
                                                 </div>
-                                                <div class="col-sm-9 text-secondary" id="div_user_phone"><span id="txt_user_phone"> (977) 015533082</span></div>
+                                                <div class="col-sm-9 text-secondary" id="div_user_phone"><span id="txt_user_phone">{{$user->profile!=null?$user->profile->phone:""}}</span></div>
                                             </div><hr>
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <h6 class="mb-0">Mobile</h6>
                                                 </div>
-                                                <div class="col-sm-9 text-secondary" id="div_user_mobile"><span id="txt_user_mobile"> (977) 9841973742</span></div>
+                                                <div class="col-sm-9 text-secondary" id="div_user_mobile"><span id="txt_user_mobile">{{$user->profile!=null?$user->profile->mobile:""}}</span></div>
                                             </div><hr>
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <h6 class="mb-0">Address</h6>
                                                 </div>
-                                                <div class="col-sm-9 text-secondary" id="div_user_address"><span id="txt_user_address"> Sanepa-2, Lalitpur</span></div>
+                                                <div class="col-sm-9 text-secondary" id="div_user_address"><span id="txt_user_address"> {{$user->profile!=null?$user->profile->address:""}}</span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -275,13 +277,16 @@
     </div>
   </div>
 </div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="module" src="{{asset('js/profile.js')}}"></script>
 <script type="text/javascript">
     $(window).load(function() {
         // $('#profile-activities').addCSS('display-none');
         // $('#profile-devices').addCSS('display-none');
         $('#info_member_since').text($('#info_member_since').text().split(' ')[0])
+        $('#user_name').on('change',function(){
+            console.log("changed");
+            $('#btn_edit_user_info').attr('disabled', false);
+        })
 
         $(".loader").fadeOut("fast");
 });

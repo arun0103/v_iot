@@ -17,6 +17,33 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+
+.select2-container--classic .select2-selection--single .select2-selection__rendered {
+    color: #444;
+    line-height: 33px;
+}
+.select2-container .select2-selection--single {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 37px !important;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.select2-container--classic .select2-selection--single .select2-selection__arrow {
+    background-color: #ddd;
+    border: none;
+    border-left: 1px solid #aaa;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    height: 37px  !important;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 20px;
+}
+
+
 /**
     sidebar
 ***/
@@ -27,6 +54,10 @@ $cyan: #6cb2eb;
 #div_sidebar_userName{
     font-size: 20px;
     line-height:25px
+}
+
+.layout-navbar-fixed .wrapper .content-wrapper {
+    margin-top: calc(2.0rem + 1px);
 }
 
 .rotate{

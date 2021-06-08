@@ -4,10 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
+
   <title>{{ config('app.name', 'Voltea') }}</title>
 
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <style>
+    .content-header{
+        margin-top:55px;
+    }
+    h2.card-title{
+        margin-top: 8px;
+        margin-bottom: -8px;
+    }
+</style>
  @yield('head')
 
 </head>
@@ -87,7 +103,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+        <a class="nav-link" data-widget="control-sidebar" href="#" role="button">
           <h4><i class="fas fa-th-large"></i></h4>
         </a>
       </li>
@@ -106,12 +122,12 @@
     <!-- Sidebar -->
     <div class="sidebar" style="margin-top:55px">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="user-panel mt-3 pb-1 mb-3 d-flex">
           <div class="row">
               <div class="col-md-12">
                 <a href="{{route('userProfile')}}" class="d-block">
                       <div class="image">
-                          <img id="img_profile" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}" class="img-circle  float-left" alt="User Image">
+                          <img id="img_profile" src="/uploads/avatars/{{Auth::user()->avatar != null? Auth::user()->avatar : 'default-avatar.png'}}" class="img-circle  float-left" alt="User Image" style="max-width:60px;max-height:45px">
                       </div>
                       <div class="info" id="div_sidebar_userName">
                           {{Auth::check() ? Auth::user()->name : null}}
@@ -135,17 +151,6 @@
                 </p>
                 </a>
             </li>
-            @if(Auth::user()->role == 'S')
-                <li class="nav-item">
-                    <a href="{{route('users')}}" class="nav-link">
-                    <i class="nav-icon fas fa-user"></i>
-                    <p>
-                        Users
-                        <!-- <span class="right badge badge-danger">New</span> -->
-                    </p>
-                    </a>
-                </li>
-            @endif
             @if(Auth::user()->role == 'S' || Auth::user()->role == 'R')
                 <li class="nav-item">
                     <a href="{{route('devices')}}" class="nav-link">
@@ -157,6 +162,29 @@
                     </a>
                 </li>
             @endif
+            @if(Auth::user()->role == 'S')
+            <li class="nav-item">
+                <a href="{{route('resellers')}}" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                   Resellers
+                    <!-- <span class="right badge badge-danger">New</span> -->
+                </p>
+                </a>
+            </li>
+            @endif
+            @if(Auth::user()->role == 'S' || Auth::user()->role == 'R')
+            <li class="nav-item">
+                <a href="{{route('users')}}" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                    Users
+                    <!-- <span class="right badge badge-danger">New</span> -->
+                </p>
+                </a>
+            </li>
+            @endif
+
             <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
@@ -244,6 +272,9 @@
 
 <!-- REQUIRED SCRIPTS -->
 
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{asset('js/app.js')}}"></script>
+@yield('scripts')
 </body>
 </html>

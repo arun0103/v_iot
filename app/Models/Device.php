@@ -9,17 +9,18 @@ class Device extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'model',
         'serial_number',
-        'manufactured_date',
+        'device_number',
+        'model',
+        'firmware',
         'installation_date',
         'reseller_id',
-        'is_under_warranty',
-        'created_by'
+        'created_by',
+        'created_at','updated_at'
     ];
 
-    public function associatedUsers(){
-        return $this->hasMany(UserDevices::class);
+    public function userDevices(){
+        return $this->hasMany(UserDevices::class, 'device_id','id');
     }
 
 }

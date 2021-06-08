@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use App\Models\UserProfile;
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -46,5 +48,8 @@ class User extends Authenticatable
 
     public function userDevices(){
         return $this->hasMany('App\Models\UserDevices','id','user_id');
+    }
+    public function profile(){
+        return $this->hasOne('App\Models\UserProfile','user_id');
     }
 }

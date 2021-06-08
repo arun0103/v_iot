@@ -9,8 +9,8 @@ $('#btn_edit_user_profile').on('click',function(){
         $('#btn_edit_user_profile').text('Save');
         $('#btn_edit_user_profile').addClass('btn-success');
 
-        profession = $('#user_profile_profession').text();
-        institution = $('#user_profile_institution').text();
+        profession = $('#user_profile_profession').text()!="Not Defined"?$('#user_profile_profession').text():"";
+        institution = $('#user_profile_institution').text()!="Not Defined"?$('#user_profile_institution').text():"";
 
         $('#user_profile_profession').html('<input type="text" class="form-control form-control-sm col-md-4" id="input_user_profession" value="'+profession+'"><p class="edit_info" >Let us know your profession!</p>')
         $('#user_profile_institution').html('<input type="text" class="form-control form-control-sm col-md-4" id="input_user_institution" value="'+institution+'"><p class="edit_info" >In which company do you work?</p>')
@@ -21,6 +21,15 @@ $('#btn_edit_user_profile').on('click',function(){
         profession = $('#input_user_profession').val();
         institution = $('#input_user_institution').val();
         // Perform databse operation and rename edit button
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            url: "api/updateProfileDetails",
+            type:'POST',
+            data:{'profession': profession, 'institution': institution},
+
+        }).done(function(response){
+            console.log(response)
+        })
 
         //change button text
         $('#btn_edit_user_profile').text('Edit');
@@ -153,31 +162,78 @@ $('#nav_user_devices').on('click',function(e){
         alert("Error");
     });
 })
-
+var user_name,user_email,user_phone,user_mobile,user_address;
 $('#btn_edit_user_info').on('click',function(){
 
     if($('#btn_edit_user_info').text()=="Edit"){
-        var user_name = $('#txt_user_name').text();
-        var user_email = $('#txt_user_email').text();
-        var user_phone = $('#txt_user_phone').text();
-        var user_mobile = $('#txt_user_mobile').text();
-        var user_address = $('#txt_user_address').text();
+        $('#btn_cancel_edit_user_personal').removeAttr('hidden')
+        user_name = $('#txt_user_name').text();
+        user_email = $('#txt_user_email').text();
+        user_phone = $('#txt_user_phone').text();
+        user_mobile = $('#txt_user_mobile').text();
+        user_address = $('#txt_user_address').text();
+
         $('#txt_user_name').html('<input class="form-control" type="text" value="'+user_name+'" id="user_name" placeholder="Your Full Name"/>')
         $('#txt_user_email').html('<input class="form-control" type="email" value="'+user_email+'" id="user_email" placeholder="Your e-mail address"/>')
         $('#txt_user_phone').html('<input class="form-control" type="text" value="'+user_phone+'" id="user_phone" placeholder="Your phone number"/>')
         $('#txt_user_mobile').html('<input class="form-control" type="text" value="'+user_mobile+'" id="user_mobile" placeholder="Your mobile number"/>')
         $('#txt_user_address').html('<input class="form-control" type="text" value="'+user_address+'" id="user_address" placeholder="Your Full Adress"/>')
         $('#btn_edit_user_info').text("Save");
+        // $('#btn_edit_user_info').attr('disabled', true);
         console.log($('#btn_edit_user_info').text())
         $('#btn_edit_user_info').addClass("btn-success");
     }
-    else{
-        var user_name = $('#user_name').val();
-        var user_email = $('#user_email').val();
-        var user_phone = $('#user_phone').val();
-        var user_mobile = $('#user_mobile').val();
-        var user_address = $('#user_address').val();
+    else{//Save changes
+        //Check for the changes
+        var changed = [];
+        if(user_name != $('#user_name').val()){
+            console.log(user_name);
+            changed.push({"name":user_name});
+            $('#btn_edit_user_info').attr('disabled', false);
+        }if(user_email != $('#user_email').val()){
+            changed.push({"email":user_email});
+            $('#btn_edit_user_info').attr('disabled', false);
+        }if(user_phone != $('#user_phone').val()){
+            changed.push({"phone":user_phone});
+            $('#btn_edit_user_info').attr('disabled', false);
+        }if(user_mobile != $('#user_mobile').val()){
+            changed.push({"mobile":user_mobile});
+            $('#btn_edit_user_info').attr('disabled', false);
+        }if(user_address != $('#user_address').val()){
+            changed.push({"address":user_address});
+            $('#btn_edit_user_info').attr('disabled', false);
+        }
+        user_phone = $('#user_phone').val();
+        user_email = $('#user_email').val();
+        user_name = $('#user_name').val();
+        user_mobile = $('#user_mobile').val();
+        user_address = $('#user_address').val();
+        console.log(changed.length + " changes found");
+        console.log(changed)
+        var data = {
+            'name':user_name,
+            'email':user_email,
+            'phone':user_phone,
+            'mobile':user_mobile ,
+            'address':user_address ,
 
+
+        };
+
+        if(changed.length >0){
+
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                url: "api/updateProfilePersonalDetails",
+                type:'POST',
+                data: data,
+
+            }).done(function(response){
+                console.log(response)
+            }).error(function(message){
+                console.log(message)
+            })
+        }
 
         $('#user_name').remove()
         $('#user_email').remove()
@@ -193,6 +249,20 @@ $('#btn_edit_user_info').on('click',function(){
         $('#btn_edit_user_info').removeClass("btn-success");
     }
 })
+$('#btn_cancel_edit_user_personal').on('click', function(){
+    $('#btn_edit_user_info').text("Edit");
+    $('#btn_cancel_edit_user_personal').attr('hidden',true)
+    $('#btn_edit_user_info').removeClass('btn-success');
+
+    $('#div_user_name').html('<span id="txt_user_name">'+user_name+'</span> ')
+    $('#div_user_email').html('<span id="txt_user_email">'+user_email+'</span> ')
+    $('#div_user_phone').html('<span id="txt_user_phone">'+user_phone+'</span> ')
+    $('#div_user_mobile').html('<span id="txt_user_mobile">'+user_mobile+'</span> ')
+    $('#div_user_address').html('<span id="txt_user_address">'+user_address+'</span> ')
+
+})
+
+
 
 
 

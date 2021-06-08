@@ -1,8 +1,8 @@
 @extends ('layouts.master')
 
-@section('css')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-@endsection('css')
+@section('head')
+
+@endsection
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -29,12 +29,11 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header border-0 bg-top-logo-color">
-                            <h2 class="card-title">List of Users
-                                <button type="button" id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#modal-add">Add New</button>
-                            </h2>
+                            <h2 class="card-title">List of Users</h2>
                             <!-- <i class="btn fas fa-sync-alt"></i> -->
                             <div class="card-tools">
                                 <!-- <input class="form-control" type="filter" placeholder="Filter User" aria-label="Filter"> -->
+                                <button type="button" id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#modal-add">Add New</button>
                             </div>
                         </div>
                         <div class="card-body table-responsive p-2">
@@ -43,7 +42,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Category</th>
+                                        <th>User Type</th>
                                         <th># Devices</th>
                                         <th>Last login</th>
                                         <th>More</th>
@@ -117,13 +116,15 @@
                                                 <select name="role" id="role" class="form-control">
                                                     <option>-- Select --</option>
                                                     <option value="R">Reseller</option>
-                                                    <option value="S">Super Admin</option>
+                                                    @if(Auth::user()->role == 'S')
+                                                        <option value="S">Super Admin</option>
+                                                    @endif
                                                     <option value="U">User</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <button type="button" id="btn_add_device" class="btn btn-primary" data-toggle="modal" data-target="#modal-add">Add New Device</button>
@@ -134,7 +135,7 @@
                                                 <button type="button" id="btn_select_device" class="btn btn-secondary">Select From Devices</button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -152,7 +153,5 @@
     </div>
     <!-- /.content -->
 
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-    <script src="{{asset('js/user.js')}}"> -->
+    <!-- <script src="{{asset('js/user.js')}}"> -->
 @endsection

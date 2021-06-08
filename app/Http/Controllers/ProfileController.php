@@ -18,10 +18,9 @@ class ProfileController extends Controller
                 $devices = Device::all();
                 break;
             case 'U':
+            case 'R':
                 $devices = UserDevices::where('user_id',$loggedInUser->id)->with('deviceDetails')->get();
                 break;
-
-
         }
         return response()->json(['data'=>$devices],200);
     }
@@ -56,7 +55,7 @@ class ProfileController extends Controller
     }
 
     public function getProfileInfo(){
-        $user = Auth::user();
+        $user = Auth::user()->with('profile');
         return response()->json('data',$user);
     }
 }
