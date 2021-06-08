@@ -18,13 +18,14 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>.nav-link{font-size:1.5em}</style>
 </head>
 <body style="background:#47c5ee">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="padding:3rem 0rem">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{asset('../img/voltea-logo.png')}}" alt="Logo" class="brand-image" style="opacity: .8; margin-left:-21px; margin-top:-20px"> <span style="color:#47c5ee; font-size:85px">IOT</span>
+                    <img src="{{asset('../img/voltea-logo1.png')}}" alt="Logo" class="brand-image" style="opacity: 1.5;width: 16.5em;">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

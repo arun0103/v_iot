@@ -1,11 +1,15 @@
 @extends('layouts.app')
-
+@section('header')
+<style>.card-header{margin:0 !important}
+h2.card-title{float:left; text-align:left}
+</style>
+@endsection
 @section('content')
 <div class="container" style="background:#47c5ee">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header align-items-start"><h2 class="card-title">{{ __('Login') }}</h2></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">

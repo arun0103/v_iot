@@ -126,3 +126,10 @@ table {
 
     div, img, #membership_info, #info_member_since {display:block;margin:0 auto;}
 }
+
+@media (maxiwdth: 480px){
+div.card-header{
+    margin: 1px !important;
+}
+
+}
