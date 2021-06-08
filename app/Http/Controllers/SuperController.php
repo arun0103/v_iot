@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Mail;
 
+use App\Mail\WelcomeUser;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Reseller;
@@ -21,7 +23,6 @@ class SuperController extends Controller
             return view('admin/users')->with(['users'=>$all]);
         }
         elseif($loggedInUser->role == 'R'){
-
             $resellerUser = User::where('reseller_id', $loggedInUser->reseller_id)->get();
             return view('admin/users')->with(['users'=>$resellerUser]);
         }
@@ -48,11 +49,24 @@ class SuperController extends Controller
             $new_user->email = $request->email ;
             $new_user->role= $request->role ;
             $new_user->created_by = $loggedInUser->id ;
-            $new_user->password = Hash::make('test123');
+            $random_password = "";
+            $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
+            for($i = 0; $i < 8 ; $i++){
+                $random_password .= substr($characters, (rand() % (strlen($characters))),1);
+            }
+            $new_user->password = Hash::make($random_password);
             $new_user->save();
             $message = "User Added!";
 
             // notify new user by email
+            $data = new \stdClass();
+            $data->user_name = $request->name;
+            $data->user_email = $request->email;
+            $data->user_password = $random_password;
+            $data->sender_name = "Arun Amatya";
+            $data->sender_email = "noreply@viot.com";
+
+            Mail::to($data->user_email)->send(new WelcomeUser($data));
 
 
         }else{
@@ -144,6 +158,7 @@ class SuperController extends Controller
                         'message'=>'Success',
                         'desc'=> 'Added successfully!'
                     ];
+
                 }else{
                     $data =['message'=>'Error', 'desc'=> 'This device is already associated to the user!!'];
                 }

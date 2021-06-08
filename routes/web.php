@@ -46,25 +46,25 @@ Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->n
 //Charts
 Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showChart'])->name('line-chart');
 
-Route::group(['middleware' => 'auth'], function() {
+// Route::group(['middleware' => 'auth'], function() {
     // uses 'auth' middleware plus all middleware from $middlewareGroups['super']
     // Route::resource('blog','BlogController'); //Make a CRUD controller
 
 
-    Route::post('/addNewReseller',[App\Http\Controllers\ResellerController::class,'addNewReseller']);
-    Route::put('/editReseller',[App\Http\Controllers\ResellerController::class,'editReseller']);
-    Route::get('/reseller/{id}',[App\Http\Controllers\ResellerController::class,'getResellerById']);
-    Route::delete('/deleteReseller',[App\Http\Controllers\ResellerController::class, 'delete']);
-    Route::get('/resellerDevices/{id}',[App\Http\Controllers\ResellerController::class, 'getResellerDevices']);
-    Route::post('/addResellerDevice',[App\Http\Controllers\ResellerController::class, 'addResellerDevice']);
-    Route::post('/addNewUser',[App\Http\Controllers\SuperController::class,'create_user']);
+    Route::post('/addNewReseller',[App\Http\Controllers\ResellerController::class,'addNewReseller'])->middleware('auth');
+    Route::put('/editReseller',[App\Http\Controllers\ResellerController::class,'editReseller'])->middleware('auth');
+    Route::get('/reseller/{id}',[App\Http\Controllers\ResellerController::class,'getResellerById'])->middleware('auth');
+    Route::delete('/deleteReseller',[App\Http\Controllers\ResellerController::class, 'delete'])->middleware('auth');
+    Route::get('/resellerDevices/{id}',[App\Http\Controllers\ResellerController::class, 'getResellerDevices'])->middleware('auth');
+    Route::post('/addResellerDevice',[App\Http\Controllers\ResellerController::class, 'addResellerDevice'])->middleware('auth');
+    Route::post('/addNewUser',[App\Http\Controllers\SuperController::class,'create_user'])->middleware('auth');
 
-    Route::post('/addNewDevice',[App\Http\Controllers\SuperController::class,'create_device']);
-    Route::post('/assignUserDevice',[App\Http\Controllers\SuperController::class,'assignUserDevice']);//not used i guess
-    Route::post('/addUserDevice', [App\Http\Controllers\HomeController::class,'addUserDevice']);
+    Route::post('/addNewDevice',[App\Http\Controllers\SuperController::class,'create_device'])->middleware('auth');
+    Route::post('/assignUserDevice',[App\Http\Controllers\SuperController::class,'assignUserDevice'])->middleware('auth');//not used i guess
+    Route::post('/addUserDevice', [App\Http\Controllers\HomeController::class,'addUserDevice'])->middleware('auth');
 
-});
-Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->name('devices');
+// });
+Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->name('devices')->middleware('auth');
 
-Route::delete('/deleteUserDevice/{id}', [App\Http\Controllers\DeviceController::class, 'deleteUserDevice']);
-Route::get('/viewDeviceUsers/{id}', [App\Http\Controllers\DeviceController::class, 'viewDeviceUsers']);
+Route::delete('/deleteUserDevice/{id}', [App\Http\Controllers\DeviceController::class, 'deleteUserDevice'])->middleware('auth');
+Route::get('/viewDeviceUsers/{id}', [App\Http\Controllers\DeviceController::class, 'viewDeviceUsers'])->middleware('auth');
