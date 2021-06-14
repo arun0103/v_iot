@@ -75,8 +75,7 @@ class RegisterController extends Controller
         ]);
         $user->created_by = $user->id;
         $user->save();
-        Session(['username'=>$user->name]);
-        $user->notify(new HelloNewUser());
+        $user->notify(new HelloNewUser($user, null));
         return $user;
     }
 }

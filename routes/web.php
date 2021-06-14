@@ -17,6 +17,7 @@ use App\Models\UserProfile;
 */
 
 Route::get('/', function () {
+    // return view('vendor/emails/WelcomeUser');
     return view('auth/login');
 });
 Route::get('/profile', function () {
@@ -35,7 +36,7 @@ Route::get('/profile', function () {
     $userP = User::where('id',$user->id)->with('profile')->first();
     // dd($userP);
     return view('user.profile')->with(['user'=>$userP]);
-})->name('userProfile');
+})->name('userProfile')->middleware('auth');
 
 Auth::routes();
 
@@ -57,7 +58,7 @@ Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showCha
     Route::delete('/deleteReseller',[App\Http\Controllers\ResellerController::class, 'delete'])->middleware('auth');
     Route::get('/resellerDevices/{id}',[App\Http\Controllers\ResellerController::class, 'getResellerDevices'])->middleware('auth');
     Route::post('/addResellerDevice',[App\Http\Controllers\ResellerController::class, 'addResellerDevice'])->middleware('auth');
-    Route::post('/addNewUser',[App\Http\Controllers\SuperController::class,'create_user'])->middleware('auth');
+
 
     Route::post('/addNewDevice',[App\Http\Controllers\SuperController::class,'create_device'])->middleware('auth');
     Route::post('/assignUserDevice',[App\Http\Controllers\SuperController::class,'assignUserDevice'])->middleware('auth');//not used i guess
@@ -68,3 +69,9 @@ Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->
 
 Route::delete('/deleteUserDevice/{id}', [App\Http\Controllers\DeviceController::class, 'deleteUserDevice'])->middleware('auth');
 Route::get('/viewDeviceUsers/{id}', [App\Http\Controllers\DeviceController::class, 'viewDeviceUsers'])->middleware('auth');
+
+//user
+Route::delete('/deleteUser/{id}',[App\Http\Controllers\SuperController::class, 'deleteUserById'])->middleware('auth');
+Route::post('/super/addUser',[App\Http\Controllers\SuperController::class,'create_user'])->middleware('auth');
+Route::patch('/super/editUser/{id}',[App\Http\Controllers\SuperController::class,'edit_user'])->middleware('auth');
+Route::get('/getResellersList',[App\Http\Controllers\SuperController::class, 'getResellersList'])->middleware('auth');

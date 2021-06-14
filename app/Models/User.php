@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 use App\Models\UserProfile;
+use App\Models\Reseller;
 
 class User extends Authenticatable
 {
@@ -47,9 +48,12 @@ class User extends Authenticatable
     ];
 
     public function userDevices(){
-        return $this->hasMany('App\Models\UserDevices','id','user_id');
+        return $this->hasMany('App\Models\UserDevices','user_id');
     }
     public function profile(){
         return $this->hasOne('App\Models\UserProfile','user_id');
+    }
+    public function reseller(){
+        return $this->belongsTo('App\Models\Reseller','reseller_id');
     }
 }

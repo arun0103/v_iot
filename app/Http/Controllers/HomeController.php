@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Reseller;
 use App\Models\Device;
 use App\Models\UserDevices;
 
@@ -37,6 +38,8 @@ class HomeController extends Controller
         $loggedInUser->save();
         Session(['user_name', $loggedInUser->name]);
         Session(['role', $loggedInUser->role]);
+        $company_name = Reseller::where('id',$loggedInUser->reseller_id)->pluck('company_name');
+        Session(['company', $company_name]);
         if($loggedInUser->role == 'S'){
             $users = User::all();
             $devices = Device::with('userDevices')->get();

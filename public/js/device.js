@@ -18,7 +18,9 @@ $(function () {
         placeholder: 'Select an option',
         width: 'resolve',
         theme: "classic"
-      });
+    });
+
+    $('.loader').hide();
 
     // $('.selectpicker').selectpicker({
     //     style: 'btn-info',

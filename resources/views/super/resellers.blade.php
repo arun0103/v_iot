@@ -218,7 +218,7 @@
             var d_height = $(document).height();
             var d_width = $(document).width();
 
-
+            $('.loader').hide();
             // alert(d_width +' X '+d_height)
         })
         $('#btn_confirm_add_reseller').on('click', function(e){
@@ -348,18 +348,19 @@
 
 
         $('.btn-edit-reseller').on('click',function(){
+            $('.loader').show();
             $('#add_edit_reseller').show();
             $('#btn_edit_save_reseller').show();
             $('#btn_confirm_add_reseller').hide();
             $('#resellers-table').hide();
             $('#add_edit_title').text('Edit Reseller');
 
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            edit_id = trid;
+
+            edit_id = $(this).closest('tr').attr('id'); // table row ID
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
-                url: "/reseller/"+trid,
+                url: "/reseller/"+edit_id,
 
             })
             .done(function(data) {
@@ -371,7 +372,7 @@
                 $('#state-select').val(data.address.state);
                 $('#city-input').val(data.address.city);
             });
-
+            $('.loader').hide();
         })
 
         $('#btn_edit_save_reseller').on('click', function(){
@@ -419,10 +420,16 @@
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
                 url: "/resellerDevices/"+trid,
-
             })
             .done(function(data) {
                 console.log(data)
+                if(data.length == 0){
+                    Swal.fire(
+                        'Skipped!',
+                        'No devices are registered by reseller',
+                        'question'
+                    )
+                }
             });
         })
     </script>

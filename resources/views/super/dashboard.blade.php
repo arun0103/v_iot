@@ -153,186 +153,341 @@
                                                                 </div>
                                                                 <ul class="nav nav-tabs">
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                                                                        <a class="nav-link active" aria-current="page" href="#status" data-toggle="tab">Dashboard</a>
                                                                     </li>
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link" href="#">Flow</a>
+                                                                        <a class="nav-link" href="#flow" data-toggle="tab">Flow</a>
                                                                     </li>
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link" href="#">Voltage</a>
+                                                                        <a class="nav-link" href="#voltage" data-toggle="tab">Voltage</a>
                                                                     </li>
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link" href="#">Alarm Setpoints</a>
+                                                                        <a class="nav-link" href="#" data-toggle="tab">Alarm Setpoints</a>
                                                                     </li>
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Control</a>
+                                                                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true" data-toggle="tab">Control</a>
                                                                     </li>
                                                                 </ul>
-
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <div class="tab-pane fade active show" id="profile-personal-info">
-                                                                    <div class="row">
-                                                                        <div class="col-lg-3 col-md-6 col-sm-6 box">
-                                                                            <div class="card card-outline card-success">
-                                                                                <div class="card-header">
-                                                                                    <h3 class="card-title">Status </h3>
-                                                                                    <div class="card-tools">
-                                                                                        <i class="btn fas fa-sync-alt btn-refresh" id="device-sync-{{$device->id}}"></i>
-                                                                                    </div>
-                                                                                    <!-- /.card-tools -->
-                                                                                </div>
-                                                                                <!-- /.card-header -->
-                                                                                <div class="card-body">
-                                                                                    <div>
-                                                                                        <i id="device_status_pic-{{$device->id}}" class="fas fa fa-certificate blink_me" style="color:green"></i>&nbsp;&nbsp;
-                                                                                        <span style="color:green" id="device_status-{{$device->id}}">RUNNING</span>
-                                                                                        <i id="info_device_status-{{$device->id}}" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
-                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                                            <a href="#" class="dropdown-item">
-                                                                                                <div class="media">
-                                                                                                    <div class="media-body">
-                                                                                                        <p class="text-sm"><b><i id="info_device_status_text-{{$device->id}}"></i></b></p>
-                                                                                                        <p class="text-sm" id="info_device_status_description-{{$device->id}}"></p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </a>
+                                                                <div class="tab-content">
+                                                                    <div class="tab-pane fade active show" id="status">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                                                <div class="card card-outline card-success">
+                                                                                    <div class="card-header">
+                                                                                        <h3 class="card-title">Status </h3>
+                                                                                        <div class="card-tools">
+                                                                                            <i class="btn fas fa-sync-alt btn-refresh" id="device-sync-{{$device->id}}"></i>
                                                                                         </div>
-                                                                                        <br/>
-                                                                                        <span><b>Duration  : </b> 02:10:20</span><br/>
+                                                                                        <!-- /.card-tools -->
                                                                                     </div>
-                                                                                    <div><br>
-                                                                                        <span><b>Connection :</b></span> <i id="device_connection_status-{{$device->id}}" style="color:green">Connected</i>
-                                                                                        <i id="info_device_connection" class="fas fa-info-circle float-right info-device-connection" data-toggle="dropdown" ></i>
-                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                                            <a href="#" class="dropdown-item">
-                                                                                                <div class="media">
-                                                                                                    <div class="media-body">
-                                                                                                        <p class="text-sm"><b><i><span id="info_device_connection_text-{{$device->id}}"></span></i></b></p>
-                                                                                                        <p class="text-sm" id="info_device_connection_description-{{$device->id}}"></p>
+                                                                                    <!-- /.card-header -->
+                                                                                    <div class="card-body">
+                                                                                        <div>
+                                                                                            <i id="device_status_pic-{{$device->id}}" class="fas fa fa-certificate blink_me" style="color:green"></i>&nbsp;&nbsp;
+                                                                                            <span style="color:green" id="device_status-{{$device->id}}">RUNNING</span>
+                                                                                            <i id="info_device_status-{{$device->id}}" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a href="#" class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i id="info_device_status_text-{{$device->id}}"></i></b></p>
+                                                                                                            <p class="text-sm" id="info_device_status_description-{{$device->id}}"></p>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                            </a>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
-                                                                                    </br>
-                                                                                    <div>
-                                                                                        <b>Device Health :</b><i style="color:green; font-weight:bold" id="device_health_status-{{$device->id}}">Good</i>
-                                                                                        <i id="info_device_health-{{$device->id}}" class="fas fa-info-circle float-right info_device_health" data-toggle="dropdown" ></i>
-                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                                            <a href="#" class="dropdown-item">
-                                                                                                <div class="media">
-                                                                                                    <div class="media-body">
-                                                                                                        <p class="text-sm"><b><i><span id="info_device_health_text-{{$device->id}}"></span></i></b></p>
-                                                                                                        <p class="text-sm" id="info_device_health_description-{{$device->id}}"></p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </a>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    @endif
-                                                                                </div>
-                                                                                <!-- /.card-body -->
-                                                                                <div class="card-footer">
-                                                                                    <div class="row flex">
-                                                                                        <button id="btn_device_start_stop-{{$device->id}}" class="btn btn-danger center btn_device_start_stop">Stop</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-lg-3 col-md-6 col-sm-6 box ">
-                                                                            <div class="card card-outline card-success">
-                                                                                <div class="card-header">
-                                                                                    <h3 class="card-title">Volume </h3>
-
-                                                                                    <div class="card-tools">
-                                                                                        <i id="volume_chart-{{$device->id}}" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
-                                                                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                                                                    </button>
-                                                                                    </div>
-                                                                                    <!-- /.card-tools -->
-                                                                                </div>
-                                                                                <!-- /.card-header -->
-                                                                                <div class="card-body">
-                                                                                <p><b>Daily :</b> <i>2 Gallons</i></p>
-                                                                                <p><b>Monthly :</b> <i>60 Gallons</i></p>
-                                                                                <p><b>Yearly :</b> <i>800 Gallons</i></p>
-                                                                                <p><b>Total :</b> <i>1800 Gallons</i></p>
-
-                                                                                </div>
-                                                                                <!-- /.card-body -->
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-lg-3 col-md-6 col-sm-6 box">
-                                                                            <div class="card card-outline card-success">
-                                                                                <div class="card-header">
-                                                                                    <h3 class="card-title">Conductivity </h3>
-
-                                                                                    <div class="card-tools">
-                                                                                    <i id="info_conductivity-{{$device->id}}" class="btn fas fa-info-circle float-right" data-toggle="dropdown"></i>
-                                                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="info_displayed_conductivity-{{$device->id}}">
-                                                                                        <a href="#" class="dropdown-item">
-                                                                                            <div class="media">
-                                                                                                <div class="media-body">
-                                                                                                    <p class="text-sm"><b><i id="info_conductivity_text-{{$device->id}}">Conductivity</i></b></p>
-                                                                                                    <p class="text-sm" id="info_conductivity_description-{{$device->id}}">Conductivity is how we measure the amount of minerals content in the water.</p>
-                                                                                                </div>
+                                                                                                </a>
                                                                                             </div>
-                                                                                        </a>
+                                                                                            <br/>
+                                                                                            <span><b>Duration  : </b> 02:10:20</span><br/>
+                                                                                        </div>
+                                                                                        <div><br>
+                                                                                            <span><b>Connection :</b></span> <i id="device_connection_status-{{$device->id}}" style="color:green">Connected</i>
+                                                                                            <i id="info_device_connection" class="fas fa-info-circle float-right info-device-connection" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a href="#" class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i><span id="info_device_connection_text-{{$device->id}}"></span></i></b></p>
+                                                                                                            <p class="text-sm" id="info_device_connection_description-{{$device->id}}"></p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
+                                                                                        </br>
+                                                                                        <div>
+                                                                                            <b>Device Health :</b><i style="color:green; font-weight:bold" id="device_health_status-{{$device->id}}">Good</i>
+                                                                                            <i id="info_device_health-{{$device->id}}" class="fas fa-info-circle float-right info_device_health" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a href="#" class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i><span id="info_device_health_text-{{$device->id}}"></span></i></b></p>
+                                                                                                            <p class="text-sm" id="info_device_health_description-{{$device->id}}"></p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        @endif
                                                                                     </div>
-                                                                                        <!-- <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i> -->
-                                                                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                                                                    </button>
+                                                                                    <!-- /.card-body -->
+                                                                                    <div class="card-footer">
+                                                                                        <div class="row flex">
+                                                                                            <button id="btn_device_start_stop-{{$device->id}}" class="btn btn-danger center btn_device_start_stop">Stop</button>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <!-- /.card-tools -->
                                                                                 </div>
-                                                                                <!-- /.card-header -->
-                                                                                <div class="card-body">
-                                                                                    <i class="fas fa fa-certificate" style="color:green">&nbsp;&nbsp;
-                                                                                    <span id="device_conductivity_value-{{$device->id}}">Within 5%</span></i>
-                                                                                    <i id="info_device_conductivity-{{$device->id}}" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
-                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                            </div>
+                                                                            <div class="col-lg-3 col-md-6 col-sm-6 box ">
+                                                                                <div class="card card-outline card-success">
+                                                                                    <div class="card-header">
+                                                                                        <h3 class="card-title">Volume </h3>
+
+                                                                                        <div class="card-tools">
+                                                                                            <i id="volume_chart-{{$device->id}}" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
+                                                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
+                                                                                        </button>
+                                                                                        </div>
+                                                                                        <!-- /.card-tools -->
+                                                                                    </div>
+                                                                                    <!-- /.card-header -->
+                                                                                    <div class="card-body">
+                                                                                    <p><b>Daily :</b> <i>2 Gallons</i></p>
+                                                                                    <p><b>Monthly :</b> <i>60 Gallons</i></p>
+                                                                                    <p><b>Yearly :</b> <i>800 Gallons</i></p>
+                                                                                    <p><b>Total :</b> <i>1800 Gallons</i></p>
+
+                                                                                    </div>
+                                                                                    <!-- /.card-body -->
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                                                <div class="card card-outline card-success">
+                                                                                    <div class="card-header">
+                                                                                        <h3 class="card-title">Conductivity </h3>
+
+                                                                                        <div class="card-tools">
+                                                                                        <i id="info_conductivity-{{$device->id}}" class="btn fas fa-info-circle float-right" data-toggle="dropdown"></i>
+                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="info_displayed_conductivity-{{$device->id}}">
                                                                                             <a href="#" class="dropdown-item">
                                                                                                 <div class="media">
                                                                                                     <div class="media-body">
-                                                                                                        <p class="text-sm"><b><i><span id="info_device_conductivity_text-{{$device->id}}"></span></i></b></p>
-                                                                                                        <p class="text-sm" id="info_device_conductivity_description-{{$device->id}}"></p>
+                                                                                                        <p class="text-sm"><b><i id="info_conductivity_text-{{$device->id}}">Conductivity</i></b></p>
+                                                                                                        <p class="text-sm" id="info_conductivity_description-{{$device->id}}">Conductivity is how we measure the amount of minerals content in the water.</p>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </a>
                                                                                         </div>
+                                                                                            <!-- <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i> -->
+                                                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
+                                                                                        </button>
+                                                                                        </div>
+                                                                                        <!-- /.card-tools -->
+                                                                                    </div>
+                                                                                    <!-- /.card-header -->
+                                                                                    <div class="card-body">
+                                                                                        <i class="fas fa fa-certificate" style="color:green">&nbsp;&nbsp;
+                                                                                        <span id="device_conductivity_value-{{$device->id}}">Within 5%</span></i>
+                                                                                        <i id="info_device_conductivity-{{$device->id}}" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a href="#" class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i><span id="info_device_conductivity_text-{{$device->id}}"></span></i></b></p>
+                                                                                                            <p class="text-sm" id="info_device_conductivity_description-{{$device->id}}"></p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                    </div>
+                                                                                    <!-- /.card-body -->
                                                                                 </div>
-                                                                                <!-- /.card-body -->
+                                                                            </div>
+
+                                                                            <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                                                <div class="card card-outline card-success">
+                                                                                    <div class="card-header">
+                                                                                        <h3 class="card-title">Alarms</h3>
+
+                                                                                        <div class="card-tools">
+                                                                                        <i class="btn fas fa-table" id="info_device_alarms_table-{{$device->id}}"></i>
+                                                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
+                                                                                        </button>
+                                                                                        </div>
+                                                                                        <!-- /.card-tools -->
+                                                                                    </div>
+                                                                                    <!-- /.card-header -->
+                                                                                    <div class="card-body">
+                                                                                    <p>No alarms!</p>
+
+                                                                                    </div>
+                                                                                    <!-- /.card-body -->
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-
-                                                                        <div class="col-lg-3 col-md-6 col-sm-6 box">
-                                                                            <div class="card card-outline card-success">
-                                                                                <div class="card-header">
-                                                                                    <h3 class="card-title">Alarms</h3>
-
-                                                                                    <div class="card-tools">
-                                                                                    <i class="btn fas fa-table" id="info_device_alarms_table-{{$device->id}}"></i>
-                                                                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                                                                    </button>
+                                                                    </div>
+                                                                    <div class="tab-pane fade active show" id="flow">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                                                <div class="card card-outline card-success">
+                                                                                    <div class="card-header">
+                                                                                        <h3 class="card-title">Status </h3>
+                                                                                        <div class="card-tools">
+                                                                                            <i class="btn fas fa-sync-alt btn-refresh" id="device-sync-{{$device->id}}"></i>
+                                                                                        </div>
+                                                                                        <!-- /.card-tools -->
                                                                                     </div>
-                                                                                    <!-- /.card-tools -->
+                                                                                    <!-- /.card-header -->
+                                                                                    <div class="card-body">
+                                                                                        <div>
+                                                                                            <i id="device_status_pic-{{$device->id}}" class="fas fa fa-certificate blink_me" style="color:green"></i>&nbsp;&nbsp;
+                                                                                            <span style="color:green" id="device_status-{{$device->id}}">RUNNING</span>
+                                                                                            <i id="info_device_status-{{$device->id}}" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a href="#" class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i id="info_device_status_text-{{$device->id}}"></i></b></p>
+                                                                                                            <p class="text-sm" id="info_device_status_description-{{$device->id}}"></p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                            <br/>
+                                                                                            <span><b>Duration  : </b> 02:10:20</span><br/>
+                                                                                        </div>
+                                                                                        <div><br>
+                                                                                            <span><b>Connection :</b></span> <i id="device_connection_status-{{$device->id}}" style="color:green">Connected</i>
+                                                                                            <i id="info_device_connection" class="fas fa-info-circle float-right info-device-connection" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a href="#" class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i><span id="info_device_connection_text-{{$device->id}}"></span></i></b></p>
+                                                                                                            <p class="text-sm" id="info_device_connection_description-{{$device->id}}"></p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
+                                                                                        </br>
+                                                                                        <div>
+                                                                                            <b>Device Health :</b><i style="color:green; font-weight:bold" id="device_health_status-{{$device->id}}">Good</i>
+                                                                                            <i id="info_device_health-{{$device->id}}" class="fas fa-info-circle float-right info_device_health" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a href="#" class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i><span id="info_device_health_text-{{$device->id}}"></span></i></b></p>
+                                                                                                            <p class="text-sm" id="info_device_health_description-{{$device->id}}"></p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                    <!-- /.card-body -->
+                                                                                    <div class="card-footer">
+                                                                                        <div class="row flex">
+                                                                                            <button id="btn_device_start_stop-{{$device->id}}" class="btn btn-danger center btn_device_start_stop">Stop</button>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
-                                                                                <!-- /.card-header -->
-                                                                                <div class="card-body">
-                                                                                <p>No alarms!</p>
+                                                                            </div>
+                                                                            <div class="col-lg-3 col-md-6 col-sm-6 box ">
+                                                                                <div class="card card-outline card-success">
+                                                                                    <div class="card-header">
+                                                                                        <h3 class="card-title">Volume </h3>
 
+                                                                                        <div class="card-tools">
+                                                                                            <i id="volume_chart-{{$device->id}}" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
+                                                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
+                                                                                        </button>
+                                                                                        </div>
+                                                                                        <!-- /.card-tools -->
+                                                                                    </div>
+                                                                                    <!-- /.card-header -->
+                                                                                    <div class="card-body">
+                                                                                    <p><b>Daily :</b> <i>2 Gallons</i></p>
+                                                                                    <p><b>Monthly :</b> <i>60 Gallons</i></p>
+                                                                                    <p><b>Yearly :</b> <i>800 Gallons</i></p>
+                                                                                    <p><b>Total :</b> <i>1800 Gallons</i></p>
+
+                                                                                    </div>
+                                                                                    <!-- /.card-body -->
                                                                                 </div>
-                                                                                <!-- /.card-body -->
+                                                                            </div>
+                                                                            <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                                                <div class="card card-outline card-success">
+                                                                                    <div class="card-header">
+                                                                                        <h3 class="card-title">Conductivity </h3>
+
+                                                                                        <div class="card-tools">
+                                                                                        <i id="info_conductivity-{{$device->id}}" class="btn fas fa-info-circle float-right" data-toggle="dropdown"></i>
+                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="info_displayed_conductivity-{{$device->id}}">
+                                                                                            <a href="#" class="dropdown-item">
+                                                                                                <div class="media">
+                                                                                                    <div class="media-body">
+                                                                                                        <p class="text-sm"><b><i id="info_conductivity_text-{{$device->id}}">Conductivity</i></b></p>
+                                                                                                        <p class="text-sm" id="info_conductivity_description-{{$device->id}}">Conductivity is how we measure the amount of minerals content in the water.</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                            <!-- <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i> -->
+                                                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
+                                                                                        </button>
+                                                                                        </div>
+                                                                                        <!-- /.card-tools -->
+                                                                                    </div>
+                                                                                    <!-- /.card-header -->
+                                                                                    <div class="card-body">
+                                                                                        <i class="fas fa fa-certificate" style="color:green">&nbsp;&nbsp;
+                                                                                        <span id="device_conductivity_value-{{$device->id}}">Within 5%</span></i>
+                                                                                        <i id="info_device_conductivity-{{$device->id}}" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a href="#" class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i><span id="info_device_conductivity_text-{{$device->id}}"></span></i></b></p>
+                                                                                                            <p class="text-sm" id="info_device_conductivity_description-{{$device->id}}"></p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                    </div>
+                                                                                    <!-- /.card-body -->
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                                                <div class="card card-outline card-success">
+                                                                                    <div class="card-header">
+                                                                                        <h3 class="card-title">Alarms</h3>
+
+                                                                                        <div class="card-tools">
+                                                                                        <i class="btn fas fa-table" id="info_device_alarms_table-{{$device->id}}"></i>
+                                                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
+                                                                                        </button>
+                                                                                        </div>
+                                                                                        <!-- /.card-tools -->
+                                                                                    </div>
+                                                                                    <!-- /.card-header -->
+                                                                                    <div class="card-body">
+                                                                                    <p>No alarms!</p>
+
+                                                                                    </div>
+                                                                                    <!-- /.card-body -->
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </td>
@@ -458,6 +613,7 @@
     })
 
     $(document).ready(function () {
+        $('.loader').hide();
         // rotation
         var angle=0;
         setInterval(function(){

@@ -28,6 +28,7 @@
 
 </head>
 <body class="hold-transition sidebar-mini layout-navbar-fixed">
+<div class="loader"></div>
 <div class="wrapper" >
 
   <!-- Navbar -->

@@ -51,7 +51,7 @@
                         <div class="tab-pane fade active show" id="profile-personal-info">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="loader"></div>
+
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="card-title">Personal Information</h3>
