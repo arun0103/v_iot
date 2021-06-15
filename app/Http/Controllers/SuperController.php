@@ -110,7 +110,7 @@ class SuperController extends Controller
         $edit_user = User::where('id',$id)->first();
         $old_email = null;
         $changes = 0;
- //return $request;
+        //return $request;
         // check email
         if($edit_user->email != $request->user_email){ // if user is editing email
             $checkEmail = User::where('email',$request->user_email)->get();

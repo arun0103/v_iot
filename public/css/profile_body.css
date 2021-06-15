@@ -84,7 +84,7 @@ input {
     height: 120px;
     overflow: hidden;
     position: relative;
-    z-index: 10;
+    /*z-index: 10;*/
     margin: 0 0 -20px;
     padding: 3px;
     border-radius: 4px;
