@@ -843,7 +843,7 @@ select.form-control:not([size]):not([multiple]) {
                                                                         <a class="nav-link active" aria-current="page" href="#tab_avg_data" data-toggle="tab">Avg. Data</a>
                                                                     </li>
                                                                     <li class="nav-item" id="nav_link-live_data">
-                                                                        <a class="nav-link" href="#tab_live_data" data-toggle="tab">Live Data</a>
+                                                                        <a class="nav-link" href="#tab_live_data" data-toggle="tab">Live Data</a> <i class="btn fas fa-sync-alt "></i>
                                                                     </li>
                                                                 </ul>
                                                                 <div class="tab-content">
@@ -1009,7 +1009,7 @@ select.form-control:not([size]):not([multiple]) {
                                                                         <div class="row">
                                                                             <div class="col-lg-12 col-md-12 col-sm-12 box ">
                                                                                 <!-- begin timeline -->
-                                                                                <ul class="timeline">
+                                                                                <ul class="timeline" id="live_data_rows">
                                                                                     <li>
                                                                                         <!-- begin timeline-time -->
                                                                                         <div class="timeline-time">
@@ -1031,8 +1031,8 @@ select.form-control:not([size]):not([multiple]) {
                                                                                             </div>
                                                                                             <div class="timeline-content">
 
-                                                                                                <p>Step : <b>1</b><br/><br/>
-                                                                                                    Conductivity : <b>4.5%</b><br/><br/>
+                                                                                                <p>Step : <b>Purify</b><br/><br/>
+                                                                                                    Conductivity : <b>100 us/cm</b><br/><br/>
                                                                                                     Voltage : <b>15V</b><br/><br/>
                                                                                                     Flow : <b>1.1</b><br/><br/>
                                                                                                     Pressure : <b>1.5</b>
