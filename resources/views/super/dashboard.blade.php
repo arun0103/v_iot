@@ -840,10 +840,10 @@ select.form-control:not([size]):not([multiple]) {
                                                                 </div>
                                                                 <ul class="nav nav-tabs">
                                                                     <li class="nav-item" id="nav_link-avg_data">
-                                                                        <a class="nav-link active" aria-current="page" href="#tab_avg_data" data-toggle="tab">Avg. Data</a>
+                                                                        <a class="nav-link active" aria-current="page" href="#tab_avg_data" data-toggle="tab" >Avg. Data</a>
                                                                     </li>
                                                                     <li class="nav-item" id="nav_link-live_data">
-                                                                        <a class="nav-link" href="#tab_live_data" data-toggle="tab">Live Data</a> <i class="btn fas fa-sync-alt "></i>
+                                                                        <a class="nav-link" href="#tab_live_data" data-toggle="tab">Live Data <i id="btn_refresh_live_data" class="btn fas fa-sync-alt" hidden></i></a>
                                                                     </li>
                                                                 </ul>
                                                                 <div class="tab-content">
@@ -1033,9 +1033,9 @@ select.form-control:not([size]):not([multiple]) {
 
                                                                                                 <p>Step : <b>Purify</b><br/><br/>
                                                                                                     Conductivity : <b>100 us/cm</b><br/><br/>
-                                                                                                    Voltage : <b>15V</b><br/><br/>
-                                                                                                    Flow : <b>1.1</b><br/><br/>
-                                                                                                    Pressure : <b>1.5</b>
+                                                                                                    Voltage : <b>1.0 V</b><br/><br/>
+                                                                                                    Flow : <b>6 ltrs/min</b><br/><br/>
+                                                                                                    Pressure : <b>1.5 bar</b>
 
                                                                                                 </p>
                                                                                             </div>
@@ -1163,11 +1163,16 @@ select.form-control:not([size]):not([multiple]) {
 <script type="module" src="{{asset('js/home.js')}}"></script>
 
 <script>
+
+
     $('#nav_link-avg_data').on('click', function(){
         $('#tab_live_data').hide();
         $('#tab_avg_data').show();
+        $('#btn_refresh_live_data').attr('hidden', true);
+
     })
     $('#nav_link-live_data').on('click', function(){
+        $('#btn_refresh_live_data').attr('hidden', false);
         $('#tab_avg_data').hide();
         $('#tab_live_data').attr('hidden',false);
         $('#tab_live_data').show();
