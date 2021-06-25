@@ -28,7 +28,7 @@ class SuperController extends Controller
         }
         elseif($loggedInUser->role == 'R'){
 
-            $resellerUser = User::where('reseller_id', $loggedInUser->reseller_id);
+            $resellerUser = User::where('reseller_id', $loggedInUser->reseller_id)->get();
             return view('admin/users')->with(['users'=>$resellerUser])->with('reseller',$reseller);
         }
         return view('home');
@@ -42,14 +42,15 @@ class SuperController extends Controller
         }
         elseif($loggedInUser->role == 'R'){
             $resellerUser = User::where('reseller_id', $loggedInUser->reseller_id)->with('reseller')->withCount('userDevices')->get();
-            return view('admin/users')->with(['data'=>$resellerUser]);
+            return view('admin/users')->with(['users'=>$resellerUser]);
         }
         return view('home');
     }
     public function create_user(Request $request){
+        //return $request;
         $loggedInUser = Auth::user();
 
-        $checkEmail = User::where('email',$request->user_email)->get();
+        $checkEmail = User::where('email',$request->email)->get();
         if($checkEmail->count() > 0){
             $data = [
                 'status'=>'failed',
@@ -59,32 +60,36 @@ class SuperController extends Controller
         }
 
         $new_user = new User();
-        $new_user->name = $request->user_name;
-        $new_user->email = $request->user_email ;
-        $new_user->role= $request->user_role ;
-        if($request->user_role == "R" ){
+        $new_user->name = $request->name;
+        $new_user->email = $request->email ;
+        $new_user->role= $request->role ;
+        if($request->role == "R" ){
             $new_user->reseller_id = $request->reseller_id ;
-
         }
         if($loggedInUser->role == 'R'){
                 $new_user->reseller_id = $loggedInUser->reseller_id;
             }
         $new_user->created_by = $loggedInUser->id ;
-        $random_password = "";
-        $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
-        for($i = 0; $i < 8 ; $i++){
-            $random_password .= substr($characters, (rand() % (strlen($characters))),1);
-        }
+// uncomment below five lines
+        // $random_password = "";
+        // $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
+        // for($i = 0; $i < 8 ; $i++){
+        //     $random_password .= substr($characters, (rand() % (strlen($characters))),1);
+        // }
+
+// Delete it in production to generate random
+        $random_password = "123456789";
+//
         $new_user->password = Hash::make($random_password);
         $new_user->save();
 
         $userProfile = new UserProfile();
         $userProfile->user_id = $new_user->id;
 
-        $reseller = Reseller::where('id',$request->reseller_id)->pluck('company_name');
-        switch($request->user_role){
+        $reseller = Reseller::where('id',$new_user->reseller_id)->pluck('company_name');
+        switch($request->role){
             case 'R':
-                $userProfile->profession = $request->user_position;
+                $userProfile->profession = $request->position;
                 $userProfile->institution = $reseller;
                 break;
         }
@@ -276,11 +281,84 @@ class SuperController extends Controller
     }
 
     public function deleteUserById($id){
-        $user = User::where('id',$id)->first();
-        $userProfile = UserProfile::where('user_id',$id)->delete();
-        $userDevices = UserDevices::where('user-_id',$id)->delete();
+        $loggedInUser = Auth::user();
 
-        return $user->delete();
+        $user = User::where('id',$id)->with('reseller')->first();
+        //return $user;
+        $data = [];
+        switch($loggedInUser->role){
+            case 'U':
+                $data = [
+                    'status'=>'NA',
+                    'desc'=>"You are not authorized"
+                ];
+                return reponse()->json($data);
+                break;
+            case 'R': // reseller can delete only users except business owner
+                switch($user->role){
+                    case 'U':
+                        $userProfile = UserProfile::where('user_id',$id)->delete();
+                        $userDevices = UserDevices::where('user_id',$id)->delete();
+                        $user->delete();
+                        $data = [
+                            'status'=>'Deleted!',
+                            'desc'=>'Delete Successful',
+                            'user'=>$user
+                        ];
+                        return response()->json($data);
+                        break;
+                    case 'R':
+                        if($user->email == $user->reseller->email || $loggedInUser->email != $user->reseller->email){ // if deleting reseller is super reseller or logged user is not super reseller
+                            $data = [
+                                'status'=>'NA',
+                                'desc'=>"You are not authorized"
+                            ];
+                            return reponse()->json($data);
+                        }
+                        $userProfile = UserProfile::where('user_id',$id)->delete();
+                        $userDevices = UserDevices::where('user_id',$id)->delete();
+                        $user->delete();
+                        $data = [
+                            'status'=>'Deleted!',
+                            'desc'=>'Delete Successful',
+                            'user'=>$user
+                        ];
+                        return response()->json($data);
+                        break;
+                    case 'S':
+                        $data = [
+                            'status'=>'NA',
+                            'desc'=>"You cannot delete admins! Contact Super Admin"
+                        ];
+                        return response()->json($data);
+                }
+                break;
+            case 'S':
+                switch($user->role){
+                    case 'U':
+                    case 'R':
+                        $userProfile = UserProfile::where('user_id',$id)->delete();
+                        $userDevices = UserDevices::where('user_id',$id)->delete();
+                        $user->delete();
+                        $data = [
+                            'status'=>'Deleted!',
+                            'desc'=>'Delete Successful',
+                            'user'=>$user
+                        ];
+                        return response()->json($data);
+                        break;
+
+                    case 'S':
+                        $data = [
+                            'status'=>'NA',
+                            'desc'=>"You cannot delete admins! Only super admin can"
+                        ];
+                        return reponse()->json($data);
+                }
+
+
+        }
+
     }
 
 

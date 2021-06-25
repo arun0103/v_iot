@@ -347,17 +347,33 @@
             url: "/addNewDevice",
             data: formData,
             })
-            .done(function( msg ) {
-                switch(msg['message']){
+            .done(function( response ) {
+                console.log(response.data)
+                switch(response['message']){
                     case 'Error':
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text:  msg.description,
+                            text:  response.description,
                             //footer: '<a href="../login">Login as Adminstrator?</a>'
                         });
                         break;
                     case 'Success':
+                        $('tbody').prepend('<tr id="'+response['data'].id+'" class="device"><td>'+response['data'].serial_number + '</td><td>'
+                            + response['data'].device_number + '</td><td>'+ response['data'].model == 'U'? 'DiUse': 'DiEntry' +
+                            '</td><td>0</td>'+
+                            '<td>-</td>'
+                            +'<td><a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
+                                            +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+                                                +'<a href="#" class="dropdown-item">'
+                                                    +'<i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>'
+                                                +'</a>'
+                                                +'<div class="dropdown-divider"></div>'
+                                                +'<a href="#" class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
+                                                +'<div class="dropdown-divider"></div>'
+                                                +'<a id="operation-delete-device-{{$device->id}}" href="#" class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>'
+                                            +'</div></td></tr>')
+
                         Swal.fire(
                             'Added!',
                             'Device has been added',
@@ -368,12 +384,12 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: 'Something went wrong!' + msg.description,
-                            footer: msg
+                            text: 'Something went wrong!' + response.description,
+                            footer: response
                         })
 
                 }
-                console.log( msg );
+                console.log( response );
         });
     })
 
@@ -570,7 +586,7 @@
                         'Device has been added to your account.',
                         'success'
                     );
-                    $('tr#'+id).remove();
+                    // $('tr#'+id).remove();
                     break;
                 default:
                     Swal.fire({

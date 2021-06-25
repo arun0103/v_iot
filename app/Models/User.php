@@ -25,6 +25,7 @@ class User extends Authenticatable
         'password',
         'role',
         'avatar',
+        'reseller_id',
         'created_by',
     ];
 

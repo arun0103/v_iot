@@ -239,7 +239,7 @@
     <!-- <script src="{{asset('js/user.js')}}"> -->
     <script type="text/javascript">
     var user_id = null;
-    $('a.option-view-user-devices').on('click',function(){
+    $(document).on('click','a.option-view-user-devices',function(){
 
         alert('In progress')
     })
@@ -297,7 +297,7 @@
 
         }
     }
-    $('a.option-edit-user').on('click',function(){
+    $(document).on('click','a.option-edit-user',function(){
         $('.loader').show();
         user_id = $(this).closest('tr').attr('id'); // table row ID
         $('#inputName_edit').val($('tr#'+user_id+' td:eq(0) span.user_name').text())
@@ -399,7 +399,7 @@
             $('.loader').hide();
         })
 
-        $('a.option-delete-user').on('click', function(){
+        $(document).on('click','a.option-delete-user', function(){
             var user_id = $(this).closest('tr').attr('id'); // table row ID
             Swal.fire({
                 title: 'Are you sure?',
@@ -421,9 +421,9 @@
                         console.log(response)
                         $('#'+user_id).remove();
                         Swal.fire(
-                            'Deleted!',
-                            'User has been deleted.',
-                            'success'
+                            response.status,
+                            response.desc,
+                            'info'
                         )
                     })
                     .fail(function(response){
@@ -432,6 +432,7 @@
                 }
             })
         })
+
         $('#btn_add_user').on('click', function(){
             $('#error_user_name p').remove();
             $('#error_user_email p').remove();
@@ -500,22 +501,23 @@
             e.preventDefault();
             if(validateNewUser()){ //validation succeded
                 $('#modal-add-new-user').modal('hide');
-                $('div .loader').show()
+                $('.loader').show()
+                console.log($('#selectResellerCompany').val())
                 $.ajax({
                     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                     type: "POST",
                     url: "/super/addUser",
                     data: {
-                        "user_name":$('#inputName').val(),
-                        "user_email":$('#inputEmail').val(),
-                        "user_role":$('#selectRole').val(),
-                        "user_reseller_id":$('#selectResellerCompany').val(),
-                        "user_position":$('#inputResellerPostition').val(),
+                        "name":$('#inputName').val(),
+                        "email":$('#inputEmail').val(),
+                        "role":$('#selectRole').val(),
+                        "reseller_id":$('#selectResellerCompany').val(),
+                        "position":$('#inputResellerPostition').val(),
                     },
                 })
                 .done(function(response){
                     console.log(response)
-
+                    $('.loader').hide()
                     switch(response.status){
                         case 'failed':
                             Swal.fire(
@@ -531,19 +533,37 @@
                                     +response['user'].name+'</td><td>'+response['user'].email+'</td><td>'
                                     +'Reseller'+'</td><td>0</td><td>'
                                     +response['user'].reseller.company_name +'</td><td>'
-                                    +response['user'].last_login+'</td></tr>')
+                                    +response['user'].last_login+'</td><td><a class="nav-link" data-toggle="dropdown">'
+                                    +'<i class="fas fa-angle-down"></i>'
+                                    +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+                                    +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'
+                                    +'<a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>'
+                                    +'<div class="dropdown-divider"></div>'
+                                    +'<a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a></div></td></tr>')
                                     break;
                                 case 'U':
                                     $('tbody').prepend('<tr id="'+response['user'].id+'"><td>'
                                     +response['user'].name+'</td><td>'+response['user'].email+'</td><td>'
                                     +'User'+'</td><td>0</td><td>'
-                                    +'-' +'</td><td>'+response['user'].last_login+'</td></tr>')
+                                    +'-' +'</td><td>'+response['user'].last_login+'</td><td><a class="nav-link" data-toggle="dropdown">'
+                                    +'<i class="fas fa-angle-down"></i>'
+                                    +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+                                    +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'
+                                    +'<a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>'
+                                    +'<div class="dropdown-divider"></div>'
+                                    +'<a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a></div></td></tr>')
                                     break;
                                 case 'S':
                                     $('tbody').prepend('<tr id="'+response['user'].id+'"><td>'
                                     +response['user'].name+'</td><td>'+response['user'].email+'</td><td>'
                                     +'Super'+'</td><td>0</td><td>'
-                                    +'-' +'</td><td>'+response['user'].last_login+'</td></tr>')
+                                    +'-' +'</td><td>'+response['user'].last_login+'</td><td><a class="nav-link" data-toggle="dropdown">'
+                                    +'<i class="fas fa-angle-down"></i>'
+                                    +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+                                    +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'
+                                    +'<a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>'
+                                    +'<div class="dropdown-divider"></div>'
+                                    +'<a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a></div></td></tr>')
                                     break;
                             }
 
