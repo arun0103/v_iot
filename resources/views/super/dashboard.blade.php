@@ -790,7 +790,7 @@
                                     <th>#Users</th>
                                     <th>Status</th>
                                     <th>Duration</th>
-                                    <th>EC</th>
+                                    <th>Water Quality</th>
                                         <!-- <th>Pure Flow</th>
                                         <th>Waste Flow</th>
                                         <th>Pure Voltage</th>
@@ -808,9 +808,9 @@
                                             <td>{{$device->serial_number}}</td>
                                             <td>{{$device->model == 'U' ? 'DiUse' : 'DiEntry'}}</td>
                                             <td>{{$device->userDevices->count()}}</td>
-                                            <td>Running</td>
-                                            <td>00:01:15</td>
-                                            <td>Within 5%</td>
+                                            <td>{{$device->logs != null ? ($device->logs[0]->step == 1?"Idle" :($device->logs[0]->step > 1 && $device->logs[0]->step < 6?"Operation" :($device->logs[0]->step > 6 && $device->logs[0]->step < 12 ? "Cleaning" : "Wait" ))) : "No Data"</td>
+                                            <td>{{$device->logs[0]->step_run_sec}} sec</td>
+                                            <td>Within 5% Calculation needed</td>
                                             <td>
                                                 <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -862,7 +862,7 @@
                                                                                     <div class="card-body">
                                                                                         <div>
                                                                                             <i id="device_status_pic-{{$device->id}}" class="fas fa fa-certificate blink_me" style="color:green"></i>&nbsp;&nbsp;
-                                                                                            <span style="color:green" id="device_status-{{$device->id}}">RUNNING</span>
+                                                                                            <span style="color:green" id="device_status-{{$device->id}}">{{$device->logs->count()>0 ? ($device->logs[0]->step == 0 ?"Idle" ): "No Data"}}</span>
                                                                                             <i id="info_device_status-{{$device->id}}" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
                                                                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                                                 <a href="#" class="dropdown-item">
@@ -875,10 +875,19 @@
                                                                                                 </a>
                                                                                             </div>
                                                                                             <br/>
-                                                                                            <span><b>Duration  : </b> {{$device->logs->count()>0? $device->logs[0]->step_run_sec : "No Data"}}</span><br/>
+                                                                                            <span><b>Duration  : </b> {{$device->logs->count()>0 ? $device->logs[0]->step_run_sec : "No Data"}}</span><br/>
                                                                                         </div>
                                                                                         <div><br>
-                                                                                            <span><b>Connection :</b></span> <i id="device_connection_status-{{$device->id}}" style="color:green">Connected</i>
+                                                                                            <span><b>Connection :</b></span> <i id="device_connection_status-{{$device->id}}" style="color:green">
+                                                                                                @if($device->logs->count() >0)
+                                                                                                    $currentTime = Carbon::now();
+                                                                                                    @if($currentTime->diffInMinutes($device->logs[0]->created_at) < 10)
+                                                                                                        {{"Connected"}}
+                                                                                                    @else
+                                                                                                        {{"Disconnected"}}
+                                                                                                    @endif
+                                                                                                @endif
+                                                                                            </i>
                                                                                             <i id="info_device_connection" class="fas fa-info-circle float-right info-device-connection" data-toggle="dropdown" ></i>
                                                                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                                                 <a href="#" class="dropdown-item">
