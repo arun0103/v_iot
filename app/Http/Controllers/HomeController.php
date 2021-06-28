@@ -43,6 +43,7 @@ class HomeController extends Controller
         if($loggedInUser->role == 'S'){
             $users = User::all();
             $devices = Device::with('userDevices')->with('logs')->get();
+            return $devices;
             return view('super/dashboard')->with(['users'=>$users])
                                             ->with(['devices'=>$devices]);
         }elseif($loggedInUser->role =='R'){
