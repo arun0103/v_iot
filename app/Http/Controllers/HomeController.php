@@ -42,7 +42,10 @@ class HomeController extends Controller
         Session(['company', $company_name]);
         if($loggedInUser->role == 'S'){
             $users = User::all();
-            $devices = Device::with('userDevices')->get();
+            $devices = Device::with('userDevices')->with(['logs' => function($query){
+                $query->order_by('log_dt','desc')->first();
+            }
+            ])->get();
             return view('super/dashboard')->with(['users'=>$users])
                                             ->with(['devices'=>$devices]);
         }elseif($loggedInUser->role =='R'){

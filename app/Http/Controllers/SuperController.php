@@ -215,7 +215,7 @@ class SuperController extends Controller
                     'data'=>$device
                 ];
 
-                // notify new user by email
+                // link device with user and notify by email
 
 
             }else{

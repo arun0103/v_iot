@@ -32,6 +32,8 @@ class CreateRawDataTable extends Migration
             $table->integer('input');
             $table->integer('output');
             $table->timestamps();
+
+            $table->unique(['serial_number', 'log_dt']);
         });
     }
 

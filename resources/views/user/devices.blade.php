@@ -371,7 +371,7 @@
                                                 +'<div class="dropdown-divider"></div>'
                                                 +'<a href="#" class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
                                                 +'<div class="dropdown-divider"></div>'
-                                                +'<a id="operation-delete-device-{{$device->id}}" href="#" class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>'
+                                                +'<a id="operation-delete-device-'+response['data'].id+'" href="#" class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>'
                                             +'</div></td></tr>')
 
                         Swal.fire(

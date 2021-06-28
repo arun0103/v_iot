@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Device extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'serial_number',
         'device_number',
@@ -21,6 +22,9 @@ class Device extends Model
 
     public function userDevices(){
         return $this->hasMany(UserDevices::class, 'device_id','id');
+    }
+    public function logs(){
+        return $this->hasMany(RawLogs::class, 'serial_number','serial_number');
     }
 
 }
