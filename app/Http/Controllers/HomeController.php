@@ -43,7 +43,7 @@ class HomeController extends Controller
         if($loggedInUser->role == 'S'){
             $users = User::all();
             $devices = Device::with('userDevices')->with(['logs' => function($query){
-                $query->order_by('log_dt','desc')->first();
+                $query->last();
             }
             ])->get();
             return view('super/dashboard')->with(['users'=>$users])
