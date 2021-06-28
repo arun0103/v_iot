@@ -881,7 +881,7 @@
                                                                                             <span><b>Connection :</b></span> <i id="device_connection_status-{{$device->id}}" style="color:green">
                                                                                                 @if($device->logs->count() >0)
 
-                                                                                                    @if(\Carbon::now()->diffInMinutes($device->logs[0]->created_at) < 10)
+                                                                                                    @if(Carbon\Carbon::now()->diffInMinutes($device->logs[0]->created_at) < 10)
                                                                                                         {{"Connected"}}
                                                                                                     @else
                                                                                                         {{"Disconnected"}}
