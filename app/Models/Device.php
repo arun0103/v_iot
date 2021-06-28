@@ -24,7 +24,7 @@ class Device extends Model
         return $this->hasMany(UserDevices::class, 'device_id','id');
     }
     public function logs(){
-        return $this->hasMany(RawLogs::class, 'serial_number','serial_number');
+        return $this->hasMany('App\Models\RawLogs', 'serial_number','serial_number');
     }
 
 }
