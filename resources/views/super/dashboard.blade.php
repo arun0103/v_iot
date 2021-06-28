@@ -808,7 +808,7 @@
                                             <td>{{$device->serial_number}}</td>
                                             <td>{{$device->model == 'U' ? 'DiUse' : 'DiEntry'}}</td>
                                             <td>{{$device->userDevices->count()}}</td>
-                                            <td>{{$device->logs != null ? ($device->logs[0]->step == 1?"Idle" :($device->logs[0]->step > 1 && $device->logs[0]->step < 6?"Operation" :($device->logs[0]->step > 6 && $device->logs[0]->step < 12 ? "Cleaning" : "Wait" ))) : "No Data"</td>
+                                            <td>{{$device->logs != null ? ($device->logs[0]->step == 1?"Idle" :($device->logs[0]->step > 1 && $device->logs[0]->step < 6?"Operation" :($device->logs[0]->step > 6 && $device->logs[0]->step < 12 ? "Cleaning" : "Wait" ))) : "No Data"}}</td>
                                             <td>{{$device->logs[0]->step_run_sec}} sec</td>
                                             <td>Within 5% Calculation needed</td>
                                             <td>
