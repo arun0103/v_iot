@@ -862,7 +862,7 @@
                                                                                     <div class="card-body">
                                                                                         <div>
                                                                                             <i id="device_status_pic-{{$device->id}}" class="fas fa fa-certificate blink_me" style="color:green"></i>&nbsp;&nbsp;
-                                                                                            <span style="color:green" id="device_status-{{$device->id}}">{{$device->logs->count()>0 ? ($device->logs[0]->step == 0 ?"Idle" ): "No Data"}}</span>
+                                                                                            <span style="color:green" id="device_status-{{$device->id}}">{{$device->logs != null ? ($device->logs[0]->step == 1?"Idle" :($device->logs[0]->step > 1 && $device->logs[0]->step < 6?"Operation" :($device->logs[0]->step > 6 && $device->logs[0]->step < 12 ? "Cleaning" : "Wait" ))) : "No Data"}}</span>
                                                                                             <i id="info_device_status-{{$device->id}}" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
                                                                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                                                 <a href="#" class="dropdown-item">
