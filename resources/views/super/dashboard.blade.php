@@ -875,7 +875,7 @@
                                                                                                 </a>
                                                                                             </div>
                                                                                             <br/>
-                                                                                            <span><b>Duration  : </b> {{$device->logs!=null?$device->logs[0]->step_run_sec:"No Data"}}</span><br/>
+                                                                                            <span><b>Duration  : </b> {{$device->logs->count()}}</span><br/>
                                                                                         </div>
                                                                                         <div><br>
                                                                                             <span><b>Connection :</b></span> <i id="device_connection_status-{{$device->id}}" style="color:green">Connected</i>
