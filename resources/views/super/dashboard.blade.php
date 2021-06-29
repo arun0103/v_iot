@@ -2,6 +2,9 @@
 
 @section('head')
 <style>
+.alarms-list{
+    color:red;
+}
     tr.device-info{
         position:relative;
     }
@@ -1009,7 +1012,8 @@
                                                                                     @if($device->logs->count()< 1)
                                                                                     <p>No Data</p>
                                                                                     @else
-                                                                                    <p>{{decbin($device->logs[0]->alarm)}}</p>
+                                                                                    <p>Alarm Code: <span id="alarm_code_{{$device->id}}">{{$device->logs[0]->alarm}}</span></p>
+                                                                                    <section class="alarms-list" id="alarmsList_{{$device->id}}"></section>
                                                                                     @endif
 
                                                                                     </div>
@@ -1200,7 +1204,49 @@
     $('tr.device-row').on('click',function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
         var device_trid = trid.replace("device-info-",'')
-        $('tr#' + device_trid).toggle();
+        //console.log($('span#alarm_code_'+device_trid).text());
+        if($('span#alarm_code_'+device_trid).text() != ""){
+            //analyse bits of alarm
+            var alarms =$('span#alarm_code_'+device_trid).text();
+
+            var bin_alarms = (alarms >>> 0).toString(2);
+            for(var i = bin_alarms.length; i<24 ; i++){
+                bin_alarms = "0"+bin_alarms;
+            }
+            for(var i = 0 ; i < bin_alarms.length ; i++){
+                if(bin_alarms[i] == "1"){
+                    switch(i){
+                        case 0: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
+                        case 1: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
+                        case 2: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
+                        case 3: $('section#alarmsList_'+device_trid).append("<p>FLOWMETER COMM ERROR</p>");break;
+                        case 4: $('section#alarmsList_'+device_trid).append("<p>ATLAS TEMPERATURE ERROR</p>");break;
+                        case 5: $('section#alarmsList_'+device_trid).append("<p>ZERO EC ALARM</p>");break;
+                        case 6: $('section#alarmsList_'+device_trid).append("<p>ATLAS I2C COM ERROR</p>");break;
+                        case 7: $('section#alarmsList_'+device_trid).append("<p>LOW PRESSURE ALARM</p>");break;
+                        case 8: $('section#alarmsList_'+device_trid).append("<p>PAE AC INPUT FAIL</p>");break;
+                        case 9: $('section#alarmsList_'+device_trid).append("<p>PAE AC POWER DOWN</p>");break;
+                        case 10:$('section#alarmsList_'+device_trid).append("<p>PAE HIGH TEMPERATURE</p>");break;
+                        case 11:$('section#alarmsList_'+device_trid).append("<p>PAE AUX OR SMPS FAIL</p>");break;
+                        case 12:$('section#alarmsList_'+device_trid).append("<p>PAE FAN FAIL</p>");break;
+                        case 13:$('section#alarmsList_'+device_trid).append("<p>PAE OVER TEMP SHUTDOWN</p>");break;
+                        case 14:$('section#alarmsList_'+device_trid).append("<p>PAE OVER LOAD SHUTDOWN</p>");break;
+                        case 15:$('section#alarmsList_'+device_trid).append("<p>PAE OVER VOLT SHUTDOWN</p>");break;
+                        case 16:$('section#alarmsList_'+device_trid).append("<p>PAE COMMUNICATION ERROR</p>");break;
+                        case 17:$('section#alarmsList_'+device_trid).append("<p>CIP LOW LEVEL ALARM</p>");break;
+                        case 18:$('section#alarmsList_'+device_trid).append("<p>WASTE VALVE ALARM</p>");break;
+                        case 19:$('section#alarmsList_'+device_trid).append("<p>LEAKAGE ALARM</p>");break;
+                        case 20:$('section#alarmsList_'+device_trid).append("<p>CABINET TEMP ALARM</p>");break;
+                        case 21:$('section#alarmsList_'+device_trid).append("<p>BYPASS ALARM</p>");break;
+                        case 22:$('section#alarmsList_'+device_trid).append("<p>LOW FLOW WASTE ALARM</p>");break;
+                        case 23:$('section#alarmsList_'+device_trid).append("<p>LOW FLOW PURE ALARM</p>");break;
+                    }
+                }
+            }
+            $('tr#' + device_trid).toggle();
+
+        }else
+            Swal.fire("Error", "Device has not sent any data yet", "warning")
     })
 
     $(document).ready(function () {

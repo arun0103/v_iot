@@ -45,6 +45,47 @@ class HomeController extends Controller
             $devices = Device::with('userDevices')->with(['logs'=>function($query){
                 $query->orderBy('id','desc')->first();
             }])->get();
+            foreach($devices as $device){
+                if($device->logs->count() > 0){
+                    $triggeredAlarms = [];
+                    $alarms = decbin($device->logs[0]->alarm);
+                    for($i = strlen($alarms); $i < 24; $i++)    // assuming that data is sent less if top alarms are off
+                        $alarms = "0".$alarms;                  // adding off status to top alarms so that we can calcuate serially
+                    // dd($alarms);
+                    //dd($device->logs[0]->alarm);
+                    for($i = 0 ; $i < strlen($alarms) ; $i++){
+                        if($alarms[$i] == "1"){
+                            switch($i){
+                                case 0: array_push($triggeredAlarms, "Reserved For future");break;
+                                case 1: array_push($triggeredAlarms, "Reserved For future");break;
+                                case 2: array_push($triggeredAlarms, "Reserved For future");break;
+                                case 3: array_push($triggeredAlarms, "FLOWMETER COMM ERROR");break;
+                                case 4: array_push($triggeredAlarms, "ATLAS TEMPERATURE ERROR");break;
+                                case 5: array_push($triggeredAlarms, "ZERO EC ALARM");break;
+                                case 6: array_push($triggeredAlarms, "ATLAS I2C COM ERROR");break;
+                                case 7: array_push($triggeredAlarms, "LOW PRESSURE ALARM");break;
+                                case 8: array_push($triggeredAlarms, "PAE AC INPUT FAIL");break;
+                                case 9: array_push($triggeredAlarms, "PAE AC POWER DOWN");break;
+                                case 10:array_push($triggeredAlarms, "PAE HIGH TEMPERATURE");break;
+                                case 11:array_push($triggeredAlarms, "PAE AUX OR SMPS FAIL");break;
+                                case 12:array_push($triggeredAlarms, "PAE FAN FAIL");break;
+                                case 13:array_push($triggeredAlarms, "PAE OVER TEMP SHUTDOWN");break;
+                                case 14:array_push($triggeredAlarms, "PAE OVER LOAD SHUTDOWN");break;
+                                case 15:array_push($triggeredAlarms, "PAE OVER VOLT SHUTDOWN");break;
+                                case 16:array_push($triggeredAlarms, "PAE COMMUNICATION ERROR");break;
+                                case 17:array_push($triggeredAlarms, "CIP LOW LEVEL ALARM");break;
+                                case 18:array_push($triggeredAlarms, "WASTE VALVE ALARM");break;
+                                case 19:array_push($triggeredAlarms, "LEAKAGE ALARM");break;
+                                case 20:array_push($triggeredAlarms, "CABINET TEMP ALARM");break;
+                                case 21:array_push($triggeredAlarms, "BYPASS ALARM");break;
+                                case 22:array_push($triggeredAlarms, "LOW FLOW WASTE ALARM");break;
+                                case 23:array_push($triggeredAlarms, "LOW FLOW PURE ALARM");break;
+                            }
+                        }
+                    }
+                    $device->triggeredAlarms = $triggeredAlarms;
+                }
+            }
             // return $devices;
             return view('super/dashboard')->with(['users'=>$users])
                                             ->with(['devices'=>$devices]);
