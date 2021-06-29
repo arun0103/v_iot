@@ -952,7 +952,7 @@
                                                                             <div class="col-lg-3 col-md-6 col-sm-6 box">
                                                                                 <div class="card card-outline card-success">
                                                                                     <div class="card-header">
-                                                                                        <h3 class="card-title">Conductivity </h3>
+                                                                                        <h3 class="card-title">Water Quality </h3>
 
                                                                                         <div class="card-tools">
                                                                                         <i id="info_conductivity-{{$device->id}}" class="btn fas fa-info-circle float-right" data-toggle="dropdown"></i>
@@ -960,7 +960,7 @@
                                                                                             <a href="#" class="dropdown-item">
                                                                                                 <div class="media">
                                                                                                     <div class="media-body">
-                                                                                                        <p class="text-sm"><b><i id="info_conductivity_text-{{$device->id}}">Conductivity</i></b></p>
+                                                                                                        <p class="text-sm"><b><i id="info_conductivity_text-{{$device->id}}">Water Quality</i></b></p>
                                                                                                         <p class="text-sm" id="info_conductivity_description-{{$device->id}}">Conductivity is how we measure the amount of minerals content in the water.</p>
                                                                                                     </div>
                                                                                                 </div>
@@ -1006,7 +1006,11 @@
                                                                                     </div>
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
-                                                                                    <p>No alarms!</p>
+                                                                                    @if($device->logs->count()< 0)
+                                                                                    <p>No Data</p>
+                                                                                    else
+                                                                                    <p>{{decbin($device->logs[0]->alarm)}}</p>
+                                                                                    @endif
 
                                                                                     </div>
                                                                                     <!-- /.card-body -->
