@@ -1009,7 +1009,7 @@
                                                                                     @if($device->logs->count()< 1)
                                                                                     <p>No Data</p>
                                                                                     @else
-                                                                                    <p>{{$device->logs[0]->alarm}}</p>
+                                                                                    <p>{{decbin($device->logs[0]->alarm)}}</p>
                                                                                     @endif
 
                                                                                     </div>
