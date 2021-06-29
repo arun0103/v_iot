@@ -1006,7 +1006,7 @@
                                                                                     </div>
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
-                                                                                    @if($device->logs->count()< 0)
+                                                                                    @if($device->logs->count()< 1)
                                                                                     <p>No Data</p>
                                                                                     else
                                                                                     <p>{{$device->logs[0]->alarm}}</p>
