@@ -2,9 +2,9 @@
 
 @section('head')
 <style>
-.alarms-list{
-    color:red;
-}
+    .alarms-list{
+        color:red;
+    }
     tr.device-info{
         position:relative;
     }
@@ -1212,7 +1212,7 @@
             var bin_alarms = (alarms >>> 0).toString(2);
             for(var i = bin_alarms.length; i<24 ; i++){
                 bin_alarms = "0"+bin_alarms;
-            }
+            }$('section#alarmsList_'+device_trid).empty();
             for(var i = 0 ; i < bin_alarms.length ; i++){
                 if(bin_alarms[i] == "1"){
                     switch(i){
