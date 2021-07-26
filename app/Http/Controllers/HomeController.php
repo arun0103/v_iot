@@ -44,7 +44,7 @@ class HomeController extends Controller
             $users = User::all();
             $devices = Device::with('userDevices')->with(['logs'=>function($query){
                 $query->orderBy('id','desc')->first();
-            }])->get();
+            }])->with('device_settings','device_commands')->get();
             foreach($devices as $device){
                 if($device->logs->count() > 0){
                     $triggeredAlarms = [];
@@ -153,5 +153,15 @@ class HomeController extends Controller
     public function searchDevice(Request $req){
         $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->get();
         return response($searchDevice);
+    }
+
+    public function getDeviceDetails($id){
+
+        $deviceDetail = Device::where('id',$id)
+                        ->with(['logs' =>function($query){
+                            $query->where('log_dt', '>=', Carbon::now()->subDays(30)->toDateTimeString())->get();
+                        }])
+                        ->first();
+        return response()->json($deviceDetail);
     }
 }

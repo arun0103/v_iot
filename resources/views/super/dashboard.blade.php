@@ -1,7 +1,19 @@
 @extends('layouts.master')
 
 @section('head')
+<!-- <script src="{{asset('js/require.js')}}"></script> -->
 <style>
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+
     .alarms-list{
         color:red;
     }
@@ -813,7 +825,7 @@
                                             <td>{{$device->userDevices->count()}}</td>
                                             <td>{{$device->logs->count()>0 ? ($device->logs[0]->step == 1?"Idle" :($device->logs[0]->step > 1 && $device->logs[0]->step < 6?"Operation" :($device->logs[0]->step > 6 && $device->logs[0]->step < 12 ? "Cleaning" : "Wait" ))) : "No Data"}}</td>
                                             <td>{{$device->logs->count()>0 ? $device->logs[0]->step_run_sec : "No Data"}} sec</td>
-                                            <td>Within 5% Calculation needed</td>
+                                            <td >Calculation needed</td>
                                             <td>
                                                 <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -830,27 +842,32 @@
                                             </td>
                                             <!-- <div class="device-details" style="background:red; z-index:1;"></div> -->
                                         </tr>
-                                        <tr class="device-info" id="{{$device->id}}" style="display: none;">
+                                        <tr class="device-info" id="{{$device->id}}" style="display: none;" >
                                             <td colspan="7">
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="card">
                                                             <div class="card-header">
                                                                 <div class="card-tools">
-                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->id}}">
                                                                         <i class="fas fa-minus"></i>
                                                                     </button>
                                                                 </div>
                                                                 <ul class="nav nav-tabs">
-                                                                    <li class="nav-item" id="nav_link-avg_data">
-                                                                        <a class="nav-link active" aria-current="page" href="#tab_avg_data" data-toggle="tab" >Avg. Data</a>
+                                                                    <li class="nav-item nav_link-avg_data"  id="nav_link-avg_data_{{$device->id}}">
+                                                                        <a class="nav-link active" aria-current="page" href="#tab_avg_data_{{$device->id}}" data-toggle="tab" >Avg. Data</a>
                                                                     </li>
-                                                                    <li class="nav-item" id="nav_link-live_data">
-                                                                        <a class="nav-link" href="#tab_live_data" data-toggle="tab">Live Data <i id="btn_refresh_live_data" class="btn fas fa-sync-alt" hidden></i></a>
+                                                                    <li class="nav-item nav_link-live_data" id="nav_link-live_data">
+                                                                        <a class="nav-link" href="#tab_live_data_{{$device->id}}" data-toggle="tab">Live Data <i id="btn_refresh_live_data_{{$device->id}}" class="btn fas fa-sync-alt" hidden></i></a>
+                                                                    </li>
+                                                                    <li class="nav-item nav_link-control" id="nav_link-control">
+                                                                        <a class="nav-link" href="#tab_control_{{$device->id}}" data-toggle="tab">Controls </a>
                                                                     </li>
                                                                 </ul>
+                                                            </div>
+                                                            <div class="card-body">
                                                                 <div class="tab-content">
-                                                                    <div class="tab-pane fade active show" id="tab_avg_data">
+                                                                    <div class="tab-pane fade show" id="tab_avg_data_{{$device->id}}">
                                                                         <div class="row">
                                                                             <div class="col-lg-3 col-md-6 col-sm-6 box">
                                                                                 <div class="card card-outline card-success">
@@ -978,18 +995,18 @@
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
                                                                                         <i class="fas fa fa-certificate" style="color:green">&nbsp;&nbsp;
-                                                                                        <span id="device_conductivity_value-{{$device->id}}">Within 5%</span></i>
+                                                                                        <span id="device_conductivity_value-{{$device->id}}">{{$device->logs->count() >0 ? ($device->logs[0]->ec >=0 && $device->logs[0]->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></i>
                                                                                         <i id="info_device_conductivity-{{$device->id}}" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
-                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                                                <a href="#" class="dropdown-item">
-                                                                                                    <div class="media">
-                                                                                                        <div class="media-body">
-                                                                                                            <p class="text-sm"><b><i><span id="info_device_conductivity_text-{{$device->id}}"></span></i></b></p>
-                                                                                                            <p class="text-sm" id="info_device_conductivity_description-{{$device->id}}"></p>
-                                                                                                        </div>
+                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                            <a href="#" class="dropdown-item">
+                                                                                                <div class="media">
+                                                                                                    <div class="media-body">
+                                                                                                        <p class="text-sm"><b><i><span id="info_device_conductivity_text-{{$device->id}}"></span></i></b></p>
+                                                                                                        <p class="text-sm" id="info_device_conductivity_description-{{$device->id}}"></p>
                                                                                                     </div>
-                                                                                                </a>
-                                                                                            </div>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                        </div>
                                                                                     </div>
                                                                                     <!-- /.card-body -->
                                                                                 </div>
@@ -1022,11 +1039,11 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="tab-pane fade active show" id="tab_live_data" hidden>
+                                                                    <div class="tab-pane fade" id="tab_live_data_{{$device->id}}" hidden>
                                                                         <div class="row">
-                                                                            <div class="col-lg-12 col-md-12 col-sm-12 box ">
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                                                 <!-- begin timeline -->
-                                                                                <ul class="timeline" id="live_data_rows">
+                                                                                <ul class="timeline" id="live_data_rows_{{$device->id}}">
                                                                                     <li>
                                                                                         <!-- begin timeline-time -->
                                                                                         <div class="timeline-time">
@@ -1043,30 +1060,124 @@
                                                                                         <div class="timeline-body">
                                                                                             <div class="timeline-header">
                                                                                                 <span class="userimage"><img src="/images/running.gif" alt=""></span>
-                                                                                                <span class="username"><a href="javascript:;">Running </a> <small></small></span>
-                                                                                                <span class="pull-right text-muted"></span>
+                                                                                                <span class="username"><a href="javascript:;">Operation </a></span>
+                                                                                                <span class="pull-right text-muted">[Step Run Sec: {{$device->logs->count()>0? $device->logs[0]->step_run_sec: ""}}]</span>
+                                                                                                <span style="float:right;"><i>LOG DATE TIME :{{$device->logs->count()>0? $device->logs[0]->log_dt: ""}}</i></span>
                                                                                             </div>
                                                                                             <div class="timeline-content">
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-04">
+                                                                                                        <p>AOV :{{$device->logs->count()>0? $device->logs[0]->aov: ""}}</p>
+                                                                                                        <p>CURRENT FLOW :{{$device->logs->count()>0? $device->logs[0]->c_flow: ""}}</p>
+                                                                                                        <p>CABINET TEMP :{{$device->logs->count()>0? $device->logs[0]->c_temp: ""}}</p>
+                                                                                                        <p>CYCLE :{{$device->logs->count()>0? $device->logs[0]->cycle: ""}}</p>
+                                                                                                        <p>EC :{{$device->logs->count()>0? $device->logs[0]->ec: ""}}</p>
+                                                                                                        <p>INPUT :{{$device->logs->count()>0? $device->logs[0]->input: ""}}</p>
+                                                                                                        <p>OUTPUT :{{$device->logs->count()>0? $device->logs[0]->output: ""}}</p>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-04"></div>
+                                                                                                    <div class="col-sm-04">
+                                                                                                        <p>PAE VOLT :{{$device->logs->count()>0? $device->logs[0]->pae_volt: ""}}</p>
+                                                                                                        <p>PRESSURE :{{$device->logs->count()>0? $device->logs[0]->pressure: ""}}</p>
+                                                                                                        <p>STEP :{{$device->logs->count()>0? $device->logs[0]->step: ""}}</p>
+                                                                                                        <p>STEP RUN SEC :{{$device->logs->count()>0? $device->logs[0]->step_run_sec: ""}}</p>
+                                                                                                        <p>TPV :{{$device->logs->count()>0? $device->logs[0]->tpv: ""}}</p>
+                                                                                                        <p>WATER TEMP :{{$device->logs->count()>0? $device->logs[0]->w_temp: ""}}</p>
+                                                                                                        <p>ALARM CODE : {{$device->logs->count()>0? $device->logs[0]->alarm: ""}}</p>
+                                                                                                    </div>
+                                                                                                </div>
 
-                                                                                                <p>Step : <b>Purify</b><br/><br/>
-                                                                                                    Conductivity : <b>100 us/cm</b><br/><br/>
-                                                                                                    Voltage : <b>1.0 V</b><br/><br/>
-                                                                                                    Flow : <b>6 ltrs/min</b><br/><br/>
-                                                                                                    Pressure : <b>1.5 bar</b>
 
-                                                                                                </p>
+
+
                                                                                             </div>
 
                                                                                         </div>
                                                                                         <!-- end timeline-body -->
                                                                                     </li>
                                                                                 </ul>
-                                                                            <!-- end timeline -->
+                                                                                <!-- end timeline -->
                                                                             </div>
 
                                                                         </div>
                                                                     </div>
+                                                                    <div class="tab-pane fade" id="tab_control_{{$device->id}}" hidden>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 ">
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_flush_module" id="btn_flush_module-{{$device->id}}">Flush Module</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_start_cip" id="btn_start_cip-{{$device->id}}">Start CIP</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_time" id="btn_current_time-{{$device->id}}">Current Time</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_date" id="btn_current_date-{{$device->id}}">Current Date</button></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12">
+                                                                                <span>Logs</span>
+                                                                                <table class=" table-hover datatable">
+                                                                                    <thead class="thead-dark">
+                                                                                        <th>Date Time</th>
+                                                                                        <th>Command</th>
+                                                                                        <th>Status</th>
+                                                                                        <th>Actions</th>
+                                                                                    </thead>
+                                                                                    <tbody id="command-{{$device->id}}" class="commands">
 
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-footer">
+                                                                <div class="row">
+                                                                    <div class="col-md-2">
+                                                                        <span><b>Critic Acid:</b></span>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="number" id="input_critic_acid-{{$device->id}}" class="input_critic_acid" value="{{$device->device_settings!= null ? $device->device_settings->critic_acid: ''}}">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <button class="btn btn-primary btn-sm btn-save-critic_acid" id="btn_save_critic_acid-{{$device->id}}" hidden>Save</button>
+                                                                        <button class="btn btn-danger btn-sm" id="btn_reset_critic_acid-{{$device->id}}">Reset</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-2">
+                                                                        <span><b>Pre-filter:</b></span>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="number" id="input_pre_filter-{{$device->id}}" class="input_pre_filter" value="{{$device->device_settings!= null ? $device->device_settings->pre_filter: ''}}">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <button class="btn btn-primary btn-sm btn-save-pre_filter" id="btn_save_pre_filter-{{$device->id}}" hidden>Save</button>
+                                                                        <button class="btn btn-danger btn-sm" id="btn_reset_pre_filter-{{$device->id}}">Reset</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-2">
+                                                                        <span><b>Post-filter:</b></span>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="number" id="input_post_filter-{{$device->id}}" class="input_post_filter" value="{{$device->device_settings!= null ? $device->device_settings->post_filter: ''}}">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                       <button class="btn btn-primary btn-sm btn-save-post_filter" id="btn_save_post_filter-{{$device->id}}" hidden>Save</button>
+                                                                       <button class="btn btn-danger btn-sm" id="btn_reset_post_filter-{{$device->id}}">Reset</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-2">
+                                                                        <span><b>General Service:</b></span>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="number" id="input_general_service-{{$device->id}}" class="input_general_service" value="{{$device->device_settings!= null ? $device->device_settings->general_service: ''}}">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <button class="btn btn-primary btn-sm btn-save-general_service" id="btn_save_general_service-{{$device->id}}" hidden>Save</button>
+                                                                        <button class="btn btn-danger btn-sm" id="btn_reset_general_service-{{$device->id}}">Reset</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1146,6 +1257,36 @@
             <!-- /.modal-dialog -->"
         </form>
     </div>
+    <div class="modal fade modals-device-detail" id="modal-device-detail">
+
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">Hello</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-lg-12" id="all-device-details">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-primary" id="btn_download_pdf_graph">Download PDF</button> -->
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <!-- <button type="submit" class="btn btn-primary" onClick="getChart()" id="btn_confirm_view" value="View">View</button> -->
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+
+    </div>
 <div class="modal" tabindex="-1" role="dialog" id="view_userDevices_modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -1181,19 +1322,176 @@
 
 <script>
 
+    $('.input_critic_acid').on('keyup', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $('#btn_save_critic_acid-'+trid).removeAttr("hidden");
+    });
+    $('.input_pre_filter').on('keyup', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $('#btn_save_pre_filter-'+trid).removeAttr("hidden");
+    });
+    $('.input_post_filter').on('keyup', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $('#btn_save_post_filter-'+trid).removeAttr("hidden");
+    });
+    $('.input_general_service').on('keyup', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $('#btn_save_general_service-'+trid).removeAttr("hidden");
+    });
 
-    $('#nav_link-avg_data').on('click', function(){
-        $('#tab_live_data').hide();
-        $('#tab_avg_data').show();
-        $('#btn_refresh_live_data').attr('hidden', true);
+
+    $('.btn-save-critic_acid').on('click', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "POST",
+            url: "/saveCriticAcid/"+ trid,
+            data: {"critic_acid":$('#input_critic_acid-'+trid).val()}
+
+        })
+        .done(function(response){
+            Swal.fire('Success','Critic Acid Updated','success')
+            $('#btn_save_critic_acid-'+trid).attr("hidden", true);
+        });
+    })
+    $('.btn-save-pre_filter').on('click', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "POST",
+            url: "/savePreFilter/"+ trid,
+            data: {"pre_filter":$('#input_pre_filter-'+trid).val()}
+
+        })
+        .done(function(response){
+            Swal.fire('Success','Pre-filter Updated','success')
+            $('#btn_save_pre_filter-'+trid).attr("hidden", true);
+        });
+    })
+    $('.btn-save-post_filter').on('click', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "POST",
+            url: "/savePostFilter/"+ trid,
+            data: {"post_filter":$('#input_post_filter-'+trid).val()}
+
+        })
+        .done(function(response){
+            Swal.fire('Success','Post-filter Updated','success')
+            $('#btn_save_post_filter-'+trid).attr("hidden", true);
+        });
+    })
+    $('.btn-save-general_service').on('click', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "POST",
+            url: "/saveGeneralService/"+ trid,
+            data: {"general_service":$('#input_general_service-'+trid).val()}
+
+        })
+        .done(function(response){
+            Swal.fire('Success','General Service Updated','success')
+            $('#btn_save_general_service-'+trid).attr("hidden", true);
+        });
+    })
+
+    $('.btn_flush_module').on('click', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "POST",
+            url: "/flush_module/"+ trid,
+
+        })
+        .done(function(response){
+            Swal.fire('Success','Command recorded.','success')
+            var date = new Date(response.created_at)
+            $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+        });
+    })
+
+
+
+    var view_live_device = null; // to track whether user wants to view live data of particular device
+    var view_mode = "average";
+    $('.nav_link-avg_data').on('click', function(){
+        view_mode = "average";
+        view_live_device = null; // we are not in live mode
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $('#tab_live_data_'+trid).hide();
+        $('#tab_avg_data_'+trid).show();
+        $('#btn_refresh_live_data_'+trid).attr('hidden', true);
 
     })
-    $('#nav_link-live_data').on('click', function(){
-        $('#btn_refresh_live_data').attr('hidden', false);
-        $('#tab_avg_data').hide();
-        $('#tab_live_data').attr('hidden',false);
-        $('#tab_live_data').show();
+    $('.nav_link-live_data').on('click', function(){
+        view_mode = "live";
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        view_live_device = trid; // we are on live mode of device id = trid
+        $('#btn_refresh_live_data_'+trid).attr('hidden', false);
+        $('#tab_avg_data_'+trid).hide();
+        $('#tab_live_data_'+trid).attr('hidden',false);
+        $('#tab_live_data_'+trid).show();
+
+        // collect live data and display
     })
+    $('.nav_link-control').on('click', function(){
+        view_mode = "control";
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        view_live_device = null; // we are not in live mode
+        $('#btn_refresh_live_data_'+trid).attr('hidden', true);
+        $('#tab_avg_data_'+trid).hide();
+        $('#tab_live_data_'+trid).hide();
+        $('#tab_control_'+trid).attr('hidden',false);
+        $('#tab_control_'+trid).show();
+
+        // get the commands list
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/deviceCommands/"+ trid,
+
+        })
+        .done(function(response){
+            console.log(response);
+            response.forEach(addCommandRows)
+
+            function addCommandRows(item, index, arr){
+                var date = new Date(arr[index].created_at)
+                var status = arr[index].device_read_at == null ?'Sent':(arr[index].device_executed_at == null ?'Executing':(arr[index].device_response_data == null ? 'Executed':arr[index].device_response_data))
+                $('#command-'+trid).append('<tr id="'+arr[index].id+'"><td>'+date+'</td><td>'+arr[index].command+'</td><td>'+status+'</td><td><i class="fas fa-trash delete-command" ></i></td></tr>');
+            }
+        });
+    })
+    $('.commands').on('click','.delete-command', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        Swal.fire({
+            title: 'Do you want to delete the command?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: `Delete`,
+            denyButtonText: `Cancel`,
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "Delete",
+                    url: "/deleteCommand/"+ trid,
+
+                })
+                .done(function(response){
+                    console.log(response);
+                    $('.commands tr#'+trid).hide();
+                    Swal.fire('Deleted!', '', 'success')
+                });
+            } else if (result.isDenied) {
+                Swal.fire('Command is safe', '', 'info')
+            }
+        })
+    })
+
     $('.btn-refresh').on('click', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
         alert('Refreshing data')
@@ -1202,55 +1500,85 @@
 
     //when user clicks on the device row
     $('tr.device-row').on('click',function(){
+        //$('#modal-device-detail').modal('show');
         var trid = $(this).closest('tr').attr('id'); // table row ID
         var device_trid = trid.replace("device-info-",'')
-        //console.log($('span#alarm_code_'+device_trid).text());
-        if($('span#alarm_code_'+device_trid).text() != ""){
-            //analyse bits of alarm
-            var alarms =$('span#alarm_code_'+device_trid).text();
+        console.log(device_trid)
+        $('#tab_avg_data_'+device_trid).show();
+        $('#tab_live_data_'+device_trid).hide();
+        $('#btn_refresh_live_data_'+device_trid).attr('hidden', true);
+        //get data from database
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/deviceDetail/"+ device_trid,
 
-            var bin_alarms = (alarms >>> 0).toString(2);
-            for(var i = bin_alarms.length; i<24 ; i++){
-                bin_alarms = "0"+bin_alarms;
-            }$('section#alarmsList_'+device_trid).empty();
-            for(var i = 0 ; i < bin_alarms.length ; i++){
-                if(bin_alarms[i] == "1"){
-                    switch(i){
-                        case 0: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
-                        case 1: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
-                        case 2: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
-                        case 3: $('section#alarmsList_'+device_trid).append("<p>FLOWMETER COMM ERROR</p>");break;
-                        case 4: $('section#alarmsList_'+device_trid).append("<p>ATLAS TEMPERATURE ERROR</p>");break;
-                        case 5: $('section#alarmsList_'+device_trid).append("<p>ZERO EC ALARM</p>");break;
-                        case 6: $('section#alarmsList_'+device_trid).append("<p>ATLAS I2C COM ERROR</p>");break;
-                        case 7: $('section#alarmsList_'+device_trid).append("<p>LOW PRESSURE ALARM</p>");break;
-                        case 8: $('section#alarmsList_'+device_trid).append("<p>PAE AC INPUT FAIL</p>");break;
-                        case 9: $('section#alarmsList_'+device_trid).append("<p>PAE AC POWER DOWN</p>");break;
-                        case 10:$('section#alarmsList_'+device_trid).append("<p>PAE HIGH TEMPERATURE</p>");break;
-                        case 11:$('section#alarmsList_'+device_trid).append("<p>PAE AUX OR SMPS FAIL</p>");break;
-                        case 12:$('section#alarmsList_'+device_trid).append("<p>PAE FAN FAIL</p>");break;
-                        case 13:$('section#alarmsList_'+device_trid).append("<p>PAE OVER TEMP SHUTDOWN</p>");break;
-                        case 14:$('section#alarmsList_'+device_trid).append("<p>PAE OVER LOAD SHUTDOWN</p>");break;
-                        case 15:$('section#alarmsList_'+device_trid).append("<p>PAE OVER VOLT SHUTDOWN</p>");break;
-                        case 16:$('section#alarmsList_'+device_trid).append("<p>PAE COMMUNICATION ERROR</p>");break;
-                        case 17:$('section#alarmsList_'+device_trid).append("<p>CIP LOW LEVEL ALARM</p>");break;
-                        case 18:$('section#alarmsList_'+device_trid).append("<p>WASTE VALVE ALARM</p>");break;
-                        case 19:$('section#alarmsList_'+device_trid).append("<p>LEAKAGE ALARM</p>");break;
-                        case 20:$('section#alarmsList_'+device_trid).append("<p>CABINET TEMP ALARM</p>");break;
-                        case 21:$('section#alarmsList_'+device_trid).append("<p>BYPASS ALARM</p>");break;
-                        case 22:$('section#alarmsList_'+device_trid).append("<p>LOW FLOW WASTE ALARM</p>");break;
-                        case 23:$('section#alarmsList_'+device_trid).append("<p>LOW FLOW PURE ALARM</p>");break;
+        })
+        .done(function(response){
+            console.log(response);
+
+            if($('span#alarm_code_'+device_trid).text() != ""){
+                //analyse bits of alarm
+                var alarms =$('span#alarm_code_'+device_trid).text();
+
+                var bin_alarms = (alarms >>> 0).toString(2);
+                for(var i = bin_alarms.length; i<24 ; i++){
+                    bin_alarms = "0"+bin_alarms;
+                }$('section#alarmsList_'+device_trid).empty();
+                for(var i = 0 ; i < bin_alarms.length ; i++){
+                    if(bin_alarms[i] == "1"){
+                        switch(i){
+                            case 0: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
+                            case 1: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
+                            case 2: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
+                            case 3: $('section#alarmsList_'+device_trid).append("<p>FLOWMETER COMM ERROR</p>");break;
+                            case 4: $('section#alarmsList_'+device_trid).append("<p>ATLAS TEMPERATURE ERROR</p>");break;
+                            case 5: $('section#alarmsList_'+device_trid).append("<p>ZERO EC ALARM</p>");break;
+                            case 6: $('section#alarmsList_'+device_trid).append("<p>ATLAS I2C COM ERROR</p>");break;
+                            case 7: $('section#alarmsList_'+device_trid).append("<p>LOW PRESSURE ALARM</p>");break;
+                            case 8: $('section#alarmsList_'+device_trid).append("<p>PAE AC INPUT FAIL</p>");break;
+                            case 9: $('section#alarmsList_'+device_trid).append("<p>PAE AC POWER DOWN</p>");break;
+                            case 10:$('section#alarmsList_'+device_trid).append("<p>PAE HIGH TEMPERATURE</p>");break;
+                            case 11:$('section#alarmsList_'+device_trid).append("<p>PAE AUX OR SMPS FAIL</p>");break;
+                            case 12:$('section#alarmsList_'+device_trid).append("<p>PAE FAN FAIL</p>");break;
+                            case 13:$('section#alarmsList_'+device_trid).append("<p>PAE OVER TEMP SHUTDOWN</p>");break;
+                            case 14:$('section#alarmsList_'+device_trid).append("<p>PAE OVER LOAD SHUTDOWN</p>");break;
+                            case 15:$('section#alarmsList_'+device_trid).append("<p>PAE OVER VOLT SHUTDOWN</p>");break;
+                            case 16:$('section#alarmsList_'+device_trid).append("<p>PAE COMMUNICATION ERROR</p>");break;
+                            case 17:$('section#alarmsList_'+device_trid).append("<p>CIP LOW LEVEL ALARM</p>");break;
+                            case 18:$('section#alarmsList_'+device_trid).append("<p>WASTE VALVE ALARM</p>");break;
+                            case 19:$('section#alarmsList_'+device_trid).append("<p>LEAKAGE ALARM</p>");break;
+                            case 20:$('section#alarmsList_'+device_trid).append("<p>CABINET TEMP ALARM</p>");break;
+                            case 21:$('section#alarmsList_'+device_trid).append("<p>BYPASS ALARM</p>");break;
+                            case 22:$('section#alarmsList_'+device_trid).append("<p>LOW FLOW WASTE ALARM</p>");break;
+                            case 23:$('section#alarmsList_'+device_trid).append("<p>LOW FLOW PURE ALARM</p>");break;
+                        }
                     }
                 }
-            }
-            $('tr#' + device_trid).toggle();
+                $('tr#' + device_trid).toggle();
+                $('html, body').animate({
+                    scrollTop: $('tr#' + device_trid).prop("scrollHeight") + $("#"+device_trid).height()
+                }, 1000);
+            }else
+                Swal.fire("Error", "No Alarm Code found! ", "info")
 
-        }else
-            Swal.fire("Error", "Device has not sent any data yet", "warning")
+
+        });
+
+
+
+        //display in modal
+
+        //console.log($('span#alarm_code_'+device_trid).text());
+
     })
 
     $(document).ready(function () {
+        // check status
+
         $('.loader').hide();
+
+
         setInterval(function(){
             var dt = new Date();
             var hr = dt.getHours();
@@ -1264,7 +1592,8 @@
                 sec = "0"+sec;
 
             var time = hr + ":" + min + ":" + sec;
-            $('#live_data_rows').prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+time+"</span></div>"+
+            //+view_live_device
+            $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+time+"</span></div>"+
             "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp;</a></div>"+
             "<div class=\"timeline-body\"><div class=\"timeline-header\"><span class=\"userimage\"><img src=\"/images/running.gif\"></span>"+
             "<span class=\"username\"><a href=\"javascript:;\">Running </a> <small></small></span>"+

@@ -1864,7 +1864,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery_ui_ui_widgets_datepicker_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery_ui_ui_widgets_datepicker_js__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var datatables_net_js_jquery_dataTables_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! datatables.net/js/jquery.dataTables.js */ "./node_modules/datatables.net/js/jquery.dataTables.js");
 /* harmony import */ var datatables_net_js_jquery_dataTables_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(datatables_net_js_jquery_dataTables_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
 /* provided dependency */ var __webpack_provided_window_dot_jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -1891,11 +1893,11 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datatable').DataTable(); //jsPDF
 
 var _require2 = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js"),
     jsPDF = _require2.jsPDF; // will automatically load the node version
-//import Swal from 'sweetalert2'       // sweet alert 2 ES6 Modules or TypeScript
 
 
-var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"); // CommonJS
-
+ // sweet alert 2 ES6 Modules or TypeScript
+//window.Swal = swal;
+//const {default:Swal} = require('sweetalert2')   // CommonJS
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default;
 /**
@@ -1939,7 +1941,7 @@ var app = new Vue({
 // var Chart = require('chart.js');
 
 
-chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_3__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_3__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_3__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_3__.PointElement, chart_js__WEBPACK_IMPORTED_MODULE_3__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_3__.BubbleController, chart_js__WEBPACK_IMPORTED_MODULE_3__.DoughnutController, chart_js__WEBPACK_IMPORTED_MODULE_3__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_3__.PieController, chart_js__WEBPACK_IMPORTED_MODULE_3__.PolarAreaController, chart_js__WEBPACK_IMPORTED_MODULE_3__.RadarController, chart_js__WEBPACK_IMPORTED_MODULE_3__.ScatterController, chart_js__WEBPACK_IMPORTED_MODULE_3__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_3__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_3__.LogarithmicScale, chart_js__WEBPACK_IMPORTED_MODULE_3__.RadialLinearScale, chart_js__WEBPACK_IMPORTED_MODULE_3__.TimeScale, chart_js__WEBPACK_IMPORTED_MODULE_3__.TimeSeriesScale, chart_js__WEBPACK_IMPORTED_MODULE_3__.Decimation, chart_js__WEBPACK_IMPORTED_MODULE_3__.Filler, chart_js__WEBPACK_IMPORTED_MODULE_3__.Legend, chart_js__WEBPACK_IMPORTED_MODULE_3__.Title, chart_js__WEBPACK_IMPORTED_MODULE_3__.Tooltip); // jQuery(document).ready(function($){
+chart_js__WEBPACK_IMPORTED_MODULE_4__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_4__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_4__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_4__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_4__.PointElement, chart_js__WEBPACK_IMPORTED_MODULE_4__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_4__.BubbleController, chart_js__WEBPACK_IMPORTED_MODULE_4__.DoughnutController, chart_js__WEBPACK_IMPORTED_MODULE_4__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_4__.PieController, chart_js__WEBPACK_IMPORTED_MODULE_4__.PolarAreaController, chart_js__WEBPACK_IMPORTED_MODULE_4__.RadarController, chart_js__WEBPACK_IMPORTED_MODULE_4__.ScatterController, chart_js__WEBPACK_IMPORTED_MODULE_4__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_4__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_4__.LogarithmicScale, chart_js__WEBPACK_IMPORTED_MODULE_4__.RadialLinearScale, chart_js__WEBPACK_IMPORTED_MODULE_4__.TimeScale, chart_js__WEBPACK_IMPORTED_MODULE_4__.TimeSeriesScale, chart_js__WEBPACK_IMPORTED_MODULE_4__.Decimation, chart_js__WEBPACK_IMPORTED_MODULE_4__.Filler, chart_js__WEBPACK_IMPORTED_MODULE_4__.Legend, chart_js__WEBPACK_IMPORTED_MODULE_4__.Title, chart_js__WEBPACK_IMPORTED_MODULE_4__.Tooltip); // jQuery(document).ready(function($){
 //     var ctx = document.getElementById('volumeChart').getContext('2d');
 //     var myChart = new Chart(ctx, {
 //         type: 'line',
@@ -76379,7 +76381,7 @@ S2.define('jquery.select2',[
 /***/ (function(module) {
 
 /*!
-* sweetalert2 v10.16.7
+* sweetalert2 v10.16.9
 * Released under the MIT License.
 */
 (function (global, factory) {
@@ -80005,7 +80007,7 @@ S2.define('jquery.select2',[
     };
   });
   SweetAlert.DismissReason = DismissReason;
-  SweetAlert.version = '10.16.7';
+  SweetAlert.version = '10.16.9';
 
   var Swal = SweetAlert;
   Swal["default"] = Swal;

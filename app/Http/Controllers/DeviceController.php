@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Device;
 use App\Models\UserDevices;
+use App\Models\Device_settings;
 use Auth;
 
 class DeviceController extends Controller
@@ -65,4 +66,58 @@ class DeviceController extends Controller
         $deviceUsers = UserDevices::where('device_id',$id)->with("userDetails")->get();
         return $deviceUsers;
     }
+
+    public function saveCriticAcid($id, Request $req){
+        $test = Device_settings::where('device_id',$id)->first();
+        if($test->count() > 0){
+            $test->critic_acid = $req->critic_acid;
+        }
+        else{
+            $test = new Device_settings();
+            $test->device_id = $id;
+            $test->critic_acid = $req->critic_acid;
+        }
+        $test->save();
+        return response()->json($test);
+    }
+    public function savePreFilter($id, Request $req){
+        $test = Device_settings::where('device_id',$id)->first();
+        if($test->count() > 0){
+            $test->pre_filter = $req->pre_filter;
+        }
+        else{
+            $test = new Device_settings();
+            $test->device_id = $id;
+            $test->pre_filter = $req->pre_filter;
+        }
+        $test->save();
+        return response()->json($test);
+    }
+    public function savePostFilter($id, Request $req){
+        $test = Device_settings::where('device_id',$id)->first();
+        if($test->count() > 0){
+            $test->post_filter = $req->post_filter;
+        }
+        else{
+            $test = new Device_settings();
+            $test->device_id = $id;
+            $test->post_filter = $req->post_filter;
+        }
+        $test->save();
+        return response()->json($test);
+    }
+    public function saveGeneralService($id, Request $req){
+        $test = Device_settings::where('device_id',$id)->first();
+        if($test->count() > 0){
+            $test->general_service = $req->general_service;
+        }
+        else{
+            $test = new Device_settings();
+            $test->device_id = $id;
+            $test->general_service = $req->general_service;
+        }
+        $test->save();
+        return response()->json($test);
+    }
+
 }

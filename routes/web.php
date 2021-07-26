@@ -75,3 +75,21 @@ Route::delete('/deleteUser/{id}',[App\Http\Controllers\SuperController::class, '
 Route::post('/super/addUser',[App\Http\Controllers\SuperController::class,'create_user'])->middleware('auth');
 Route::patch('/super/editUser/{id}',[App\Http\Controllers\SuperController::class,'edit_user'])->middleware('auth');
 Route::get('/getResellersList',[App\Http\Controllers\SuperController::class, 'getResellersList'])->middleware('auth');
+
+//Dashboard routes
+Route::get('/deviceDetail/{id}',[App\Http\Controllers\HomeController::class, 'getDeviceDetails'])->middleware('auth');
+
+/////device settings
+Route::post('/saveCriticAcid/{id}',[App\Http\Controllers\DeviceController::class, 'saveCriticAcid'])->middleware('auth');
+Route::post('/savePreFilter/{id}',[App\Http\Controllers\DeviceController::class, 'savePreFilter'])->middleware('auth');
+Route::post('/savePostFilter/{id}',[App\Http\Controllers\DeviceController::class, 'savePostFilter'])->middleware('auth');
+Route::post('/saveGeneralService/{id}',[App\Http\Controllers\DeviceController::class, 'saveGeneralService'])->middleware('auth');
+
+//device commands
+Route::get('/deviceCommands/{id}',[App\Http\Controllers\CommandsController::class, 'getDeviceCommands'])->middleware('auth');
+Route::delete('/deleteCommand/{id}',[App\Http\controllers\CommandsController::class, 'deleteCommand'])->middleware('auth');
+Route::post('/flush_module/{id}',[App\Http\Controllers\CommandsController::class, 'flush_module'])->middleware('auth');
+Route::post('/start_cip/{id}',[App\Http\Controllers\CommandsController::class, 'start_cip'])->middleware('auth');
+Route::post('/current_date/{id}',[App\Http\Controllers\CommandsController::class, 'current_date'])->middleware('auth');
+Route::post('/current_time/{id}',[App\Http\Controllers\CommandsController::class, 'current_time'])->middleware('auth');
+

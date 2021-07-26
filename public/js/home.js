@@ -1,6 +1,8 @@
 
 // import { Chart, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js'
 
+//const { default: Swal } = require("sweetalert2");
+
 // Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
 
 jQuery(document).ready(function($){
@@ -15,12 +17,12 @@ jQuery(document).ready(function($){
         $('.fa-sync-alt').animate(
             { deg: 360 },
             {
-              duration: 1200,
-              step: function(now) {
-                $(this).css({ transform: 'rotate(' + now + 'deg)' });
-              }
+                duration: 1200,
+                step: function(now) {
+                    $(this).css({ transform: 'rotate(' + now + 'deg)' });
+                }
             }
-          );
+        );
     }, 60000); // Repeat every 60000 milliseconds (1 minute) * 5
     $(document).on('click', '.sidebar-toggle', function () {
         if ($('body').hasClass("sidebar-collapse") && $('body').hasClass("sidebar-open")) {
@@ -303,8 +305,30 @@ $('.btn_device_start_stop').on('click', function(){
 })
 
 $('.info-device-status').on('click', function(){
+    console.log("hi")
     var trid = $(this).closest('tr').attr('id'); // table row ID
+    console.log(trid)
     switch($('#device_status-'+trid).text()){
+        case 'Operation':
+            // Swal.fire({
+            //     title: '<strong>Operation</strong>',
+            //     icon: 'info',
+            //     html:
+            //       '<b>(Don’t Worry)</b> Device is running and treating water',
+            //     showCloseButton: true,
+            //     showCancelButton: false,
+            //     focusConfirm: false,
+            //     confirmButtonText:
+            //       '<i class="fa fa-thumbs-up"></i> Great!',
+            //     confirmButtonAriaLabel: 'Thumbs up, great!',
+            //     cancelButtonText:
+            //       '<i class="fa fa-thumbs-down"></i>',
+            //     cancelButtonAriaLabel: 'Thumbs down'
+            // })
+            $('#info_device_status_text-'+trid).text("Operation")
+            $('#info_device_status_description-'+trid).text('')
+            $('#info_device_status_description-'+trid).append("<b>(Don’t Worry)</b> Device is running and treating water ")
+            break;
         case 'RUNNING':
             $('#info_device_status_text-'+trid).text("Running")
             $('#info_device_status_description-'+trid).text('')
@@ -327,7 +351,11 @@ $('.info-device-connection').on('click', function(){
             $('#info_device_connection_description-'+trid).append("<b>Awesome!!!</b> Device is connected to the Internet ")
             break;
         default:
-        alert('default')
+            $('#info_device_connection_text-'+trid).text('Disconnected')
+            //alert($('#info_device_connection_text').text())
+            $('#info_device_connection_description-'+trid).text('')
+            $('#info_device_connection_description-'+trid).append("<b>Oops!!!</b> Device is not connected!")
+
     }
 })
 $('.info_device_health').on('click', function(){
@@ -352,23 +380,23 @@ $('.modal-volume-chart').on('click', function(){
 $('.info_device_conductivity').on('click', function(){
     var trid = $(this).closest('tr').attr('id'); // table row ID
     switch($('#device_conductivity_value-'+trid).text()){
-        case 'Within 5%':
-            $('#info_device_conductivity_text-'+trid).text("Within 5%")
+        case "On Target":
+            $('#info_device_conductivity_text-'+trid).text("On Target")
             $('#info_device_conductivity_text-'+trid).css("color","green")
             $('#info_device_conductivity_description-'+trid).text('')
             $('#info_device_conductivity_description-'+trid).append("The unit is removing the right amount of minerals.")
             break;
-        case 'Within 10%':
+        case "Needs Attention":
             $('#info_device_conductivity_text-'+trid).text("Within 10%")
             $('#info_device_conductivity_text-'+trid).css("color","yellow")
             $('#info_device_conductivity_description-'+trid).text('')
             $('#info_device_conductivity_description-'+trid).append("The unit is removing most of the minerals. ")
             break;
-        case 'Above 10%':
-            $('#info_device_conductivity_text-'+trid).text("Above 10%")
+        case "No Data":
+            $('#info_device_conductivity_text-'+trid).text("No Data")
             $('#info_device_conductivity_text-'+trid).css("color","orange")
             $('#info_device_conductivity_description-'+trid).text('')
-            $('#info_device_conductivity_description-'+trid).append("The unit is having a hard time keeping up removing the appropriate amount of minerals. <br>Keep in mind this could be due to changes in feed water quality, startup of the unit or drop in unit’s performance. <br>Allow some time for the unit to stabilize,   Contact specialized personnel if problem persists.")
+            $('#info_device_conductivity_description-'+trid).append("Device is not sending data. Please Check the internet connection")
             break;
     }
 })
