@@ -1350,6 +1350,7 @@
 
         })
         .done(function(response){
+            console.log(response)
             Swal.fire('Success','Critic Acid Updated','success')
             $('#btn_save_critic_acid-'+trid).attr("hidden", true);
         });
