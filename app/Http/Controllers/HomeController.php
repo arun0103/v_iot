@@ -37,6 +37,7 @@ class HomeController extends Controller
         $loggedInUser->last_login = Carbon::now();
         $loggedInUser->save();
         Session(['user_name', $loggedInUser->name]);
+        Session(['user_id', $loggedInUser->id]);
         Session(['role', $loggedInUser->role]);
         $company_name = Reseller::where('id',$loggedInUser->reseller_id)->pluck('company_name');
         Session(['company', $company_name]);
@@ -124,7 +125,7 @@ class HomeController extends Controller
         if($searchDevice != null){ // if device is registered in database by Super Admin
             $userDevice = UserDevices::where([['user_id',$user->id],['device_id',$searchDevice->id]])->get();
             if($userDevice != null){
-                $added = new UserDevices;
+                $added = new UserDevices();
                 $added->user_id = $user->id;
                 $added->device_id = $searchDevice->id;
                 $added->device_name = $req->device_name;

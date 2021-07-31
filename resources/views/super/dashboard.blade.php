@@ -1112,18 +1112,22 @@
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col-lg-12">
-                                                                                <span>Logs</span>
-                                                                                <table class=" table-hover datatable">
-                                                                                    <thead class="thead-dark">
-                                                                                        <th>Date Time</th>
-                                                                                        <th>Command</th>
-                                                                                        <th>Status</th>
-                                                                                        <th>Actions</th>
-                                                                                    </thead>
-                                                                                    <tbody id="command-{{$device->id}}" class="commands">
+                                                                                <div class="card card-outline">
+                                                                                    <div class="card-header"><h4 class="card-title">Logs</h4></div>
+                                                                                    <div class="card-body">
+                                                                                        <table class=" table-hover datatable">
+                                                                                            <thead class="thead-dark">
+                                                                                                <th>Date Time</th>
+                                                                                                <th>Command</th>
+                                                                                                <th>Status</th>
+                                                                                                <th>Actions</th>
+                                                                                            </thead>
+                                                                                            <tbody id="command-{{$device->id}}" class="commands">
 
-                                                                                    </tbody>
-                                                                                </table>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1525,9 +1529,10 @@
                 var bin_alarms = (alarms >>> 0).toString(2);
                 for(var i = bin_alarms.length; i<24 ; i++){
                     bin_alarms = "0"+bin_alarms;
-                }$('section#alarmsList_'+device_trid).empty();
+                }
+                $('section#alarmsList_'+device_trid).empty();
                 for(var i = 0 ; i < bin_alarms.length ; i++){
-                    if(bin_alarms[i] == "1"){
+                    if(bin_alarms[i] == "1"){ // 1 states that there is alarm so find the location of alarm and display
                         switch(i){
                             case 0: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
                             case 1: $('section#alarmsList_'+device_trid).append("<p>Reserved For future</p>");break;
@@ -1594,7 +1599,7 @@
 
             var time = hr + ":" + min + ":" + sec;
             //+view_live_device
-            $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+time+"</span></div>"+
+            $('#live_data_rows_').prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+time+"</span></div>"+
             "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp;</a></div>"+
             "<div class=\"timeline-body\"><div class=\"timeline-header\"><span class=\"userimage\"><img src=\"/images/running.gif\"></span>"+
             "<span class=\"username\"><a href=\"javascript:;\">Running </a> <small></small></span>"+

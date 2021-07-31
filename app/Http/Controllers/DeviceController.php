@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Device;
 use App\Models\UserDevices;
 use App\Models\Device_settings;
+use App\Models\DeviceSettingsLogs;
 use Auth;
 
 class DeviceController extends Controller
@@ -69,6 +70,7 @@ class DeviceController extends Controller
 
     public function saveCriticAcid($id, Request $req){
         $test = Device_settings::where('device_id',$id)->first();
+        $oldValue = $test->critic_acid;
         if($test != null){
             $test->critic_acid = $req->critic_acid;
         }
@@ -78,10 +80,18 @@ class DeviceController extends Controller
             $test->critic_acid = $req->critic_acid;
         }
         $test->save();
+        $log = new DeviceSettingsLogs();
+        $log->device_id = $id;
+        $log->parameter = "critic acid";
+        $log->old_value = $oldValue;
+        $log->new_value = $test->critic_acid;
+        $log->changed_by = Auth::user()->id;
+        $log->save();
         return response()->json($test);
     }
     public function savePreFilter($id, Request $req){
         $test = Device_settings::where('device_id',$id)->first();
+        $oldValue = $test->pre_filter;
         if($test != null){
             $test->pre_filter = $req->pre_filter;
         }
@@ -91,10 +101,18 @@ class DeviceController extends Controller
             $test->pre_filter = $req->pre_filter;
         }
         $test->save();
+        $log = new DeviceSettingsLogs();
+        $log->device_id = $id;
+        $log->parameter = "pre filter";
+        $log->old_value = $oldValue;
+        $log->new_value = $test->critic_value;
+        $log->changed_by = Auth::user()->id;
+        $log->save();
         return response()->json($test);
     }
     public function savePostFilter($id, Request $req){
         $test = Device_settings::where('device_id',$id)->first();
+        $oldValue = $test->post_filter;
         if($test != null){
             $test->post_filter = $req->post_filter;
         }
@@ -104,10 +122,18 @@ class DeviceController extends Controller
             $test->post_filter = $req->post_filter;
         }
         $test->save();
+        $log = new DeviceSettingsLogs();
+        $log->device_id = $id;
+        $log->parameter = "post filter";
+        $log->old_value = $oldValue;
+        $log->new_value = $test->critic_value;
+        $log->changed_by = Auth::user()->id;
+        $log->save();
         return response()->json($test);
     }
     public function saveGeneralService($id, Request $req){
         $test = Device_settings::where('device_id',$id)->first();
+        $oldValue = $test->general_service;
         if($test != null){
             $test->general_service = $req->general_service;
         }
@@ -117,6 +143,13 @@ class DeviceController extends Controller
             $test->general_service = $req->general_service;
         }
         $test->save();
+        $log = new DeviceSettingsLogs();
+        $log->device_id = $id;
+        $log->parameter = "general service";
+        $log->old_value = $oldValue;
+        $log->new_value = $test->critic_value;
+        $log->changed_by = Auth::user()->id;
+        $log->save();
         return response()->json($test);
     }
 
