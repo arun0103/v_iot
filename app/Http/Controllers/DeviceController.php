@@ -105,7 +105,7 @@ class DeviceController extends Controller
         $log->device_id = $id;
         $log->parameter = "pre filter";
         $log->old_value = $oldValue;
-        $log->new_value = $test->critic_value;
+        $log->new_value = $test->pre_filter;
         $log->changed_by = Auth::user()->id;
         $log->save();
         return response()->json($test);
@@ -126,7 +126,7 @@ class DeviceController extends Controller
         $log->device_id = $id;
         $log->parameter = "post filter";
         $log->old_value = $oldValue;
-        $log->new_value = $test->critic_value;
+        $log->new_value = $test->post_filter;
         $log->changed_by = Auth::user()->id;
         $log->save();
         return response()->json($test);
@@ -147,7 +147,7 @@ class DeviceController extends Controller
         $log->device_id = $id;
         $log->parameter = "general service";
         $log->old_value = $oldValue;
-        $log->new_value = $test->critic_value;
+        $log->new_value = $test->general_service;
         $log->changed_by = Auth::user()->id;
         $log->save();
         return response()->json($test);
