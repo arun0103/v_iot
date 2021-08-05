@@ -16,7 +16,7 @@ class Device extends Model
         'firmware',
         'installation_date',
         'reseller_id',
-        'created_by',
+        'created_by','last_online_at',
         'created_at','updated_at'
     ];
 

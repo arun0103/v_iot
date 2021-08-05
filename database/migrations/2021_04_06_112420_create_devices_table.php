@@ -22,6 +22,7 @@ class CreateDevicesTable extends Migration
             $table->date("installation_date")->nullable();
             $table->integer("reseller_id")->nullable();
             $table->bigInteger("created_by");
+            $table->timestamp("last_online_at")->nullable();
             $table->timestamps();
         });
     }
