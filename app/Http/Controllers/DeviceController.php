@@ -75,6 +75,7 @@ class DeviceController extends Controller
             $test->critic_acid = $req->critic_acid;
         }
         else{
+            $oldValue = -1;
             $test = new Device_settings();
             $test->device_id = $id;
             $test->critic_acid = $req->critic_acid;
@@ -96,6 +97,7 @@ class DeviceController extends Controller
             $test->pre_filter = $req->pre_filter;
         }
         else{
+            $oldValue = -1;
             $test = new Device_settings();
             $test->device_id = $id;
             $test->pre_filter = $req->pre_filter;
@@ -117,6 +119,7 @@ class DeviceController extends Controller
             $test->post_filter = $req->post_filter;
         }
         else{
+            $oldValue = -1;
             $test = new Device_settings();
             $test->device_id = $id;
             $test->post_filter = $req->post_filter;
@@ -138,6 +141,7 @@ class DeviceController extends Controller
             $test->general_service = $req->general_service;
         }
         else{
+            $oldValue = -1;
             $test = new Device_settings();
             $test->device_id = $id;
             $test->general_service = $req->general_service;
