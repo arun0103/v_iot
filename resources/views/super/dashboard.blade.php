@@ -1592,7 +1592,7 @@
                     scrollTop: $('tr#' + device_trid).prop("scrollHeight") + $("#"+device_trid).height()
                 }, 1000);
             }else
-                Swal.fire("Error", "No Alarm Code found! ", "info")
+                Swal.fire("Error", "No Data found! ", "info")
 
 
         });
