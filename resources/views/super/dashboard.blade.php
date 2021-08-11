@@ -825,7 +825,7 @@
                                             <td>{{$device->userDevices->count()}}</td>
                                             <td>{{$device->logs->count()>0 ? ($device->logs[0]->step == 1?"Idle" :($device->logs[0]->step > 1 && $device->logs[0]->step < 6?"Operation" :($device->logs[0]->step > 6 && $device->logs[0]->step < 12 ? "Cleaning" : "Wait" ))) : "No Data"}}</td>
                                             <td>{{$device->logs->count()>0 ? $device->logs[0]->step_run_sec : "No Data"}} sec</td>
-                                            <td >Calculation needed</td>
+                                            <td >{{$device->logs->count() >0 ? ($device->logs[0]->ec >=0 && $device->logs[0]->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</td>
                                             <td>
                                                 <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -1074,6 +1074,8 @@
                                                                                                         <p>EC :{{$device->logs->count()>0? $device->logs[0]->ec: ""}}</p>
                                                                                                         <p>INPUT :{{$device->logs->count()>0? $device->logs[0]->input: ""}}</p>
                                                                                                         <p>OUTPUT :{{$device->logs->count()>0? $device->logs[0]->output: ""}}</p>
+                                                                                                        <p>PERCENTAGE RECOVERY :{{$device->logs->count()>0? $device->logs[0]->percentage_recovery: ""}}</p>
+                                                                                                        <p>MODE :{{$device->logs->count()>0? $device->logs[0]->mode: ""}}</p>
                                                                                                     </div>
                                                                                                     <div class="col-sm-04"></div>
                                                                                                     <div class="col-sm-04">
@@ -1113,7 +1115,7 @@
                                                                         <div class="row">
                                                                             <div class="col-lg-12">
                                                                                 <div class="card card-outline">
-                                                                                    <div class="card-header"><h4 class="card-title">Logs</h4></div>
+                                                                                    <div class="card-header"><h4 class="card-title">Control Logs</h4></div>
                                                                                     <div class="card-body">
                                                                                         <table class=" table-hover datatable">
                                                                                             <thead class="thead-dark">
@@ -1195,7 +1197,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
     </div>
@@ -1260,6 +1261,31 @@
             </div>
             <!-- /.modal-dialog -->"
         </form>
+    </div>
+    <div class="modal fade modals-alarms-detail" id="modal-alarms-detail">
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">Alarm Logs</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-lg-12" id="all-device-alarms">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+
     </div>
     <div class="modal fade modals-device-detail" id="modal-device-detail">
 

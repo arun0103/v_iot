@@ -31,6 +31,8 @@ class CreateRawDataTable extends Migration
             $table->float('aov');
             $table->integer('input');
             $table->integer('output');
+            $table->string('percentage_recovery',1);
+            $table->string('mode',1);
             $table->timestamps();
 
             $table->unique(['serial_number', 'log_dt']);
