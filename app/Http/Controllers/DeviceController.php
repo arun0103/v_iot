@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Device;
 use App\Models\UserDevices;
+use App\Models\RawLogs;
 use App\Models\Device_settings;
 use App\Models\DeviceSettingsLogs;
 use Auth;
@@ -155,6 +156,12 @@ class DeviceController extends Controller
         $log->changed_by = Auth::user()->id;
         $log->save();
         return response()->json($test);
+    }
+
+    public function getLiveData($device_id){
+        $device_serial = Device::where('id',$device_id)->pluck('serial_number');
+        $data = RawLogs::where('serial_number',$device_serial)->orderBy('log_dt','desc')->first();
+        return response()->json($data);
     }
 
 }

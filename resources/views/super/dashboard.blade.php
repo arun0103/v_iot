@@ -1074,7 +1074,6 @@
                                                                                                         <p>EC :{{$device->logs->count()>0? $device->logs[0]->ec: ""}}</p>
                                                                                                         <p>INPUT :{{$device->logs->count()>0? $device->logs[0]->input: ""}}</p>
                                                                                                         <p>OUTPUT :{{$device->logs->count()>0? $device->logs[0]->output: ""}}</p>
-                                                                                                        <p>PERCENTAGE RECOVERY :{{$device->logs->count()>0? $device->logs[0]->percentage_recovery: ""}}</p>
                                                                                                         <p>MODE :{{$device->logs->count()>0? $device->logs[0]->mode: ""}}</p>
                                                                                                     </div>
                                                                                                     <div class="col-sm-04"></div>
@@ -1086,6 +1085,7 @@
                                                                                                         <p>TPV :{{$device->logs->count()>0? $device->logs[0]->tpv: ""}}</p>
                                                                                                         <p>WATER TEMP :{{$device->logs->count()>0? $device->logs[0]->w_temp: ""}}</p>
                                                                                                         <p>ALARM CODE : {{$device->logs->count()>0? $device->logs[0]->alarm: ""}}</p>
+                                                                                                        <p>PERCENTAGE RECOVERY :{{$device->logs->count()>0? $device->logs[0]->percentage_recovery: ""}}</p>
                                                                                                     </div>
                                                                                                 </div>
 
@@ -1610,7 +1610,6 @@
 
         $('.loader').hide();
 
-
         setInterval(function(){
             var dt = new Date();
             var hr = dt.getHours();
@@ -1624,19 +1623,44 @@
                 sec = "0"+sec;
 
             var time = hr + ":" + min + ":" + sec;
-            //+view_live_device
-            $('#live_data_rows_').prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+time+"</span></div>"+
-            "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp;</a></div>"+
-            "<div class=\"timeline-body\"><div class=\"timeline-header\"><span class=\"userimage\"><img src=\"/images/running.gif\"></span>"+
-            "<span class=\"username\"><a href=\"javascript:;\">Running </a> <small></small></span>"+
-            "<span class=\"pull-right text-muted\"></span></div>"+
-            "<div class=\"timeline-content\"><p>Step : <b>Purify</b><br/><br/>"+
-            "Conductivity : <b>100 us/cm</b><br/><br/>"+
-            "Voltage : <b>1.0 V</b><br/><br/>"+
-            "Flow : <b>6 ltrs/min</b><br/><br/>"+
-            "Pressure : <b>1.5 bar</b>"+
-            "</p></div></div></li>");
-            highlight($('#live_data_rows:first .timeline-body:first'));
+
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/deviceLiveData/"+ view_live_device,
+
+            })
+            .done(function(response){
+                console.log(response);
+
+                //+view_live_device
+                $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+response.log_dt+"</span></div>"+
+                "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp;</a></div>"+
+                "<div class=\"timeline-body\"><div class=\"timeline-header\"><span class=\"userimage\"><img src=\"/images/running.gif\"></span>"+
+                "<span class=\"username\"><a href=\"javascript:;\">Running </a> <small></small></span>"+
+                "<span class=\"pull-right text-muted\">[Step Run Sec:"+response.step_run_sec+" </span><span style=\"float:right;\"><i>[LOG DATE TIME:"+response.log_dt+" </i></span></div>"+
+                "<div class=\"timeline-content\"><div class=\"row\"><div class=\"col-sm-04\">"+
+                "<p>AOV :"+response.aov+"</p>"+
+                "<p>CURRENT FLOW :"+response.c_flow+"</p>"+
+                "<p>CABINET TEMP :"+response.c_temp+"</p>"+
+                "<p>CYCLE :"+response.cycle+"</p>"+
+                "<p>EC :"+response.ec+"</p>"+
+                "<p>INPUT :"+response.input+"</p>"+
+                "<p>OUTPUT :"+response.output+"</p>"+
+                "<p>MODE :"+response.mode+"</p></div>"+
+                "<div class=\"col-sm-04\"></div><div class=\"col-sm-04\">"+
+                "<p>PAE VOLT :"+response.pae_volt+"</p>"+
+                "<p>PRESSURE :"+response.pressure+"</p>"+
+                "<p>STEP :"+response.step+"</p>"+
+                "<p>STEP RUN SEC :"+response.step_run_sec+"</p>"+
+                "<p>TPV :"+response.tpv+"</p>"+
+                "<p>WATER TEMP :"+response.w_temp+"</p>"+
+                "<p>ALARM CODE :"+response.alarm+"</p></div></div></div>"+
+                "<p>PERCENTAGE RECOVERY :"+response.percentage_recovery+"</p>"+
+                +"</div></li>");
+                highlight($('#live_data_rows:first .timeline-body:first'));
+
+            });
         }, 5000);
         function highlight(obj){
             var orig = obj.css('background');
