@@ -2136,7 +2136,7 @@
             });
 
         },5000);
-        var device_log_dt = null;
+        var device_data_created_at = null;
         setInterval(function(){
             if(view_live_device != null){
                 $.ajax({
@@ -2146,10 +2146,10 @@
                 })
                 .done(function(response){
                     console.log(response);
-                    console.log(response.log_dt);
-                    if(device_log_dt != response.log_dt){
-                        device_log_dt = response.log_dt;
-                        var recorded_date = new Date(response.log_dt);
+                    console.log(response.created_at);
+                    if(device_data_created_at != response.created_at){
+                        device_data_created_at = response.created_at;
+                        var recorded_date = new Date(response.created_at);
                         console.log(recorded_date);
                         recorded_date = recorded_date.toString();
                         console.log(recorded_date);
