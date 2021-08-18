@@ -32,5 +32,8 @@ class Device extends Model
     public function device_commands(){
         return $this->hasOne('App\Models\Device_commands','device_id','id');
     }
+    public function setpoints(){
+        return $this->hasOne('App\Models\Setpoints','device_id','id');
+    }
 
 }

@@ -43,4 +43,22 @@ class CommandsController extends Controller
         $command->save();
         return response()->json($command);
     }
+    public function stopDevice($id){
+        $command = new Device_commands();
+        $command->device_id = $id;
+        $command->command = "Stop";
+        $command->save();
+        return response()->json($command);
+    }
+    public function startDevice($id){
+        $command = new Device_commands();
+        $command->device_id = $id;
+        $command->command = "Start";
+        $command->save();
+        return response()->json($command);
+    }
+    public function checkCommandStatus($command, $id){
+        $commands = Device_commands::where([['device_id',$id],['command',$command]])->orderBy('id','desc')->first();
+        return response()->json($commands);
+    }
 }

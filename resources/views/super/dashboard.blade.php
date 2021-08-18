@@ -710,7 +710,6 @@
 </style>
 @endsection
 @section('content')
-
     <div id="app">
         <!-- Content Header (Page header) -->
         <div class="content-header content-header-dashboard">
@@ -804,17 +803,7 @@
                                     <th>Model</th>
                                     <th>#Users</th>
                                     <th>Status</th>
-                                    <th>Duration</th>
                                     <th>Water Quality</th>
-                                        <!-- <th>Pure Flow</th>
-                                        <th>Waste Flow</th>
-                                        <th>Pure Voltage</th>
-                                        <th>Waste Voltage</th>
-                                        <th>Volume</th>
-                                        <th>Cycles</th>
-                                        <th>Module Health</th>
-                                        <th>Alarm Setpoints</th>
-                                        <th>Recovery</th> -->
                                     <th>Actions</th>
                                 </thead>
                                 <tbody>
@@ -823,9 +812,8 @@
                                             <td>{{$device->serial_number}}</td>
                                             <td>{{$device->model == 'U' ? 'DiUse' : 'DiEntry'}}</td>
                                             <td>{{$device->userDevices->count()}}</td>
-                                            <td>{{$device->logs->count()>0 ? ($device->logs[0]->step == 1?"Idle" :($device->logs[0]->step > 1 && $device->logs[0]->step < 6?"Operation" :($device->logs[0]->step > 6 && $device->logs[0]->step < 12 ? "Cleaning" : "Wait" ))) : "No Data"}}</td>
-                                            <td>{{$device->logs->count()>0 ? $device->logs[0]->step_run_sec : "No Data"}} sec</td>
-                                            <td >{{$device->logs->count() >0 ? ($device->logs[0]->ec >=0 && $device->logs[0]->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</td>
+                                            <td class="status">{{$device->logs->count()>0 ? ($device->logs[0]->step == 1 || $device->logs[0]->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</td>
+                                            <td><span class="ec">{{$device->logs->count() >0 ? ($device->logs[0]->ec >=0 && $device->logs[0]->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></td>
                                             <td>
                                                 <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -838,9 +826,7 @@
                                                     <div class="dropdown-divider"></div>
                                                     <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
                                                 </div>
-                                                <!-- </div> -->
                                             </td>
-                                            <!-- <div class="device-details" style="background:red; z-index:1;"></div> -->
                                         </tr>
                                         <tr class="device-info" id="{{$device->id}}" style="display: none;" >
                                             <td colspan="7">
@@ -849,13 +835,24 @@
                                                         <div class="card">
                                                             <div class="card-header">
                                                                 <div class="card-tools">
+                                                                    <button type="button" class="btn btn-info btn_edit_setpoints" id="btn_edit_setpoint-{{$device->id}}" hidden>Edit</button>
+                                                                    <button type="button" class="btn btn-danger btn_save_setpoints" id="btn_save_setpoint-{{$device->id}}" hidden>Save</button>
+                                                                    <button type="button" class="btn btn-light btn_cancel_setpoints" id="btn_cancel_setpoint-{{$device->id}}" hidden>Cancel</button>
                                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->id}}">
                                                                         <i class="fas fa-minus"></i>
                                                                     </button>
                                                                 </div>
-                                                                <ul class="nav nav-tabs">
-                                                                    <li class="nav-item nav_link-avg_data"  id="nav_link-avg_data_{{$device->id}}">
-                                                                        <a class="nav-link active" aria-current="page" href="#tab_avg_data_{{$device->id}}" data-toggle="tab" >Avg. Data</a>
+                                                                <nav>
+                                                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                                        <a class="nav-item nav-link nav_link-avg_data active" id="nav_link-avg_data_{{$device->id}}" data-toggle="tab" href="#tab_avg_data_{{$device->id}}" role="tab" aria-controls="tab_avg_data_{{$device->id}}" aria-selected="true">Status</a>
+                                                                        <a class="nav-item nav-link nav_link-live_data" id="nav_link-live_data" data-toggle="tab" href="#tab_live_data_{{$device->id}}" role="tab" aria-controls="tab_live_data_{{$device->id}}" aria-selected="false">Live Data <i id="btn_refresh_live_data_{{$device->id}}" class="btn fas fa-sync-alt" hidden></i></a>
+                                                                        <a class="nav-item nav-link nav_link-control" id="nav_link-control" data-toggle="tab" href="#tab_control_{{$device->id}}" role="tab" aria-controls="tab_control_{{$device->id}}" aria-selected="false">Controls </a>
+                                                                        <a class="nav-item nav-link nav_link-setpoints" id="nav_link-setpoints" data-toggle="tab" href="#tab_setpoints_{{$device->id}}" role="tab" aria-controls="tab_setpoints_{{$device->id}}" aria-selected="false">Setpoints </a>
+                                                                    </div>
+                                                                </nav>
+                                                                <!-- <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                                                                    <li class="nav-item nav_link-avg_data"  >
+                                                                        <a class="nav-link active" aria-current="page" href="#tab_avg_data_{{$device->id}}" data-toggle="tab" >Status</a>
                                                                     </li>
                                                                     <li class="nav-item nav_link-live_data" id="nav_link-live_data">
                                                                         <a class="nav-link" href="#tab_live_data_{{$device->id}}" data-toggle="tab">Live Data <i id="btn_refresh_live_data_{{$device->id}}" class="btn fas fa-sync-alt" hidden></i></a>
@@ -863,11 +860,14 @@
                                                                     <li class="nav-item nav_link-control" id="nav_link-control">
                                                                         <a class="nav-link" href="#tab_control_{{$device->id}}" data-toggle="tab">Controls </a>
                                                                     </li>
-                                                                </ul>
+                                                                    <li class="nav-item nav_link-setpoints" id="nav_link-setpoints">
+                                                                        <a class="nav-link" href="#tab_setpoints_{{$device->id}}" data-toggle="tab">Setpoints </a>
+                                                                    </li>
+                                                                </ul> -->
                                                             </div>
                                                             <div class="card-body">
-                                                                <div class="tab-content">
-                                                                    <div class="tab-pane fade show" id="tab_avg_data_{{$device->id}}">
+                                                                <div class="tab-content" style="max-height:500px; overflow-y:scroll; overflow-x:hidden;">
+                                                                    <div class="tab-pane fade show active" role="tabpanel" id="tab_avg_data_{{$device->id}}" style="max-height:500px; overflow:hidden;">
                                                                         <div class="row">
                                                                             <div class="col-lg-3 col-md-6 col-sm-6 box">
                                                                                 <div class="card card-outline card-success">
@@ -882,7 +882,7 @@
                                                                                     <div class="card-body">
                                                                                         <div>
                                                                                             <i id="device_status_pic-{{$device->id}}" class="fas fa fa-certificate blink_me" style="color:green"></i>&nbsp;&nbsp;
-                                                                                            <span style="color:green" id="device_status-{{$device->id}}">{{$device->logs->count()>0 ? ($device->logs[0]->step == 1?"Idle" :($device->logs[0]->step > 1 && $device->logs[0]->step < 6?"Operation" :($device->logs[0]->step > 6 && $device->logs[0]->step < 12 ? "Cleaning" : "Wait" ))) : "No Data"}}</span>
+                                                                                            <span style="color:green" id="device_status-{{$device->id}}">{{$device->logs->count()>0 ? ($device->logs[0]->step == 1 || $device->logs[0]->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</span>
                                                                                             <i id="info_device_status-{{$device->id}}" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
                                                                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                                                 <a href="#" class="dropdown-item">
@@ -894,14 +894,12 @@
                                                                                                     </div>
                                                                                                 </a>
                                                                                             </div>
-                                                                                            <br/>
-                                                                                            <span><b>Duration  : </b> {{$device->logs->count()>0 ? $device->logs[0]->step_run_sec : "No Data"}}</span><br/>
                                                                                         </div>
                                                                                         <div><br>
-                                                                                            <span><b>Connection :</b></span> <i id="device_connection_status-{{$device->id}}" style="color:green">
+                                                                                            <span><b>Connection :</b></span>
+                                                                                            <i id="device_connection_status-{{$device->id}}" style="color:green">
                                                                                                 @if($device->logs->count() >0)
-
-                                                                                                    @if(Carbon\Carbon::now()->diffInMinutes($device->logs[0]->created_at) < 10)
+                                                                                                    @if(Carbon\Carbon::now()->diffInMinutes($device->logs[0]->created_at) < 2)
                                                                                                         {{"Connected"}}
                                                                                                     @else
                                                                                                         {{"Disconnected"}}
@@ -923,7 +921,7 @@
                                                                                         @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
                                                                                         </br>
                                                                                         <div>
-                                                                                            <b>Device Health :</b><i style="color:green; font-weight:bold" id="device_health_status-{{$device->id}}">Good</i>
+                                                                                            <b>Module Health :</b><i style="color:green; font-weight:bold" id="device_health_status-{{$device->id}}">Good</i>
                                                                                             <i id="info_device_health-{{$device->id}}" class="fas fa-info-circle float-right info_device_health" data-toggle="dropdown" ></i>
                                                                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                                                 <a href="#" class="dropdown-item">
@@ -950,7 +948,6 @@
                                                                                 <div class="card card-outline card-success">
                                                                                     <div class="card-header">
                                                                                         <h3 class="card-title">Volume </h3>
-
                                                                                         <div class="card-tools">
                                                                                             <i id="volume_chart-{{$device->id}}" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
                                                                                         <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
@@ -960,11 +957,48 @@
                                                                                     </div>
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
-                                                                                    <p><b>Daily :</b> <i>2 Gallons</i></p>
-                                                                                    <p><b>Monthly :</b> <i>60 Gallons</i></p>
-                                                                                    <p><b>Yearly :</b> <i>800 Gallons</i></p>
-                                                                                    <p><b>Total :</b> <i>1800 Gallons</i></p>
-
+                                                                                    <span><b>Daily :</b> <i>2 Gallons</i>
+                                                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                            <a class="dropdown-item">
+                                                                                                <div class="media">
+                                                                                                    <div class="media-body">
+                                                                                                        <p class="text-sm"><b><i>Daily Volume</i></b></p>
+                                                                                                        <p class="text-sm">Volume produced during the last 24 hrs.</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    </span>
+                                                                                    <br/><br/>
+                                                                                    <span><b>Monthly :</b> <i>60 Gallons</i>
+                                                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                            <a class="dropdown-item">
+                                                                                                <div class="media">
+                                                                                                    <div class="media-body">
+                                                                                                        <p class="text-sm"><b><i>Monthly Volume</i></b></p>
+                                                                                                        <p class="text-sm">Volume produced during the last 31 days.</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    </span>
+                                                                                    <br/><br/>
+                                                                                    <!-- <p><b>Yearly :</b> <i>800 Gallons</i></p> -->
+                                                                                    <span><b>Total :</b> <i>1800 Gallons</i>
+                                                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                            <a class="dropdown-item">
+                                                                                                <div class="media">
+                                                                                                    <div class="media-body">
+                                                                                                        <p class="text-sm"><b><i>Total Volume</i></b></p>
+                                                                                                        <p class="text-sm">Volume produced during the last 6 months.</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    </span>
                                                                                     </div>
                                                                                     <!-- /.card-body -->
                                                                                 </div>
@@ -973,19 +1007,18 @@
                                                                                 <div class="card card-outline card-success">
                                                                                     <div class="card-header">
                                                                                         <h3 class="card-title">Water Quality </h3>
-
                                                                                         <div class="card-tools">
-                                                                                        <i id="info_conductivity-{{$device->id}}" class="btn fas fa-info-circle float-right" data-toggle="dropdown"></i>
-                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="info_displayed_conductivity-{{$device->id}}">
-                                                                                            <a href="#" class="dropdown-item">
-                                                                                                <div class="media">
-                                                                                                    <div class="media-body">
-                                                                                                        <p class="text-sm"><b><i id="info_conductivity_text-{{$device->id}}">Water Quality</i></b></p>
-                                                                                                        <p class="text-sm" id="info_conductivity_description-{{$device->id}}">Conductivity is how we measure the amount of minerals content in the water.</p>
+                                                                                            <i id="info_conductivity-{{$device->id}}" class="btn fas fa-info-circle float-right" data-toggle="dropdown"></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="info_displayed_conductivity-{{$device->id}}">
+                                                                                                <a href="#" class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i id="info_conductivity_text-{{$device->id}}">Water Quality</i></b></p>
+                                                                                                            <p class="text-sm" id="info_conductivity_description-{{$device->id}}">Conductivity is how we measure the amount of minerals content in the water.</p>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                            </a>
-                                                                                        </div>
+                                                                                                </a>
+                                                                                            </div>
                                                                                             <!-- <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i> -->
                                                                                         <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
                                                                                         </button>
@@ -994,7 +1027,7 @@
                                                                                     </div>
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
-                                                                                        <i class="fas fa fa-certificate" style="color:green">&nbsp;&nbsp;
+                                                                                        <i class="fas fa fa-certificate" id="device_condutivity_icon-{{$device->id}}" style="color:green">&nbsp;&nbsp;
                                                                                         <span id="device_conductivity_value-{{$device->id}}">{{$device->logs->count() >0 ? ($device->logs[0]->ec >=0 && $device->logs[0]->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></i>
                                                                                         <i id="info_device_conductivity-{{$device->id}}" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
                                                                                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -1011,7 +1044,6 @@
                                                                                     <!-- /.card-body -->
                                                                                 </div>
                                                                             </div>
-
                                                                             <div class="col-lg-3 col-md-6 col-sm-6 box">
                                                                                 <div class="card card-outline card-success">
                                                                                     <div class="card-header">
@@ -1029,7 +1061,7 @@
                                                                                     @if($device->logs->count()< 1)
                                                                                     <p>No Data</p>
                                                                                     @else
-                                                                                    <p>Alarm Code: <span id="alarm_code_{{$device->id}}">{{$device->logs[0]->alarm}}</span></p>
+                                                                                    <p hidden>Alarm Code: <span id="alarm_code_{{$device->id}}">{{$device->logs[0]->alarm}}</span></p>
                                                                                     <section class="alarms-list" id="alarmsList_{{$device->id}}"></section>
                                                                                     @endif
 
@@ -1039,7 +1071,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="tab-pane fade" id="tab_live_data_{{$device->id}}" hidden>
+                                                                    <div class="tab-pane fade" role="tabpanel" id="tab_live_data_{{$device->id}}" hidden>
                                                                         <div class="row">
                                                                             <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                                                 <!-- begin timeline -->
@@ -1088,12 +1120,7 @@
                                                                                                         <p>PERCENTAGE RECOVERY :{{$device->logs->count()>0? $device->logs[0]->percentage_recovery: ""}}</p>
                                                                                                     </div>
                                                                                                 </div>
-
-
-
-
                                                                                             </div>
-
                                                                                         </div>
                                                                                         <!-- end timeline-body -->
                                                                                     </li>
@@ -1103,7 +1130,7 @@
 
                                                                         </div>
                                                                     </div>
-                                                                    <div class="tab-pane fade" id="tab_control_{{$device->id}}" hidden>
+                                                                    <div class="tab-pane fade" role="tabpanel" id="tab_control_{{$device->id}}" hidden>
                                                                         <div class="row">
                                                                             <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                                                 <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_flush_module" id="btn_flush_module-{{$device->id}}">Flush Module</button></div>
@@ -1133,7 +1160,275 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
+                                                                    <div class="tab-pane fade" role="tabpanel" id="tab_setpoints_{{$device->id}}" hidden>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-pure_EC_target">Pure EC Target</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-pure_EC_target" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-pre_purify_time">Pre-purify Time</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-pre_purify_time" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-purify_time">Purify Time</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-purify_time" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-waste_time">Waste Time</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-waste_time" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-HF_waste_time">HF Waste Time</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-HF_waste_time" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-CIP_dose">CIP Dose</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-CIP_dose_rec">CIP Dose Rec</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose_rec" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-CIP_dose_total">CIP Dose Total</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose_total" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-CIP_flow_total">CIP Flow Total</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_total" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-CIP_flow_flush">CIP Flow Flush</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_flush" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-CIP_flow_rec">CIP Flow Rec</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_rec" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-CIP_flush_time">CIP Flush Time</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flush_time" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-WV_check_time">WV Check Time</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-WV_check_time" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-wait_HT_time">Wait HT Time</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-wait_HT_time" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-p_flow_target">P.Flow Target</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-p_flow_target" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-low_flow_purify_alarm">Low Flow Purify Alarm</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-low_flow_purify_alarm" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-low_flow_waste_alarm">Low Flow Waste Alarm</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-low_flow_waste_alarm" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-CIP_cycles">CIP Cycles</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_cycles" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-temperature_alarm">Temperature Alarm</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-temperature_alarm" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-max_CIP_prt">Max CIP P.R.T</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-max_CIP_prt" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-pump_p_factor">Pump P-Factor</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-pump_p_factor" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-dynamic_p_factor">Dynamic P-Factor</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-dynamic_p_factor" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-p_max_volt">P.Max Volt</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-p_max_volt" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-w_max_volt">W.Max Volt</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-w_max_volt" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-w_value">W_Value</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-w_value" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-flow_k_factor">Flow K Factor</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-flow_k_factor" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-volume_unit">Volume Unit</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <select class="form-control input-setpoints" id="input-volume_unit">
+                                                                                    <option value="0">Litre</option>
+                                                                                    <option value="1">Gallon</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-bypass_option">Bypass Option</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-bypass_option" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-start_pressure">Start Pressure</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-start_pressure" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-stop_pressure">Stop Pressure</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-stop_pressure" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-bypass_pressure">Bypass Pressure</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-bypass_pressure" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-CIP_pressure">CIP Pressure</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_pressure" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <label for="input-wait_time_before_CIP">Wait Time Before CIP</label>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                                                <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" value=""/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="card-footer">
@@ -1317,41 +1612,41 @@
             </div>
 
     </div>
-<div class="modal" tabindex="-1" role="dialog" id="view_userDevices_modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit {{Auth::user()->name}}'s Profile</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-        <form id="form_profile_info" action="api/updateProfile" method="POST">
-            {{ csrf_field() }}
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12">
-                    <h5 style="text-decoration:underline">Personal Information</h5>
-                    <table class="table">
-                        <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
-                        <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="email" id="txt_email" value="{{Auth::user()->email}}"></td></tr>
-                    </table>
+    <div class="modal" tabindex="-1" role="dialog" id="view_userDevices_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Edit {{Auth::user()->name}}'s Profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+            <form id="form_profile_info" action="api/updateProfile" method="POST">
+                {{ csrf_field() }}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                        <h5 style="text-decoration:underline">Personal Information</h5>
+                        <table class="table">
+                            <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
+                            <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="email" id="txt_email" value="{{Auth::user()->email}}"></td></tr>
+                        </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </form>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
-</div>
+    </div>
 
 <script type="module" src="{{asset('js/home.js')}}"></script>
 
 <script>
-
+// Maintenance
     $('.input_critic_acid').on('keyup', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
         $('#btn_save_critic_acid-'+trid).removeAttr("hidden");
@@ -1368,7 +1663,6 @@
         var trid = $(this).closest('tr').attr('id'); // table row ID
         $('#btn_save_general_service-'+trid).removeAttr("hidden");
     });
-
 
     $('.btn-save-critic_acid').on('click', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
@@ -1427,6 +1721,7 @@
             $('#btn_save_general_service-'+trid).attr("hidden", true);
         });
     })
+//end of maintenance
 
     $('.btn_flush_module').on('click', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
@@ -1454,6 +1749,7 @@
         $('#tab_live_data_'+trid).hide();
         $('#tab_avg_data_'+trid).show();
         $('#btn_refresh_live_data_'+trid).attr('hidden', true);
+        $('#btn_edit_setpoint-'+trid).attr('hidden',true);
 
     })
     $('.nav_link-live_data').on('click', function(){
@@ -1464,6 +1760,7 @@
         $('#tab_avg_data_'+trid).hide();
         $('#tab_live_data_'+trid).attr('hidden',false);
         $('#tab_live_data_'+trid).show();
+        $('#btn_edit_setpoint-'+trid).attr('hidden',true);
 
         // collect live data and display
     })
@@ -1476,7 +1773,7 @@
         $('#tab_live_data_'+trid).hide();
         $('#tab_control_'+trid).attr('hidden',false);
         $('#tab_control_'+trid).show();
-
+        $('#btn_edit_setpoint-'+trid).attr('hidden',true);
         // get the commands list
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -1494,6 +1791,120 @@
                 $('#command-'+trid).append('<tr id="'+arr[index].id+'"><td>'+date+'</td><td>'+arr[index].command+'</td><td>'+status+'</td><td><i class="fas fa-trash delete-command" ></i></td></tr>');
             }
         });
+    })
+    var pure_EC_target,prepurify_time,purify_time,waste_time,HF_waste_time,
+        CIP_dose,CIP_dose_total,CIP_flow_total,CIP_flow_flush,CIP_flow_rec,CIP_flush_time,
+        WV_check_time,wait_HT_time,p_flow_target,low_flow_purify_alarm,low_flow_waste_alarm,
+        CIP_cycles,temperature_alarm,max_CIP_prt,pump_p_factor,dynamic_p_factor,p_max_volt,
+        w_max_volt,w_value,flow_k_factor,volume_unit,bypass_option,start_pressure,stop_pressure,
+        bypass_pressure,CIP_pressure,wait_time_before_CIP;
+
+    $('.nav_link-setpoints').on('click', function(){
+        view_mode = "setpoints";
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        view_live_device = null; // we are not in live mode
+        $('#btn_refresh_live_data_'+trid).attr('hidden', true);
+        $('#tab_avg_data_'+trid).hide();
+        $('#tab_live_data_'+trid).hide();
+        $('#tab_control_'+trid).hide();
+        $('#tab_setpoints_'+trid).attr('hidden',false);
+        // $('#tab_setpoints_'+trid).show();
+        $('#btn_edit_setpoint-'+trid).attr('hidden',false);
+        $('.input-setpoints').attr('disabled',true);
+
+        // get the list of setpoints from the database
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getSetpoints/"+ trid,
+        })
+        .done(function(response){
+            console.log(response);
+            pure_EC_target = response.pure_EC_target;
+            prepurify_time = resonse.prepurify_time;
+            purify_time = response.purify_time;
+            waste_time = response.waste_time
+            HF_waste_time =response.HF_waste_time
+            CIP_dose =response.CIP_dose
+            CIP_dose_total =response.CIP_dose_total
+            CIP_flow_total =response.CIP_flow_total
+            CIP_flow_flush =response.CIP_flow_flush
+            CIP_flow_rec =response.CIP_flow_rec
+            CIP_flush_time =response.CIP_flush_time
+            WV_check_time =response.WV_check_time
+            wait_HT_time =response.wait_HT_time
+            p_flow_target =response.p_flow_target
+            low_flow_purify_alarm =response.low_flow_purify_alarm
+            low_flow_waste_alarm =response.low_flow_waste_alarm
+            CIP_cycles =response.CIP_cycles
+            temperature_alarm =response.temperature_alarm
+            max_CIP_prt =response.max_CIP_prt
+            pump_p_factor =response.pump_p_factor
+            dynamic_p_factor =response.dynamic_p_factor
+            p_max_volt =response.p_max_volt
+            w_max_volt =response.w_max_volt
+            w_value =response.w_value
+            flow_k_factor =response.flow_k_factor
+            volume_unit =response.volume_unit
+            bypass_option =response.bypass_option
+            start_pressure =response.start_pressure
+            stop_pressure =response.stop_pressure
+            bypass_pressure =response.bypass_pressure
+            CIP_pressure =response.CIP_pressure
+            wait_time_before_CIP =response.wait_time_before_CIP
+
+            $('#input-pure_EC_target').val(pure_EC_target)
+            $('#input-pre_purify_time').val(pre_purify_time)
+            $('#input-purify_time').val(purify_time)
+            $('#input-waste_time').val(waste_time)
+            $('#input-HF_waste_time').val(HF_waste_time)
+            $('#input-CIP_dose').val(CIP_dose)
+            $('#input-CIP_dose_total').val(CIP_dose_total)
+            $('#input-CIP_flow_total').val(CIP_flow_total)
+            $('#input-CIP_flow_flush').val(CIP_flow_flush)
+            $('#input-CIP_flow_rec').val(CIP_flow_rec)
+            $('#input-CIP_flush_time').val(CIP_flush_time)
+            $('#input-WV_check_time').val(WV_check_time)
+            $('#input-wait_HT_time').val(wait_HT_time)
+            $('#input-p_flow_target').val(p_flow_target)
+            $('#input-low_flow_purify_alarm').val(low_flow_purify_alarm)
+            $('#input-low_flow_waste_alarm').val(low_flow_waste_alarm)
+            $('#input-CIP_cycles').val(CIP_cycles)
+            $('#input-temperature_alarm').val(temperature_alarm)
+            $('#input-max_CIP_prt').val(max_CIP_prt)
+            $('#input-pump_p_factor').val(pump_p_factor)
+            $('#input-dynamic_p_factor').val(dynamic_p_factor)
+            $('#input-p_max_volt').val(p_max_volt)
+            $('#input-w_max_volt').val(w_max_volt)
+            $('#input-w_value').val(w_value)
+            $('#input-flow_k_factor').val(flow_k_factor)
+            $('#input-volume_unit').val(volume_unit)
+            $('#input-bypass_option').val(bypass_option)
+            $('#input-start_pressure').val(start_pressure)
+            $('#input-stop_pressure').val(stop_pressure)
+            $('#input-bypass_pressure').val(bypass_pressure)
+            $('#input-CIP_pressure').val(CIP_pressure)
+            $('#input-wait_time_before_CIP').val(wait_time_before_CIP)
+        });
+
+        // get the commands list
+            // $.ajax({
+            //     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            //     type: "GET",
+            //     url: "/deviceCommands/"+ trid,
+
+            // })
+            // .done(function(response){
+            //     console.log(response);
+            //     response.forEach(addCommandRows)
+
+            //     function addCommandRows(item, index, arr){
+            //         var date = new Date(arr[index].created_at)
+            //         var status = arr[index].device_read_at == null ?'Sent':(arr[index].device_executed_at == null ?'Executing':(arr[index].device_response_data == null ? 'Executed':arr[index].device_response_data))
+            //         $('#command-'+trid).append('<tr id="'+arr[index].id+'"><td>'+date+'</td><td>'+arr[index].command+'</td><td>'+status+'</td><td><i class="fas fa-trash delete-command" ></i></td></tr>');
+            //     }
+            // });
+        //
     })
     $('.commands').on('click','.delete-command', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
@@ -1516,6 +1927,7 @@
                     console.log(response);
                     $('.commands tr#'+trid).hide();
                     Swal.fire('Deleted!', '', 'success')
+                    $('#command-'+trid).remove();
                 });
             } else if (result.isDenied) {
                 Swal.fire('Command is safe', '', 'info')
@@ -1527,6 +1939,29 @@
         var trid = $(this).closest('tr').attr('id'); // table row ID
         alert('Refreshing data')
         // Request server for recent logs
+    })
+
+    $('.btn_edit_setpoints').on('click', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $('#btn_edit_setpoint-'+trid).attr('hidden',true)
+        $('#btn_save_setpoint-'+trid).attr('hidden',false)
+        $('#btn_cancel_setpoint-'+trid).attr('hidden',false)
+        $('.input-setpoints').attr('disabled',false);
+    })
+    $('.btn_save_setpoints').on('click', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $('#btn_edit_setpoint-'+trid).attr('hidden',false)
+        $('#btn_save_setpoint-'+trid).attr('hidden',true)
+        $('#btn_cancel_setpoint-'+trid).attr('hidden',true)
+        $('.input-setpoints').attr('disabled',true);
+
+    })
+    $('.btn_cancel_setpoints').on('click', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $('#btn_edit_setpoint-'+trid).attr('hidden',false)
+        $('#btn_save_setpoint-'+trid).attr('hidden',true)
+        $('#btn_cancel_setpoint-'+trid).attr('hidden',true)
+        $('.input-setpoints').attr('disabled',true);
     })
 
     //when user clicks on the device row
@@ -1604,12 +2039,13 @@
         //console.log($('span#alarm_code_'+device_trid).text());
 
     })
+    var start_stop_command_sent = false;
+    var command_sent = "";
 
     $(document).ready(function () {
         // check status
 
         $('.loader').hide();
-
         setInterval(function(){
             var dt = new Date();
             var hr = dt.getHours();
@@ -1623,44 +2059,125 @@
                 sec = "0"+sec;
 
             var time = hr + ":" + min + ":" + sec;
-
+            console.log(time);
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
-                url: "/deviceLiveData/"+ view_live_device,
-
+                url: "/refreshDashboardData",
             })
             .done(function(response){
                 console.log(response);
+                for(var i=0; i<response[0].length;i++){
+                    if(response[0][i].logs.length != 0){
+                        //change the status
+                        if(!start_stop_command_sent){
+                            var status = "";
+                            var color = "";
+                            if(response[0][i].logs.step == 1 || response[0][i].logs.step == 13){
+                                status = "IDLE";
+                                color = "orange";
+                            }else{
+                                status = "RUNNING";
+                                color = "green";
 
-                //+view_live_device
-                $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+response.log_dt+"</span></div>"+
-                "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp;</a></div>"+
-                "<div class=\"timeline-body\"><div class=\"timeline-header\"><span class=\"userimage\"><img src=\"/images/running.gif\"></span>"+
-                "<span class=\"username\"><a href=\"javascript:;\">Running </a> <small></small></span>"+
-                "<span class=\"pull-right text-muted\">[Step Run Sec:"+response.step_run_sec+" </span><span style=\"float:right;\"><i>[LOG DATE TIME:"+response.log_dt+" </i></span></div>"+
-                "<div class=\"timeline-content\"><div class=\"row\"><div class=\"col-sm-04\">"+
-                "<p>AOV :"+response.aov+"</p>"+
-                "<p>CURRENT FLOW :"+response.c_flow+"</p>"+
-                "<p>CABINET TEMP :"+response.c_temp+"</p>"+
-                "<p>CYCLE :"+response.cycle+"</p>"+
-                "<p>EC :"+response.ec+"</p>"+
-                "<p>INPUT :"+response.input+"</p>"+
-                "<p>OUTPUT :"+response.output+"</p>"+
-                "<p>MODE :"+response.mode+"</p></div>"+
-                "<div class=\"col-sm-04\"></div><div class=\"col-sm-04\">"+
-                "<p>PAE VOLT :"+response.pae_volt+"</p>"+
-                "<p>PRESSURE :"+response.pressure+"</p>"+
-                "<p>STEP :"+response.step+"</p>"+
-                "<p>STEP RUN SEC :"+response.step_run_sec+"</p>"+
-                "<p>TPV :"+response.tpv+"</p>"+
-                "<p>WATER TEMP :"+response.w_temp+"</p>"+
-                "<p>ALARM CODE :"+response.alarm+"</p></div></div></div>"+
-                "<p>PERCENTAGE RECOVERY :"+response.percentage_recovery+"</p>"+
-                +"</div></li>");
-                highlight($('#live_data_rows:first .timeline-body:first'));
+                            }
+                            $('#device-info-'+response[0][i].id +' .status').text(status); // row status
+                            $('#device_status-'+response[0][i].id).text(status);   // device info status
+                            document.getElementById('device_status-'+response[0][i].id).style.color = color;
+                            document.getElementById('device_status_pic-'+response[0][i].id).style.color = color;
+                        }else{
+                            $('#device-info-'+response[0][i].id +' .status').text("Pending"); // row status
+                            $('#device_status-'+response[0][i].id).text("Pending");   // device info status
+                            document.getElementById('device_status-'+response[0][i].id).style.color = "black";
+                            document.getElementById('device_status_pic-'+response[0][i].id).style.color = "black";
+                            // get the command status
+                            $.ajax({
+                                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                                type: "GET",
+                                url: "/command_status/"+command_sent+"/"+ response[0][i].id,
+                            })
+                            .done(function(response){
+                                console.log(response);
+                                if(response.device_executed_at != null){
+                                    start_stop_command_sent = false;
+                                    $('#btn_device_start_stop-'+response.device_id).attr('disabled','false');
+                                }
+                            });
+                        }
+                        // change the water quality
+                        var water_quality ="";
+                        if(response[0][i].logs.ec<200){
+                            water_quality = "On Target";
+                            // document.getElementById('device-info-'+response[0][i].id +' .ec').style.color = 'green';
+                            document.getElementById('device_condutivity_icon-'+response[0][i].id).style.color = 'green';
+                            document.getElementById('device_conductivity_value-'+response[0][i].id).style.color = 'green';
+                        }else{
+                            water_quality = "Needs Attention";
+                            // document.getElementById('device-info-'+response[0][i].id +' .ec').style.color = 'red';
+                            document.getElementById('device_condutivity_icon-'+response[0][i].id).style.color = 'red';
+                            document.getElementById('device_conductivity_value-'+response[0][i].id).style.color = 'red';
+                        }
+                        $('#device-info-'+response[0][i].id +' .ec').text(water_quality); // row water quality
+                        $('#device_conductivity_value-'+response[0][i].id).text(water_quality); // device info water quality
+                        // change device connection status
+                        var now = +new Date();
+                        var last_date = new Date(response[0][i].logs[0].log_dt).getTime();
+                        var difference = now - last_date;
+                        if(difference < 2*1000*60) // 2 minutes
+                            $('#device_connection_status-'+response[0][i].id ).text("Connected")
+                        else
+                            $('#device_connection_status-'+response[0][i].id ).text("Disconnected")
+                        // change volume
 
+                        // change alarm
+
+                    }
+                }
             });
+
+        },5000);
+        var device_log_dt = null;
+        setInterval(function(){
+
+            if(view_live_device != null){
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "GET",
+                    url: "/deviceLiveData/"+ view_live_device,
+                })
+                .done(function(response){
+                    console.log(response);
+                    if(device_log_dt != response.log_dt){
+                        device_log_dt = response.log_dt;
+                        console.log(response.log_dt);
+                        $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+response.log_dt+"</span></div>"+
+                        "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp;</a></div>"+
+                        "<div class=\"timeline-body\"><div class=\"timeline-header\"><span class=\"userimage\"><img src=\"/images/running.gif\"></span>"+
+                        "<span class=\"username\"><a href=\"javascript:;\">Running </a> <small></small></span>"+
+                        "<span class=\"pull-right text-muted\">[Step Run Sec:"+response.step_run_sec+" </span><span style=\"float:right;\"><i>[LOG DATE TIME:"+response.log_dt+" </i></span></div>"+
+                        "<div class=\"timeline-content\"><div class=\"row\"><div class=\"col-sm-04\">"+
+                        "<p>AOV :"+response.aov+"</p>"+
+                        "<p>CURRENT FLOW :"+response.c_flow+"</p>"+
+                        "<p>CABINET TEMP :"+response.c_temp+"</p>"+
+                        "<p>CYCLE :"+response.cycle+"</p>"+
+                        "<p>EC :"+response.ec+"</p>"+
+                        "<p>INPUT :"+response.input+"</p>"+
+                        "<p>OUTPUT :"+response.output+"</p>"+
+                        "<p>MODE :"+response.mode+"</p></div>"+
+                        "<div class=\"col-sm-04\"></div><div class=\"col-sm-04\">"+
+                        "<p>PAE VOLT :"+response.pae_volt+"</p>"+
+                        "<p>PRESSURE :"+response.pressure+"</p>"+
+                        "<p>STEP :"+response.step+"</p>"+
+                        "<p>STEP RUN SEC :"+response.step_run_sec+"</p>"+
+                        "<p>TPV :"+response.tpv+"</p>"+
+                        "<p>WATER TEMP :"+response.w_temp+"</p>"+
+                        "<p>ALARM CODE :"+response.alarm+"</p></div></div></div>"+
+                        "<p>PERCENTAGE RECOVERY :"+response.percentage_recovery+"</p>"+
+                        +"</div></li>");
+                        highlight($('#live_data_rows:first .timeline-body:first'));
+                    }
+                });
+            }
         }, 5000);
         function highlight(obj){
             var orig = obj.css('background');

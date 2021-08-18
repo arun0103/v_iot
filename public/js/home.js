@@ -287,18 +287,46 @@ $('.btn_device_start_stop').on('click', function(){
     var trid = $(this).closest('tr').attr('id'); // table row ID
     switch($('#btn_device_start_stop-'+trid).text()){
         case "Stop":
-            $('#device_status-'+trid).text('Idle')
-            document.getElementById('device_status-'+trid).style.color = 'orange'
-            document.getElementById('device_status_pic-'+trid).style.color = 'orange'
-            $('#btn_device_start_stop-'+trid).text('Start')
-            $('#btn_device_start_stop-'+trid).removeClass('btn-danger').addClass('btn-primary')
+            command_sent = "Stop";
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/command/stop/"+ trid,
+            })
+            .done(function(response){
+                console.log(response);
+                Swal.fire('Success','Command recorded.','success')
+                start_stop_command_sent = true;
+                $('#device_status-'+trid).text('IDLE')
+                document.getElementById('device_status-'+trid).style.color = 'orange'
+                document.getElementById('device_status_pic-'+trid).style.color = 'orange'
+                $('#btn_device_start_stop-'+trid).text('Start')
+                $('#btn_device_start_stop-'+trid).removeClass('btn-danger').addClass('btn-primary')
+                $('#btn_device_start_stop-'+trid).attr('disabled','true');
+                // var date = new Date(response.created_at)
+                // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+            });
             break;
         case "Start":
-            $('#device_status-'+trid).text('Running')
-            document.getElementById('device_status-'+trid).style.color = 'green'
-            document.getElementById('device_status_pic-'+trid).style.color = 'green'
-            $('#btn_device_start_stop-'+trid).text('Stop')
-            $('#btn_device_start_stop-'+trid).removeClass('btn-primary').addClass('btn-danger')
+            command_sent = "Start";
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/command/start/"+ trid,
+            })
+            .done(function(response){
+                console.log(response);
+                Swal.fire('Success','Command recorded.','success')
+                start_stop_command_sent = true;
+                $('#device_status-'+trid).text('RUNNING')
+                document.getElementById('device_status-'+trid).style.color = 'green'
+                document.getElementById('device_status_pic-'+trid).style.color = 'green'
+                $('#btn_device_start_stop-'+trid).text('Stop')
+                $('#btn_device_start_stop-'+trid).removeClass('btn-primary').addClass('btn-danger')
+                $('#btn_device_start_stop-'+trid).attr('disabled','true');
+                // var date = new Date(response.created_at)
+                // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+            });
             break;
     }
 
@@ -309,35 +337,20 @@ $('.info-device-status').on('click', function(){
     var trid = $(this).closest('tr').attr('id'); // table row ID
     console.log(trid)
     switch($('#device_status-'+trid).text()){
-        case 'Operation':
-            // Swal.fire({
-            //     title: '<strong>Operation</strong>',
-            //     icon: 'info',
-            //     html:
-            //       '<b>(Don’t Worry)</b> Device is running and treating water',
-            //     showCloseButton: true,
-            //     showCancelButton: false,
-            //     focusConfirm: false,
-            //     confirmButtonText:
-            //       '<i class="fa fa-thumbs-up"></i> Great!',
-            //     confirmButtonAriaLabel: 'Thumbs up, great!',
-            //     cancelButtonText:
-            //       '<i class="fa fa-thumbs-down"></i>',
-            //     cancelButtonAriaLabel: 'Thumbs down'
-            // })
-            $('#info_device_status_text-'+trid).text("Operation")
-            $('#info_device_status_description-'+trid).text('')
-            $('#info_device_status_description-'+trid).append("<b>(Don’t Worry)</b> Device is running and treating water ")
-            break;
         case 'RUNNING':
             $('#info_device_status_text-'+trid).text("Running")
             $('#info_device_status_description-'+trid).text('')
             $('#info_device_status_description-'+trid).append("<b>(Don’t Worry)</b> Device is running and treating water ")
             break;
-        case 'Idle':
+        case 'IDLE':
             $('#info_device_status_text-'+trid).text("Idle")
             $('#info_device_status_description-'+trid).text('')
             $('#info_device_status_description-'+trid).append("<b>(Oops!!!)</b> Device is not operational. It requires user intervention.")
+            break;
+        case 'Pending':
+            $('#info_device_status_text-'+trid).text("Pending")
+            $('#info_device_status_description-'+trid).text('')
+            $('#info_device_status_description-'+trid).append("<b>(Please Wait!!!)</b> Connecting with the device..")
             break;
     }
 })
