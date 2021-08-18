@@ -2152,7 +2152,7 @@
                         var recorded_date = new Date(response.log_dt);
                         console.log(recorded_date):
                         recorded_date = recorded_date.toString();
-                        console.log(recorded_date):
+                        console.log(recorded_date);
                         $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+recorded_date+"</span></div>"+
                         "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp;</a></div>"+
                         "<div class=\"timeline-body\"><div class=\"timeline-header\"><span class=\"userimage\"><img src=\"/images/running.gif\"></span>"+
