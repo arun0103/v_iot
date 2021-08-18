@@ -160,7 +160,7 @@ class DeviceController extends Controller
 
     public function getLiveData($device_id){
         $device_serial = Device::where('id',$device_id)->pluck('serial_number');
-        $data = RawLogs::where('serial_number',$device_serial)->orderBy('log_dt','desc')->first();
+        $data = RawLogs::where('serial_number',$device_serial)->orderBy('created_at','desc')->first();
         return response()->json($data);
     }
 
