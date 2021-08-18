@@ -2150,7 +2150,7 @@
                     if(device_log_dt != response.log_dt){
                         device_log_dt = response.log_dt;
                         var recorded_date = new Date(response.log_dt);
-                        console.log(recorded_date):
+                        console.log(recorded_date);
                         recorded_date = recorded_date.toString();
                         console.log(recorded_date);
                         $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+recorded_date+"</span></div>"+
