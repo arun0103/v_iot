@@ -2147,9 +2147,10 @@
                 })
                 .done(function(response){
                     console.log(response);
+                    console.log(response.log_dt);
                     if(device_log_dt != response.log_dt){
                         device_log_dt = response.log_dt;
-                        console.log(response.log_dt);
+
                         $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+response.log_dt+"</span></div>"+
                         "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp;</a></div>"+
                         "<div class=\"timeline-body\"><div class=\"timeline-header\"><span class=\"userimage\"><img src=\"/images/running.gif\"></span>"+
