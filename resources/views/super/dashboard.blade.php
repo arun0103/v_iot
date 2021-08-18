@@ -2138,7 +2138,6 @@
         },5000);
         var device_log_dt = null;
         setInterval(function(){
-
             if(view_live_device != null){
                 $.ajax({
                     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -2151,7 +2150,7 @@
                     if(device_log_dt != response.log_dt){
                         device_log_dt = response.log_dt;
 
-                        $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+response.log_dt+"</span></div>"+
+                        $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+new Date(response.log_dt)+"</span></div>"+
                         "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp;</a></div>"+
                         "<div class=\"timeline-body\"><div class=\"timeline-header\"><span class=\"userimage\"><img src=\"/images/running.gif\"></span>"+
                         "<span class=\"username\"><a href=\"javascript:;\">Running </a> <small></small></span>"+
