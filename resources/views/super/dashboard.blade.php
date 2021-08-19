@@ -2165,7 +2165,7 @@
                         console.log("Last Data DateTime: "+ last_date);
                         var difference = now - last_date;
                         console.log("Difference :" + difference/1000/60);
-                        if(difference < 2*1000*60) // 2 minutes
+                        if(difference < 2*1000*60*60) // 2 minutes
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected")
                         else
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected")
