@@ -2159,7 +2159,9 @@
                         $('#device_conductivity_value-'+response[i]['deviceDetails'].id).text(water_quality); // device info water quality
                         // change device connection status
                         var now = +new Date();
+                        console.log("NOW :" + now);
                         var last_date = new Date(response[i]['deviceDetails'].logs[0].log_dt).getTime();
+                        console.log("Last Data DateTime: "+ last_date);
                         var difference = now - last_date;
                         if(difference < 2*1000*60) // 2 minutes
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected")
