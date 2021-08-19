@@ -2172,8 +2172,8 @@
                         console.log("Test now       : "+test_now);
                         console.log("test Created_at: "+test_created_at);
                         var dd = test_now - test_created_at;
-                        console.log("Difference :"+dd);
-                        if(difference < 2*1000*60*60) // 2 minutes
+                        console.log("Difference :"+dd/1000/60);
+                        if(dd < 2*1000*60) // 2 minutes
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected")
                         else
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected")
