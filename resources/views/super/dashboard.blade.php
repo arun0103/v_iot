@@ -2108,11 +2108,12 @@
                     if(response[i]['deviceDetails'].logs.length != 0){
                         console.log("Displaying response data");
                         console.log(response[i]['deviceDetails']);
+                        console.log(response[i]['deviceDetails'].logs[0].step);
                         //change the status
                         if(!start_stop_command_sent){
                             var status = "";
                             var color = "";
-                            if(response[i]['deviceDetails'].logs.step == 1 || response[i]['deviceDetails'].logs.step == 13){
+                            if(response[i]['deviceDetails'].logs[0].step == 1 || response[i]['deviceDetails'].logs[0].step == 13){
                                 status = "IDLE";
                                 color = "orange";
                             }else{
