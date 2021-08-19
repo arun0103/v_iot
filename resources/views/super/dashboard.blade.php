@@ -2163,6 +2163,7 @@
                         var last_date = new Date(response[i]['deviceDetails'].logs[0].log_dt).getTime();
                         console.log("Last Data DateTime: "+ last_date);
                         var difference = now - last_date;
+                        console.log("Difference :" + difference);
                         if(difference < 2*1000*60) // 2 minutes
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected")
                         else
