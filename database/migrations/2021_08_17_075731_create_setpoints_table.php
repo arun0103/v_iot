@@ -22,6 +22,7 @@ class CreateSetpointsTable extends Migration
             $table->integer('waste_time')->nullable();
             $table->integer('HF_waste_time')->nullable();
             $table->integer('CIP_dose')->nullable();
+            $table->integer('CIP_dose_rec')->nullable();
             $table->integer('CIP_dose_total')->nullable();
             $table->integer('CIP_flow_total')->nullable();
             $table->integer('CIP_flow_flush')->nullable();

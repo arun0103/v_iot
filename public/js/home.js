@@ -281,8 +281,6 @@ $('tr a.link_view_users' ).on('click', function() {
     var trid = $(this).closest('tr').attr('id'); // table row ID
     console.log(trid)
   });
-///////////////////////////////////////////////////////////////////////////////
-///////////////// Super admins //////////////////////////
 $('.btn_device_start_stop').on('click', function(){
     var trid = $(this).closest('tr').attr('id'); // table row ID
     switch($('#btn_device_start_stop-'+trid).text()){
@@ -331,6 +329,9 @@ $('.btn_device_start_stop').on('click', function(){
     }
 
 })
+///////////////////////////////////////////////////////////////////////////////
+///////////////// info button clicks //////////////////////////
+
 
 $('.info-device-status').on('click', function(){
     console.log("hi")
@@ -386,10 +387,7 @@ $('.info_device_health').on('click', function(){
             break;
     }
 })
-$('.modal-volume-chart').on('click', function(){
-    var trid = $(this).closest('tr').attr('id'); // table row ID
 
-})
 $('.info_device_conductivity').on('click', function(){
     var trid = $(this).closest('tr').attr('id'); // table row ID
     switch($('#device_conductivity_value-'+trid).text()){
@@ -400,8 +398,8 @@ $('.info_device_conductivity').on('click', function(){
             $('#info_device_conductivity_description-'+trid).append("The unit is removing the right amount of minerals.")
             break;
         case "Needs Attention":
-            $('#info_device_conductivity_text-'+trid).text("Within 10%")
-            $('#info_device_conductivity_text-'+trid).css("color","yellow")
+            $('#info_device_conductivity_text-'+trid).text("Needs Attention")
+            $('#info_device_conductivity_text-'+trid).css("color","red")
             $('#info_device_conductivity_description-'+trid).text('')
             $('#info_device_conductivity_description-'+trid).append("The unit is removing most of the minerals. ")
             break;
@@ -413,4 +411,8 @@ $('.info_device_conductivity').on('click', function(){
             break;
     }
 })
+/// ---------------------------------------------------------------------
+// $('.modal-volume-chart').on('click', function(){
+//     var trid = $(this).closest('tr').attr('id'); // table row ID
 
+// })
