@@ -2106,6 +2106,7 @@
                 console.log(response);
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].logs.length != 0){
+                        console.log("Displaying response data");
                         console.log(response[i]['deviceDetails']);
                         //change the status
                         if(!start_stop_command_sent){
