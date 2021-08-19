@@ -2211,13 +2211,13 @@
                             status = "IDLE"
                         else
                             status ="RUNNING"
-                        $('#live_data_rows_'+view_live_device).prepend("<li><div class=\"timeline-time\"><span class=\"time\">"+recorded_date+"</span></div>"+
-                        "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp;</a></div>"+
-                        "<div class=\"timeline-body\"><div class=\"timeline-header\"><span class=\"userimage\"><img src=\"/images/running.gif\"></span>"+
-                        "<span class=\"username\"><a href=\"javascript:;\">"+status +" </a> <small></small></span>"+
-                        "<span class=\"pull-right text-muted\">[Run Sec:"+response.step_run_sec+" </span><span style=\"float:right;\"><i>[LOGGED AT:"+response.log_dt+"] UTC </i></span></div>"+
-                        "<div class=\"timeline-content\"><div class=\"row\"><div class=\"col-sm-04\">"+
-                        "<p>AOV :"+response.aov+"</p>"+
+                        $('#live_data_rows_'+view_live_device).prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
+                        '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
+                        '<div class="timeline-body"><div class="timeline-header"><span class="userimage"><img src="/images/running.gif"></span>'+
+                        '<span class="username"><a href="javascript:;">'+status +' </a> <small></small></span>'+
+                        '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+' </span><span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span></div>'+
+                        '<div class="timeline-content"><div class="row"><div class="col-sm-04">'+
+                        '<p>AOV :'+response.aov+"</p>"+
                         "<p>CURRENT FLOW :"+response.c_flow+"</p>"+
                         "<p>CABINET TEMP :"+response.c_temp+"</p>"+
                         "<p>CYCLE :"+response.cycle+"</p>"+
