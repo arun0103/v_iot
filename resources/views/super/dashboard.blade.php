@@ -2145,7 +2145,7 @@
                         }
                         // change the water quality
                         var water_quality ="";
-                        if(response[i]['deviceDetails'].logs.ec<200){
+                        if(response[i]['deviceDetails'].logs[0].ec<200){
                             water_quality = "On Target";
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'green';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'green';
@@ -2164,7 +2164,7 @@
                         var last_date = new Date(response[i]['deviceDetails'].logs[0].log_dt).getTime();
                         console.log("Last Data DateTime: "+ last_date);
                         var difference = now - last_date;
-                        console.log("Difference :" + difference*1000*60);
+                        console.log("Difference :" + difference/1000/60);
                         if(difference < 2*1000*60) // 2 minutes
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected")
                         else
