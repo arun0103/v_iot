@@ -53,9 +53,9 @@ class DataController extends Controller
                 $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
                 $total_volume = ($last_record->tpv - $first_record->tpv)*0.2642007926;
                 $volume = [
-                    'daily'=>$daily_volume,
-                    'monthly'=>$monthly_volume,
-                    'total'=>$total_volume
+                    'daily'=>round($daily_volume,2),
+                    'monthly'=>round($monthly_volume,2),
+                    'total'=>round($total_volume,2)
                 ];
             }
             $deviceData = [
