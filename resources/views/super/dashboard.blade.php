@@ -2143,6 +2143,7 @@
                                 url: "/command_status/"+command_sent+"/"+ response[i]['deviceDetails'].id,
                             })
                             .done(function(response){
+                                console.log("******************************************************");
                                 console.log(response);
                                 if(response.device_read_at != null){
                                     start_stop_command_sent = false;
