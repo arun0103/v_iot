@@ -30,24 +30,24 @@ class CreateSetpointsTable extends Migration
             $table->integer('CIP_flush_time')->nullable();
             $table->integer('WV_check_time')->nullable();
             $table->integer('wait_HT_time')->nullable();
-            $table->integer('p_flow_target')->nullable();
-            $table->integer('low_flow_purify_alarm')->nullable();
-            $table->integer('low_flow_waste_alarm')->nullable();
+            $table->float('p_flow_target')->nullable();
+            $table->float('low_flow_purify_alarm')->nullable();
+            $table->float('low_flow_waste_alarm')->nullable();
             $table->integer('CIP_cycles')->nullable();
             $table->integer('temperature_alarm')->nullable();
             $table->integer('max_CIP_prt')->nullable();
-            $table->integer('pump_p_factor')->nullable();
-            $table->integer('dynamic_p_factor')->nullable();
-            $table->integer('p_max_volt')->nullable();
-            $table->integer('w_max_volt')->nullable();
-            $table->integer('w_value')->nullable();
+            $table->float('pump_p_factor')->nullable();
+            $table->float('dynamic_p_factor')->nullable();
+            $table->float('p_max_volt')->nullable();
+            $table->float('w_max_volt')->nullable();
+            $table->float('w_value')->nullable();
             $table->integer('flow_k_factor')->nullable();
             $table->integer('volume_unit')->nullable(); // 0 = liter , 1 = gallon
             $table->integer('bypass_option')->nullable(); // not in DiUse / DiEntry 0 = internal, 1 = ext NC, 2 = Ext No
-            $table->integer('start_pressure')->nullable();
-            $table->integer('stop_pressure')->nullable();
-            $table->integer('bypass_pressure')->nullable();
-            $table->integer('CIP_pressure')->nullable();
+            $table->float('start_pressure')->nullable();
+            $table->float('stop_pressure')->nullable();
+            $table->float('bypass_pressure')->nullable();
+            $table->float('CIP_pressure')->nullable();
             $table->integer('wait_time_before_CIP')->nullable();
             $table->timestamps();
         });

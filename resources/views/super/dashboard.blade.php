@@ -550,10 +550,10 @@
 
     .timeline .timeline-body {
         margin-left: 23%;
-        margin-right: 17%;
+        margin-right: 5%;
         background: #fff;
         position: relative;
-        padding: 20px 25px;
+        padding: 20px 15px;
         border-radius: 6px
     }
 
@@ -2214,22 +2214,21 @@
                         $('#live_data_rows_'+view_live_device).prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
                         '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
                         '<div class="timeline-body"><div class="timeline-header"><span class="userimage"><img src="/images/running.gif"></span>'+
-                        '<span class="username"><a href="javascript:;">'+status +' </a> <small></small></span>'+
+                        '<span class="username">'+status +'<small></small></span>'+
                         '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+' </span><span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span></div>'+
                         '<div class="timeline-content"><div class="row"><div class="col-sm-04">'+
-                        '<p>AOV :'+response.aov+"</p>"+
+                        '<p>AOV :'+response.aov+" V</p>"+
                         "<p>CURRENT FLOW :"+response.c_flow+"</p>"+
-                        "<p>CABINET TEMP :"+response.c_temp+"</p>"+
+                        "<p>CABINET TEMP :"+response.c_temp+" \xB0C</p>"+
                         "<p>CYCLE :"+response.cycle+"</p>"+
                         "<p>EC :"+response.ec+"</p>"+
                         "<p>INPUT :"+response.input+"</p>"+
                         "<p>OUTPUT :"+response.output+"</p>"+
                         "<p>MODE :"+response.mode+"</p></div>"+
-                        "<div class=\"col-sm-04\"></div><div class=\"col-sm-04\">"+
-                        "<p>PAE VOLT :"+response.pae_volt+"</p>"+
+                        "<div class=\"col-sm-04\"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div class=\"col-sm-04\">"+
+                        "<p>PAE VOLT :"+response.pae_volt+" V</p>"+
                         "<p>PRESSURE :"+response.pressure+"</p>"+
                         "<p>STEP :"+response.step+"</p>"+
-                        "<p>STEP RUN SEC :"+response.step_run_sec+"</p>"+
                         "<p>TPV :"+response.tpv+"</p>"+
                         "<p>WATER TEMP :"+response.w_temp+"</p>"+
                         "<p>ALARM CODE :"+response.alarm+"</p></div></div></div>"+
