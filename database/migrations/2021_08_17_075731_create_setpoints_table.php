@@ -15,7 +15,7 @@ class CreateSetpointsTable extends Migration
     {
         Schema::create('setpoints', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('device_id');
+            $table->bigInteger('device_id')->unique();
             $table->integer('pure_EC_target')->nullable();
             $table->integer('prepurify_time')->nullable();
             $table->integer('purify_time')->nullable();
