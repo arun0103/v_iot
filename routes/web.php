@@ -102,4 +102,4 @@ Route::get('/refreshDashboardData',[App\Http\Controllers\DataController::class, 
 
 //Setpoints
 Route::get('/getDeviceSetpoints/{id}',[App\Http\Controllers\DataController::class, 'getDeviceSetpoints'])->middleware('auth');
-Route::post('/saveDeviceSetpoints/{id}',[App\Http\Controllers\CommandsController::class, 'setDeviceSetpoints'])->middleware('auth');
+Route::post('/saveDeviceSetpoints/{id}',[App\Http\Controllers\DataController::class, 'setDeviceSetpoints'])->middleware('auth');
