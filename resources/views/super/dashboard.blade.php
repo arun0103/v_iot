@@ -1793,7 +1793,7 @@
             console.log("Setpoints from database")
             console.log(response);
             pure_EC_target = response.pure_EC_target;
-            prepurify_time = resonse.prepurify_time;
+            prepurify_time = response.prepurify_time;
             purify_time = response.purify_time;
             waste_time = response.waste_time
             HF_waste_time =response.HF_waste_time
