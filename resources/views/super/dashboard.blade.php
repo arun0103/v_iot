@@ -2021,8 +2021,6 @@
 
         })
         .done(function(response){
-            console.log(response);
-
             if($('span#alarm_code_'+device_trid).text() != ""){
                 //analyse bits of alarm
                 var alarms =$('span#alarm_code_'+device_trid).text();
@@ -2062,14 +2060,14 @@
                         }
                     }
                 }
+            }
+            if(response.logs.length > 0){
                 $('tr#' + device_trid).toggle();
                 $('html, body').animate({
                     scrollTop: $('tr#' + device_trid).prop("scrollHeight") + $("#"+device_trid).height()
                 }, 1000);
             }else
                 Swal.fire("Error", "No Data found! ", "info")
-
-
         });
 
 
@@ -2142,12 +2140,12 @@
                                 type: "GET",
                                 url: "/command_status/"+command_sent+"/"+ response[i]['deviceDetails'].id,
                             })
-                            .done(function(response){
+                            .done(function(response_command){
                                 console.log("******************************************************");
-                                console.log(response);
-                                if(response.device_read_at != null){
+                                console.log(response_command);
+                                if(response_command.device_read_at != null){
                                     start_stop_command_sent = false;
-                                    $('#btn_device_start_stop-'+response.device_id).attr('disabled',false).change();
+                                    $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
                                 }
                             });
                         }
@@ -2177,10 +2175,10 @@
                         var test_now = new Date();
                         var test_created_at = new Date(response[i]['deviceDetails'].logs[0].created_at);
 
-                        console.log("Test now       : "+test_now);
-                        console.log("test Created_at: "+test_created_at);
+                        //console.log("Test now       : "+test_now);
+                        //console.log("test Created_at: "+test_created_at);
                         var dd = test_now - test_created_at;
-                        console.log("Difference :"+dd/1000/60);
+                        //console.log("Difference :"+dd/1000/60);
                         if(dd < 2*1000*60) // 2 minutes
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected")
                         else
@@ -2191,6 +2189,43 @@
                         $('#total_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?response[i]['deviceVolume'].total +" gal" : "");
 
                         // change alarm
+                        var alarms = response[i]['deviceDetails'].logs[0].alarm;
+
+                        var bin_alarms = (alarms >>> 0).toString(2);
+                        for(var ii = bin_alarms.length; ii<24 ; ii++){
+                            bin_alarms = "0"+bin_alarms;
+                        }
+                        $('#alarmsList_'+response[i]['deviceDetails'].id).empty();
+                        for(var  j= 0 ; j < bin_alarms.length ; j++){
+                            if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
+                                switch(j){
+                                    case 0: $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>Reserved For future</p>");break;
+                                    case 1: $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>Reserved For future</p>");break;
+                                    case 2: $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>Reserved For future</p>");break;
+                                    case 3: $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>FLOWMETER COMM ERROR</p>");break;
+                                    case 4: $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>ATLAS TEMPERATURE ERROR</p>");break;
+                                    case 5: $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>ZERO EC ALARM</p>");break;
+                                    case 6: $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>ATLAS I2C COM ERROR</p>");break;
+                                    case 7: $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>LOW PRESSURE ALARM</p>");break;
+                                    case 8: $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>PAE AC INPUT FAIL</p>");break;
+                                    case 9: $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>PAE AC POWER DOWN</p>");break;
+                                    case 10:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>PAE HIGH TEMPERATURE</p>");break;
+                                    case 11:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>PAE AUX OR SMPS FAIL</p>");break;
+                                    case 12:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>PAE FAN FAIL</p>");break;
+                                    case 13:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>PAE OVER TEMP SHUTDOWN</p>");break;
+                                    case 14:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>PAE OVER LOAD SHUTDOWN</p>");break;
+                                    case 15:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>PAE OVER VOLT SHUTDOWN</p>");break;
+                                    case 16:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>PAE COMMUNICATION ERROR</p>");break;
+                                    case 17:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>CIP LOW LEVEL ALARM</p>");break;
+                                    case 18:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>WASTE VALVE ALARM</p>");break;
+                                    case 19:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>LEAKAGE ALARM</p>");break;
+                                    case 20:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>CABINET TEMP ALARM</p>");break;
+                                    case 21:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>BYPASS ALARM</p>");break;
+                                    case 22:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>LOW FLOW WASTE ALARM</p>");break;
+                                    case 23:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>LOW FLOW PURE ALARM</p>");break;
+                                }
+                            }
+                        }
 
                     }
                 }

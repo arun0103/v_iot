@@ -158,11 +158,9 @@ class HomeController extends Controller
 
     public function getDeviceDetails($id){
 
-        $deviceDetail = Device::where('id',$id)
-                        ->with(['logs' =>function($query){
-                            $query->where('log_dt', '>=', Carbon::now()->subDays(30)->toDateTimeString())->get();
-                        }])
-                        ->first();
+        $deviceDetail = Device::where('id',$id)->with(['logs' =>function($query){
+                            $query->orderBy("id",'DESC')->get();
+                        }])->first();
         return response()->json($deviceDetail);
     }
 }
