@@ -2236,26 +2236,7 @@
                             case 14: step_name = " SHUNT";break;
                             case 15: step_name = " Wait Before CIP Start";break;
                         }
-                        // calculating input
-                        var input_binary_string = response.input.toString(2);
-                        if(input_binary_string.length <5){
-                            for(var i = input_binary_string.length; i<5;i++){
-                                input_binary_string = "0".concat(input_binary_string);
-                            }
-                        }
-                        var input_names ="<ul>";
-                        for(var i=0;i<input_binary_string.length;i++){
-                            if(input_binary_string.charAt(i)=='1'){
-                                switch(i){
-                                    case 0: input_names.concat("<li>")break;
-                                    case 1: break;
-                                    case 2: break;
-                                    case 3: break;
-                                    case 4: break;
-                                    case 5: break;
-                                }
-                            }
-                        }
+
                         // calculating output
 
                         // calculating alarms
