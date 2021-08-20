@@ -2119,9 +2119,13 @@
                             if(response[i]['deviceDetails'].logs[0].step == 0 || response[i]['deviceDetails'].logs[0].step == 1 || response[i]['deviceDetails'].logs[0].step == 13){
                                 status = "IDLE";
                                 color = "orange";
+                                $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).text("Start");
+                                $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeClass('btn-danger').addClass('btn-primary')
                             }else{
                                 status = "RUNNING";
                                 color = "green";
+                                $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).text("Stop");
+                                $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeClass('btn-primary').addClass('btn-danger')
                             }
                             $('#device-info-'+response[i]['deviceDetails'].id +' .status').text(status); // row status
                             $('#device_status-'+response[i]['deviceDetails'].id).text(status);   // device info status
@@ -2140,7 +2144,7 @@
                             })
                             .done(function(response){
                                 console.log(response);
-                                if(response.device_executed_at != null){
+                                if(response.device_read_at != null){
                                     start_stop_command_sent = false;
                                     $('#btn_device_start_stop-'+response.device_id).attr('disabled','false');
                                 }
@@ -2236,7 +2240,26 @@
                             case 14: step_name = " SHUNT";break;
                             case 15: step_name = " Wait Before CIP Start";break;
                         }
-
+                        // // calculating input
+                        // var input_binary_string = response.input.toString(2);
+                        // if(input_binary_string.length <5){
+                        //     for(var i = input_binary_string.length; i<5;i++){
+                        //         input_binary_string = "0".concat(input_binary_string);
+                        //     }
+                        // }
+                        // var input_names ="<ul>";
+                        // for(var i=0;i<input_binary_string.length;i++){
+                        //     if(input_binary_string.charAt(i)=='1'){
+                        //         switch(i){
+                        //             case 0: input_names.concat("<li>");break;
+                        //             case 1: break;
+                        //             case 2: break;
+                        //             case 3: break;
+                        //             case 4: break;
+                        //             case 5: break;
+                        //         }
+                        //     }
+                        // }
                         // calculating output
 
                         // calculating alarms
@@ -2258,7 +2281,7 @@
                                                 '<p>CURRENT FLOW :'+response.c_flow+' L/min</p>'+
                                                 '<p>ANALOG OUTPUT VOLTAGE :'+response.aov+' V</p>'+
                                                 '<p>CABINET TEMPERATURE :'+response.c_temp+' \xB0C</p>'+
-                                                '<p>CONDUCTIVITY(ec) :'+response.ec+' \xB5/cm<sup>2</sup></p>'+
+                                                '<p>CONDUCTIVITY(ec) :'+response.ec+' \xB5/cm</p>'+
                                                 '<p>MODE :'+response.mode+'</p>'+
                                                 '<p>INPUT :'+response.input+'</p>'+
                                                 '<p>OUTPUT :'+response.output+'</p>'+
