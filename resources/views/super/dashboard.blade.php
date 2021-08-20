@@ -2159,12 +2159,12 @@
                         $('#device-info-'+response[i]['deviceDetails'].id +' .ec').text(water_quality); // row water quality
                         $('#device_conductivity_value-'+response[i]['deviceDetails'].id).text(water_quality); // device info water quality
                         // change device connection status
-                        var now = +new Date();
-                        console.log("NOW :" + now);
-                        var last_date = new Date(response[i]['deviceDetails'].logs[0].log_dt).getTime();
-                        console.log("Last Data DateTime: "+ last_date);
-                        var difference = now - last_date;
-                        console.log("Difference :" + difference/1000/60/60);
+                        // var now = +new Date();
+                        // console.log("NOW :" + now);
+                        // var last_date = new Date(response[i]['deviceDetails'].logs[0].log_dt).getTime();
+                        // console.log("Last Data DateTime: "+ last_date);
+                        // var difference = now - last_date;
+                        // console.log("Difference :" + difference/1000/60/60);
 
                         var test_now = new Date();
                         var test_created_at = new Date(response[i]['deviceDetails'].logs[0].created_at);
@@ -2207,7 +2207,7 @@
                         recorded_date = recorded_date.toString();
                         console.log(recorded_date);
                         var status = "";
-                        if(response.step == 1 || response.step ==13)
+                        if(response.step == 0 ||response.step == 1 || response.step ==13)
                             status = "IDLE"
                         else
                             status ="RUNNING"
