@@ -1122,7 +1122,7 @@
                                                                                 <label for="input-pure_EC_target">1. Pure EC Target</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-pure_EC_target" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-pure_EC_target" id="input-pure_EC_target-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1130,7 +1130,7 @@
                                                                                 <label for="input-pre_purify_time">2. Pre-purify Time</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-pre_purify_time" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-pre_purify_time" id="input-pre_purify_time-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1138,7 +1138,7 @@
                                                                                 <label for="input-purify_time">3. Purify Time</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-purify_time" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-purify_time" id="input-purify_time-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1146,7 +1146,7 @@
                                                                                 <label for="input-waste_time">4. Waste Time</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-waste_time" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-waste_time" id="input-waste_time-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1154,7 +1154,7 @@
                                                                                 <label for="input-HF_waste_time">5. HF Waste Time</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-HF_waste_time" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-HF_waste_time" id="input-HF_waste_time-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1162,7 +1162,7 @@
                                                                                 <label for="input-CIP_dose">6. CIP Dose</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose" id="input-CIP_dose-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1170,7 +1170,7 @@
                                                                                 <label for="input-CIP_dose_rec">7. CIP Dose Rec</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose_rec" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose_rec" id="input-CIP_dose_rec-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1178,7 +1178,7 @@
                                                                                 <label for="input-CIP_dose_total">8. CIP Dose Total</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose_total" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose_total" id="input-CIP_dose_total-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1186,7 +1186,7 @@
                                                                                 <label for="input-CIP_flow_total">9. CIP Flow Total</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_total" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_total" id="input-CIP_flow_total-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1194,7 +1194,7 @@
                                                                                 <label for="input-CIP_flow_flush">10. CIP Flow Flush</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_flush" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_flush" id="input-CIP_flow_flush-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1202,7 +1202,7 @@
                                                                                 <label for="input-CIP_flow_rec">11. CIP Flow Rec</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_rec" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_rec" id="input-CIP_flow_rec-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1210,7 +1210,7 @@
                                                                                 <label for="input-CIP_flush_time">12. CIP Flush Time</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flush_time" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flush_time" id="input-CIP_flush_time-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1218,7 +1218,7 @@
                                                                                 <label for="input-WV_check_time">13. WV Check Time</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-WV_check_time" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-WV_check_time" id="input-WV_check_time-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1226,7 +1226,7 @@
                                                                                 <label for="input-wait_HT_time">14. Wait HT Time</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-wait_HT_time" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-wait_HT_time" id="input-wait_HT_time-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1234,7 +1234,7 @@
                                                                                 <label for="input-p_flow_target">15. P.Flow Target</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-p_flow_target" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-p_flow_target" id="input-p_flow_target-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1242,7 +1242,7 @@
                                                                                 <label for="input-low_flow_purify_alarm">16. Low Flow Purify Alarm</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-low_flow_purify_alarm" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-low_flow_purify_alarm" id="input-low_flow_purify_alarm-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1250,7 +1250,7 @@
                                                                                 <label for="input-low_flow_waste_alarm">17. Low Flow Waste Alarm</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-low_flow_waste_alarm" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-low_flow_waste_alarm" id="input-low_flow_waste_alarm-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1258,7 +1258,7 @@
                                                                                 <label for="input-CIP_cycles">18. CIP Cycles</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_cycles" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_cycles" id="input-CIP_cycles-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1266,7 +1266,7 @@
                                                                                 <label for="input-temperature_alarm">19. Temperature Alarm</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-temperature_alarm" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-temperature_alarm" id="input-temperature_alarm-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1274,7 +1274,7 @@
                                                                                 <label for="input-max_CIP_prt">20. Max CIP P.R.T</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-max_CIP_prt" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-max_CIP_prt" id="input-max_CIP_prt-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1282,7 +1282,7 @@
                                                                                 <label for="input-pump_p_factor">21. Pump P-Factor</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-pump_p_factor" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-pump_p_factor" id="input-pump_p_factor-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1290,7 +1290,7 @@
                                                                                 <label for="input-dynamic_p_factor">22. Dynamic P-Factor</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-dynamic_p_factor" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-dynamic_p_factor" id="input-dynamic_p_factor-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1298,7 +1298,7 @@
                                                                                 <label for="input-p_max_volt">23. P.Max Volt</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-p_max_volt" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-p_max_volt" id="input-p_max_volt-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1306,7 +1306,7 @@
                                                                                 <label for="input-w_max_volt">24. W.Max Volt</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-w_max_volt" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-w_max_volt" id="input-w_max_volt-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1314,7 +1314,7 @@
                                                                                 <label for="input-w_value">25. W_Value</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-w_value" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-w_value" id="input-w_value-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1322,7 +1322,7 @@
                                                                                 <label for="input-flow_k_factor">26. Flow K Factor</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-flow_k_factor" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-flow_k_factor" id="input-flow_k_factor-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1330,7 +1330,7 @@
                                                                                 <label for="input-volume_unit">27. Volume Unit</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <select class="form-control input-setpoints" id="input-volume_unit">
+                                                                                <select class="form-control input-setpoints"  id="input-volume_unit-{{$device->id}}">
                                                                                     <option value="0">Litre</option>
                                                                                     <option value="1">Gallon</option>
                                                                                 </select>
@@ -1341,7 +1341,7 @@
                                                                                 <label for="input-bypass_option">28. Bypass Option</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-bypass_option" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-bypass_option" id="input-bypass_option-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1349,7 +1349,7 @@
                                                                                 <label for="input-start_pressure">29. Start Pressure</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-start_pressure" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-start_pressure" id="input-start_pressure-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1357,7 +1357,7 @@
                                                                                 <label for="input-stop_pressure">30. Stop Pressure</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-stop_pressure" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-stop_pressure" id="input-stop_pressure-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1365,7 +1365,7 @@
                                                                                 <label for="input-bypass_pressure">31. Bypass Pressure</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-bypass_pressure" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-bypass_pressure" id="input-bypass_pressure-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1373,7 +1373,7 @@
                                                                                 <label for="input-CIP_pressure">32. CIP Pressure</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_pressure" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_pressure" id="input-CIP_pressure-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1381,7 +1381,7 @@
                                                                                 <label for="input-wait_time_before_CIP">33. Wait Time Before CIP</label>
                                                                             </div>
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
-                                                                                <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" value=""/>
+                                                                                <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-wait_time_before_CIP-{{$device->id}}" value=""/>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1825,39 +1825,39 @@
             bypass_pressure =response.bypass_pressure
             CIP_pressure =response.CIP_pressure
             wait_time_before_CIP =response.wait_time_before_CIP
-            $('#input-pure_EC_target').val(pure_EC_target).change();
-            $('#input-pre_purify_time').val(pre_purify_time).change();
-            $('#input-purify_time').val(purify_time).change();
-            $('#input-waste_time').val(waste_time).change();
-            $('#input-HF_waste_time').val(HF_waste_time).change();
-            $('#input-CIP_dose').val(CIP_dose).change();
-            $('#input-CIP_dose_rec').val(CIP_dose_rec).change();
-            $('#input-CIP_dose_total').val(CIP_dose_total).change();
-            $('#input-CIP_flow_total').val(CIP_flow_total).change();
-            $('#input-CIP_flow_flush').val(CIP_flow_flush).change();
-            $('#input-CIP_flow_rec').val(CIP_flow_rec).change();
-            $('#input-CIP_flush_time').val(CIP_flush_time).change();
-            $('#input-WV_check_time').val(WV_check_time).change();
-            $('#input-wait_HT_time').val(wait_HT_time).change();
-            $('#input-p_flow_target').val(p_flow_target).change();
-            $('#input-low_flow_purify_alarm').val(low_flow_purify_alarm).change();
-            $('#input-low_flow_waste_alarm').val(low_flow_waste_alarm).change();
-            $('#input-CIP_cycles').val(CIP_cycles).change();
-            $('#input-temperature_alarm').val(temperature_alarm).change();
-            $('#input-max_CIP_prt').val(max_CIP_prt).change();
-            $('#input-pump_p_factor').val(pump_p_factor).change();
-            $('#input-dynamic_p_factor').val(dynamic_p_factor).change();
-            $('#input-p_max_volt').val(p_max_volt).change();
-            $('#input-w_max_volt').val(w_max_volt).change();
-            $('#input-w_value').val(w_value).change();
-            $('#input-flow_k_factor').val(flow_k_factor).change();
-            $('#input-volume_unit').val(volume_unit).change();
-            $('#input-bypass_option').val(bypass_option).change();
-            $('#input-start_pressure').val(start_pressure).change();
-            $('#input-stop_pressure').val(stop_pressure).change();
-            $('#input-bypass_pressure').val(bypass_pressure).change();
-            $('#input-CIP_pressure').val(CIP_pressure).change();
-            $('#input-wait_time_before_CIP').val(wait_time_before_CIP).change();
+            $('#input-pure_EC_target-'+ trid).val(pure_EC_target).change();
+            $('#input-pre_purify_time-'+ trid).val(pre_purify_time).change();
+            $('#input-purify_time-'+ trid).val(purify_time).change();
+            $('#input-waste_time-'+ trid).val(waste_time).change();
+            $('#input-HF_waste_time-'+ trid).val(HF_waste_time).change();
+            $('#input-CIP_dose-'+ trid).val(CIP_dose).change();
+            $('#input-CIP_dose_rec-'+ trid).val(CIP_dose_rec).change();
+            $('#input-CIP_dose_total-'+ trid).val(CIP_dose_total).change();
+            $('#input-CIP_flow_total-'+ trid).val(CIP_flow_total).change();
+            $('#input-CIP_flow_flush-'+ trid).val(CIP_flow_flush).change();
+            $('#input-CIP_flow_rec-'+ trid).val(CIP_flow_rec).change();
+            $('#input-CIP_flush_time-'+ trid).val(CIP_flush_time).change();
+            $('#input-WV_check_time-'+ trid).val(WV_check_time).change();
+            $('#input-wait_HT_time-'+ trid).val(wait_HT_time).change();
+            $('#input-p_flow_target-'+ trid).val(p_flow_target).change();
+            $('#input-low_flow_purify_alarm-'+ trid).val(low_flow_purify_alarm).change();
+            $('#input-low_flow_waste_alarm-'+ trid).val(low_flow_waste_alarm).change();
+            $('#input-CIP_cycles-'+ trid).val(CIP_cycles).change();
+            $('#input-temperature_alarm-'+ trid.val(temperature_alarm).change();
+            $('#input-max_CIP_prt-'+ trid).val(max_CIP_prt).change();
+            $('#input-pump_p_factor-'+ trid).val(pump_p_factor).change();
+            $('#input-dynamic_p_factor-'+ trid).val(dynamic_p_factor).change();
+            $('#input-p_max_volt-'+ trid).val(p_max_volt).change();
+            $('#input-w_max_volt-'+ trid).val(w_max_volt).change();
+            $('#input-w_value-'+ trid).val(w_value).change();
+            $('#input-flow_k_factor-'+ trid).val(flow_k_factor).change();
+            $('#input-volume_unit-'+ trid).val(volume_unit).change();
+            $('#input-bypass_option-'+ trid).val(bypass_option).change();
+            $('#input-start_pressure-'+ trid).val(start_pressure).change();
+            $('#input-stop_pressure-'+ trid).val(stop_pressure).change();
+            $('#input-bypass_pressure-'+ trid).val(bypass_pressure).change();
+            $('#input-CIP_pressure-'+ trid).val(CIP_pressure).change();
+            $('#input-wait_time_before_CIP-'+ trid).val(wait_time_before_CIP).change();
 
         });
     })
