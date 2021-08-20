@@ -1843,7 +1843,7 @@
             $('#input-low_flow_purify_alarm-'+ trid).val(low_flow_purify_alarm).change();
             $('#input-low_flow_waste_alarm-'+ trid).val(low_flow_waste_alarm).change();
             $('#input-CIP_cycles-'+ trid).val(CIP_cycles).change();
-            $('#input-temperature_alarm-'+ trid.val(temperature_alarm).change();
+            $('#input-temperature_alarm-'+ trid).val(temperature_alarm).change();
             $('#input-max_CIP_prt-'+ trid).val(max_CIP_prt).change();
             $('#input-pump_p_factor-'+ trid).val(pump_p_factor).change();
             $('#input-dynamic_p_factor-'+ trid).val(dynamic_p_factor).change();
