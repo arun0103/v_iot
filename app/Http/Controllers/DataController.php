@@ -51,7 +51,7 @@ class DataController extends Controller
                 //calculate total volume
                 $first_record = RawLogs::where('serial_number',$device->serial_number)->first();
                 $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
-                $total_volume = ($last_record->tpv - $first_record->tpv)*0.2642007926;
+                $total_volume = $last_record->tpv*0.2642007926;
                 $volume = [
                     'daily'=>round($daily_volume,2),
                     'monthly'=>round($monthly_volume,2),
