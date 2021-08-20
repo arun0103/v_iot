@@ -1057,11 +1057,9 @@
                                                                                     </div>
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
-                                                                                    @if($device->logs->count()< 1)
-                                                                                    <p>No Data</p>
-                                                                                    @else
-                                                                                    <p hidden>Alarm Code: <span id="alarm_code_{{$device->id}}">{{$device->logs[0]->alarm}}</span></p>
-                                                                                    <section class="alarms-list" id="alarmsList_{{$device->id}}"></section>
+                                                                                    @if($device->logs->count()>0)
+                                                                                        <p hidden>Alarm Code: <span id="alarm_code_{{$device->id}}">{{$device->logs[0]->alarm}}</span></p>
+                                                                                        <section class="alarms-list" id="alarmsList_{{$device->id}}"></section>
                                                                                     @endif
                                                                                     </div>
                                                                                     <!-- /.card-body -->
@@ -2195,7 +2193,7 @@
                         for(var ii = bin_alarms.length; ii<24 ; ii++){
                             bin_alarms = "0"+bin_alarms;
                         }
-                        $('#alarmsList_'+response[i]['deviceDetails'].id).empty();
+                        $('section#alarmsList_'+response[i]['deviceDetails'].id).empty();
                         for(var  j= 0 ; j < bin_alarms.length ; j++){
                             if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
                                 switch(j){
