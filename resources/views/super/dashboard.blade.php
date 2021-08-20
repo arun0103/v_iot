@@ -2158,9 +2158,9 @@
                         .done(function(response_command){
                             console.log("*******************************");
                             console.log("Pure EC Target setpoint : "+response_command);
-                            setpoint_pure_EC_target = response_command.pure_EC_target)
+                            setpoint_pure_EC_target = response_command.pure_EC_target;
                         });
-                        if(response[i]['deviceDetails'].logs[0].ec < setpoint_pure_EC_target && setpoint_pure_EC_target !=-1){
+                        if(response[i]['deviceDetails'].logs[0].ec < setpoint_pure_EC_target && setpoint_pure_EC_target != -1){
                             water_quality = "On Target";
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'green';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'green';
