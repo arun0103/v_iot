@@ -812,7 +812,7 @@
                                             <td>{{$device->serial_number}}</td>
                                             <td>{{$device->model == 'U' ? 'DiUse' : 'DiEntry'}}</td>
                                             <td>{{$device->userDevices->count()}}</td>
-                                            <td class="status">{{$device->logs->count()>0 ? ($device->logs[0]->step == 1 || $device->logs[0]->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</td>
+                                            <td class="status">{{$device->logs->count()>0 ? ($device->logs[0]->step == 0 || $device->logs[0]->step == 1 || $device->logs[0]->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</td>
                                             <td><span class="ec">{{$device->logs->count() >0 ? ($device->logs[0]->ec >=0 && $device->logs[0]->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></td>
                                             <td>
                                                 <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>

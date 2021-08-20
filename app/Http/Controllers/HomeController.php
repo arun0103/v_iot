@@ -45,7 +45,7 @@ class HomeController extends Controller
             $users = User::all();
             $devices = Device::with('userDevices')->with(['logs'=>function($query){
                 $query->orderBy('id','desc')->first();
-            }])->with('device_settings','device_commands')->get();
+            }])->with('device_settings','device_commands','setpoints')->get();
             foreach($devices as $device){
                 if($device->logs->count() > 0){
                     $triggeredAlarms = [];
