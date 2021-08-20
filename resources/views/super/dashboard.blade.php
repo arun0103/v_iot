@@ -2160,7 +2160,9 @@
                             console.log("Pure EC Target setpoint : "+response_command);
                             setpoint_pure_EC_target = response_command.pure_EC_target;
                         });
-                        if(response[i]['deviceDetails'].logs[0].ec < setpoint_pure_EC_target && setpoint_pure_EC_target != -1){
+                        var avg_EC_target = (setpoint_pure_EC_target + response[i]['deviceDetails'].logs[0].ec)/2;
+                        var percentage_EC_target = (setpoint_pure_EC_target + response[i]['deviceDetails'].logs[0].ec)/avg_EC_target
+                        if(percentage_EC_target/100 < 10){
                             water_quality = "On Target";
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'green';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'green';
