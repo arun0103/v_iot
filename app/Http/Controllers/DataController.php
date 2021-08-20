@@ -121,7 +121,7 @@ class DataController extends Controller
             $deviceCommand->command = "Setpoint";
             $deviceCommand->save();
 
-            return response()->json([$setpoints,$deviceCommand],200);
+            return response()->json($setpoints,200);
 
         }
     }
