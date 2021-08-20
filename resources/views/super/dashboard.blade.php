@@ -1048,7 +1048,6 @@
                                                                                 <div class="card card-outline card-success">
                                                                                     <div class="card-header">
                                                                                         <h3 class="card-title">Alarms</h3>
-
                                                                                         <div class="card-tools">
                                                                                         <i class="btn fas fa-table" id="info_device_alarms_table-{{$device->id}}"></i>
                                                                                         <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
@@ -1064,7 +1063,6 @@
                                                                                     <p hidden>Alarm Code: <span id="alarm_code_{{$device->id}}">{{$device->logs[0]->alarm}}</span></p>
                                                                                     <section class="alarms-list" id="alarmsList_{{$device->id}}"></section>
                                                                                     @endif
-
                                                                                     </div>
                                                                                     <!-- /.card-body -->
                                                                                 </div>
@@ -2216,29 +2214,87 @@
                             status = "IDLE"
                         else
                             status ="RUNNING"
+
+                        //calculating step
+                        var step_name = "";
+                        switch(response.step){
+                            case 255: step_name = " PCB restart";break;
+                            case 0: step_name = " Free Run";break;
+                            case 1: step_name = " Idle";break;
+                            case 2: step_name = " Prepurify";break;
+                            case 3: step_name = " Purify";break;
+                            case 4: step_name = " Waste";break;
+                            case 5: step_name = " High Flow Waste";break;
+                            case 6: step_name = " Wait";break;
+                            case 7: step_name = " CIP Dosing ON";break;
+                            case 8: step_name = " CIP Dosing OFF";break;
+                            case 9: step_name = " CIP Pulse ON";break;
+                            case 10: step_name = " CIP Pulse OFF";break;
+                            case 11: step_name = " CIP Flush";break;
+                            case 12: step_name = " High Temperature";break;
+                            case 13: step_name = " Wait High Temperature";break;
+                            case 14: step_name = " SHUNT";break;
+                            case 15: step_name = " Wait Before CIP Start";break;
+                        }
+                        // calculating input
+                        var input_binary_string = response.input.toString(2);
+                        if(input_binary_string.length <5){
+                            for(var i = input_binary_string.length; i<5;i++){
+                                input_binary_string = "0".concat(input_binary_string);
+                            }
+                        }
+                        var input_names ="<ul>";
+                        for(var i=0;i<input_binary_string.length;i++){
+                            if(input_binary_string.charAt(i)=='1'){
+                                switch(i){
+                                    case 0: input_names.concat("<li>")break;
+                                    case 1: break;
+                                    case 2: break;
+                                    case 3: break;
+                                    case 4: break;
+                                    case 5: break;
+                                }
+                            }
+                        }
+                        // calculating output
+
+                        // calculating alarms
+
+
                         $('#live_data_rows_'+view_live_device).prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
-                        '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
-                        '<div class="timeline-body"><div class="timeline-header"><span class="userimage"><img src="/images/running.gif"></span>'+
-                        '<span class="username">'+status +'<small></small></span>'+
-                        '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+' </span><span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span></div>'+
-                        '<div class="timeline-content"><div class="row"><div class="col-sm-04">'+
-                        '<p>AOV :'+response.aov+" V</p>"+
-                        "<p>CURRENT FLOW :"+response.c_flow+"</p>"+
-                        "<p>CABINET TEMP :"+response.c_temp+" \xB0C</p>"+
-                        "<p>CYCLE :"+response.cycle+"</p>"+
-                        "<p>EC :"+response.ec+"</p>"+
-                        "<p>INPUT :"+response.input+"</p>"+
-                        "<p>OUTPUT :"+response.output+"</p>"+
-                        "<p>MODE :"+response.mode+"</p></div>"+
-                        "<div class=\"col-sm-04\"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div class=\"col-sm-04\">"+
-                        "<p>PAE VOLT :"+response.pae_volt+" V</p>"+
-                        "<p>PRESSURE :"+response.pressure+"</p>"+
-                        "<p>STEP :"+response.step+"</p>"+
-                        "<p>TPV :"+response.tpv+"</p>"+
-                        "<p>WATER TEMP :"+response.w_temp+"</p>"+
-                        "<p>ALARM CODE :"+response.alarm+"</p></div></div></div>"+
-                        "<p>PERCENTAGE RECOVERY :"+response.percentage_recovery+"</p>"+
-                        +"</div></li>");
+                                '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
+                                '<div class="timeline-body">'+
+                                   '<div class="timeline-header">'+
+                                        '<span class="userimage"><img src="/images/running.gif"></span>'+
+                                        '<span class="username">'+status +'<small></small></span>'+
+                                        '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+' </span>'+
+                                        '<span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span>'+
+                                    '</div>'+
+                                    '<div class="timeline-content">'+
+                                        '<div class="row">'+
+                                            '<div class="col-sm-6">'+
+                                                '<p>CYCLE :'+response.cycle+'</p>'+
+                                                '<p>CURRENT FLOW :'+response.c_flow+' L/min</p>'+
+                                                '<p>ANALOG OUTPUT VOLTAGE :'+response.aov+' V</p>'+
+                                                '<p>CABINET TEMPERATURE :'+response.c_temp+' \xB0C</p>'+
+                                                '<p>CONDUCTIVITY(ec) :'+response.ec+' \xB5/cm<sup>2</sup></p>'+
+                                                '<p>MODE :'+response.mode+'</p>'+
+                                                '<p>INPUT :'+response.input+'</p>'+
+                                                '<p>OUTPUT :'+response.output+'</p>'+
+                                            '</div>'+
+                                            '<div class="col-sm-6">'+
+                                                '<p>STEP :'+step_name+'</p>'+
+                                                '<p>PRESSURE :'+response.pressure.toFixed(2)+' bar</p>'+
+                                                '<p>PAE VOLTAGE :'+response.pae_volt+' V</p>'+
+                                                '<p>WATER TEMPERATURE :'+response.w_temp+' \xB0C</p>'+
+                                                '<p>PERCENTAGE RECOVERY :'+response.percentage_recovery+'%</p>'+
+                                                '<p>TOTAL PURE VOLUME :'+response.tpv+' L</p>'+
+                                                '<p>ALARM CODE :'+response.alarm+'</p>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</li>');
                         highlight($('#live_data_rows:first .timeline-body:first'));
                     }
                 });
