@@ -2147,7 +2147,7 @@
                                 console.log(response);
                                 if(response.device_read_at != null){
                                     start_stop_command_sent = false;
-                                    $('#btn_device_start_stop-'+response.device_id).attr('disabled','false');
+                                    $('#btn_device_start_stop-'+response.device_id).attr('disabled',false);
                                 }
                             });
                         }
