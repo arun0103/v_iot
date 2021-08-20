@@ -1763,7 +1763,7 @@
         });
     })
     // variables needed for setpoints tab
-    var pure_EC_target,prepurify_time,purify_time,waste_time,HF_waste_time,
+    var pure_EC_target,pre_purify_time,purify_time,waste_time,HF_waste_time,
         CIP_dose,CIP_dose_rec,CIP_dose_total,CIP_flow_total,CIP_flow_flush,CIP_flow_rec,CIP_flush_time,
         WV_check_time,wait_HT_time,p_flow_target,low_flow_purify_alarm,low_flow_waste_alarm,
         CIP_cycles,temperature_alarm,max_CIP_prt,pump_p_factor,dynamic_p_factor,p_max_volt,
@@ -1793,7 +1793,7 @@
             console.log("Setpoints from database")
             console.log(response);
             pure_EC_target = response.pure_EC_target;
-            prepurify_time = response.prepurify_time;
+            pre_purify_time = response.prepurify_time;
             purify_time = response.purify_time;
             waste_time = response.waste_time
             HF_waste_time =response.HF_waste_time
