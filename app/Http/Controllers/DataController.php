@@ -125,4 +125,9 @@ class DataController extends Controller
 
         }
     }
+
+    public function getPureECTarget($id){
+        $pureECtarget = Setpoints::where('device_id',$id)->pluck('pure_EC_target');
+        return response()->json($pureECtarget);
+    }
 }

@@ -2149,7 +2149,16 @@
                         }
                         // change the water quality
                         var water_quality ="";
-                        if(response[i]['deviceDetails'].logs[0].ec<200){
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "GET",
+                            url: "/getPureECTarget/"+ response[i]['deviceDetails'].id,
+                        })
+                        .done(function(response_command){
+                            console.log("*******************************");
+                            console.log("Pure EC Target setpoint : "+response_command);
+                        });
+                        if(response[i]['deviceDetails'].logs[0].ec<response_command.pure_EC_target){
                             water_quality = "On Target";
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'green';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'green';
