@@ -1909,6 +1909,11 @@
         $('#btn_save_setpoint-'+trid).attr('hidden',true)
         $('#btn_cancel_setpoint-'+trid).attr('hidden',true)
         $('.input-setpoints').attr('disabled',true);
+
+        console.log(" ' ' ' ' ' ' ' ' ' ' ' ' '' ");
+        console.log("Pure EC Target: "+ $('#input-pure_EC_target-'+trid).val());
+        console.log(" ' ' ' ' ' ' ' ' ' ' ' ' '' ");
+
         //save new values in the database and send commands to device to change the setpoints to new value
         var formData ={
             'pure_EC_target':$('#input-pure_EC_target-'+trid).val(),
