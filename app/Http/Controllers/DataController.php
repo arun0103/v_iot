@@ -39,6 +39,7 @@ class DataController extends Controller
                     $last_tpv = $daily_logs[0]->tpv;
                     $daily_volume = ($latest_tpv -$last_tpv)*0.2642007926;
                 }
+                $daily_logs =[];
                 //calculate monthly volume
                 $monthly_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$thirtyOnedays,$today])->get();
                 $monthly_logs_count = count($monthly_logs);
@@ -48,6 +49,7 @@ class DataController extends Controller
                     $last_tpv = $monthly_logs[0]->tpv;
                     $monthly_volume = ($latest_tpv -$last_tpv)*0.2642007926;
                 }
+                $monthly_logs = [];
                 //calculate total volume
                 $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
                 $total_volume = $last_record->tpv*0.2642007926;
@@ -56,6 +58,7 @@ class DataController extends Controller
                     'monthly'=>round($monthly_volume,2),
                     'total'=>round($total_volume,2)
                 ];
+                $last_record = null;
             }
             $deviceData = [
                 'deviceDetails'=>$device,
