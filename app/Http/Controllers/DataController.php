@@ -26,7 +26,7 @@ class DataController extends Controller
         $volume = [];
         // get the first data and last data of tpv and subtract to get the monthly volume
         foreach($devices as $device){
-            return response()->json($device->latest_log);
+            return response()->json($device);
             $data_count = count($device->latest_log);
             if($device->serial_number == "210520022")
                 return response()->json($data_count);
