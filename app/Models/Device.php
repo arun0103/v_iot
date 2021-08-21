@@ -26,6 +26,9 @@ class Device extends Model
     public function logs(){
         return $this->hasMany('App\Models\RawLogs', 'serial_number','serial_number');
     }
+    public function latestLog(){
+        return $this->hasOne('App\Models\RawLogs')->latest();
+    }
     public function device_settings(){
         return $this->hasOne('App\Models\Device_settings','device_id','id');
     }
