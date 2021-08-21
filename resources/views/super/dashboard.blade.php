@@ -2153,14 +2153,14 @@
                         $.ajax({
                             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                             type: "GET",
-                            url: "/getPureECTarget/"+ response[i]['deviceDetails'].id,
+                            url: "/getPureECTargetSetpoint/"+ response[i]['deviceDetails'].id,
                         })
                         .done(function(response_command){
                             console.log("*******************************");
                             console.log("Pure EC Target setpoint : "+response_command);
                             setpoint_pure_EC_target = response_command.pure_EC_target;
                         });
-                        var avg_EC_target = (setpoint_pure_EC_target + response[i]['deviceDetails'].logs[0].ec)/2;
+                        var avg_EC_target = response[i]['deviceDetails'].logs[0].ec;
                         var difference_ec = setpoint_pure_EC_target - response[i]['deviceDetails'].logs[0].ec;
                         if(difference_ec<0){
                             difference_ec *= -1;
@@ -2332,7 +2332,7 @@
                                                 '<p>CURRENT FLOW :'+response.c_flow+' L/min</p>'+
                                                 '<p>ANALOG OUTPUT VOLTAGE :'+response.aov+' V</p>'+
                                                 '<p>CABINET TEMPERATURE :'+response.c_temp+' \xB0C</p>'+
-                                                '<p>CONDUCTIVITY(ec) :'+response.ec+' \xB5/cm</p>'+
+                                                '<p>Avg. CONDUCTIVITY(ec) :'+response.ec+' \xB5/cm</p>'+
                                                 '<p>MODE :'+response.mode+'</p>'+
                                                 '<p>INPUT :'+response.input+'</p>'+
                                                 '<p>OUTPUT :'+response.output+'</p>'+

@@ -102,5 +102,5 @@ Route::get('/refreshDashboardData',[App\Http\Controllers\DataController::class, 
 
 //Setpoints
 Route::get('/getDeviceSetpoints/{id}',[App\Http\Controllers\DataController::class, 'getDeviceSetpoints'])->middleware('auth');
-Route::get('/getPureECTarget/{id}',[App\Http\Controllers\DataController::class, 'getPureECTarget'])->middleware('auth');
+Route::get('/getPureECTargetSetpoint/{id}',[App\Http\Controllers\DataController::class, 'getPureECTarget'])->middleware('auth');
 Route::post('/saveDeviceSetpoints/{id}',[App\Http\Controllers\DataController::class, 'setDeviceSetpoints'])->middleware('auth');
