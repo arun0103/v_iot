@@ -2112,12 +2112,12 @@
                     if(response[i]['deviceDetails'].logs.length != 0){
                         console.log("Displaying response data");
                         console.log(response[i]['deviceDetails']);
-                        // console.log(response[i]['deviceDetails'].logs[0].step);
+                        // console.log(response[i]['deviceDetails'].latest_log.step);
                         //change the status
                         if(!start_stop_command_sent){
                             var status = "";
                             var color = "";
-                            if(response[i]['deviceDetails'].logs[0].step == 0 || response[i]['deviceDetails'].logs[0].step == 1 || response[i]['deviceDetails'].logs[0].step == 13){
+                            if(response[i]['deviceDetails'].latest_log.step == 0 || response[i]['deviceDetails'].latest_log.step == 1 || response[i]['deviceDetails'].latest_log.step == 13){
                                 status = "IDLE";
                                 color = "orange";
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).text("Start");
@@ -2165,8 +2165,8 @@
                             console.log("Pure EC Target setpoint : "+response_command);
                             setpoint_pure_EC_target = response_command.pure_EC_target;
                         });
-                        var avg_EC_target = response[i]['deviceDetails'].logs[0].ec;
-                        var difference_ec = setpoint_pure_EC_target - response[i]['deviceDetails'].logs[0].ec;
+                        var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
+                        var difference_ec = setpoint_pure_EC_target - response[i]['deviceDetails'].latest_log.ec;
                         if(difference_ec<0){
                             difference_ec *= -1;
                         }
@@ -2187,13 +2187,13 @@
                         // change device connection status
                         // var now = +new Date();
                         // console.log("NOW :" + now);
-                        // var last_date = new Date(response[i]['deviceDetails'].logs[0].log_dt).getTime();
+                        // var last_date = new Date(response[i]['deviceDetails'].latest_log.log_dt).getTime();
                         // console.log("Last Data DateTime: "+ last_date);
                         // var difference = now - last_date;
                         // console.log("Difference :" + difference/1000/60/60);
 
                         var test_now = new Date();
-                        var test_created_at = new Date(response[i]['deviceDetails'].logs[0].created_at);
+                        var test_created_at = new Date(response[i]['deviceDetails'].latest_log.created_at);
 
                         //console.log("Test now       : "+test_now);
                         //console.log("test Created_at: "+test_created_at);
@@ -2209,7 +2209,7 @@
                         $('#total_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?response[i]['deviceVolume'].total +" gal" : "");
 
                         // change alarm
-                        var alarms = response[i]['deviceDetails'].logs[0].alarm;
+                        var alarms = response[i]['deviceDetails'].latest_log.alarm;
 
                         var bin_alarms = (alarms >>> 0).toString(2);
                         for(var ii = bin_alarms.length; ii<24 ; ii++){
