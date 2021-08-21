@@ -26,6 +26,7 @@ class DataController extends Controller
         $volume = [];
         // get the first data and last data of tpv and subtract to get the monthly volume
         foreach($devices as $device){
+            return $device;
             $data_count = count($device->logs);
             if($data_count != 0){
                 // calculate daily volume
@@ -47,7 +48,6 @@ class DataController extends Controller
                     $monthly_volume = ($latest_tpv -$last_tpv)*0.2642007926;
                 }
                 //calculate total volume
-                $first_record = RawLogs::where('serial_number',$device->serial_number)->first();
                 $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
                 $total_volume = $last_record->tpv*0.2642007926;
                 $volume = [
