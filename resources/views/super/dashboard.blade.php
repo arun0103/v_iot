@@ -731,68 +731,6 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <!-- <div class="row">
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-success elevation-1"><i id="running" class="fas fa-cog "></i></span>
-                            <div class="info-box-content" id="running-devices">
-                                <span class="info-box-text">Running</span>
-                                <span class="info-box-number">
-                                {{$devices->count()}}
-                                <small>/</small>
-                                {{$devices->count()}}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-warning elevation-1"><i id="standby" class="fas fa-cog"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">Standby</span>
-                                <span class="info-box-number">
-                                0
-                                <small>/</small>
-                                {{$devices->count()}}
-                                </span>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-dark elevation-1"><i class="fas fa-cog"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Idle</span>
-                                <span class="info-box-number">
-                                0
-                                <small>/</small>
-                                {{$devices->count()}}
-                                </span>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-primary elevation-1"><i id="cleaning" class="fas fa-pump-medical"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Cleaning</span>
-                                <span class="info-box-number">
-                                0
-                                <small>/</small>
-                                {{$devices->count()}}
-                                </span>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div> -->
                 <div class="row" id="table-total-devices">
                     <div class="col-lg-12 col-md-12">
                         <!-- <h3>All Devices</h3> -->
@@ -812,8 +750,8 @@
                                             <td>{{$device->serial_number}}</td>
                                             <td>{{$device->model == 'U' ? 'DiUse' : 'DiEntry'}}</td>
                                             <td>{{$device->userDevices->count()}}</td>
-                                            <td class="status">{{$device->logs->count()>0 ? ($device->logs[0]->step == 0 || $device->logs[0]->step == 1 || $device->logs[0]->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</td>
-                                            <td><span class="ec">{{$device->logs->count() >0 ? ($device->logs[0]->ec >=0 && $device->logs[0]->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></td>
+                                            <td class="status">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</td>
+                                            <td><span class="ec">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></td>
                                             <td>
                                                 <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -882,7 +820,7 @@
                                                                                     <div class="card-body">
                                                                                         <div>
                                                                                             <i id="device_status_pic-{{$device->id}}" class="fas fa fa-certificate blink_me" style="color:green"></i>&nbsp;&nbsp;
-                                                                                            <span style="color:green" id="device_status-{{$device->id}}">{{$device->logs->count()>0 ? ($device->logs[0]->step == 0 || $device->logs[0]->step == 1 || $device->logs[0]->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</span>
+                                                                                            <span style="color:green" id="device_status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</span>
                                                                                             <i id="info_device_status-{{$device->id}}" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
                                                                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                                                 <a href="#" class="dropdown-item">
@@ -898,8 +836,8 @@
                                                                                         <div><br>
                                                                                             <span><b>Connection :</b></span>
                                                                                             <i id="device_connection_status-{{$device->id}}" style="color:green">
-                                                                                                @if($device->logs->count() >0)
-                                                                                                    @if(Carbon\Carbon::now()->diffInMinutes($device->logs[0]->created_at) < 2)
+                                                                                                @if($device->latest_log != null)
+                                                                                                    @if(Carbon\Carbon::now()->diffInMinutes($device->latest_log->created_at) < 2)
                                                                                                         {{"Connected"}}
                                                                                                     @else
                                                                                                         {{"Disconnected"}}
@@ -1028,7 +966,7 @@
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
                                                                                         <i class="fas fa fa-certificate" id="device_condutivity_icon-{{$device->id}}" style="color:green">&nbsp;&nbsp;
-                                                                                        <span id="device_conductivity_value-{{$device->id}}">{{$device->logs->count() >0 ? ($device->logs[0]->ec >=0 && $device->logs[0]->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></i>
+                                                                                        <span id="device_conductivity_value-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></i>
                                                                                         <i id="info_device_conductivity-{{$device->id}}" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
                                                                                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                                             <a href="#" class="dropdown-item">
@@ -1057,8 +995,8 @@
                                                                                     </div>
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
-                                                                                    @if($device->logs->count()>0)
-                                                                                        <p hidden>Alarm Code: <span id="alarm_code_{{$device->id}}">{{$device->logs[0]->alarm}}</span></p>
+                                                                                    @if($device->latest_log != null)
+                                                                                        <p hidden>Alarm Code: <span id="alarm_code_{{$device->id}}">{{$device->latest_log->alarm}}</span></p>
                                                                                         <section class="alarms-list" id="alarmsList_{{$device->id}}"></section>
                                                                                     @endif
                                                                                     </div>

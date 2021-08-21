@@ -43,13 +43,11 @@ class HomeController extends Controller
         Session(['company', $company_name]);
         if($loggedInUser->role == 'S'){
             $users = User::all();
-            $devices = Device::with('userDevices')->with(['logs'=>function($query){
-                $query->orderBy('id','desc')->first();
-            }])->with('device_settings','device_commands','setpoints')->get();
+            $devices = Device::with('userDevices')->with('latest_log','device_settings','device_commands','setpoints')->get();
             foreach($devices as $device){
-                if($device->logs->count() > 0){
+                if($device->latest_log != null){
                     $triggeredAlarms = [];
-                    $alarms = decbin($device->logs[0]->alarm);
+                    $alarms = decbin($device->latest_log->alarm);
                     for($i = strlen($alarms); $i < 24; $i++)    // assuming that data is sent less if top alarms are off
                         $alarms = "0".$alarms;                  // adding off status to top alarms so that we can calcuate serially
                     // dd($alarms);
