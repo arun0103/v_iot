@@ -2021,6 +2021,7 @@
         })
         .done(function(response){
             console.log("Device Detail response of id: "+response.id)
+            console.log(response);
             if($('span#alarm_code_'+device_trid).text() != ""){
                 //analyse bits of alarm
                 var alarms =$('span#alarm_code_'+device_trid).text();

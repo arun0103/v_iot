@@ -14,20 +14,19 @@ class DataController extends Controller
 {
     //
     public function getAllDeviceLatestDataEvery15Seconds(){
-        $device = Device::with(['logs'=>function($query){
-            $query->orderBy('log_dt','DESC')->first();
+        $devices = Device::with(['logs'=>function($query){
+            $query->orderBy('created_at','DESC')->first();
         }])->get();
         $today = date(Carbon::now());
         $thirtyOnedays = date(Carbon::now()->subDays(31));
         $previousDay = date(Carbon::now()->subDays(1));
-
-        $allDevices= Device::with(['logs'=>function($query) use($thirtyOnedays, $today){
-            $query->orderBy('id','Desc')->first();
-        }])->get();
+        // $allDevices= Device::with(['logs'=>function($query) use($thirtyOnedays, $today){
+        //     $query->orderBy('id','Desc')->first();
+        // }])->get();
         $dataToSend =[];
         $volume = [];
         // get the first data and last data of tpv and subtract to get the monthly volume
-        foreach($allDevices as $device){
+        foreach($devices as $device){
             $data_count = count($device->logs);
             if($data_count != 0){
                 // calculate daily volume
