@@ -26,8 +26,8 @@ class DataController extends Controller
         $volume = [];
         // get the first data and last data of tpv and subtract to get the monthly volume
         foreach($devices as $device){
-            if($device->serial_number == "210520022")
-                return $device;
+            // if($device->serial_number == "210520022")
+            //     return $device;
             $data_count = count($device->logs);
             if($data_count != 0){
                 // calculate daily volume
@@ -63,9 +63,6 @@ class DataController extends Controller
             ];
             array_push($dataToSend, $deviceData);
         }
-
-
-
         return response()->json($dataToSend);
     }
 
