@@ -15,7 +15,7 @@ class DataController extends Controller
     //
     public function getAllDeviceLatestDataEvery15Seconds(){
         $devices = Device::with(['logs'=>function($query){
-            $query->orderBy('created_at','DESC')->first();
+            $query->orderBy('created_at','desc')->first();
         }])->get();
         return response()->json($devices);
         $today = date(Carbon::now());
