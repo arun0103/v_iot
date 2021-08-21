@@ -1636,7 +1636,7 @@
 
         })
         .done(function(response){
-            console.log(response)
+            // console.log(response)
             Swal.fire('Success','Critic Acid Updated','success')
             $('#btn_save_critic_acid-'+trid).attr("hidden", true);
         });
@@ -1748,7 +1748,7 @@
 
         })
         .done(function(response){
-            console.log(response);
+            // console.log(response);
             response.forEach(addCommandRows)
 
             function addCommandRows(item, index, arr){
@@ -1786,8 +1786,9 @@
             url: "/getDeviceSetpoints/"+ trid,
         })
         .done(function(response){
-            console.log("Setpoints from database")
+            console.log("***** Setpoints from database")
             console.log(response);
+            console.log("*****************************")
             pure_EC_target = response.pure_EC_target;
             pre_purify_time = response.prepurify_time;
             purify_time = response.purify_time;
@@ -1875,7 +1876,7 @@
 
                 })
                 .done(function(response){
-                    console.log(response);
+                    // console.log(response);
                     $('.commands tr#'+trid).hide();
                     Swal.fire('Deleted!', '', 'success')
                     $('#command-'+trid).remove();
@@ -2007,7 +2008,7 @@
         //$('#modal-device-detail').modal('show');
         var trid = $(this).closest('tr').attr('id'); // table row ID
         var device_trid = trid.replace("device-info-",'')
-        console.log(device_trid)
+        console.log("#### TR Clicked of device id: "+device_trid)
         $('#tab_avg_data_'+device_trid).show();
         $('#tab_live_data_'+device_trid).hide();
         $('#btn_refresh_live_data_'+device_trid).attr('hidden', true);
@@ -2083,31 +2084,33 @@
 
         $('.loader').hide();
         setInterval(function(){
-            var dt = new Date();
-            var hr = dt.getHours();
-            if(parseInt(hr)<10)
-                hr = "0"+hr;
-            var min = dt.getMinutes();
-            if(parseInt(min)<10)
-                min = "0"+min;
-            var sec = dt.getSeconds();
-            if(parseInt(sec)<10)
-                sec = "0"+sec;
+            // var dt = new Date();
+            // var hr = dt.getHours();
+            // if(parseInt(hr)<10)
+            //     hr = "0"+hr;
+            // var min = dt.getMinutes();
+            // if(parseInt(min)<10)
+            //     min = "0"+min;
+            // var sec = dt.getSeconds();
+            // if(parseInt(sec)<10)
+            //     sec = "0"+sec;
 
-            var time = hr + ":" + min + ":" + sec;
-            console.log(time);
+            // var time = hr + ":" + min + ":" + sec;
+            // console.log(time);
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
                 url: "/refreshDashboardData",
             })
             .done(function(response){
+                console.log("% % % %  Refreshing Dashboad Data % % % % %")
                 console.log(response);
+                console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].logs.length != 0){
                         console.log("Displaying response data");
                         console.log(response[i]['deviceDetails']);
-                        console.log(response[i]['deviceDetails'].logs[0].step);
+                        // console.log(response[i]['deviceDetails'].logs[0].step);
                         //change the status
                         if(!start_stop_command_sent){
                             var status = "";
@@ -2139,7 +2142,7 @@
                                 url: "/command_status/"+command_sent+"/"+ response[i]['deviceDetails'].id,
                             })
                             .done(function(response_command){
-                                console.log("******************************************************");
+                                console.log("*************** Response of command ****************");
                                 console.log(response_command);
                                 if(response_command.device_read_at != null){
                                     start_stop_command_sent = false;
@@ -2156,7 +2159,7 @@
                             url: "/getPureECTargetSetpoint/"+ response[i]['deviceDetails'].id,
                         })
                         .done(function(response_command){
-                            console.log("*******************************");
+                            console.log("********* Getting pure ec target setpoint **********************");
                             console.log("Pure EC Target setpoint : "+response_command);
                             setpoint_pure_EC_target = response_command.pure_EC_target;
                         });
@@ -2256,6 +2259,7 @@
                     url: "/deviceLiveData/"+ view_live_device,
                 })
                 .done(function(response){
+                    console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
                     console.log(response);
                     console.log(response.created_at);
                     if(device_data_created_at != response.created_at){
