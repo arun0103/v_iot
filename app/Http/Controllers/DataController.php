@@ -15,7 +15,7 @@ class DataController extends Controller
     //
     public function getAllDeviceLatestDataEvery15Seconds(){
         $devices = Device::with('latestLog')->get();
-        return response()->json($devices);
+        // return response()->json($devices);
         $today = date(Carbon::now());
         $thirtyOnedays = date(Carbon::now()->subDays(31));
         $previousDay = date(Carbon::now()->subDays(1));
@@ -26,9 +26,9 @@ class DataController extends Controller
         $volume = [];
         // get the first data and last data of tpv and subtract to get the monthly volume
         foreach($devices as $device){
-            $data_count = count($device->logs);
-            // if($device->serial_number == "210520022")
-            //     return response()->json($data_count);
+            $data_count = count($device->latest_log);
+            if($device->serial_number == "210520022")
+                return response()->json($data_count);
             if($data_count != 0){
                 // calculate daily volume
                 $daily_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$previousDay,$today])->get();
