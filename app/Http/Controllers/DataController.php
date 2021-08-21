@@ -17,6 +17,7 @@ class DataController extends Controller
         $devices = Device::with(['logs'=>function($query){
             $query->orderBy('created_at','DESC')->first();
         }])->get();
+        return response()->json($devices);
         $today = date(Carbon::now());
         $thirtyOnedays = date(Carbon::now()->subDays(31));
         $previousDay = date(Carbon::now()->subDays(1));
