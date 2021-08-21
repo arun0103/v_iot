@@ -2086,19 +2086,6 @@
 
         $('.loader').hide();
         setInterval(function(){
-            // var dt = new Date();
-            // var hr = dt.getHours();
-            // if(parseInt(hr)<10)
-            //     hr = "0"+hr;
-            // var min = dt.getMinutes();
-            // if(parseInt(min)<10)
-            //     min = "0"+min;
-            // var sec = dt.getSeconds();
-            // if(parseInt(sec)<10)
-            //     sec = "0"+sec;
-
-            // var time = hr + ":" + min + ":" + sec;
-            // console.log(time);
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
@@ -2109,7 +2096,7 @@
                 console.log(response);
                 console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                 for(var i=0; i<response.length;i++){
-                    if(response[i]['deviceDetails'].logs.length != 0){
+                    if(response[i]['deviceDetails'].latest_log != null){
                         console.log("Displaying response data");
                         console.log(response[i]['deviceDetails']);
                         // console.log(response[i]['deviceDetails'].latest_log.step);
