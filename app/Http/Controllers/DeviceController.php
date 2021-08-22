@@ -163,5 +163,15 @@ class DeviceController extends Controller
         $data = RawLogs::where('serial_number',$device_serial)->orderBy('created_at','desc')->first();
         return response()->json($data);
     }
-
+    // function to delete access of user to a device
+    public function deleteUserAccessFromDevice($user_device_id){
+        $userDevice = UserDevices::where('id',$user_device_id)->first();
+        $device_id = $userDevice->device_id;
+        $userDevice->delete();
+        $check = UserDevices::where('id',$user_device_id)->get();
+        if (count($check) <1)
+            return response()->json(["deleted",$device_id]);
+        else
+            return response()->json("error");
+    }
 }

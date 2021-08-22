@@ -181,14 +181,14 @@ class SuperController extends Controller
     public function devices(){
         $loggedInUser = Auth::user();
         if($loggedInUser->role == 'S'){
-            $all = Device::all();
+            $all = Device::with('latest_log')->get();
             //dd($all);
             $users = User::all();
             return view('user/devices')->with(['devices'=>$all])->with(['users'=>$users]);
         }
         elseif($loggedInUser->role == 'R'){
             $users = User::where([['reseller_id',$loggedInUser->reseller_id],['role','U']])->get();
-            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->get();
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log')->get();
 
             return view('user/devices')->with(['devices'=>$devices])->with(['users'=>$users]);
         }

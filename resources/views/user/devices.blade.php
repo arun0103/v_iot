@@ -58,9 +58,9 @@
                                         <td>{{$device->serial_number}}</td>
                                         <td>{{$device->device_number}}</td>
                                         <td>{{$device->model == 'U'?'DiUse':($device->model == 'E'?'DiEntry':'Unknown')}}</td>
-                                        <td>{{count($device->userDevices)}}</td>
+                                        <td id="count_userDevices-{{$device->id}}">{{count($device->userDevices)}}</td>
                                         <td>
-                                            date time
+                                            {{$device->latest_log!=null?$device->latest_log->created_at:"-"}}
                                         </td>
                                         <td>
                                             <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
@@ -69,7 +69,7 @@
                                                     <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
                                                 </a>
                                                 <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>
+                                                <a class="dropdown-item view-device-users" id="view_user_devices"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a id="operation-delete-device-{{$device->id}}" href="#" class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>
                                             </div>
@@ -123,7 +123,7 @@
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                             <label for="inputManufacturedDate" class="control-label">Manufactured Date</label>
-                                                <input class="form-control datepicker" id="inputManufacturedDate" name="manufactured_date" width="234" placeholder="MM / DD / YYYY"/>
+                                                <input class="form-control datepicker" id="inputManufacturedDate" name="manufactured_date" width="234" placeholder="MM / DD / YYYY" autocomplete="off"/>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -359,8 +359,10 @@
                         });
                         break;
                     case 'Success':
-                        $('tbody').prepend('<tr id="'+response['data'].id+'" class="device"><td>'+response['data'].serial_number + '</td><td>'
-                            + response['data'].device_number + '</td><td>'+ response['data'].model == 'U'? 'DiUse': 'DiEntry' +
+                        console.log(response);
+                        var model_name = response.data.model == 'U'? 'DiUse': 'DiEntry';
+                        $('tbody').prepend('<tr id="'+response.data.id+'" class="device"><td>'+response.data.serial_number + '</td><td>'
+                            + response.data.device_number + '</td><td>'+ model_name +
                             '</td><td>0</td>'+
                             '<td>-</td>'
                             +'<td><a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
@@ -406,6 +408,7 @@
             data: formData,
         })
         .done(function( msg ) {
+            console.log(msg)
             switch(msg['message']){
                 case 'Error':
                     Swal.fire({
@@ -415,6 +418,8 @@
                     });
                     break;
                 case 'Success':
+                    var count = parseInt($('#count_userDevices-'+msg.data.device_id).text());
+                    $('#count_userDevices-'+msg.data.device_id).text(count + 1);
                     Swal.fire(
                         'Added!',
                         msg.desc,
@@ -430,7 +435,6 @@
                     })
 
             }
-            console.log( msg );
         });
     })
 
@@ -442,20 +446,56 @@
             url: "/viewDeviceUsers/"+device_id,
         })
         .done(function(response){
-            $('#modal-view-device-users').modal('toggle');
-            $('#user_device_table_body tr').remove();
-            for(var i=0 ; i<response.length ; i++){
-               $('#user_device_table_body').append("<tr id=\"+response.id+\">"+
-                "<td>"+(i+1)+"</td>"+
-                "<td>"+response[i].user_details['name']+"</td>"+
-                "<td>"+response[i].user_details.email+"</td>"+
-                "<td>"+response[i].user_details.role+"</td>"+
-                "<td>"+response[i].user_details.created_at+"</td>"+
-                "<td>"+"</td>"+
+            console.log(response)
+            if($.trim(response)){
+                $('#modal-view-device-users').modal('toggle');
+                $('#user_device_table_body tr').remove();
+                for(var i=0 ; i<response.length ; i++){
+                $('#user_device_table_body').append('<tr id="'+response[i].id+'">'+
+                    "<td>"+(i+1)+"</td>"+
+                    "<td>"+response[i].user_details['name']+"</td>"+
+                    "<td>"+response[i].user_details.email+"</td>"+
+                    "<td>"+response[i].user_details.role+"</td>"+
+                    "<td>"+ new Date(response[i].user_details.created_at)+"</td>"+
+                    '<td id="action_delete_user_device-'+response[i].user_details['id']+'"><i class="fa fa-trash delete_user_from_device"></i>Delete</td>'+
 
-                "</tr>")
+                    "</tr>")
+                }
+            }else{
+                Swal.fire({title: 'Error!',
+                    text: 'Users\' are not assigned to this device!',
+                    icon: 'error',
+                    confirmButtonText: 'OK'})
             }
 
+
+        })
+
+    })
+    $('#user_device_table_body').on('click','.delete_user_from_device', function(){
+        var user_device_id = $(this).closest('tr').attr('id'); // table row ID
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "delete",
+            url: "/deleteUserAccessFromDevice/"+user_device_id,
+        })
+        .done(function(response){
+            console.log(response)
+            if(response[0] == "deleted"){
+                $('#user_device_table_body #'+user_device_id).remove();
+                var count = parseInt($('#count_userDevices-'+response[1]).text());
+                $('#count_userDevices-'+response[1]).text(count -1);
+                Swal.fire({title: 'Success!',
+                text: 'Deleted!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'})
+            }
+            else{
+                Swal.fire({title: 'Error!',
+                    text: 'Unable to delete!',
+                    icon: 'error',
+                    confirmButtonText: 'OK'})
+            }
         })
 
     })

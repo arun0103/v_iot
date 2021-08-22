@@ -110,6 +110,7 @@ class HomeController extends Controller
     public function logout(){
         Auth::logout();
         // return response()->json(['message' => 'Logged Out'], 200);
+        return redirect()->route('login');
         return view('auth/login');
     }
 
