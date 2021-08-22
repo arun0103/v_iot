@@ -30,8 +30,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
+    public function index(){
         //Get user info
         $loggedInUser = Auth::user();
         $loggedInUser->last_login = Carbon::now();

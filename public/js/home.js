@@ -32,109 +32,109 @@ jQuery(document).ready(function($){
 
 
 });
-$('#conductivity_chart').on('click', function(){
-    console.log('conductivity-------')
-    var data_labels = ['12:10', '12:11', '12:12', '12:13', '12:14', '12:15','12:10', '12:11', '12:12', '12:13', '12:14', '12:15','12:10', '12:11', '12:12', '12:13', '12:14', '12:15','12:10', '12:11', '12:12', '12:13', '12:14', '12:15','12:10', '12:11', '12:12', '12:13', '12:14', '12:15','12:10', '12:11', '12:12', '12:13', '12:14', '12:15'];
-    var ctx_conductivity = document.getElementById('conductivityChart').getContext('2d');
-    var conductivityChart = new Chart(ctx_conductivity, {
-        type: 'bar',
-        data: {
-            labels: data_labels,
-            datasets: [{
-                // label: ['Good','OK','Poor'],
-                data: [3.5, 4.0, 10.5, 12.3, 5.2, 5.3,3.5, 4.0, 10.5, 12.3, 5.2, 5.3,3.5, 4.0, 10.5, 12.3, 5.2, 5.3,3.5, 4.0, 10.5, 12.3, 5.2, 5.3,3.5, 4.0, 10.5, 12.3, 5.2, 5.3,3.5, 4.0, 10.5, 12.3, 5.2, 5.3],
-                backgroundColor: [
-                    'green',
-                    'green',
-                    'red',
-                    'red',
-                    'orange',
-                    'orange',
-                    'green',
-                    'green',
-                    'red',
-                    'red',
-                    'orange',
-                    'orange',
-                    'green',
-                    'green',
-                    'red',
-                    'red',
-                    'orange',
-                    'orange',
-                    'green',
-                    'green',
-                    'red',
-                    'red',
-                    'orange',
-                    'orange',
-                    'green',
-                    'green',
-                    'red',
-                    'red',
-                    'orange',
-                    'orange',
-                    'green',
-                    'green',
-                    'red',
-                    'red',
-                    'orange',
-                    'orange'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-});
+// $('#conductivity_chart').on('click', function(){
+//     console.log('conductivity-------')
+//     var data_labels = ['12:10', '12:11', '12:12', '12:13', '12:14', '12:15','12:10', '12:11', '12:12', '12:13', '12:14', '12:15','12:10', '12:11', '12:12', '12:13', '12:14', '12:15','12:10', '12:11', '12:12', '12:13', '12:14', '12:15','12:10', '12:11', '12:12', '12:13', '12:14', '12:15','12:10', '12:11', '12:12', '12:13', '12:14', '12:15'];
+//     var ctx_conductivity = document.getElementById('conductivityChart').getContext('2d');
+//     var conductivityChart = new Chart(ctx_conductivity, {
+//         type: 'bar',
+//         data: {
+//             labels: data_labels,
+//             datasets: [{
+//                 // label: ['Good','OK','Poor'],
+//                 data: [3.5, 4.0, 10.5, 12.3, 5.2, 5.3,3.5, 4.0, 10.5, 12.3, 5.2, 5.3,3.5, 4.0, 10.5, 12.3, 5.2, 5.3,3.5, 4.0, 10.5, 12.3, 5.2, 5.3,3.5, 4.0, 10.5, 12.3, 5.2, 5.3,3.5, 4.0, 10.5, 12.3, 5.2, 5.3],
+//                 backgroundColor: [
+//                     'green',
+//                     'green',
+//                     'red',
+//                     'red',
+//                     'orange',
+//                     'orange',
+//                     'green',
+//                     'green',
+//                     'red',
+//                     'red',
+//                     'orange',
+//                     'orange',
+//                     'green',
+//                     'green',
+//                     'red',
+//                     'red',
+//                     'orange',
+//                     'orange',
+//                     'green',
+//                     'green',
+//                     'red',
+//                     'red',
+//                     'orange',
+//                     'orange',
+//                     'green',
+//                     'green',
+//                     'red',
+//                     'red',
+//                     'orange',
+//                     'orange',
+//                     'green',
+//                     'green',
+//                     'red',
+//                     'red',
+//                     'orange',
+//                     'orange'
+//                 ],
+//                 borderColor: [
+//                     'rgba(255, 99, 132, 1)',
+//                     'rgba(54, 162, 235, 1)',
+//                     'rgba(255, 206, 86, 1)',
+//                     'rgba(75, 192, 192, 1)',
+//                     'rgba(153, 102, 255, 1)',
+//                     'rgba(255, 159, 64, 1)',
+//                     'rgba(255, 99, 132, 1)',
+//                     'rgba(54, 162, 235, 1)',
+//                     'rgba(255, 206, 86, 1)',
+//                     'rgba(75, 192, 192, 1)',
+//                     'rgba(153, 102, 255, 1)',
+//                     'rgba(255, 159, 64, 1)',
+//                     'rgba(255, 99, 132, 1)',
+//                     'rgba(54, 162, 235, 1)',
+//                     'rgba(255, 206, 86, 1)',
+//                     'rgba(75, 192, 192, 1)',
+//                     'rgba(153, 102, 255, 1)',
+//                     'rgba(255, 159, 64, 1)',
+//                     'rgba(255, 99, 132, 1)',
+//                     'rgba(54, 162, 235, 1)',
+//                     'rgba(255, 206, 86, 1)',
+//                     'rgba(75, 192, 192, 1)',
+//                     'rgba(153, 102, 255, 1)',
+//                     'rgba(255, 159, 64, 1)',
+//                     'rgba(255, 99, 132, 1)',
+//                     'rgba(54, 162, 235, 1)',
+//                     'rgba(255, 206, 86, 1)',
+//                     'rgba(75, 192, 192, 1)',
+//                     'rgba(153, 102, 255, 1)',
+//                     'rgba(255, 159, 64, 1)',
+//                     'rgba(255, 99, 132, 1)',
+//                     'rgba(54, 162, 235, 1)',
+//                     'rgba(255, 206, 86, 1)',
+//                     'rgba(75, 192, 192, 1)',
+//                     'rgba(153, 102, 255, 1)',
+//                     'rgba(255, 159, 64, 1)'
+//                 ],
+//                 borderWidth: 1
+//             }]
+//         },
+//         options: {
+//             scales: {
+//                 y: {
+//                     beginAtZero: true
+//                 }
+//             }
+//         }
+//     });
+// });
 var graph_time_frame, graph_custom_from, graph_custom_to;
 var graph_title, graph_labels, graph_x_label, graph_y_label, graph_data;
 var graph_displayed = "none";
-
+var volumeChart;
 $('#timeframe_volume').on('change', function(){
     graph_time_frame = $('#timeframe_volume').val();
     if(graph_time_frame != graph_displayed)
@@ -156,6 +156,7 @@ $('#timeframe_volume').on('change', function(){
 
             break;
     }
+    // volumeChart.update();
     $('#btn_reload_graph').show();
 })
 $('#btn_reload_graph').on('click', function(){
@@ -185,7 +186,10 @@ $('#btn_reload_graph').on('click', function(){
             graph_displayed = "last_24_hr";
             break;
     }
-    var volumeChart = new Chart(ctx_volume, {
+    if(volumeChart){
+        volumeChart.destroy();
+    }
+    volumeChart = new Chart(ctx_volume, {
         type: 'bar',
         data: {
             labels: graph_labels,

@@ -1544,7 +1544,7 @@
     </div>
 
 <script type="module" src="{{asset('js/home.js')}}"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 // Maintenance
     $('.input_critic_acid').on('keyup', function(){
