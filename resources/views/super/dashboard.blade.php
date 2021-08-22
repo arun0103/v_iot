@@ -3,6 +3,14 @@
 @section('head')
 <!-- <script src="{{asset('js/require.js')}}"></script> -->
 <style>
+    .modal-full {
+        min-width: 100%;
+        margin: 0;
+    }
+
+    .modal-full .modal-content {
+        min-height: 100vh;
+    }
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
@@ -708,23 +716,28 @@
     }
 
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
 @endsection
 @section('content')
     <div id="app">
         <!-- Content Header (Page header) -->
         <div class="content-header content-header-dashboard">
             <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
-                </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Dashboard</h1>
+                        <button type="button" class="btn btn-info" id="btn_map_view">Map View</button>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
@@ -1526,11 +1539,11 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12">
-                        <h5 style="text-decoration:underline">Personal Information</h5>
-                        <table class="table">
-                            <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
-                            <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="email" id="txt_email" value="{{Auth::user()->email}}"></td></tr>
-                        </table>
+                            <h5 style="text-decoration:underline">Personal Information</h5>
+                            <table class="table">
+                                <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
+                                <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="email" id="txt_email" value="{{Auth::user()->email}}"></td></tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -1541,11 +1554,34 @@
             </form>
         </div>
     </div>
+    </div><!-- dont know where it came from  -->
+
+    <div class="modal fade" id="modal-map_view">
+        <div class="modal-dialog modal-full" >
+            <div class="modal-content">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <div id="map" style="height:550px"></div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+
     </div>
 
 <script type="module" src="{{asset('js/home.js')}}"></script>
+<!-- <script type="module" src="{{asset('js/map.js')}}"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    $('#btn_map_view').on('click', function(){
+        $('#modal-map_view').modal("show");
+        var map = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://api.maptiler.com/maps/basic/{z}/{x}/{y}@2x.png?key=Eec27UocQRrQ00QVoo14', {
+            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+        }).addTo(map);
+        L.marker([51.5, -0.09]).addTo(map)
+            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+            .openPopup();
+    })
 // Maintenance
     $('.input_critic_acid').on('keyup', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
