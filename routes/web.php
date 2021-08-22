@@ -19,7 +19,7 @@ use App\Models\UserProfile;
 Route::get('/', function () {
     // return view('vendor/emails/WelcomeUser');
     return view('auth/login');
-});
+})->name('login');
 Route::get('/profile', function () {
     $user = Auth::user();
     $userProfile = UserProfile::where('user_id',$user->id)->first();

@@ -2030,14 +2030,14 @@
                 url: "/refreshDashboardData",
             })
             .done(function(response){
-                console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                console.log(response);
-                console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                // console.log("% % % %  Refreshing Dashboad Data % % % % %")
+                // console.log(response);
+                // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
-                        console.log("Displaying response data");
-                        console.log(response[i]['deviceDetails']);
-                        // console.log(response[i]['deviceDetails'].latest_log.step);
+                        // console.log("Displaying response data");
+                        // console.log(response[i]['deviceDetails']);
+
                         //change the status
                         if(!start_stop_command_sent){
                             var status = "";
@@ -2086,8 +2086,8 @@
                             url: "/getPureECTargetSetpoint/"+ response[i]['deviceDetails'].id,
                         })
                         .done(function(response_command){
-                            console.log("********* Getting pure ec target setpoint **********************");
-                            console.log("Pure EC Target setpoint : "+response_command);
+                            // console.log("********* Getting pure ec target setpoint **********************");
+                            // console.log("Pure EC Target setpoint : "+response_command);
                             setpoint_pure_EC_target = response_command.pure_EC_target;
                         });
                         var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
@@ -2186,15 +2186,15 @@
                     url: "/deviceLiveData/"+ view_live_device,
                 })
                 .done(function(response){
-                    console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
-                    console.log(response);
-                    console.log(response.created_at);
+                    // console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
+                    // console.log(response);
+                    // console.log(response.created_at);
                     if(device_data_created_at != response.created_at){
                         device_data_created_at = response.created_at;
                         var recorded_date = new Date(response.created_at);
-                        console.log(recorded_date);
+                        // console.log(recorded_date);
                         recorded_date = recorded_date.toString();
-                        console.log(recorded_date);
+                        // console.log(recorded_date);
                         var status = "";
                         if(response.step == 0 ||response.step == 1 || response.step ==13)
                             status = "IDLE"

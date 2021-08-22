@@ -19,16 +19,16 @@ var dt = require( 'datatables.net' );
 require('select2');
 
 $('.datepicker').datepicker();
-$('.datatable').DataTable();
+$('.datatable').DataTable({ renderer: { "header": "bootstrap" } });
 
 //jsPDF
 const { jsPDF } = require("jspdf"); // will automatically load the node version
 
 
-import Swal from 'sweetalert2'       // sweet alert 2 ES6 Modules or TypeScript
+//import Swal from 'sweetalert2'       // sweet alert 2 ES6 Modules or TypeScript
 //window.Swal = swal;
 
-const {default:Swal} = require('sweetalert2')   // CommonJS
+// const {default:Swal} = require('sweetalert2')   // CommonJS
 
 
 window.Vue = require('vue').default;
