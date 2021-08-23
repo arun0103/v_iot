@@ -2135,6 +2135,14 @@
                                 if(response_command.device_read_at != null){
                                     start_stop_command_sent = false;
                                     $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
+                                    switch(response.command){
+                                        case "Start":
+                                            $('#device-info-'+response.device_id +' .status').text("Starting"); // row status
+                                            break;
+                                        case "Stop":
+                                            $('#device-info-'+response.device_id +' .status').text("Stopping"); // row status
+                                            break;
+                                    }
                                 }
                             });
                         }
