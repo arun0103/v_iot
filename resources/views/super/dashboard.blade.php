@@ -891,7 +891,7 @@
                                                                                     <!-- /.card-body -->
                                                                                     <div class="card-footer">
                                                                                         <div class="row flex">
-                                                                                            <button id="btn_device_start_stop-{{$device->id}}" class="btn btn-danger center btn_device_start_stop">Stop</button>
+                                                                                            <button id="btn_device_start_stop-{{$device->id}}" class="btn btn-danger center btn_device_start_stop" hidden>Stop</button>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -2079,7 +2079,6 @@
     })
     var start_stop_command_sent = [];
     var command_sent = "";
-    var last_log_created_at= null;
     var command_sent_time = null;
 
     $(document).ready(function () {
@@ -2099,13 +2098,13 @@
                 console.log("command sent time: "+ command_sent_time)
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
+                        $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
                         // console.log("Displaying response data");
                         // console.log(response[i]['deviceDetails']);
 // start_stop_command_sent[response[i]['deviceDetails'].id] != true
                         //change the status new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time &&
-                        if(  start_stop_command_sent[response[i]['deviceDetails'].id] != true && new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time){
-                            console.log("Entered");
-                            last_log_created_at = response[i]['deviceDetails'].latest_log.created_at;
+                        if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time){
+
                             var status = "";
                             var color = "";
                             if(response[i]['deviceDetails'].latest_log.step == 0 || response[i]['deviceDetails'].latest_log.step == 1 || response[i]['deviceDetails'].latest_log.step == 13){
