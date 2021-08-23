@@ -2080,6 +2080,7 @@
     var start_stop_command_sent = false;
     var command_sent = "";
     var last_log_created_at= null;
+    var command_sent_time = null;
 
     $(document).ready(function () {
         // check status
@@ -2101,7 +2102,7 @@
                         // console.log(response[i]['deviceDetails']);
 
                         //change the status
-                        if(!start_stop_command_sent && response[i]['deviceDetails'].latest_log.created_at != last_log_created_at){
+                        if(!start_stop_command_sent && response[i]['deviceDetails'].latest_log.created_at >= command_sent_time){
                             last_log_created_at = response[i]['deviceDetails'].latest_log.created_at;
                             var status = "";
                             var color = "";
@@ -2136,6 +2137,7 @@
                                 console.log(response_command);
                                 if(response_command.device_read_at != null){
                                     start_stop_command_sent = false;
+                                    command_sent_time = response_command.created_at;
                                     $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
                                     switch(response.command){
                                         case "Start":
