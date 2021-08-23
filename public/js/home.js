@@ -319,7 +319,7 @@ $('.btn_device_start_stop').on('click', function(){
             .done(function(response){
                 console.log(response);
                 Swal.fire('Success','Command recorded.','success')
-                start_stop_command_sent = true;
+                start_stop_command_sent[trid] = true;
                 // $('#device_status-'+trid).text('RUNNING')
                 document.getElementById('device_status-'+trid).style.color = 'green'
                 document.getElementById('device_status_pic-'+trid).style.color = 'green'
