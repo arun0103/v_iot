@@ -2077,7 +2077,7 @@
         //console.log($('span#alarm_code_'+device_trid).text());
 
     })
-    var start_stop_command_sent[] = false;
+    var start_stop_command_sent = false;
     var command_sent = "";
 
     $(document).ready(function () {
@@ -2100,7 +2100,7 @@
                         // console.log(response[i]['deviceDetails']);
 
                         //change the status
-                        if(!start_stop_command_sent[response[i]['deviceDetails'].id]){
+                        if(!start_stop_command_sent){
                             var status = "";
                             var color = "";
                             if(response[i]['deviceDetails'].latest_log.step == 0 || response[i]['deviceDetails'].latest_log.step == 1 || response[i]['deviceDetails'].latest_log.step == 13){
@@ -2133,7 +2133,7 @@
                                 console.log("*************** Response of command ****************");
                                 console.log(response_command);
                                 if(response_command.device_read_at != null){
-                                    start_stop_command_sent[response.device_id] = false;
+                                    start_stop_command_sent = false;
                                     $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
                                     switch(response.command){
                                         case "Start":
