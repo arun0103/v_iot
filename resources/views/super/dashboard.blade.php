@@ -2184,7 +2184,7 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                         var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
                         var difference_ec = setpoint_pure_EC_target - response[i]['deviceDetails'].latest_log.ec;
                         if(difference_ec<0){
-                            difference_ec = difference * (-1);
+                            difference_ec = difference_ec * (-1);
                         }
                         var percentage_EC_target = (difference_ec)/setpoint_pure_EC_target
                         if(percentage_EC_target*100 < 10){
