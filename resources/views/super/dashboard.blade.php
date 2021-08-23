@@ -2186,8 +2186,9 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                         if(difference_ec<0){
                             difference_ec = difference_ec * (-1);
                         }
+                        console.log("EC DIff: "+difference_ec)
                         var percentage_EC_target = (difference_ec)/setpoint_pure_EC_target
-                        if(percentage_EC_target*100 < 10){
+                        if(percentage_EC_target*100 <= 10){
                             water_quality = "On Target :"+percentage_EC_target*100;
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'green';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'green';
