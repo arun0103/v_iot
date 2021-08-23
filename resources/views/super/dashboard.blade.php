@@ -2179,7 +2179,7 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                         .done(function(response_command){
                             console.log("********* Getting pure ec target setpoint **********************");
                             console.log("Pure EC Target setpoint : "+response_command);
-                            setpoint_pure_EC_target = response_command.pure_EC_target;
+                            setpoint_pure_EC_target = response_command;
                             console.log("Setpoint EC of device: "+response_command.pure_EC_target)
                         });
                         var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
