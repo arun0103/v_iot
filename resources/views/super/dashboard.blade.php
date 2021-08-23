@@ -2188,12 +2188,12 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                         }
                         var percentage_EC_target = (difference_ec)/setpoint_pure_EC_target
                         if(percentage_EC_target*100 < 10){
-                            water_quality = "On Target";
+                            water_quality = "On Target :"+percentage_EC_target*100;
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'green';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'green';
                             document.getElementById('device_conductivity_value-'+response[i]['deviceDetails'].id).style.color = 'green';
                         }else{
-                            water_quality = "Needs Attention";
+                            water_quality = "Needs Attention: "+percentage_EC_target*100;
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'red';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'red';
                             document.getElementById('device_conductivity_value-'+response[i]['deviceDetails'].id).style.color = 'red';
