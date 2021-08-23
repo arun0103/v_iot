@@ -71,8 +71,9 @@ class DeviceController extends Controller
 
     public function saveCriticAcid($id, Request $req){
         $test = Device_settings::where('device_id',$id)->first();
-        $oldValue = $test->critic_acid;
-        if($test != null){
+
+        if($test != null || count($test)>0 ){
+            $oldValue = $test->critic_acid;
             $test->critic_acid = $req->critic_acid;
         }
         else{
@@ -93,8 +94,8 @@ class DeviceController extends Controller
     }
     public function savePreFilter($id, Request $req){
         $test = Device_settings::where('device_id',$id)->first();
-        $oldValue = $test->pre_filter;
-        if($test != null){
+        if($test != null || count($test)>0 ){
+            $oldValue = $test->pre_filter;
             $test->pre_filter = $req->pre_filter;
         }
         else{
@@ -115,8 +116,8 @@ class DeviceController extends Controller
     }
     public function savePostFilter($id, Request $req){
         $test = Device_settings::where('device_id',$id)->first();
-        $oldValue = $test->post_filter;
-        if($test != null){
+        if($test != null || count($test)>0 ){
+            $oldValue = $test->post_filter;
             $test->post_filter = $req->post_filter;
         }
         else{
@@ -137,8 +138,8 @@ class DeviceController extends Controller
     }
     public function saveGeneralService($id, Request $req){
         $test = Device_settings::where('device_id',$id)->first();
-        $oldValue = $test->general_service;
-        if($test != null){
+        if($test != null || count($test)>0 ){
+            $oldValue = $test->general_service;
             $test->general_service = $req->general_service;
         }
         else{
