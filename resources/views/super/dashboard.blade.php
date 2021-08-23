@@ -2170,9 +2170,7 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                         }
                         // change the water quality
                         var water_quality ="";
-                        var setpoint_pure_EC_target = response[i]['deviceDetails'].setpoints.pure_EC_target;
-                        console.log("Setpoint EC: "+setpoint_pure_EC_target)
-                        var avg_EC_target = ;
+                        var setpoint_pure_EC_target = response[i]['deviceDetails']['setpoints'].pure_EC_target;
                         // $.ajax({
                         //     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         //     type: "GET",
