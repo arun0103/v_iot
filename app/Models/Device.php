@@ -39,7 +39,7 @@ class Device extends Model
         return $this->hasOne('App\Models\Setpoints','device_id','id');
     }
     public function latest_maintenance_log(){
-        return $this->hasOne('App\Models\Maintenance_logs','device_id','id')-latest();
+        return 1;//$this->hasOne('App\Models\Maintenance_logs','device_id','id')-latest();
     }
 
 }
