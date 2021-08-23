@@ -2096,12 +2096,12 @@
                 // console.log(response);
                 // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                 for(var i=0; i<response.length;i++){
-                    if(response[i]['deviceDetails'].latest_log != null){
+                    if(response[i].['deviceDetails'].latest_log != null){
                         // console.log("Displaying response data");
                         // console.log(response[i]['deviceDetails']);
 
                         //change the status
-                        if(!start_stop_command_sent && response[i]['deviceDetails'].latest_log.created_at != last_log_created_at){
+                        if(!start_stop_command_sent && response[i].['deviceDetails'].latest_log.created_at != last_log_created_at){
                             last_log_created_at = response[i].['deviceDetails'].latest_log.created_at;
                             var status = "";
                             var color = "";
