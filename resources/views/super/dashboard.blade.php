@@ -2170,8 +2170,9 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                         }
                         // change the water quality
                         var water_quality ="";
-                        var setpoint_pure_EC_target = -1;
-                        var avg_EC_target = response[i]['deviceDetails'].setpoints.pure_EC_target;
+                        var setpoint_pure_EC_target = response[i]['deviceDetails'].setpoints.pure_EC_target;
+                        console.log("Setpoint EC: "+setpoint_pure_EC_target)
+                        var avg_EC_target = ;
                         // $.ajax({
                         //     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         //     type: "GET",
@@ -2183,7 +2184,7 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                         //     console.log("Pure EC Target setpoint : "+response_command);
                         //     console.log("Setpoint EC of device: "+response_command)
                         // });
-                        // var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
+                        var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
                         console.log("Avg. EC:"+avg_EC_target);
                         var difference_ec = setpoint_pure_EC_target - avg_EC_target;
                         console.log("Diff: "+difference_ec);
