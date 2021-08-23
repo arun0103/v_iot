@@ -38,8 +38,17 @@ class Device extends Model
     public function setpoints(){
         return $this->hasOne('App\Models\Setpoints','device_id','id');
     }
-    public function latest_maintenance_log(){
-        return 1;//$this->hasOne('App\Models\Maintenance_logs','device_id','id')-latest();
+    public function latest_maintenance_critic_acid(){
+        return $this->hasOne('App\Models\Maintenance_critic_acid','device_id','id')->latest();
+    }
+    public function latest_maintenance_pre_filter(){
+        return $this->hasOne('App\Models\Maintenance_pre_filter','device_id','id')->latest();
+    }
+    public function latest_maintenance_post_filter(){
+        return $this->hasOne('App\Models\Maintenance_post_filter','device_id','id')->latest();
+    }
+    public function latest_maintenance_general_service(){
+        return $this->hasOne('App\Models\Maintenance_general_service','device_id','id')->latest();
     }
 
 }

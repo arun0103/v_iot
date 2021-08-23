@@ -36,7 +36,7 @@
         width: 100%;
         height: 100%;
         z-index: 9999;
-        background: url('images/pageLoader.gif') 50% 50% no-repeat rgb(249,249,249);
+        /* background: url('images/pageLoader.gif') 50% 50% no-repeat rgb(249,249,249); */
         opacity: .8;
     }
     .display-none{
@@ -1573,6 +1573,7 @@
 <!-- <script type="module" src="{{asset('js/map.js')}}"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+//Map
     var greenIcon = new L.Icon({
         iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|2ecc71&chf=a,s,ee00FFFF',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -1607,14 +1608,15 @@
             .openPopup();
 
     })
+//
 // Maintenance
-var old_critic_value, old_pre_filter, old_post_filter, general_service;
+var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
     $('.btn_edit_maintenance').on('click',function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
-        old_critic_value = $('.input_critic_acid').val();
-        old_pre_filter = $('.input_pre_filter').val();
-        old_post_filter = $('.input_post_filter').val();
-        general_service = $('.input_general_service').val();
+        old_critic_value[trid] = $('.input_critic_acid').val();
+        old_pre_filter[trid] = $('.input_pre_filter').val();
+        old_post_filter[trid] = $('.input_post_filter').val();
+        old_general_service[trid] = $('.input_general_service').val();
         $('.input_critic_acid').removeAttr("disabled");
         $('.input_pre_filter').removeAttr("disabled");
         $('.input_post_filter').removeAttr("disabled");
@@ -1654,49 +1656,64 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
             });
         }else{
             Swal.fire("Error", "Value out of range[0-50,000]","error");
+            $('#input_critic_acid-'+trid).val(old_critic_value[trid])
         }
     })
     $('.btn-save-pre_filter').on('click', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "POST",
-            url: "/savePreFilter/"+ trid,
-            data: {"pre_filter":$('#input_pre_filter-'+trid).val()}
+        if($('#input_pre_filter-'+trid).val() >0 && $('#input_pre_filter-'+trid).val() < 50000){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/savePreFilter/"+ trid,
+                data: {"pre_filter":$('#input_pre_filter-'+trid).val()}
 
-        })
-        .done(function(response){
-            Swal.fire('Success','Pre-filter Updated','success')
-            $('#btn_save_pre_filter-'+trid).attr("hidden", true);
-        });
+            })
+            .done(function(response){
+                Swal.fire('Success','Pre-filter Updated','success')
+                $('#btn_save_pre_filter-'+trid).attr("hidden", true);
+            });
+        }else{
+            Swal.fire("Error", "Value out of range[0-50,000]","error");
+            $('#input_pre_filter-'+trid).val(old_pre_filter[trid])
+        }
     })
     $('.btn-save-post_filter').on('click', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "POST",
-            url: "/savePostFilter/"+ trid,
-            data: {"post_filter":$('#input_post_filter-'+trid).val()}
+        if($('#input_post_filter-'+trid).val() >0 && $('#input_post_filter-'+trid).val() < 50000){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/savePostFilter/"+ trid,
+                data: {"post_filter":$('#input_post_filter-'+trid).val()}
 
-        })
-        .done(function(response){
-            Swal.fire('Success','Post-filter Updated','success')
-            $('#btn_save_post_filter-'+trid).attr("hidden", true);
-        });
+            })
+            .done(function(response){
+                Swal.fire('Success','Post-filter Updated','success')
+                $('#btn_save_post_filter-'+trid).attr("hidden", true);
+            });
+        }else{
+            Swal.fire("Error", "Value out of range[0-50,000]","error");
+            $('#input_post_filter-'+trid).val(old_post_filter[trid])
+        }
     })
     $('.btn-save-general_service').on('click', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "POST",
-            url: "/saveGeneralService/"+ trid,
-            data: {"general_service":$('#input_general_service-'+trid).val()}
-
-        })
-        .done(function(response){
-            Swal.fire('Success','General Service Updated','success')
-            $('#btn_save_general_service-'+trid).attr("hidden", true);
-        });
+        if($('#input_general_service-'+trid).val() >0 && $('#input_general_service-'+trid).val() < 50000){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/saveGeneralService/"+ trid,
+                data: {"general_service":$('#input_general_service-'+trid).val()}
+            })
+            .done(function(response){
+                Swal.fire('Success','General Service Updated','success')
+                $('#btn_save_general_service-'+trid).attr("hidden", true);
+            });
+        }else{
+            Swal.fire("Error", "Value out of range[0-50,000]","error");
+            $('#input_general_service-'+trid).val(old_general_service[trid])
+        }
     })
 //end of maintenance
 
@@ -2111,7 +2128,7 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                 console.log("% % % %  Refreshing Dashboad Data % % % % %")
                 console.log(response);
                 console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
-                console.log("command sent time: "+ command_sent_time)
+                // console.log("command sent time: "+ command_sent_time)
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
                         $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
@@ -2171,34 +2188,19 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                         // change the water quality
                         var water_quality ="";
                         var setpoint_pure_EC_target = response[i]['deviceDetails']['setpoints'].pure_EC_target;
-                        // $.ajax({
-                        //     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                        //     type: "GET",
-                        //     url: "/getPureECTargetSetpoint/"+ response[i]['deviceDetails'].id,
-                        // })
-                        // .done(function(response_command){
-                        //     console.log("********* Getting pure ec target setpoint **********************");
-                        //     setpoint_pure_EC_target = response_command;
-                        //     console.log("Pure EC Target setpoint : "+response_command);
-                        //     console.log("Setpoint EC of device: "+response_command)
-                        // });
                         var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
-                        console.log("Avg. EC:"+avg_EC_target);
                         var difference_ec = setpoint_pure_EC_target - avg_EC_target;
-                        console.log("Diff: "+difference_ec);
                         if(difference_ec<0){
                             difference_ec = difference_ec * (-1);
                         }
-
-                        console.log("EC DIff: "+difference_ec)
                         var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
                         if(percentage_EC_target <= 10){
-                            water_quality = "On Target :"+percentage_EC_target;
+                            water_quality = "On Target ";
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'green';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'green';
                             document.getElementById('device_conductivity_value-'+response[i]['deviceDetails'].id).style.color = 'green';
                         }else{
-                            water_quality = "Needs Attention: "+percentage_EC_target;
+                            water_quality = "Needs Attention ";
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'red';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'red';
                             document.getElementById('device_conductivity_value-'+response[i]['deviceDetails'].id).style.color = 'red';
@@ -2267,6 +2269,21 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                                 }
                             }
                         }
+                        // maintenance
+                        //critic acid
+                        var critic_acid_reset_value = response[i]['deviceDetails']['maintenance_critic_acid']!=null?response[i]['deviceDetails']['maintenance_critic_acid'].volume_value:0;
+                        var pre_filter_reset_value = response[i]['deviceDetails']['maintenance_pre_filter']!=null?response[i]['deviceDetails']['maintenance_pre_filter'].volume_value:0;
+                        var post_filter_reset_value = response[i]['deviceDetails']['maintenance_post_filter']!=null?response[i]['deviceDetails']['maintenance_post_filter'].volume_value:0;
+                        var general_service_reset_value = response[i]['deviceDetails']['maintenance_general_service']!=null?response[i]['deviceDetails']['maintenance_general_service'].volume_value:0;
+
+                        var volume_left_critic_acid = response[i]['deviceDetails']['device_settings'].critic_acid - response[i]['deviceVolume'].total - critic_acid_reset_value ;
+                        $('#critic_acid_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_critic_acid);
+                        var volume_left_pre_filter = response[i]['deviceDetails']['device_settings'].pre_filter - response[i]['deviceVolume'].total - pre_filter_reset_value ;
+                        $('#pre_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_pre_filter);
+                        var volume_left_post_filter = response[i]['deviceDetails']['device_settings'].post_filter - response[i]['deviceVolume'].total - post_filter_reset_value ;
+                        $('#post_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_post_filter);
+                        var volume_left_general_service = response[i]['deviceDetails']['device_settings'].general_service - response[i]['deviceVolume'].total - general_service_reset_value ;
+                        $('#general_service_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_general_service);
                     }
                 }
             });

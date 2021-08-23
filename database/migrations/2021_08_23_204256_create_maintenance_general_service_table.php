@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMaintainenceLogsTable extends Migration
+class CreateMaintenanceGeneralServiceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateMaintainenceLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('maintainence_logs', function (Blueprint $table) {
+        Schema::create('maintenance_general_service', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('device_id');
-            $table->string('type');
-            $table->float('value');
+            $table->float('volume_value');
             $table->bigInteger('maintained_by');
             $table->timestamps();
         });
@@ -30,6 +29,6 @@ class CreateMaintainenceLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('maintainence_logs');
+        Schema::dropIfExists('maintenance_general_service');
     }
 }
