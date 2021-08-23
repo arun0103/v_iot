@@ -299,10 +299,10 @@ $('.btn_device_start_stop').on('click', function(){
                 console.log(response);
                 Swal.fire('Success','Command recorded.','success')
                 start_stop_command_sent = true;
-                $('#device_status-'+trid).text('IDLE')
+                // $('#device_status-'+trid).text('IDLE')
                 document.getElementById('device_status-'+trid).style.color = 'orange'
                 document.getElementById('device_status_pic-'+trid).style.color = 'orange'
-                $('#btn_device_start_stop-'+trid).text('Start')
+                $('#btn_device_start_stop-'+trid).text('Stopping')
                 $('#btn_device_start_stop-'+trid).removeClass('btn-danger').addClass('btn-primary')
                 $('#btn_device_start_stop-'+trid).attr('disabled','true');
                 // var date = new Date(response.created_at)
@@ -320,10 +320,10 @@ $('.btn_device_start_stop').on('click', function(){
                 console.log(response);
                 Swal.fire('Success','Command recorded.','success')
                 start_stop_command_sent = true;
-                $('#device_status-'+trid).text('RUNNING')
+                // $('#device_status-'+trid).text('RUNNING')
                 document.getElementById('device_status-'+trid).style.color = 'green'
                 document.getElementById('device_status_pic-'+trid).style.color = 'green'
-                $('#btn_device_start_stop-'+trid).text('Stop')
+                $('#btn_device_start_stop-'+trid).text('Starting')
                 $('#btn_device_start_stop-'+trid).removeClass('btn-primary').addClass('btn-danger')
                 $('#btn_device_start_stop-'+trid).attr('disabled','true');
                 // var date = new Date(response.created_at)
