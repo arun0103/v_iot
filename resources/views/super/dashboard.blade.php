@@ -2077,7 +2077,7 @@
         //console.log($('span#alarm_code_'+device_trid).text());
 
     })
-    var start_stop_command_sent = false;
+    var start_stop_command_sent = [];
     var command_sent = "";
     var last_log_created_at= null;
     var command_sent_time = null;
@@ -2093,16 +2093,18 @@
                 url: "/refreshDashboardData",
             })
             .done(function(response){
-                // console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                // console.log(response);
-                // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                console.log("% % % %  Refreshing Dashboad Data % % % % %")
+                console.log(response);
+                console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                console.log("command sent time: "+ command_sent_time)
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
                         // console.log("Displaying response data");
                         // console.log(response[i]['deviceDetails']);
-
-                        //change the status
-                        if(!start_stop_command_sent && response[i]['deviceDetails'].latest_log.created_at >= command_sent_time){
+// start_stop_command_sent[response[i]['deviceDetails'].id] != true
+                        //change the status new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time &&
+                        if(  start_stop_command_sent[response[i]['deviceDetails'].id] != true && new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time){
+                            console.log("Entered");
                             last_log_created_at = response[i]['deviceDetails'].latest_log.created_at;
                             var status = "";
                             var color = "";
@@ -2136,8 +2138,9 @@
                                 console.log("*************** Response of command ****************");
                                 console.log(response_command);
                                 if(response_command.device_read_at != null){
-                                    start_stop_command_sent = false;
-                                    command_sent_time = response_command.created_at;
+                                    start_stop_command_sent[response_command.device_id] = false;
+                                    command_sent_time = new Date(response_command.created_at);
+                                    console.log("Changed Command sent time : "+ command_sent_time)
                                     $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
                                     switch(response.command){
                                         case "Start":

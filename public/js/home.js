@@ -298,10 +298,10 @@ $('.btn_device_start_stop').on('click', function(){
             .done(function(response){
                 console.log(response);
                 Swal.fire('Success','Command recorded.','success')
-                start_stop_command_sent = true;
-                // $('#device_status-'+trid).text('IDLE')
-                document.getElementById('device_status-'+trid).style.color = 'orange'
-                document.getElementById('device_status_pic-'+trid).style.color = 'orange'
+                start_stop_command_sent[trid] = true;
+                $('#device_status-'+trid).text('Pending')
+                document.getElementById('device_status-'+trid).style.color = 'black'
+                document.getElementById('device_status_pic-'+trid).style.color = 'black'
                 $('#btn_device_start_stop-'+trid).text('Stopping')
                 $('#btn_device_start_stop-'+trid).removeClass('btn-danger').addClass('btn-primary')
                 $('#btn_device_start_stop-'+trid).attr('disabled','true');
@@ -319,10 +319,10 @@ $('.btn_device_start_stop').on('click', function(){
             .done(function(response){
                 console.log(response);
                 Swal.fire('Success','Command recorded.','success')
-                start_stop_command_sent = true;
-                // $('#device_status-'+trid).text('RUNNING')
-                document.getElementById('device_status-'+trid).style.color = 'green'
-                document.getElementById('device_status_pic-'+trid).style.color = 'green'
+                start_stop_command_sent[trid] = true;
+                $('#device_status-'+trid).text('Pending')
+                document.getElementById('device_status-'+trid).style.color = 'black'
+                document.getElementById('device_status_pic-'+trid).style.color = 'black'
                 $('#btn_device_start_stop-'+trid).text('Starting')
                 $('#btn_device_start_stop-'+trid).removeClass('btn-primary').addClass('btn-danger')
                 $('#btn_device_start_stop-'+trid).attr('disabled','true');
