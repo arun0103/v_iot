@@ -164,6 +164,42 @@
 
         </div>
         <!-- /.container-fluid -->
+        <div class="modal fade" id="modal-view_reseller_device">
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title-reseller_device_list">Resellers' Device List</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20">
+                            <div class="col-lg-12">
+                                <table class="table table-stripped ">
+                                    <thead>
+                                        <tr>
+                                            <th>PCB Serial #</th>
+                                            <th>Device Serial #</th>
+                                            <th>Model</th>
+                                            <th># Users</th>
+                                            <th>Last Data</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reseller_device_table_body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary" id="btn_confirm_add_reseller_device" value="Add">Add</button> -->
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->"
+        </div>
 
     </div>
 
@@ -429,6 +465,20 @@
                         'No devices are registered by reseller',
                         'question'
                     )
+                }else{
+                    $('#reseller_device_table_body').empty();
+                    for(var i=0; i<data.length; i++){
+                        var device_model = data[i].model == 'U'?"DiUse":'DiEntry';
+                        var last_data = data[i].latest_log!= null?data[i].lastest_log.created_at:"-";
+                        $('#reseller_device_table_body').append('<tr><td>'+data[i].serial_number+ '</td>'+
+                        '<td>'+ data[i].device_number+'</td>'+
+                        '<td>'+device_model + '</td>'+
+                        '<td>'+data[i].user_devices_count+'</td>'+ // no. of users
+                        '<td>'+ last_data+'</td>'+ // last record received on
+                        '<td><i class="fa fa-trash delete_device_from_reseller"></i>Delete</td></tr>'
+                        )
+                    }
+                    $('#modal-view_reseller_device').modal('show');
                 }
             });
         })

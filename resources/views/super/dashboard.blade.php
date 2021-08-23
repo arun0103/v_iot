@@ -3,6 +3,7 @@
 @section('head')
 <!-- <script src="{{asset('js/require.js')}}"></script> -->
 <style>
+    #map{position:absolute; left:0;right:0;top:0;bottom:0;z-index:2}
     .modal-full {
         min-width: 100%;
         margin: 0;
@@ -1572,15 +1573,39 @@
 <!-- <script type="module" src="{{asset('js/map.js')}}"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    var greenIcon = new L.Icon({
+        iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|2ecc71&chf=a,s,ee00FFFF',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+    var redIcon = new L.Icon({
+        iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|e85141&chf=a,s,ee00FFFF',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
     $('#btn_map_view').on('click', function(){
         $('#modal-map_view').modal("show");
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map').setView([0, 0], 1);
         L.tileLayer('https://api.maptiler.com/maps/basic/{z}/{x}/{y}@2x.png?key=Eec27UocQRrQ00QVoo14', {
-            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+            //tileSize: 512,
+            zoomOffset: -1,
+            minZoom: 1,
+            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+            crossOrigin: true
         }).addTo(map);
-        L.marker([51.5, -0.09]).addTo(map)
+        L.marker([51.5, -0.09], {icon: greenIcon}).addTo(map)
             .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
             .openPopup();
+        L.marker([55.5, -1.09], {icon: redIcon}).addTo(map)
+            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+            .openPopup();
+
     })
 // Maintenance
     $('.input_critic_acid').on('keyup', function(){

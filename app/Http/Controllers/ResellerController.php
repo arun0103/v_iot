@@ -90,8 +90,8 @@ class ResellerController extends Controller
     }
 
     public function getResellerDevices($id){
-        $resellerDevices = Device::where('reseller_id',$id)->get();
-        return $resellerDevices;
+        $resellerDevices = Device::where('reseller_id',$id)->with('latest_log')->withCount('userDevices')->get();
+        return response()->json($resellerDevices);
     }
 
     public function addResellerDevice(Request $req){
