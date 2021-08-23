@@ -2178,12 +2178,14 @@ var old_critic_value, old_pre_filter, old_post_filter, general_service;
                         })
                         .done(function(response_command){
                             console.log("********* Getting pure ec target setpoint **********************");
-                            console.log("Pure EC Target setpoint : "+response_command);
                             setpoint_pure_EC_target = response_command;
-                            console.log("Setpoint EC of device: "+response_command.pure_EC_target)
+                            console.log("Pure EC Target setpoint : "+response_command);
+                            console.log("Setpoint EC of device: "+response_command)
                         });
                         var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
-                        var difference_ec = setpoint_pure_EC_target - response[i]['deviceDetails'].latest_log.ec;
+                        console.log("Avg. EC:"+avg_EC_target);
+                        var difference_ec = setpoint_pure_EC_target - avg_EC_target;
+                        console.log("Diff: "+difference_ec);
                         if(difference_ec<0){
                             difference_ec = difference_ec * (-1);
                         }
