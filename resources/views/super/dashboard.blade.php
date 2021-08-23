@@ -1342,7 +1342,7 @@
                                                     <div class="col-lg-12">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <h2 class="card-title">Maintenance</h2>
+                                                                <h2 class="card-title">Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->id}}">Edit</button></h2>
                                                                 <div class="card-tools">
                                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->id}}">
                                                                         <i class="fas fa-minus"></i>
@@ -1354,7 +1354,7 @@
                                                                     <div class="col-lg-2 col-md-2"><span><b>Critic Acid:</b></span></div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <span id="critic_acid_volume_left-{{$device->id}}"></span>
-                                                                        <b> / </b><input type="number" id="input_critic_acid-{{$device->id}}" class="input_critic_acid" value="{{$device->device_settings!= null ? $device->device_settings->critic_acid: ''}}">
+                                                                        <b> / </b><input type="number" id="input_critic_acid-{{$device->id}}" class="input_critic_acid" value="{{$device->device_settings!= null ? $device->device_settings->critic_acid: ''}}" disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <button class="btn btn-primary btn-sm btn-save-critic_acid" id="btn_save_critic_acid-{{$device->id}}" hidden>Save</button>
@@ -1365,7 +1365,7 @@
                                                                     <div class="col-lg-2 col-md-2"><span><b>Pre-filter:</b></span></div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <span id="pre_filter_volume_left-{{$device->id}}"></span>
-                                                                        <b> / </b><input type="number" id="input_pre_filter-{{$device->id}}" class="input_pre_filter" value="{{$device->device_settings!= null ? $device->device_settings->pre_filter: ''}}">
+                                                                        <b> / </b><input type="number" id="input_pre_filter-{{$device->id}}" class="input_pre_filter" value="{{$device->device_settings!= null ? $device->device_settings->pre_filter: ''}}"  disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <button class="btn btn-primary btn-sm btn-save-pre_filter" id="btn_save_pre_filter-{{$device->id}}" hidden>Save</button>
@@ -1376,7 +1376,7 @@
                                                                     <div class="col-lg-2 col-md-2"><span><b>Post-filter:</b></span></div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <span id="post_filter_volume_left-{{$device->id}}"></span>
-                                                                        <b> / </b><input type="number" id="input_post_filter-{{$device->id}}" class="input_post_filter" value="{{$device->device_settings!= null ? $device->device_settings->post_filter: ''}}">
+                                                                        <b> / </b><input type="number" id="input_post_filter-{{$device->id}}" class="input_post_filter" value="{{$device->device_settings!= null ? $device->device_settings->post_filter: ''}}" disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                     <button class="btn btn-primary btn-sm btn-save-post_filter" id="btn_save_post_filter-{{$device->id}}" hidden>Save</button>
@@ -1387,7 +1387,7 @@
                                                                     <div class="col-lg-2 col-md-2"><span><b>General Service:</b></span></div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <span id="general_service_volume_left-{{$device->id}}"></span>
-                                                                        <b> / </b><input type="number" id="input_general_service-{{$device->id}}" class="input_general_service" value="{{$device->device_settings!= null ? $device->device_settings->general_service: ''}}">
+                                                                        <b> / </b><input type="number" id="input_general_service-{{$device->id}}" class="input_general_service" value="{{$device->device_settings!= null ? $device->device_settings->general_service: ''}}" disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <button class="btn btn-primary btn-sm btn-save-general_service" id="btn_save_general_service-{{$device->id}}" hidden>Save</button>
@@ -1608,6 +1608,18 @@
 
     })
 // Maintenance
+var old_critic_value, old_pre_filter, old_post_filter, general_service;
+    $('.btn_edit_maintenance').on('click',function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        old_critic_value = $('.input_critic_acid').val();
+        old_pre_filter = $('.input_pre_filter').val();
+        old_post_filter = $('.input_post_filter').val();
+        general_service = $('.input_general_service').val();
+        $('.input_critic_acid').removeAttr("disabled");
+        $('.input_pre_filter').removeAttr("disabled");
+        $('.input_post_filter').removeAttr("disabled");
+        $('.input_general_service').removeAttr("disabled");
+    })
     $('.input_critic_acid').on('keyup', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
         $('#btn_save_critic_acid-'+trid).removeAttr("hidden");
@@ -1627,18 +1639,22 @@
 
     $('.btn-save-critic_acid').on('click', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "POST",
-            url: "/saveCriticAcid/"+ trid,
-            data: {"critic_acid":$('#input_critic_acid-'+trid).val()}
+        if($('#input_critic_acid-'+trid).val() >0 && $('#input_critic_acid-'+trid).val() < 50000){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/saveCriticAcid/"+ trid,
+                data: {"critic_acid":$('#input_critic_acid-'+trid).val()}
 
-        })
-        .done(function(response){
-            // console.log(response)
-            Swal.fire('Success','Critic Acid Updated','success')
-            $('#btn_save_critic_acid-'+trid).attr("hidden", true);
-        });
+            })
+            .done(function(response){
+                // console.log(response)
+                Swal.fire('Success','Critic Acid Updated','success')
+                $('#btn_save_critic_acid-'+trid).attr("hidden", true);
+            });
+        }else{
+            Swal.fire("Error", "Value out of range[0-50,000]","error");
+        }
     })
     $('.btn-save-pre_filter').on('click', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
@@ -2092,17 +2108,17 @@
                 url: "/refreshDashboardData",
             })
             .done(function(response){
-                console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                console.log(response);
-                console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                // console.log("% % % %  Refreshing Dashboad Data % % % % %")
+                // console.log(response);
+                // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                 console.log("command sent time: "+ command_sent_time)
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
                         $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
                         // console.log("Displaying response data");
                         // console.log(response[i]['deviceDetails']);
-// start_stop_command_sent[response[i]['deviceDetails'].id] != true
-                        //change the status new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time &&
+
+                        //change the status if new data is available
                         if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time){
 
                             var status = "";
@@ -2168,7 +2184,7 @@
                         var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
                         var difference_ec = setpoint_pure_EC_target - response[i]['deviceDetails'].latest_log.ec;
                         if(difference_ec<0){
-                            difference_ec *= -1;
+                            difference_ec = difference * (-1);
                         }
                         var percentage_EC_target = (difference_ec)/setpoint_pure_EC_target
                         if(percentage_EC_target*100 < 10){
@@ -2246,11 +2262,9 @@
                                 }
                             }
                         }
-
                     }
                 }
             });
-
         },5000);
         var device_data_created_at = null;
         setInterval(function(){
