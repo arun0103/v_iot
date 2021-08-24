@@ -1770,222 +1770,7 @@
         $('#live_start_time').text(now);
         // collect live data and display
         //its doing in every 5 sec when the document is ready
-        var device_data_created_at = null;
-        setInterval(function(){
-            if(view_live_device != null && view_mode != "live"){
-                $.ajax({
-                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                    type: "GET",
-                    url: "/deviceLiveData/"+ view_live_device,
-                })
-                .done(function(response){
-                    // console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
-                    // console.log(response);
-                    // console.log(response.created_at);
-                    if(device_data_created_at != response.created_at){
-                        device_data_created_at = response.created_at;
-                        var recorded_date = new Date(response.created_at);
-                        // console.log(recorded_date);
-                        recorded_date = recorded_date.toString();
-                        // console.log(recorded_date);
-                        var status = "";
-                        if(response.step == 0 ||response.step == 1 || response.step ==13)
-                            status = "IDLE"
-                        else
-                            status ="RUNNING"
 
-                        //calculating step
-                        var step_name = "";
-                        switch(response.step){
-                            case 255: step_name = " PCB restart";break;
-                            case 0: step_name = " Free Run";break;
-                            case 1: step_name = " Idle";break;
-                            case 2: step_name = " Prepurify";break;
-                            case 3: step_name = " Purify";break;
-                            case 4: step_name = " Waste";break;
-                            case 5: step_name = " High Flow Waste";break;
-                            case 6: step_name = " Wait";break;
-                            case 7: step_name = " CIP Dosing ON";break;
-                            case 8: step_name = " CIP Dosing OFF";break;
-                            case 9: step_name = " CIP Pulse ON";break;
-                            case 10: step_name = " CIP Pulse OFF";break;
-                            case 11: step_name = " CIP Flush";break;
-                            case 12: step_name = " High Temperature";break;
-                            case 13: step_name = " Wait High Temperature";break;
-                            case 14: step_name = " SHUNT";break;
-                            case 15: step_name = " Wait Before CIP Start";break;
-                        }
-                        // calculating input
-                        var input_binary_string = response.input.toString(2);
-                        if(input_binary_string.length < 5){
-                            for(var i = input_binary_string.length; i<5;i++){
-                                input_binary_string = "0".concat(input_binary_string);
-                            }
-                        }
-                        var input_names = [];
-                        for(var i =0 ; i<input_binary_string.length; i++){
-                            if(input_binary_string.charAt(i)=='1')
-                                input_names.push("HIGH");
-                            else
-                                input_names.push("LOW");
-                        }
-                        // calculating output
-                        var output_binary_string = response.output.toString(2);
-                        if(output_binary_string.length < 9){
-                            for(var i = output_binary_string.length; i<9; i++){
-                                output_binary_string = "0".concat(output_binary_string);
-                            }
-                        }
-                        var output_names = [];
-                        for(var i =0 ; i<output_binary_string.length; i++){
-                            if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
-                                output_names.push('<span style="color:red">OFF</span>');
-                            else
-                                output_names.push('<span style="color:green">ON</span>');
-                        }
-
-                        // calculating alarms
-                        var alarms = response.alarm;
-                        var bin_alarms = (alarms >>> 0).toString(2);
-                        for(var ii = bin_alarms.length; ii<24 ; ii++){
-                            bin_alarms = "0"+bin_alarms;
-                        }
-                        var alarm_names = [];
-                        for(var  j= 0 ; j < bin_alarms.length ; j++){
-                            if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
-                                switch(j){
-                                    case 0: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
-                                    case 1: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
-                                    case 2: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
-                                    case 3: alarm_names.push('<div style="color:red">FLOWMETER COMM ERROR</div>');break;
-                                    case 4: alarm_names.push('<div style="color:red">ATLAS TEMPERATURE ERROR</div>');break;
-                                    case 5: alarm_names.push('<div style="color:red">ZERO EC ALARM</div>');break;
-                                    case 6: alarm_names.push('<div style="color:red">ATLAS I2C COM ERROR</div>');break;
-                                    case 7: alarm_names.push('<div style="color:red">LOW PRESSURE ALARM</div>');break;
-                                    case 8: alarm_names.push('<div style="color:red">PAE AC INPUT FAIL</div>');break;
-                                    case 9: alarm_names.push('<div style="color:red">PAE AC POWER DOWN</div>');break;
-                                    case 10:alarm_names.push('<div style="color:red">PAE HIGH TEMPERATURE</div>');break;
-                                    case 11:alarm_names.push('<div style="color:red">PAE AUX OR SMPS FAIL</div>');break;
-                                    case 12:alarm_names.push('<div style="color:red">PAE FAN FAIL</div>');break;
-                                    case 13:alarm_names.push('<div style="color:red">PAE OVER TEMP SHUTDOWN</div>');break;
-                                    case 14:alarm_names.push('<div style="color:red">PAE OVER LOAD SHUTDOWN</div>');break;
-                                    case 15:alarm_names.push('<div style="color:red">PAE OVER VOLT SHUTDOWN</div>');break;
-                                    case 16:alarm_names.push('<div style="color:red">PAE COMMUNICATION ERROR</div>');break;
-                                    case 17:alarm_names.push('<div style="color:red">CIP LOW LEVEL ALARM</div>');break;
-                                    case 18:alarm_names.push('<div style="color:red">WASTE VALVE ALARM</div>');break;
-                                    case 19:alarm_names.push('<div style="color:red">LEAKAGE ALARM</div>');break;
-                                    case 20:alarm_names.push('<div style="color:red">CABINET TEMP ALARM</div>');break;
-                                    case 21:alarm_names.push('<div style="color:red">BYPASS ALARM</div>');break;
-                                    case 22:alarm_names.push('<div style="color:red">LOW FLOW WASTE ALARM</div>');break;
-                                    case 23:alarm_names.push('<div style="color:red">LOW FLOW PURE ALARM</div>');break;
-                                }
-                            }
-                        }
-                        //calculate mode
-                        var mode_name ="";
-                        switch(response.mode){
-                            case "0" : mode_name="LOGOUT";break;
-                            case "1" : mode_name="AUTO";break;
-                            case "2" : mode_name="MANUAL FLUSH";break;
-                            case "3" : mode_name="MANUAL CIP";break;
-                        }
-                        $('#live_data_rows_'+view_live_device).prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
-                                '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
-                                '<div class="timeline-body">'+
-                                   '<div class="timeline-header">'+
-                                        '<span class="userimage"><img src="/images/running.gif"></span>'+
-                                        '<span class="username">'+status +'<small></small></span>'+
-                                        '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+'] </span>'+
-                                        '<span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span>'+
-                                    '</div>'+
-                                    '<div class="timeline-content">'+
-                                        '<div class="row">'+
-                                            '<div class="col-sm-6">'+
-                                                '<span>CYCLE :'+response.cycle+'</span><br/>'+
-                                                '<span>CURRENT FLOW :'+response.c_flow+' L/min</span><br/>'+
-                                                '<span>ANALOG OUTPUT VOLTAGE :'+response.aov+' V</span><br/>'+
-                                                '<span>CABINET TEMPERATURE :'+response.c_temp+' \xB0C</span><br/>'+
-                                                '<span>Avg. CONDUCTIVITY(ec) :'+response.ec+' \xB5/cm</span><br/>'+
-                                                '<span>MODE :'+mode_name+'</span>'+
-                                            '</div>'+
-                                            '<div class="col-sm-6">'+
-                                                '<span>STEP :'+step_name+'</span><br/>'+
-                                                '<span>PRESSURE :'+response.pressure.toFixed(2)+' bar</span><br/>'+
-                                                '<span>PAE VOLTAGE :'+response.pae_volt+' V</span><br/>'+
-                                                '<span>WATER TEMPERATURE :'+response.w_temp+' \xB0C</span><br/>'+
-                                                '<span>PERCENTAGE RECOVERY :'+response.percentage_recovery+'%</span><br/>'+
-                                                '<span>TOTAL PURE VOLUME :'+response.tpv+' L</span><br/>'+
-                                            '</div>'+
-                                        '</div>'+
-                                        '<div class="row">'+
-                                            '<div class="col-sm-12">'+
-                                                '<table class="table">'+
-                                                    '<tr><th colspan="5" style="text-align:center;color:blue">INPUT</th></tr>'+
-                                                    '<tr>'+
-                                                        '<th>LEVEL</th>'+
-                                                        '<th>BYPASS</th>'+
-                                                        '<th>LEAKAGE</th>'+
-                                                        '<th>SIGNAL</th>'+
-                                                        '<th>SPARE</th>'+
-                                                    '</tr>'+
-                                                    '<tr>'+
-                                                        '<td>'+input_names[4]+'</td>'+
-                                                        '<td>'+input_names[3]+'</td>'+
-                                                        '<td>'+input_names[2]+'</td>'+
-                                                        '<td>'+input_names[1]+'</td>'+
-                                                        '<td>'+input_names[0]+'</td>'+
-                                                    '</tr>'+
-                                                '</table>'+
-                                            '</div>'+
-                                        '</div>'+
-                                        '<div class="row">'+
-                                            '<div class="col-sm-12">'+
-                                                '<table class="table">'+
-                                                    '<tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>'+
-                                                    '<tr>'+
-                                                        '<th>MIV</th>'+
-                                                        '<th>BYPASS</th>'+
-                                                        '<th>POV</th>'+
-                                                        '<th>WOV</th>'+
-                                                        '<th>CIP</th>'+
-                                                        '<th>SHUNT</th>'+
-                                                        '<th>POLARITY</th>'+
-                                                        '<th>PAE</th>'+
-                                                        '<th>SPARE</th>'+
-                                                    '</tr>'+
-                                                    '<tr>'+
-                                                        '<td>'+output_names[8]+'</td>'+
-                                                        '<td>'+output_names[7]+'</td>'+
-                                                        '<td>'+output_names[6]+'</td>'+
-                                                        '<td>'+output_names[5]+'</td>'+
-                                                        '<td>'+output_names[4]+'</td>'+
-                                                        '<td>'+output_names[3]+'</td>'+
-                                                        '<td>'+output_names[2]+'</td>'+
-                                                        '<td>'+output_names[1]+'</td>'+
-                                                        '<td>'+output_names[0]+'</td>'+
-                                                    '</tr>'+
-                                                '</table>'+
-                                            '</div>'+
-                                        '</div>'+
-                                        '<div class="row" style="border:1px solid black">'+
-                                            '<div class="col-sm-12"><h4>ALARMS</h4></div>'+
-                                                alarm_names+
-                                        '</div>'+
-                                    '</div>'+
-                                '</div>'+
-                            '</li>');
-                        highlight($('#live_data_rows:first .timeline-body:first'));
-                    }
-                });
-            }
-        }, 5000);
-        function highlight(obj){
-            var orig = obj.css('background');
-            obj.css('background', '#87bde6');
-            setTimeout(function(){
-                    obj.css('background',orig);
-            }, 2000);
-        }
     })
     $('.nav_link-control').on('click', function(){
         view_mode = "control";
@@ -2454,7 +2239,7 @@
                         //console.log("test Created_at: "+test_created_at);
                         var dd = test_now - test_created_at;
                         //console.log("Difference :"+dd/1000/60);
-                        if(dd < 2*1000*60) // 2 minutes
+                        if(dd < 15*1000) // 15 seconds
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected").css("color","green")
                         else
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected").css("color","red")
@@ -2520,7 +2305,223 @@
                 }
             });
         },5000);
+        //live data
+        var device_data_created_at = null;
+        setInterval(function(){
+            if(view_live_device != null && view_mode != "live"){
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "GET",
+                    url: "/deviceLiveData/"+ view_live_device,
+                })
+                .done(function(response){
+                    // console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
+                    // console.log(response);
+                    // console.log(response.created_at);
+                    if(device_data_created_at != response.created_at){
+                        device_data_created_at = response.created_at;
+                        var recorded_date = new Date(response.created_at);
+                        // console.log(recorded_date);
+                        recorded_date = recorded_date.toString();
+                        // console.log(recorded_date);
+                        var status = "";
+                        if(response.step == 0 ||response.step == 1 || response.step ==13)
+                            status = "IDLE"
+                        else
+                            status ="RUNNING"
 
+                        //calculating step
+                        var step_name = "";
+                        switch(response.step){
+                            case 255: step_name = " PCB restart";break;
+                            case 0: step_name = " Free Run";break;
+                            case 1: step_name = " Idle";break;
+                            case 2: step_name = " Prepurify";break;
+                            case 3: step_name = " Purify";break;
+                            case 4: step_name = " Waste";break;
+                            case 5: step_name = " High Flow Waste";break;
+                            case 6: step_name = " Wait";break;
+                            case 7: step_name = " CIP Dosing ON";break;
+                            case 8: step_name = " CIP Dosing OFF";break;
+                            case 9: step_name = " CIP Pulse ON";break;
+                            case 10: step_name = " CIP Pulse OFF";break;
+                            case 11: step_name = " CIP Flush";break;
+                            case 12: step_name = " High Temperature";break;
+                            case 13: step_name = " Wait High Temperature";break;
+                            case 14: step_name = " SHUNT";break;
+                            case 15: step_name = " Wait Before CIP Start";break;
+                        }
+                        // calculating input
+                        var input_binary_string = response.input.toString(2);
+                        if(input_binary_string.length < 5){
+                            for(var i = input_binary_string.length; i<5;i++){
+                                input_binary_string = "0".concat(input_binary_string);
+                            }
+                        }
+                        var input_names = [];
+                        for(var i =0 ; i<input_binary_string.length; i++){
+                            if(input_binary_string.charAt(i)=='1')
+                                input_names.push("HIGH");
+                            else
+                                input_names.push("LOW");
+                        }
+                        // calculating output
+                        var output_binary_string = response.output.toString(2);
+                        if(output_binary_string.length < 9){
+                            for(var i = output_binary_string.length; i<9; i++){
+                                output_binary_string = "0".concat(output_binary_string);
+                            }
+                        }
+                        var output_names = [];
+                        for(var i =0 ; i<output_binary_string.length; i++){
+                            if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
+                                output_names.push('<span style="color:red">OFF</span>');
+                            else
+                                output_names.push('<span style="color:green">ON</span>');
+                        }
+
+                        // calculating alarms
+                        var alarms = response.alarm;
+                        var bin_alarms = (alarms >>> 0).toString(2);
+                        for(var ii = bin_alarms.length; ii<24 ; ii++){
+                            bin_alarms = "0"+bin_alarms;
+                        }
+                        var alarm_names = [];
+                        for(var  j= 0 ; j < bin_alarms.length ; j++){
+                            if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
+                                switch(j){
+                                    case 0: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
+                                    case 1: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
+                                    case 2: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
+                                    case 3: alarm_names.push('<div style="color:red">FLOWMETER COMM ERROR</div>');break;
+                                    case 4: alarm_names.push('<div style="color:red">ATLAS TEMPERATURE ERROR</div>');break;
+                                    case 5: alarm_names.push('<div style="color:red">ZERO EC ALARM</div>');break;
+                                    case 6: alarm_names.push('<div style="color:red">ATLAS I2C COM ERROR</div>');break;
+                                    case 7: alarm_names.push('<div style="color:red">LOW PRESSURE ALARM</div>');break;
+                                    case 8: alarm_names.push('<div style="color:red">PAE AC INPUT FAIL</div>');break;
+                                    case 9: alarm_names.push('<div style="color:red">PAE AC POWER DOWN</div>');break;
+                                    case 10:alarm_names.push('<div style="color:red">PAE HIGH TEMPERATURE</div>');break;
+                                    case 11:alarm_names.push('<div style="color:red">PAE AUX OR SMPS FAIL</div>');break;
+                                    case 12:alarm_names.push('<div style="color:red">PAE FAN FAIL</div>');break;
+                                    case 13:alarm_names.push('<div style="color:red">PAE OVER TEMP SHUTDOWN</div>');break;
+                                    case 14:alarm_names.push('<div style="color:red">PAE OVER LOAD SHUTDOWN</div>');break;
+                                    case 15:alarm_names.push('<div style="color:red">PAE OVER VOLT SHUTDOWN</div>');break;
+                                    case 16:alarm_names.push('<div style="color:red">PAE COMMUNICATION ERROR</div>');break;
+                                    case 17:alarm_names.push('<div style="color:red">CIP LOW LEVEL ALARM</div>');break;
+                                    case 18:alarm_names.push('<div style="color:red">WASTE VALVE ALARM</div>');break;
+                                    case 19:alarm_names.push('<div style="color:red">LEAKAGE ALARM</div>');break;
+                                    case 20:alarm_names.push('<div style="color:red">CABINET TEMP ALARM</div>');break;
+                                    case 21:alarm_names.push('<div style="color:red">BYPASS ALARM</div>');break;
+                                    case 22:alarm_names.push('<div style="color:red">LOW FLOW WASTE ALARM</div>');break;
+                                    case 23:alarm_names.push('<div style="color:red">LOW FLOW PURE ALARM</div>');break;
+                                }
+                            }
+                        }
+                        //calculate mode
+                        var mode_name ="";
+                        switch(response.mode){
+                            case "0" : mode_name="LOGOUT";break;
+                            case "1" : mode_name="AUTO";break;
+                            case "2" : mode_name="MANUAL FLUSH";break;
+                            case "3" : mode_name="MANUAL CIP";break;
+                        }
+                        $('#live_data_rows_'+view_live_device).prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
+                                '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
+                                '<div class="timeline-body">'+
+                                   '<div class="timeline-header">'+
+                                        '<span class="userimage"><img src="/images/running.gif"></span>'+
+                                        '<span class="username">'+status +'<small></small></span>'+
+                                        '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+'] </span>'+
+                                        '<span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span>'+
+                                    '</div>'+
+                                    '<div class="timeline-content">'+
+                                        '<div class="row">'+
+                                            '<div class="col-sm-6">'+
+                                                '<span>CYCLE :'+response.cycle+'</span><br/>'+
+                                                '<span>CURRENT FLOW :'+response.c_flow+' L/min</span><br/>'+
+                                                '<span>ANALOG OUTPUT VOLTAGE :'+response.aov+' V</span><br/>'+
+                                                '<span>CABINET TEMPERATURE :'+response.c_temp+' \xB0C</span><br/>'+
+                                                '<span>Avg. CONDUCTIVITY(ec) :'+response.ec+' \xB5/cm</span><br/>'+
+                                                '<span>MODE :'+mode_name+'</span>'+
+                                            '</div>'+
+                                            '<div class="col-sm-6">'+
+                                                '<span>STEP :'+step_name+'</span><br/>'+
+                                                '<span>PRESSURE :'+response.pressure.toFixed(2)+' bar</span><br/>'+
+                                                '<span>PAE VOLTAGE :'+response.pae_volt+' V</span><br/>'+
+                                                '<span>WATER TEMPERATURE :'+response.w_temp+' \xB0C</span><br/>'+
+                                                '<span>PERCENTAGE RECOVERY :'+response.percentage_recovery+'%</span><br/>'+
+                                                '<span>TOTAL PURE VOLUME :'+response.tpv+' L</span><br/>'+
+                                            '</div>'+
+                                        '</div>'+
+                                        '<div class="row">'+
+                                            '<div class="col-sm-12">'+
+                                                '<table class="table">'+
+                                                    '<tr><th colspan="5" style="text-align:center;color:blue">INPUT</th></tr>'+
+                                                    '<tr>'+
+                                                        '<th>LEVEL</th>'+
+                                                        '<th>BYPASS</th>'+
+                                                        '<th>LEAKAGE</th>'+
+                                                        '<th>SIGNAL</th>'+
+                                                        '<th>SPARE</th>'+
+                                                    '</tr>'+
+                                                    '<tr>'+
+                                                        '<td>'+input_names[4]+'</td>'+
+                                                        '<td>'+input_names[3]+'</td>'+
+                                                        '<td>'+input_names[2]+'</td>'+
+                                                        '<td>'+input_names[1]+'</td>'+
+                                                        '<td>'+input_names[0]+'</td>'+
+                                                    '</tr>'+
+                                                '</table>'+
+                                            '</div>'+
+                                        '</div>'+
+                                        '<div class="row">'+
+                                            '<div class="col-sm-12">'+
+                                                '<table class="table">'+
+                                                    '<tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>'+
+                                                    '<tr>'+
+                                                        '<th>MIV</th>'+
+                                                        '<th>BYPASS</th>'+
+                                                        '<th>POV</th>'+
+                                                        '<th>WOV</th>'+
+                                                        '<th>CIP</th>'+
+                                                        '<th>SHUNT</th>'+
+                                                        '<th>POLARITY</th>'+
+                                                        '<th>PAE</th>'+
+                                                        '<th>SPARE</th>'+
+                                                    '</tr>'+
+                                                    '<tr>'+
+                                                        '<td>'+output_names[8]+'</td>'+
+                                                        '<td>'+output_names[7]+'</td>'+
+                                                        '<td>'+output_names[6]+'</td>'+
+                                                        '<td>'+output_names[5]+'</td>'+
+                                                        '<td>'+output_names[4]+'</td>'+
+                                                        '<td>'+output_names[3]+'</td>'+
+                                                        '<td>'+output_names[2]+'</td>'+
+                                                        '<td>'+output_names[1]+'</td>'+
+                                                        '<td>'+output_names[0]+'</td>'+
+                                                    '</tr>'+
+                                                '</table>'+
+                                            '</div>'+
+                                        '</div>'+
+                                        '<div class="row" style="border:1px solid black">'+
+                                            '<div class="col-sm-12"><h4>ALARMS</h4></div>'+
+                                                alarm_names+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</li>');
+                        highlight($('#live_data_rows:first .timeline-body:first'));
+                    }
+                });
+            }
+        }, 5000);
+        function highlight(obj){
+            var orig = obj.css('background');
+            obj.css('background', '#87bde6');
+            setTimeout(function(){
+                    obj.css('background',orig);
+            }, 2000);
+        }
         // rotation
         var angle=0;
         setInterval(function(){

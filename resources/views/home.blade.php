@@ -1350,7 +1350,7 @@
                         var test_now = new Date();
                         var test_created_at = new Date(response[i]['deviceDetails'].latest_log.created_at);
                         var dd = test_now - test_created_at;
-                        if(dd < 2*1000*60){ // 2 minutes
+                        if(dd < 15*1000){ // 15 seconds
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected").css("color","green")
                         }else{
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected").css("color","red")
