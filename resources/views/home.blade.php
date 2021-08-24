@@ -1833,10 +1833,10 @@
                             //calculate mode
                             var mode_name ="";
                             switch(response.mode){
-                                case 0 : mode_name="LOGOUT";break;
-                                case 1 : mode_name="AUTO";break;
-                                case 2 : mode_name="MANUAL FLUSH";break;
-                                case 3 : mode_name="MANUAL CIP";break;
+                                case "0" : mode_name="LOGOUT";break;
+                                case "1" : mode_name="AUTO";break;
+                                case "2" : mode_name="MANUAL FLUSH";break;
+                                case "3" : mode_name="MANUAL CIP";break;
                             }
                             $('#live_data_rows').prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
                                     '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
