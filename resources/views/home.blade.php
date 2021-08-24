@@ -1207,7 +1207,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 ">
                             <!-- begin timeline -->
-                            <ul class="timeline" id="live_data_rows_{{$device!=''?$device->deviceDetails->id:''}}">
+                            <ul class="timeline" id="live_data_rows">
                                 <li>
                                     <div class="timeline-time"><span class="time" id="live_start_time"></span></div>
                                     <div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>
@@ -1838,7 +1838,7 @@
                                 case 2 : mode_name="MANUAL FLUSH";break;
                                 case 3 : mode_name="MANUAL CIP";break;
                             }
-                            $('#live_data_rows_'+view_live_device).prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
+                            $('#live_data_rows').prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
                                     '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
                                     '<div class="timeline-body">'+
                                     '<div class="timeline-header">'+
