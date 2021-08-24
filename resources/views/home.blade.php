@@ -518,7 +518,7 @@
                 console.log("% % % %  Refreshing Dashboad Data % % % % %")
                 console.log(response);
                 console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
-                // console.log("command sent time: "+ command_sent_time)
+                console.log("command sent time: "+ command_sent_time)
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
                         $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
@@ -662,10 +662,11 @@
                         }
                         // maintenance
                         //critic acid
-                        var critic_acid_reset_value = response[i]['deviceDetails']['maintenance_critic_acid']!=null?response[i]['deviceDetails']['maintenance_critic_acid'].volume_value:0;
-                        var pre_filter_reset_value = response[i]['deviceDetails']['maintenance_pre_filter']!=null?response[i]['deviceDetails']['maintenance_pre_filter'].volume_value:0;
-                        var post_filter_reset_value = response[i]['deviceDetails']['maintenance_post_filter']!=null?response[i]['deviceDetails']['maintenance_post_filter'].volume_value:0;
-                        var general_service_reset_value = response[i]['deviceDetails']['maintenance_general_service']!=null?response[i]['deviceDetails']['maintenance_general_service'].volume_value:0;
+                        var critic_acid_reset_value = response[i]['deviceDetails']['latest_maintenance_critic_acid']!=null?response[i]['deviceDetails']['latest_maintenance_critic_acid'].volume_value:0;
+                        console.log("Critic reset value: "+response[i]['deviceDetails']['latest_maintenance_critic_acid'].volume_value);
+                        var pre_filter_reset_value = response[i]['deviceDetails']['latest_maintenance_pre_filter']!=null?response[i]['deviceDetails']['latest_maintenance_pre_filter'].volume_value:0;
+                        var post_filter_reset_value = response[i]['deviceDetails']['latest_maintenance_post_filter']!=null?response[i]['deviceDetails']['latest_maintenance_post_filter'].volume_value:0;
+                        var general_service_reset_value = response[i]['deviceDetails']['latest_maintenance_general_service']!=null?response[i]['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
 
                         var volume_left_critic_acid = response[i]['deviceDetails']['device_settings'].critic_acid - response[i]['deviceVolume'].total - critic_acid_reset_value ;
                         $('#critic_acid_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_critic_acid);
