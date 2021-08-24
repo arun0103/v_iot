@@ -3,6 +3,10 @@
 @section('head')
 <!-- <script src="{{asset('js/require.js')}}"></script> -->
 <style>
+    .small-inputs{
+        width:100px;
+        border:1px solid blue;t
+    }
     #map{position:absolute; left:0;right:0;top:0;bottom:0;z-index:2}
     .modal-full {
         min-width: 100%;
@@ -1342,7 +1346,7 @@
                                                     <div class="col-lg-12">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <h2 class="card-title">Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->id}}">Edit</button></h2>
+                                                                <h2 class="card-title" style="margin-top:-9px!important">Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->id}}">Edit</button></h2>
                                                                 <div class="card-tools">
                                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->id}}">
                                                                         <i class="fas fa-minus"></i>
@@ -1351,10 +1355,12 @@
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="row">
-                                                                    <div class="col-lg-2 col-md-2"><span><b>Critic Acid:</b></span></div>
-                                                                    <div class="col-lg-3 col-md-4">
-                                                                        <span id="critic_acid_volume_left-{{$device->id}}"></span>
-                                                                        <b> / </b><input type="number" id="input_critic_acid-{{$device->id}}" class="input_critic_acid" value="{{$device->device_settings!= null ? $device->device_settings->critic_acid: ''}}" disabled>
+                                                                    <div class="col-lg-3 col-md-3"><span><b>Critic Acid</b></span></div>
+                                                                    <div class="col-lg-2 col-md-2">
+                                                                        <span id="critic_acid_volume_left-{{$device->id}}" ></span>
+                                                                    </div>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <b> / </b><input type="number" id="input_critic_acid-{{$device->id}}" class="small-inputs input_critic_acid" value="{{$device->device_settings!= null ? $device->device_settings->critic_acid: ''}}" disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <button class="btn btn-primary btn-sm btn-save-critic_acid" id="btn_save_critic_acid-{{$device->id}}" hidden>Save</button>
@@ -1362,10 +1368,12 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-lg-2 col-md-2"><span><b>Pre-filter:</b></span></div>
-                                                                    <div class="col-lg-3 col-md-4">
-                                                                        <span id="pre_filter_volume_left-{{$device->id}}"></span>
-                                                                        <b> / </b><input type="number" id="input_pre_filter-{{$device->id}}" class="input_pre_filter" value="{{$device->device_settings!= null ? $device->device_settings->pre_filter: ''}}"  disabled>
+                                                                    <div class="col-lg-3 col-md-3"><span><b>Pre-filter:</b></span></div>
+                                                                    <div class="col-lg-2 col-md-2">
+                                                                        <span id="pre_filter_volume_left-{{$device->id}}" style="float:right"></span>
+                                                                    </div>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <b> / </b><input type="number" id="input_pre_filter-{{$device->id}}" class="small-inputs input_pre_filter" value="{{$device->device_settings!= null ? $device->device_settings->pre_filter: ''}}"  disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <button class="btn btn-primary btn-sm btn-save-pre_filter" id="btn_save_pre_filter-{{$device->id}}" hidden>Save</button>
@@ -1373,10 +1381,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-lg-2 col-md-2"><span><b>Post-filter:</b></span></div>
-                                                                    <div class="col-lg-3 col-md-4">
+                                                                    <div class="col-lg-3 col-md-3"><span><b>Post-filter:</b></span></div>
+                                                                    <div class="col-lg-6 col-md-5">
                                                                         <span id="post_filter_volume_left-{{$device->id}}"></span>
-                                                                        <b> / </b><input type="number" id="input_post_filter-{{$device->id}}" class="input_post_filter" value="{{$device->device_settings!= null ? $device->device_settings->post_filter: ''}}" disabled>
+                                                                        <b> / </b><input type="number" id="input_post_filter-{{$device->id}}" class="small-inputs input_post_filter" value="{{$device->device_settings!= null ? $device->device_settings->post_filter: ''}}" disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                     <button class="btn btn-primary btn-sm btn-save-post_filter" id="btn_save_post_filter-{{$device->id}}" hidden>Save</button>
@@ -1384,10 +1392,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-lg-2 col-md-2"><span><b>General Service:</b></span></div>
-                                                                    <div class="col-lg-3 col-md-4">
+                                                                    <div class="col-lg-3 col-md-3"><span><b>General Service:</b></span></div>
+                                                                    <div class="col-lg-6 col-md-5">
                                                                         <span id="general_service_volume_left-{{$device->id}}"></span>
-                                                                        <b> / </b><input type="number" id="input_general_service-{{$device->id}}" class="input_general_service" value="{{$device->device_settings!= null ? $device->device_settings->general_service: ''}}" disabled>
+                                                                        <b> / </b><input type="number" id="input_general_service-{{$device->id}}" class="small-inputs input_general_service" value="{{$device->device_settings!= null ? $device->device_settings->general_service: ''}}" disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <button class="btn btn-primary btn-sm btn-save-general_service" id="btn_save_general_service-{{$device->id}}" hidden>Save</button>
@@ -1610,7 +1618,7 @@
     })
 //
 // Maintenance
-var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
+    var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
     $('.btn_edit_maintenance').on('click',function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
         old_critic_value[trid] = $('.input_critic_acid').val();
@@ -2125,9 +2133,9 @@ var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_ser
                 url: "/refreshDashboardData",
             })
             .done(function(response){
-                console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                console.log(response);
-                console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                // console.log("% % % %  Refreshing Dashboad Data % % % % %")
+                // console.log(response);
+                // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                 // console.log("command sent time: "+ command_sent_time)
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){

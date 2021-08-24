@@ -10,6 +10,11 @@ use App\Models\UserDevices;
 use App\Models\RawLogs;
 use App\Models\Device_settings;
 use App\Models\DeviceSettingsLogs;
+
+use App\Models\Maintenance_critic_acid;
+use App\Models\Maintenance_pre_filter;
+use App\Models\Maintenance_post_filter;
+use App\Models\Maintenance_general_service;
 use Auth;
 
 class DeviceController extends Controller
@@ -174,5 +179,39 @@ class DeviceController extends Controller
             return response()->json(["deleted",$device_id]);
         else
             return response()->json("error");
+    }
+
+    //function to reset general service of device
+    public function resetGeneralService($device_id, $volume){
+        $maintenance = new Maintenance_general_service();
+        $maintenance->device_id = $device_id;
+        $maintenance->volume_value = $volume;
+        $maintenance->maintained_by = Auth::user()->id;
+        $maintenance->save();
+        return response()->json($maintenance);
+    }
+    public function resetCriticAcid($device_id, $volume){
+        $maintenance = new Maintenance_critic_acid();
+        $maintenance->device_id = $device_id;
+        $maintenance->volume_value = $volume;
+        $maintenance->maintained_by = Auth::user()->id;
+        $maintenance->save();
+        return response()->json($maintenance);
+    }
+    public function resetPreFilter($device_id, $volume){
+        $maintenance = new Maintenance_pre_filter();
+        $maintenance->device_id = $device_id;
+        $maintenance->volume_value = $volume;
+        $maintenance->maintained_by = Auth::user()->id;
+        $maintenance->save();
+        return response()->json($maintenance);
+    }
+    public function resetPostFilter($device_id, $volume){
+        $maintenance = new Maintenance_post_filter();
+        $maintenance->device_id = $device_id;
+        $maintenance->volume_value = $volume;
+        $maintenance->maintained_by = Auth::user()->id;
+        $maintenance->save();
+        return response()->json($maintenance);
     }
 }

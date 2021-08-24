@@ -100,8 +100,16 @@ Route::get('/command_status/{command}/{id}',[App\Http\Controllers\CommandsContro
 //Live
 Route::get('/deviceLiveData/{id}',[App\Http\Controllers\DeviceController::class, 'getLiveData'])->middleware('auth');
 Route::get('/refreshDashboardData',[App\Http\Controllers\DataController::class, 'getAllDeviceLatestDataEvery15Seconds'])->middleware('auth');
+Route::get('/refreshUserDashboardData',[App\Http\Controllers\DataController::class, 'getUserDevicesLatestDataEvery5Seconds'])->middleware('auth');
 
 //Setpoints
 Route::get('/getDeviceSetpoints/{id}',[App\Http\Controllers\DataController::class, 'getDeviceSetpoints'])->middleware('auth');
 Route::get('/getPureECTargetSetpoint/{id}',[App\Http\Controllers\DataController::class, 'getPureECTarget'])->middleware('auth');
 Route::post('/saveDeviceSetpoints/{id}',[App\Http\Controllers\DataController::class, 'setDeviceSetpoints'])->middleware('auth');
+
+
+//Maintenance
+Route::post('/resetCriticAcid/{device_id}/{volume}',[App\Http\Controllers\DeviceController::class, 'resetCriticAcid'])->middleware('auth');
+Route::post('/resetPreFilter/{device_id}/{volume}',[App\Http\Controllers\DeviceController::class, 'resetPreFilter'])->middleware('auth');
+Route::post('/resetPostFilter/{device_id}/{volume}',[App\Http\Controllers\DeviceController::class, 'resetPostFilter'])->middleware('auth');
+Route::post('/resetGeneralService/{device_id}/{volume}',[App\Http\Controllers\DeviceController::class, 'resetGeneralService'])->middleware('auth');

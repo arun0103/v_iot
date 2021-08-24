@@ -5,16 +5,73 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Device;
+use App\Models\UserDevices;
 use App\Models\Setpoints;
 use App\Models\RawLogs;
 use App\Models\Device_commands;
 use Carbon\Carbon;
+use Auth;
 
 class DataController extends Controller
 {
-    //
+    // for super admin
     public function getAllDeviceLatestDataEvery15Seconds(){
         $devices = Device::with('latest_log','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->get();
+        // return response()->json($devices);
+        $today = date(Carbon::now());
+        $thirtyOnedays = date(Carbon::now()->subDays(31));
+        $previousDay = date(Carbon::now()->subDays(1));
+        // $allDevices= Device::with(['logs'=>function($query) use($thirtyOnedays, $today){
+        //     $query->orderBy('id','Desc')->first();
+        // }])->get();
+        $dataToSend =[];
+        $volume = [];
+        // get the first data and last data of tpv and subtract to get the monthly volume
+        foreach($devices as $device){
+            if($device->latest_log != null){
+                // calculate daily volume
+                $daily_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$previousDay,$today])->get();
+                $daily_logs_count = count($daily_logs);
+                $daily_volume = 0;
+                if($daily_logs_count !=0){
+                    $latest_tpv = $daily_logs[$daily_logs_count -1]->tpv;
+                    $last_tpv = $daily_logs[0]->tpv;
+                    $daily_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+                }
+                $daily_logs =[];
+                //calculate monthly volume
+                $monthly_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$thirtyOnedays,$today])->get();
+                $monthly_logs_count = count($monthly_logs);
+                $monthly_volume = 0;
+                if($monthly_logs_count !=0){
+                    $latest_tpv = $monthly_logs[$monthly_logs_count-1]->tpv;
+                    $last_tpv = $monthly_logs[0]->tpv;
+                    $monthly_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+                }
+                $monthly_logs = [];
+                //calculate total volume
+                $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
+                $total_volume = $last_record->tpv*0.2642007926;
+                $volume = [
+                    'daily'=>round($daily_volume,2),
+                    'monthly'=>round($monthly_volume,2),
+                    'total'=>round($total_volume,2)
+                ];
+                $last_record = null;
+            }
+            $deviceData = [
+                'deviceDetails'=>$device,
+                'deviceVolume'=>$volume
+            ];
+            array_push($dataToSend, $deviceData);
+        }
+        return response()->json($dataToSend);
+    }
+    //for user
+    public function getUserDevicesLatestDataEvery5Seconds(){
+        $userDevicesIDs = UserDevices::where('user_id',Auth::user()->id)->pluck('device_id');
+        //return response()->json($userDevicesIDs);
+        $devices = Device::where('id',array($userDevicesIDs))->with('latest_log','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->get();
         // return response()->json($devices);
         $today = date(Carbon::now());
         $thirtyOnedays = date(Carbon::now()->subDays(31));
