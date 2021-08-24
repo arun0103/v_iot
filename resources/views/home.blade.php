@@ -1207,7 +1207,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 ">
                             <!-- begin timeline -->
-                            <ul class="timeline" id="live_data_rows_{{$device->deviceDetails->id}}">
+                            <ul class="timeline" id="live_data_rows_{{$device!=null?$device->deviceDetails->id:''}}">
                                 <li>
                                     <div class="timeline-time"><span class="time" id="live_start_time"></span></div>
                                     <div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>
