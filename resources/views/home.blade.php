@@ -2,17 +2,727 @@
 
 @section('head')
 <style>
-.f-r-info{
-    float:right;
-    line-height:25px;
-    margin-right:10px;
-}
-.card-title{
-    padding-top: 0.4em;
-}
-.info{
-    padding-top: 0.3em;
-}
+    .f-r-info{
+        float:right;
+        line-height:25px;
+        margin-right:10px;
+    }
+    .card-title{
+        padding-top: 0.4em;
+    }
+    .info{
+        padding-top: 0.3em;
+    }
+    .modal-full {
+        min-width: 100%;
+        margin: 0;
+    }
+    .modal-full .modal-content {
+        min-height: 100vh;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+
+    .alarms-list{
+        color:red;
+    }
+    tr.device-info{
+        position:relative;
+    }
+    .loader {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        /* background: url('images/pageLoader.gif') 50% 50% no-repeat rgb(249,249,249); */
+        opacity: .8;
+    }
+    .display-none{
+        display: hidden;
+    }
+    /* #btn_edit_user_profile{
+        margin-right:-15px;
+    } */
+    .edit_info{
+        margin-top:-25px;
+    }
+    #info_member_since_edit, .edit_info{
+        color:yellow;
+        font-weight: bolder;
+        float:right;
+    }
+    #btn_edit_user_profile, #btn_cancel_edit_user_profile{
+        float:right;
+    }
+    #img_avatar_preview{
+        width:450px;
+        height:300px;
+        border-radius: 5px;
+
+    }
+
+    /* /////////////////////////// */
+    body{
+        margin-top:20px;
+        background:#eee;
+    }
+    input {
+        border: none;
+        display: inline;
+        font-family: inherit;
+        font-size: inherit;
+        padding: none;
+        width: auto;
+    }
+
+    .profile-header {
+        position: relative;
+        overflow: hidden
+    }
+
+    .profile-header .profile-header-cover {
+        /* background-image: url(https://bootdey.com/img/Content/bg1.jpg); */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0
+    }
+
+    .profile-header .profile-header-cover:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .75) 100%)
+    }
+
+    .profile-header .profile-header-content {
+        color: #fff;
+        padding: 25px
+    }
+
+    .profile-header-img {
+        float: left;
+        width: 120px;
+        height: 120px;
+        overflow: hidden;
+        position: relative;
+        /*z-index: 10;*/
+        margin: 0 0 -20px;
+        padding: 3px;
+        border-radius: 4px;
+        background: #fff
+    }
+
+    .profile-header-img img {
+        max-width: 100%
+    }
+
+    .profile-header-info h4 {
+        font-weight: 500;
+        color: #fff
+    }
+
+    .profile-header-img+.profile-header-info {
+        margin-left: 140px
+    }
+
+    .profile-header .profile-header-content,
+    .profile-header .profile-header-tab {
+        position: relative
+    }
+
+    .b-minus-1,
+    .b-minus-10,
+    .b-minus-2,
+    .b-minus-3,
+    .b-minus-4,
+    .b-minus-5,
+    .b-minus-6,
+    .b-minus-7,
+    .b-minus-8,
+    .b-minus-9,
+    .b-plus-1,
+    .b-plus-10,
+    .b-plus-2,
+    .b-plus-3,
+    .b-plus-4,
+    .b-plus-5,
+    .b-plus-6,
+    .b-plus-7,
+    .b-plus-8,
+    .b-plus-9,
+    .l-minus-1,
+    .l-minus-2,
+    .l-minus-3,
+    .l-minus-4,
+    .l-minus-5,
+    .l-minus-6,
+    .l-minus-7,
+    .l-minus-8,
+    .l-minus-9,
+    .l-plus-1,
+    .l-plus-10,
+    .l-plus-2,
+    .l-plus-3,
+    .l-plus-4,
+    .l-plus-5,
+    .l-plus-6,
+    .l-plus-7,
+    .l-plus-8,
+    .l-plus-9,
+    .r-minus-1,
+    .r-minus-10,
+    .r-minus-2,
+    .r-minus-3,
+    .r-minus-4,
+    .r-minus-5,
+    .r-minus-6,
+    .r-minus-7,
+    .r-minus-8,
+    .r-minus-9,
+    .r-plus-1,
+    .r-plus-10,
+    .r-plus-2,
+    .r-plus-3,
+    .r-plus-4,
+    .r-plus-5,
+    .r-plus-6,
+    .r-plus-7,
+    .r-plus-8,
+    .r-plus-9,
+    .t-minus-1,
+    .t-minus-10,
+    .t-minus-2,
+    .t-minus-3,
+    .t-minus-4,
+    .t-minus-5,
+    .t-minus-6,
+    .t-minus-7,
+    .t-minus-8,
+    .t-minus-9,
+    .t-plus-1,
+    .t-plus-10,
+    .t-plus-2,
+    .t-plus-3,
+    .t-plus-4,
+    .t-plus-5,
+    .t-plus-6,
+    .t-plus-7,
+    .t-plus-8,
+    .t-plus-9 {
+        position: relative!important
+    }
+
+    .profile-header .profile-header-tab {
+        background: #fff;
+        list-style-type: none;
+        margin: -10px 0 0;
+        padding: 0 0 0 140px;
+        white-space: nowrap;
+        border-radius: 0
+    }
+
+    .text-ellipsis,
+    .text-nowrap {
+        white-space: nowrap!important
+    }
+
+    .profile-header .profile-header-tab>li {
+        display: inline-block;
+        margin: 0
+    }
+
+    .profile-header .profile-header-tab>li>a {
+        display: block;
+        color: #929ba1;
+        line-height: 20px;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 12px;
+        border: none
+    }
+
+    .profile-header .profile-header-tab>li.active>a,
+    .profile-header .profile-header-tab>li>a.active {
+        color: #242a30
+    }
+
+    .profile-content {
+        padding: 25px;
+        border-radius: 4px
+    }
+
+    .profile-content:after,
+    .profile-content:before {
+        content: '';
+        display: table;
+        clear: both
+    }
+
+    .profile-content .tab-content,
+    .profile-content .tab-pane {
+        background: 0 0
+    }
+
+    .profile-left {
+        width: 200px;
+        float: left
+    }
+
+    .profile-right {
+        margin-left: 240px;
+        padding-right: 20px
+    }
+
+    .profile-image {
+        height: 300px;
+        line-height: 175px;
+        text-align: center;
+        font-size: 72px;
+        margin-bottom: 10px;
+        border: 2px solid #E2E7EB;
+        overflow: hidden;
+        border-radius: 4px
+    }
+
+    .profile-image img {
+        display: block;
+        max-width: 100%
+    }
+
+    .profile-highlight {
+        padding: 12px 15px;
+        background: #FEFDE1;
+        border-radius: 4px
+    }
+
+    .profile-highlight h4 {
+        margin: 0 0 7px;
+        font-size: 12px;
+        font-weight: 700
+    }
+
+    .table.table-profile>thead>tr>th {
+        border-bottom: none!important
+    }
+
+    .table.table-profile>thead>tr>th h4 {
+        font-size: 20px;
+        margin-top: 0
+    }
+
+    .table.table-profile>thead>tr>th h4 small {
+        display: block;
+        font-size: 12px;
+        font-weight: 400;
+        margin-top: 5px
+    }
+
+    .table.table-profile>tbody>tr>td,
+    .table.table-profile>thead>tr>th {
+        border: none;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        color: #242a30;
+        background: 0 0
+    }
+
+    .table.table-profile>tbody>tr>td.field {
+        width: 20%;
+        text-align: right;
+        font-weight: 600;
+        color: #2d353c
+    }
+
+    .table.table-profile>tbody>tr.highlight>td {
+        border-top: 1px solid #b9c3ca;
+        border-bottom: 1px solid #b9c3ca
+    }
+
+    .table.table-profile>tbody>tr.divider>td {
+        padding: 0!important;
+        height: 10px
+    }
+
+    .profile-section+.profile-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #b9c3ca
+    }
+
+    .profile-section:after,
+    .profile-section:before {
+        content: '';
+        display: table;
+        clear: both
+    }
+
+    .profile-section .title {
+        font-size: 20px;
+        margin: 0 0 15px
+    }
+
+    .profile-section .title small {
+        font-weight: 400
+    }
+
+    body.flat-black {
+        background: #E7E7E7
+    }
+
+    .flat-black .navbar.navbar-inverse {
+        background: #212121
+    }
+
+    .flat-black .navbar.navbar-inverse .navbar-form .form-control {
+        background: #4a4a4a;
+        border-color: #4a4a4a
+    }
+
+    .flat-black .sidebar,
+    .flat-black .sidebar-bg {
+        background: #3A3A3A
+    }
+
+    .flat-black .page-with-light-sidebar .sidebar,
+    .flat-black .page-with-light-sidebar .sidebar-bg {
+        background: #fff
+    }
+
+    .flat-black .sidebar .nav>li>a {
+        color: #b2b2b2
+    }
+
+    .flat-black .sidebar.sidebar-grid .nav>li>a {
+        border-bottom: 1px solid #474747;
+        border-top: 1px solid #474747
+    }
+
+    .flat-black .sidebar .active .sub-menu>li.active>a,
+    .flat-black .sidebar .nav>li.active>a,
+    .flat-black .sidebar .nav>li>a:focus,
+    .flat-black .sidebar .nav>li>a:hover,
+    .flat-black .sidebar .sub-menu>li>a:focus,
+    .flat-black .sidebar .sub-menu>li>a:hover,
+    .sidebar .nav>li.nav-profile>a {
+        color: #fff
+    }
+
+    .flat-black .sidebar .sub-menu>li>a,
+    .flat-black .sidebar .sub-menu>li>a:before {
+        color: #999
+    }
+
+    .flat-black .page-with-light-sidebar .sidebar .active .sub-menu>li.active>a,
+    .flat-black .page-with-light-sidebar .sidebar .active .sub-menu>li.active>a:focus,
+    .flat-black .page-with-light-sidebar .sidebar .active .sub-menu>li.active>a:hover,
+    .flat-black .page-with-light-sidebar .sidebar .nav>li.active>a,
+    .flat-black .page-with-light-sidebar .sidebar .nav>li.active>a:focus,
+    .flat-black .page-with-light-sidebar .sidebar .nav>li.active>a:hover {
+        color: #000
+    }
+
+    .flat-black .page-sidebar-minified .sidebar .nav>li.has-sub:focus>a,
+    .flat-black .page-sidebar-minified .sidebar .nav>li.has-sub:hover>a {
+        background: #323232
+    }
+
+    .flat-black .page-sidebar-minified .sidebar .nav li.has-sub>.sub-menu,
+    .flat-black .sidebar .nav>li.active>a,
+    .flat-black .sidebar .nav>li.active>a:focus,
+    .flat-black .sidebar .nav>li.active>a:hover,
+    .flat-black .sidebar .nav>li.nav-profile,
+    .flat-black .sidebar .sub-menu>li.has-sub>a:before,
+    .flat-black .sidebar .sub-menu>li:before,
+    .flat-black .sidebar .sub-menu>li>a:after {
+        background: #2A2A2A
+    }
+
+    .flat-black .page-sidebar-minified .sidebar .sub-menu>li:before,
+    .flat-black .page-sidebar-minified .sidebar .sub-menu>li>a:after {
+        background: #3e3e3e
+    }
+
+    .flat-black .sidebar .nav>li.nav-profile .cover.with-shadow:before {
+        background: rgba(42, 42, 42, .75)
+    }
+
+    .bg-white {
+        background-color: #fff!important;
+    }
+    .p-10 {
+        padding: 10px!important;
+    }
+    .media.media-xs .media-object {
+        width: 32px;
+    }
+    .m-b-2 {
+        margin-bottom: 2px!important;
+    }
+    .media>.media-left, .media>.pull-left {
+        padding-right: 15px;
+    }
+    .media-body, .media-left, .media-right {
+        display: table-cell;
+        vertical-align: top;
+    }
+    select.form-control:not([size]):not([multiple]) {
+        height: 34px;
+    }
+    .form-control.input-inline {
+        display: inline;
+        width: auto;
+        padding: 0 7px;
+    }
+
+
+    .timeline {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        position: relative
+    }
+
+    .timeline:before {
+        content: '';
+        position: absolute;
+        top: 5px;
+        bottom: 5px;
+        width: 5px;
+        background: #2d353c;
+        left: 20%;
+        margin-left: -2.5px
+    }
+
+    .timeline>li {
+        position: relative;
+        min-height: 50px;
+        padding: 20px 0
+    }
+
+    .timeline .timeline-time {
+        position: absolute;
+        left: 0;
+        width: 18%;
+        text-align: right;
+        top: 30px
+    }
+
+    .timeline .timeline-time .date,
+    .timeline .timeline-time .time {
+        display: block;
+        font-weight: 600
+    }
+
+    .timeline .timeline-time .date {
+        line-height: 16px;
+        font-size: 12px
+    }
+
+    .timeline .timeline-time .time {
+        line-height: 24px;
+        font-size: 20px;
+        color: #242a30
+    }
+
+    .timeline .timeline-icon {
+        left: 15%;
+        position: absolute;
+        width: 10%;
+        text-align: center;
+        top: 40px
+    }
+
+    .timeline .timeline-icon a {
+        text-decoration: none;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        border-radius: 20px;
+        background: #d9e0e7;
+        line-height: 10px;
+        color: #fff;
+        font-size: 14px;
+        border: 5px solid #2d353c;
+        transition: border-color .2s linear
+    }
+
+    .timeline .timeline-body {
+        margin-left: 23%;
+        margin-right: 5%;
+        background: #fff;
+        position: relative;
+        padding: 20px 15px;
+        border-radius: 6px
+    }
+
+    .timeline .timeline-body:before {
+        content: '';
+        display: block;
+        position: absolute;
+        border: 10px solid transparent;
+        border-right-color: #fff;
+        left: -20px;
+        top: 20px
+    }
+
+    .timeline .timeline-body>div+div {
+        margin-top: 15px
+    }
+
+    .timeline .timeline-body>div+div:last-child {
+        margin-bottom: -20px;
+        padding-bottom: 20px;
+        border-radius: 0 0 6px 6px
+    }
+
+    .timeline-header {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e2e7eb;
+        line-height: 30px
+    }
+
+    .timeline-header .userimage {
+        float: left;
+        width: 34px;
+        height: 34px;
+        border-radius: 40px;
+        overflow: hidden;
+        margin: -2px 10px -2px 0
+    }
+
+    .timeline-header .username {
+        font-size: 16px;
+        font-weight: 600
+    }
+
+    .timeline-header .username,
+    .timeline-header .username a {
+        color: #2d353c
+    }
+
+    .timeline img {
+        max-width: 100%;
+        display: block
+    }
+
+    .timeline-content {
+        letter-spacing: .25px;
+        line-height: 18px;
+        font-size: 13px
+    }
+
+    .timeline-content:after,
+    .timeline-content:before {
+        content: '';
+        display: table;
+        clear: both
+    }
+
+    .timeline-title {
+        margin-top: 0
+    }
+
+    .timeline-footer {
+        background: #fff;
+        border-top: 1px solid #e2e7ec;
+        padding-top: 15px
+    }
+
+    .timeline-footer a:not(.btn) {
+        color: #575d63
+    }
+
+    .timeline-footer a:not(.btn):focus,
+    .timeline-footer a:not(.btn):hover {
+        color: #2d353c
+    }
+
+    .timeline-likes {
+        color: #6d767f;
+        font-weight: 600;
+        font-size: 12px
+    }
+
+    .timeline-likes .stats-right {
+        float: right
+    }
+
+    .timeline-likes .stats-total {
+        display: inline-block;
+        line-height: 20px
+    }
+
+    .timeline-likes .stats-icon {
+        float: left;
+        margin-right: 5px;
+        font-size: 9px
+    }
+
+    .timeline-likes .stats-icon+.stats-icon {
+        margin-left: -2px
+    }
+
+    .timeline-likes .stats-text {
+        line-height: 20px
+    }
+
+    .timeline-likes .stats-text+.stats-text {
+        margin-left: 15px
+    }
+
+    .timeline-comment-box {
+        background: #f2f3f4;
+        margin-left: -25px;
+        margin-right: -25px;
+        padding: 20px 25px
+    }
+
+    .timeline-comment-box .user {
+        float: left;
+        width: 34px;
+        height: 34px;
+        overflow: hidden;
+        border-radius: 30px
+    }
+
+    .timeline-comment-box .user img {
+        max-width: 100%;
+        max-height: 100%
+    }
+
+    .timeline-comment-box .user+.input {
+        margin-left: 44px
+    }
+
+    .lead {
+        margin-bottom: 20px;
+        font-size: 21px;
+        font-weight: 300;
+        line-height: 1.4;
+    }
+
+    .text-danger, .text-red {
+        color: #ff5b57!important;
+    }
 </style>
 @endsection
 @section('content')
@@ -46,8 +756,8 @@
                             <section id="{{$device->deviceDetails->id}}">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">{{$device->device_name}} </h4>
-                                        <button type="button" class="btn btn-primary" style="margin-left:10px">Live View</button>
+                                        <h4 class="card-title" id="device_name-{{$device->deviceDetails->id}}">{{$device->device_name}} </h4>
+                                        <button type="button" class="btn btn-primary btn_live_view" style="margin-left:10px">Live View</button>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                 <i class="fas fa-minus"></i>
@@ -486,14 +1196,43 @@
         </form>
     </div>
     <!-- /.modal -->
+    <div class="modal fade" id="modal-live_view">
+        <div class="modal-dialog modal-full" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-live-title"></h4>
+                    <button type="button" class="close close_live_view" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 ">
+                            <!-- begin timeline -->
+                            <ul class="timeline" id="live_data_rows_{{$device->deviceDetails->id}}">
+                                <li>
+                                    <div class="timeline-time"><span class="time" id="live_start_time"></span></div>
+                                    <div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>
+                                    <div class="timeline-body">
+                                        <div class="timeline-header">Live View Started</div>
+                                        <div class="timeline-content">Waiting data from device</div>
+                                    </div>
+                                <li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left close_live_view"  data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
     <!-- <script type="module" src="{{asset('js/home.js')}}"></script> -->
 
 <script>
-
-
     $(document).ready(function () {
         $('.loader').hide();
         $.ajaxSetup({
@@ -504,6 +1243,8 @@
         $('.volume_custom_time').hide();
         $('#btn_reload_graph').hide();
         $('#volumeChart').hide();
+        var is_live_view = false;
+        var live_view_device = null;
 
         var start_stop_command_sent = [];
         var command_sent = "";
@@ -515,10 +1256,10 @@
                 url: "/refreshUserDashboardData",
             })
             .done(function(response){
-                console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                console.log(response);
-                console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
-                console.log("command sent time: "+ command_sent_time)
+                // console.log("% % % %  Refreshing Dashboad Data % % % % %")
+                // console.log(response);
+                // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                // console.log("command sent time: "+ command_sent_time)
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
                         $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
@@ -558,12 +1299,12 @@
                                 url: "/command_status/"+command_sent+"/"+ response[i]['deviceDetails'].id,
                             })
                             .done(function(response_command){
-                                console.log("*************** Response of command ****************");
-                                console.log(response_command);
+                                // console.log("*************** Response of command ****************");
+                                // console.log(response_command);
                                 if(response_command.device_read_at != null){
                                     start_stop_command_sent[response_command.device_id] = false;
                                     command_sent_time = new Date(response_command.created_at);
-                                    console.log("Changed Command sent time : "+ command_sent_time)
+                                    // console.log("Changed Command sent time : "+ command_sent_time)
                                     $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
                                     switch(response_command.command){
                                         case "Start":
@@ -587,36 +1328,30 @@
                         var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
                         if(percentage_EC_target <= 10){
                             water_quality = "On Target ";
+                            $('#info_device_conductivity_text-'+response[i]['deviceDetails'].id).text("On Target").css("color","green")
+                            $('#info_device_conductivity_description-'+response[i]['deviceDetails'].id).text("The unit is removing the right amount of minerals.")
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'green';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'green';
                             document.getElementById('device_conductivity_value-'+response[i]['deviceDetails'].id).style.color = 'green';
                         }else{
                             water_quality = "Needs Attention ";
+                            $('#info_device_conductivity_text-'+response[i]['deviceDetails'].id).text("Needs Attention").css("color","red")
+                            $('#info_device_conductivity_description-'+response[i]['deviceDetails'].id).text("The unit is removing most of the minerals. ")
                             // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'red';
                             document.getElementById('device_condutivity_icon-'+response[i]['deviceDetails'].id).style.color = 'red';
                             document.getElementById('device_conductivity_value-'+response[i]['deviceDetails'].id).style.color = 'red';
                         }
                         $('#device-info-'+response[i]['deviceDetails'].id +' .ec').text(water_quality); // row water quality
                         $('#device_conductivity_value-'+response[i]['deviceDetails'].id).text(water_quality); // device info water quality
-                        // change device connection status
-                        // var now = +new Date();
-                        // console.log("NOW :" + now);
-                        // var last_date = new Date(response[i]['deviceDetails'].latest_log.log_dt).getTime();
-                        // console.log("Last Data DateTime: "+ last_date);
-                        // var difference = now - last_date;
-                        // console.log("Difference :" + difference/1000/60/60);
 
                         var test_now = new Date();
                         var test_created_at = new Date(response[i]['deviceDetails'].latest_log.created_at);
-
-                        //console.log("Test now       : "+test_now);
-                        //console.log("test Created_at: "+test_created_at);
                         var dd = test_now - test_created_at;
-                        //console.log("Difference :"+dd/1000/60);
-                        if(dd < 2*1000*60) // 2 minutes
-                            $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected")
-                        else
-                            $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected")
+                        if(dd < 2*1000*60){ // 2 minutes
+                            $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected").css("color","green")
+                        }else{
+                            $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected").css("color","red")
+                        }
                         // change volume
                         $('#daily_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?response[i]['deviceVolume'].daily +" gal" : "");
                         $('#monthly_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?response[i]['deviceVolume'].monthly +" gal" : "");
@@ -624,8 +1359,7 @@
 
                         // change alarm
                         var alarms = response[i]['deviceDetails'].latest_log.alarm;
-
-                        var bin_alarms = (alarms >>> 0).toString(2);
+                        var bin_alarms = (alarms >>> 0).toString(2); // changing alarms to binary
                         for(var ii = bin_alarms.length; ii<24 ; ii++){
                             bin_alarms = "0"+bin_alarms;
                         }
@@ -663,7 +1397,6 @@
                         // maintenance
                         //critic acid
                         var critic_acid_reset_value = response[i]['deviceDetails']['latest_maintenance_critic_acid']!=null?response[i]['deviceDetails']['latest_maintenance_critic_acid'].volume_value:0;
-                        console.log("Critic reset value: "+response[i]['deviceDetails']['latest_maintenance_critic_acid'].volume_value);
                         var pre_filter_reset_value = response[i]['deviceDetails']['latest_maintenance_pre_filter']!=null?response[i]['deviceDetails']['latest_maintenance_pre_filter'].volume_value:0;
                         var post_filter_reset_value = response[i]['deviceDetails']['latest_maintenance_post_filter']!=null?response[i]['deviceDetails']['latest_maintenance_post_filter'].volume_value:0;
                         var general_service_reset_value = response[i]['deviceDetails']['latest_maintenance_general_service']!=null?response[i]['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
@@ -676,6 +1409,10 @@
                         $('#post_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_post_filter.toFixed(2));
                         var volume_left_general_service = response[i]['deviceDetails']['device_settings'].general_service - response[i]['deviceVolume'].total + general_service_reset_value ;
                         $('#general_service_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_general_service.toFixed(2));
+                    }
+                    // if live view
+                    if(is_live_view){
+
                     }
                 }
             });
@@ -788,120 +1525,120 @@
                     $('#input_general_service-'+trid).val(old_general_service[trid])
                 }
             })
+
+            $('.btn_reset_critic_acid').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var device_id = $(this).closest('section').attr('id');
+                        var v = $('#total_volume-'+device_id).text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetCriticAcid/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            console.log(response);
+                            Swal.fire('Done!','General Service is reset.','success')
+                        })
+
+                    }
+                })
+
+            })
+            $('.btn_reset_pre_filter').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var device_id = $(this).closest('section').attr('id');
+                        var v = $('#total_volume-'+device_id).text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetPreFilter/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            console.log(response);
+                            Swal.fire('Done!','General Service is reset.','success')
+                        })
+
+                    }
+                })
+
+            })
+            $('.btn_reset_post_filter').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var device_id = $(this).closest('section').attr('id');
+                        var v = $('#total_volume-'+device_id).text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetPostFilter/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            console.log(response);
+                            Swal.fire('Done!','General Service is reset.','success')
+                        })
+
+                    }
+                })
+
+            })
+            $('.btn_reset_general_service').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. Do you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var device_id = $(this).closest('section').attr('id');
+                        var v = $('#total_volume-'+device_id).text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetGeneralService/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            console.log(response);
+                            Swal.fire('Done!','General Service is reset.','success')
+                        })
+
+                    }
+                })
+
+            })
         //end of maintenance
-        $('.btn_reset_critic_acid').on('click', function(){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Reset it!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    var device_id = $(this).closest('section').attr('id');
-                    var v = $('#total_volume-'+device_id).text().split(" ");
-                    var volume = parseFloat(v[0]);
-                    $.ajax({
-                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                        type: "POST",
-                        url: "/resetCriticAcid/"+ device_id +"/"+volume,
-                    })
-                    .done(function(response){
-                        console.log(response);
-                        Swal.fire('Done!','General Service is reset.','success')
-                    })
-
-                }
-            })
-
-        })
-        $('.btn_reset_pre_filter').on('click', function(){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Reset it!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    var device_id = $(this).closest('section').attr('id');
-                    var v = $('#total_volume-'+device_id).text().split(" ");
-                    var volume = parseFloat(v[0]);
-                    $.ajax({
-                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                        type: "POST",
-                        url: "/resetPreFilter/"+ device_id +"/"+volume,
-                    })
-                    .done(function(response){
-                        console.log(response);
-                        Swal.fire('Done!','General Service is reset.','success')
-                    })
-
-                }
-            })
-
-        })
-        $('.btn_reset_post_filter').on('click', function(){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Reset it!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    var device_id = $(this).closest('section').attr('id');
-                    var v = $('#total_volume-'+device_id).text().split(" ");
-                    var volume = parseFloat(v[0]);
-                    $.ajax({
-                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                        type: "POST",
-                        url: "/resetPostFilter/"+ device_id +"/"+volume,
-                    })
-                    .done(function(response){
-                        console.log(response);
-                        Swal.fire('Done!','General Service is reset.','success')
-                    })
-
-                }
-            })
-
-        })
-        $('.btn_reset_general_service').on('click', function(){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. Do you want to continue?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Reset it!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    var device_id = $(this).closest('section').attr('id');
-                    var v = $('#total_volume-'+device_id).text().split(" ");
-                    var volume = parseFloat(v[0]);
-                    $.ajax({
-                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                        type: "POST",
-                        url: "/resetGeneralService/"+ device_id +"/"+volume,
-                    })
-                    .done(function(response){
-                        console.log(response);
-                        Swal.fire('Done!','General Service is reset.','success')
-                    })
-
-                }
-            })
-
-        })
-
         $('#inputFromDate_volume').on('change', function(){
             console.log('HI from date')
             $('#inputToDate_volume').val($('#inputFromDate_volume').val()).change()
@@ -974,10 +1711,344 @@
                     break;
             }
         })
+        $('.btn_live_view').on('click', function(){
+            var now = new Date();
+            $('#live_start_time').text(now);
+            var device_id = $(this).closest('section').attr('id');
+            is_live_view = true;
+            view_live_device = device_id;
+            $("#modal-live-title").text($('#device_name-'+view_live_device).text() + " : Live View");
+            $('#modal-live_view').modal('show');
+            var device_data_created_at = null;
+            setInterval(function(){
+                if(view_live_device != null){
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "GET",
+                        url: "/deviceLiveData/"+ view_live_device,
+                    })
+                    .done(function(response){
+                        console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
+                        console.log(response);
+                        console.log(response.created_at);
+                        if(device_data_created_at != response.created_at){
+                            device_data_created_at = response.created_at;
+                            var recorded_date = new Date(response.created_at);
+                            // console.log(recorded_date);
+                            recorded_date = recorded_date.toString();
+                            // console.log(recorded_date);
+                            var status = "";
+                            if(response.step == 0 ||response.step == 1 || response.step ==13)
+                                status = "IDLE"
+                            else
+                                status ="RUNNING"
 
+                            //calculating step
+                            var step_name = "";
+                            switch(response.step){
+                                case 255: step_name = " PCB restart";break;
+                                case 0: step_name = " Free Run";break;
+                                case 1: step_name = " Idle";break;
+                                case 2: step_name = " Prepurify";break;
+                                case 3: step_name = " Purify";break;
+                                case 4: step_name = " Waste";break;
+                                case 5: step_name = " High Flow Waste";break;
+                                case 6: step_name = " Wait";break;
+                                case 7: step_name = " CIP Dosing ON";break;
+                                case 8: step_name = " CIP Dosing OFF";break;
+                                case 9: step_name = " CIP Pulse ON";break;
+                                case 10: step_name = " CIP Pulse OFF";break;
+                                case 11: step_name = " CIP Flush";break;
+                                case 12: step_name = " High Temperature";break;
+                                case 13: step_name = " Wait High Temperature";break;
+                                case 14: step_name = " SHUNT";break;
+                                case 15: step_name = " Wait Before CIP Start";break;
+                            }
+                            // calculating input
+                            var input_binary_string = response.input.toString(2);
+                            if(input_binary_string.length < 5){
+                                for(var i = input_binary_string.length; i<5;i++){
+                                    input_binary_string = "0".concat(input_binary_string);
+                                }
+                            }
+                            var input_names = [];
+                            for(var i =0 ; i<input_binary_string.length; i++){
+                                if(input_binary_string.charAt(i)=='1')
+                                    input_names.push("HIGH");
+                                else
+                                    input_names.push("LOW");
+                            }
+                            // calculating output
+                            var output_binary_string = response.output.toString(2);
+                            if(output_binary_string.length < 9){
+                                for(var i = output_binary_string.length; i<9; i++){
+                                    output_binary_string = "0".concat(output_binary_string);
+                                }
+                            }
+                            var output_names = [];
+                            for(var i =0 ; i<output_binary_string.length; i++){
+                                if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
+                                    output_names.push('<span style="color:red">OFF</span>');
+                                else
+                                    output_names.push('<span style="color:green">ON</span>');
+                            }
+
+                            // calculating alarms
+                            var alarms = response.alarm;
+                            var bin_alarms = (alarms >>> 0).toString(2);
+                            for(var ii = bin_alarms.length; ii<24 ; ii++){
+                                bin_alarms = "0"+bin_alarms;
+                            }
+                            var alarm_names = [];
+                            for(var  j= 0 ; j < bin_alarms.length ; j++){
+                                if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
+                                    switch(j){
+                                        case 0: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
+                                        case 1: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
+                                        case 2: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
+                                        case 3: alarm_names.push('<div style="color:red">FLOWMETER COMM ERROR</div>');break;
+                                        case 4: alarm_names.push('<div style="color:red">ATLAS TEMPERATURE ERROR</div>');break;
+                                        case 5: alarm_names.push('<div style="color:red">ZERO EC ALARM</div>');break;
+                                        case 6: alarm_names.push('<div style="color:red">ATLAS I2C COM ERROR</div>');break;
+                                        case 7: alarm_names.push('<div style="color:red">LOW PRESSURE ALARM</div>');break;
+                                        case 8: alarm_names.push('<div style="color:red">PAE AC INPUT FAIL</div>');break;
+                                        case 9: alarm_names.push('<div style="color:red">PAE AC POWER DOWN</div>');break;
+                                        case 10:alarm_names.push('<div style="color:red">PAE HIGH TEMPERATURE</div>');break;
+                                        case 11:alarm_names.push('<div style="color:red">PAE AUX OR SMPS FAIL</div>');break;
+                                        case 12:alarm_names.push('<div style="color:red">PAE FAN FAIL</div>');break;
+                                        case 13:alarm_names.push('<div style="color:red">PAE OVER TEMP SHUTDOWN</div>');break;
+                                        case 14:alarm_names.push('<div style="color:red">PAE OVER LOAD SHUTDOWN</div>');break;
+                                        case 15:alarm_names.push('<div style="color:red">PAE OVER VOLT SHUTDOWN</div>');break;
+                                        case 16:alarm_names.push('<div style="color:red">PAE COMMUNICATION ERROR</div>');break;
+                                        case 17:alarm_names.push('<div style="color:red">CIP LOW LEVEL ALARM</div>');break;
+                                        case 18:alarm_names.push('<div style="color:red">WASTE VALVE ALARM</div>');break;
+                                        case 19:alarm_names.push('<div style="color:red">LEAKAGE ALARM</div>');break;
+                                        case 20:alarm_names.push('<div style="color:red">CABINET TEMP ALARM</div>');break;
+                                        case 21:alarm_names.push('<div style="color:red">BYPASS ALARM</div>');break;
+                                        case 22:alarm_names.push('<div style="color:red">LOW FLOW WASTE ALARM</div>');break;
+                                        case 23:alarm_names.push('<div style="color:red">LOW FLOW PURE ALARM</div>');break;
+                                    }
+                                }
+                            }
+                            //calculate mode
+                            var mode_name ="";
+                            switch(response.mode){
+                                case 0 : mode_name="LOGOUT";break;
+                                case 1 : mode_name="AUTO";break;
+                                case 2 : mode_name="MANUAL FLUSH";break;
+                                case 3 : mode_name="MANUAL CIP";break;
+                            }
+                            $('#live_data_rows_'+view_live_device).prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
+                                    '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
+                                    '<div class="timeline-body">'+
+                                    '<div class="timeline-header">'+
+                                            '<span class="userimage"><img src="/images/running.gif"></span>'+
+                                            '<span class="username">'+status +'<small></small></span>'+
+                                            '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+'] </span>'+
+                                            '<span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span>'+
+                                        '</div>'+
+                                        '<div class="timeline-content">'+
+                                            '<div class="row">'+
+                                                '<div class="col-sm-6">'+
+                                                    '<span>CYCLE :'+response.cycle+'</span><br/>'+
+                                                    '<span>CURRENT FLOW :'+response.c_flow+' L/min</span><br/>'+
+                                                    '<span>ANALOG OUTPUT VOLTAGE :'+response.aov+' V</span><br/>'+
+                                                    '<span>CABINET TEMPERATURE :'+response.c_temp+' \xB0C</span><br/>'+
+                                                    '<span>Avg. CONDUCTIVITY(ec) :'+response.ec+' \xB5/cm</span><br/>'+
+                                                    '<span>MODE :'+mode_name+'</span>'+
+                                                '</div>'+
+                                                '<div class="col-sm-6">'+
+                                                    '<span>STEP :'+step_name+'</span><br/>'+
+                                                    '<span>PRESSURE :'+response.pressure.toFixed(2)+' bar</span><br/>'+
+                                                    '<span>PAE VOLTAGE :'+response.pae_volt+' V</span><br/>'+
+                                                    '<span>WATER TEMPERATURE :'+response.w_temp+' \xB0C</span><br/>'+
+                                                    '<span>PERCENTAGE RECOVERY :'+response.percentage_recovery+'%</span><br/>'+
+                                                    '<span>TOTAL PURE VOLUME :'+response.tpv+' L</span><br/>'+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="row">'+
+                                                '<div class="col-sm-12">'+
+                                                    '<table class="table">'+
+                                                        '<tr><th colspan="5" style="text-align:center;color:blue">INPUT</th></tr>'+
+                                                        '<tr>'+
+                                                            '<th>LEVEL</th>'+
+                                                            '<th>BYPASS</th>'+
+                                                            '<th>LEAKAGE</th>'+
+                                                            '<th>SIGNAL</th>'+
+                                                            '<th>SPARE</th>'+
+                                                        '</tr>'+
+                                                        '<tr>'+
+                                                            '<td>'+input_names[4]+'</td>'+
+                                                            '<td>'+input_names[3]+'</td>'+
+                                                            '<td>'+input_names[2]+'</td>'+
+                                                            '<td>'+input_names[1]+'</td>'+
+                                                            '<td>'+input_names[0]+'</td>'+
+                                                        '</tr>'+
+                                                    '</table>'+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="row">'+
+                                                '<div class="col-sm-12">'+
+                                                    '<table class="table">'+
+                                                        '<tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>'+
+                                                        '<tr>'+
+                                                            '<th>MIV</th>'+
+                                                            '<th>BYPASS</th>'+
+                                                            '<th>POV</th>'+
+                                                            '<th>WOV</th>'+
+                                                            '<th>CIP</th>'+
+                                                            '<th>SHUNT</th>'+
+                                                            '<th>POLARITY</th>'+
+                                                            '<th>PAE</th>'+
+                                                            '<th>SPARE</th>'+
+                                                        '</tr>'+
+                                                        '<tr>'+
+                                                            '<td>'+output_names[8]+'</td>'+
+                                                            '<td>'+output_names[7]+'</td>'+
+                                                            '<td>'+output_names[6]+'</td>'+
+                                                            '<td>'+output_names[5]+'</td>'+
+                                                            '<td>'+output_names[4]+'</td>'+
+                                                            '<td>'+output_names[3]+'</td>'+
+                                                            '<td>'+output_names[2]+'</td>'+
+                                                            '<td>'+output_names[1]+'</td>'+
+                                                            '<td>'+output_names[0]+'</td>'+
+                                                        '</tr>'+
+                                                    '</table>'+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="row" style="border:1px solid black">'+
+                                                '<div class="col-sm-12"><h4>ALARMS</h4></div>'+
+                                                    alarm_names+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</li>');
+                            highlight($('#live_data_rows:first .timeline-body:first'));
+                        }
+                    });
+                }
+            }, 5000);
+            function highlight(obj){
+                var orig = obj.css('background');
+                obj.css('background', '#87bde6');
+                setTimeout(function(){
+                        obj.css('background',orig);
+                }, 2000);
+            }
+        })
+        $('.close_live_view').on("click", function(){
+            is_live_view = false;
+            live_view_device = null;
+        })
+        //chart
+        var graph_time_frame, graph_custom_from, graph_custom_to;
+        var graph_title, graph_labels, graph_x_label, graph_y_label, graph_data;
+        var graph_displayed = "none";
+        var volumeChart;
+        $('#timeframe_volume').on('change', function(){
+            graph_time_frame = $('#timeframe_volume').val();
+            if(graph_time_frame != graph_displayed)
+                $('#btn_reload_graph').prop('disabled', false);
+            else
+                $('#btn_reload_graph').prop('disabled', true);
+            switch(graph_time_frame){
+                case 'custom':
+                    $('.volume_custom_time').show();
+                    graph_title = "Water purified in "+ graph_custom_from + " to "+ graph_custom_to;
+                    break;
+                case 'last_hour':
+                    $('.volume_custom_time').hide();
+                    graph_title = "Water purified in Last Hour";
+                    break;
+                case 'last_24_hour':
+                    graph_title = "Water purified in Last 24 Hours";
+                    $('.volume_custom_time').hide();
+
+                    break;
+            }
+            // volumeChart.update();
+            $('#btn_reload_graph').show();
+        })
+        $('#btn_reload_graph').on('click', function(){
+            //alert('reloading')
+            var ctx_volume = document.getElementById('volumeChart').getContext('2d');
+            switch(graph_time_frame){
+                case 'custom':
+                    graph_custom_from = $('#inputFromDate_volume').val();
+                    graph_custom_to = $('#inputToDate_volume').val();
+                    //fetch data from server
+                    graph_labels = ['01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00'];
+                    graph_data = [12,10,5,20,25,12,10,5,20,25,12,10,5,20,25];
+                    graph_displayed = "custom";
+                    break;
+                case 'last_hour':
+                    $('.volume_custom_time').hide();
+                    //fetch data from server
+                    graph_labels = ['01:00','02:00','03:00','04:00','05:00'];
+                    graph_data = [12,10,5,20,25];
+                    graph_displayed = "last_hour";
+                    break;
+                case 'last_24_hour':
+                    $('.volume_custom_time').hide();
+                    //fetch data from server
+                    graph_labels = ['01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00'];
+                    graph_data = [12,10,5,20,25,12,10,5,20,25];
+                    graph_displayed = "last_24_hr";
+                    break;
+            }
+            if(volumeChart){
+                volumeChart.destroy();
+            }
+            volumeChart = new Chart(ctx_volume, {
+                type: 'bar',
+                data: {
+                    labels: graph_labels,
+                    datasets: [{
+                        label: 'Volume purified',
+                        position: 'right',
+                        data: graph_data,
+                        fill: true,
+                        backgroundColor: 'cyan',
+                        borderColor: 'blue',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        // Overrides the global setting
+                        mode: 'index'
+                    },
+                    title: {
+                        display: true,
+                        text: graph_title,
+                        position: 'top',
+                        // padding: {
+                        //     top: 10,
+                        //     bottom: 30
+                        // }
+                    },
+                    scales: {
+                        xAxes:[{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Time (HH::MM)"
+                            }
+                        }],
+                        yAxes:[{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Value (in gallons)"
+                            }
+                        }]
+                    }
+                }
+            });
+            $('#volumeChart').show();
+            $('#btn_reload_graph').prop('disabled', true);
+
+        })
     });
-
-
 
 
     $('#btn_confirm_add_device').on('click', function() {
@@ -1030,11 +2101,6 @@
             }
         });
     });
-
-
-
-
-
 
 
     function searchDevice(){
