@@ -1772,7 +1772,7 @@
         //its doing in every 5 sec when the document is ready
         var device_data_created_at = null;
         setInterval(function(){
-            if(view_live_device != null && view_mode != "live"){
+            if(view_live_device != null){
                 $.ajax({
                     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                     type: "GET",
