@@ -1320,12 +1320,15 @@
                         // change the water quality
                         var water_quality ="";
                         var setpoint_pure_EC_target = response[i]['deviceDetails']['setpoints'].pure_EC_target;
+                        console.log("Setpoint: "+setpoint_pure_EC_target);
                         var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
+                        console.log("Avg     :" +avg_EC_target);
                         var difference_ec = setpoint_pure_EC_target - avg_EC_target;
                         if(difference_ec<0){
                             difference_ec = difference_ec * (-1);
                         }
                         var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
+                        console.log("PERCENT: "+percentage_EC_target)
                         if(percentage_EC_target <= 10){
                             water_quality = "On Target ";
                             $('#info_device_conductivity_text-'+response[i]['deviceDetails'].id).text("On Target").css("color","green")
