@@ -157,7 +157,7 @@ class HomeController extends Controller
     public function getDeviceDetails($id){
 
         $deviceDetail = Device::where('id',$id)->with(['logs' =>function($query){
-                            $query->orderBy("id",'DESC')->get();
+                            $query->orderBy("id",'DESC')->first();
                         }])->first();
         return response()->json($deviceDetail);
     }

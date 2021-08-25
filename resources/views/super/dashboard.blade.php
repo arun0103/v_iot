@@ -15,6 +15,7 @@
 
     .modal-full .modal-content {
         min-height: 100vh;
+        min-width:99vw;
     }
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
@@ -566,7 +567,7 @@
         margin-right: 5%;
         background: #fff;
         position: relative;
-        padding: 20px 15px;
+        /* padding: 20px 15px; */
         border-radius: 6px
     }
 
@@ -913,6 +914,15 @@
                                                                                     </div>
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
+                                                                                        <div class="row">
+                                                                                            <div class="col-sm-12">
+                                                                                                <label for="select_view_volume_by">View in</label>
+                                                                                                <select id="select_view_volume_by">
+                                                                                                    <option value="gallons">Gallons</option>
+                                                                                                    <option value="litres">Litres</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     <span><b>Daily :</b> <i id="daily_volume-{{$device->id}}">...</i>
                                                                                         <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
                                                                                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -1027,7 +1037,7 @@
                                                                         <div class="row">
                                                                             <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                                                 <!-- begin timeline -->
-                                                                                <ul class="timeline" id="live_data_rows_{{$device->id}}">
+                                                                                <ul class="timeline live_data_rows" id="live_data_rows_{{$device->id}}">
                                                                                     <li>
                                                                                         <div class="timeline-time"><span class="time" id="live_start_time"></span></div>
                                                                                         <div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>
@@ -1726,7 +1736,36 @@
         }
     })
 //end of maintenance
-
+    var select_view_volume_by = "gallons";
+    $('#select_view_volume_by').on('change',function(){
+        select_view_volume_by = $('#select_view_volume_by').val();
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        var vol_gal_daily,vol_lit_daily,vol_gal_monthly,vol_lit_monthly,vol_gal_total,vol_lit_total;
+        switch(select_view_volume_by){
+            case "gallons":
+                vol_gal_daily =$("#daily_volume-"+trid).text();
+                vol_lit_daily = parseFloat(vol_gal_daily)*0.2642007926;
+                $('#daily_volume-'+trid).text(vol_lit_daily.toFixed(2) + " gal");
+                vol_gal_monthly =$("#monthly_volume-"+trid).text();
+                vol_lit_monthly = parseFloat(vol_gal_monthly)*0.2642007926;
+                $('#monthly_volume-'+trid).text(vol_lit_monthly.toFixed(2) + " gal");
+                vol_gal_total =$("#total_volume-"+trid).text();
+                vol_lit_total = parseFloat(vol_gal_total)*0.2642007926;
+                $('#total_volume-'+trid).text(vol_lit_total.toFixed(2) + " gal");
+                break;
+            case "litres":
+                vol_lit_daily =$("#daily_volume-"+trid).text();
+                vol_gal_daily = parseFloat(vol_lit_daily)/0.2642007926;
+                $('#daily_volume-'+trid).text(vol_gal_daily.toFixed(2) + " L");
+                vol_lit_monthly =$("#monthly_volume-"+trid).text();
+                vol_gal_monthly = parseFloat(vol_lit_monthly)/0.2642007926;
+                $('#monthly_volume-'+trid).text(vol_gal_monthly.toFixed(2) + " L");
+                vol_lit_total =$("#total_volume-"+trid).text();
+                vol_gal_total = parseFloat(vol_lit_total)/0.2642007926;
+                $('#total_volume-'+trid).text(vol_gal_total.toFixed(2) + " L");
+                break;
+        }
+    })
     $('.btn_flush_module').on('click', function(){
         var trid = $(this).closest('tr').attr('id'); // table row ID
         $.ajax({
@@ -2459,10 +2498,18 @@
                         else
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected").css("color","red")
                         // change volume
-                        $('#daily_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?response[i]['deviceVolume'].daily +" gal" : "");
-                        $('#monthly_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?response[i]['deviceVolume'].monthly +" gal" : "");
-                        $('#total_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?response[i]['deviceVolume'].total +" gal" : "");
-
+                        switch(select_view_volume_by){
+                            case "gallons":
+                                    $('#daily_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?response[i]['deviceVolume'].daily +" gal" : "");
+                                    $('#monthly_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?response[i]['deviceVolume'].monthly +" gal" : "");
+                                    $('#total_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?response[i]['deviceVolume'].total +" gal" : "");
+                                break;
+                            case "litres":
+                                    $('#daily_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?(response[i]['deviceVolume'].daily/0.2642007926).toFixed(2) + " L" : "");
+                                    $('#monthly_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?(response[i]['deviceVolume'].monthly/0.2642007926).toFixed(2) +" L" : "");
+                                    $('#total_volume-'+response[i]['deviceDetails'].id).text(response[i]['deviceVolume']!=null?(response[i]['deviceVolume'].total/0.2642007926).toFixed(2) +" L" : "");
+                                break;
+                        }
                         // change alarm
                         var alarms = response[i]['deviceDetails'].latest_log.alarm;
 
