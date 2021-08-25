@@ -55,7 +55,7 @@ class DataController extends Controller
                 if($monthly_volume > $total_volume || $monthly_volume < 0){
                     $monthly_volume = $total_volume;
                 }
-                if($daily_volume >$total_volume || $daily_volumen <0){
+                if($daily_volume >$total_volume || $daily_volume <0){
                     $daily_volume = $total_volume;
                 }
                 $volume = [
@@ -116,7 +116,7 @@ class DataController extends Controller
                 if($monthly_volume > $total_volume || $monthly_volume < 0){
                     $monthly_volume = $total_volume;
                 }
-                if($daily_volume >$total_volume || $daily_volumen <0){
+                if($daily_volume >$total_volume || $daily_volume <0){
                     $daily_volume = $total_volume;
                 }
                 $volume = [
