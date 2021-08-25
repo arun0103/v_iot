@@ -99,8 +99,8 @@ Route::get('/command_status/{command}/{id}',[App\Http\Controllers\CommandsContro
 
 //Live
 Route::get('/deviceLiveData/{id}',[App\Http\Controllers\DeviceController::class, 'getLiveData'])->middleware('auth');
-Route::get('/refreshDashboardData',[App\Http\Controllers\DataController::class, 'getAllDeviceLatestDataEvery15Seconds'])->middleware('auth');
-Route::get('/refreshUserDashboardData',[App\Http\Controllers\DataController::class, 'getUserDevicesLatestDataEvery5Seconds'])->middleware('auth');
+Route::get('/refreshDashboardData',[App\Http\Controllers\DataController::class, 'refreshDashboardData'])->middleware('auth');
+Route::get('/refreshUserDashboardData',[App\Http\Controllers\DataController::class, 'refreshUserDashboardData'])->middleware('auth');
 
 //Setpoints
 Route::get('/getDeviceSetpoints/{id}',[App\Http\Controllers\DataController::class, 'getDeviceSetpoints'])->middleware('auth');
