@@ -1082,6 +1082,11 @@
                                                                     </div>
                                                                     <div class="tab-pane fade" role="tabpanel" id="tab_setpoints_{{$device->id}}" hidden>
                                                                         <div class="row">
+                                                                            <div class="col-lg-12">
+                                                                                <button type="button" class="btn btn-primary btn_getDeviceSetpoints" id="btn_get_device_setpoints-{{$device->id}}">Get Device Setpoints</button><br>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
                                                                             <div class="col-lg-4 col-md-4 col-sm-4 ">
                                                                                 <label for="input-pure_EC_target">1. Pure EC Target</label>
                                                                             </div>
@@ -2254,6 +2259,7 @@
         .done(function(response){
             console.log("Saved Setpoints for device_id: "+trid);
             console.log(response);
+            Swal.fire('Success','Set - Setpoints command sent to device.','success')
 
         });
 
@@ -2299,6 +2305,77 @@
         $('#input-bypass_pressure').val(bypass_pressure)
         $('#input-CIP_pressure').val(CIP_pressure)
         $('#input-wait_time_before_CIP').val(wait_time_before_CIP)
+    })
+    $('.btn_getDeviceSetpoints').on('click', function(){
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/command/getSetpointsFromDevice/" + trid,
+        })
+        .done(function(response){
+            Swal.fire('Success','Get - Setpoints command sent to device. Setpoints will be updated once the reply is received from the device','success')
+
+            var is_response_received = false;
+            setInterval(function(){
+                if(!is_response_received){
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "GET",
+                            url: "/command_status/Setpoints-get/" + trid,
+                    })
+                    .done(function(response){
+                        console.log(response)
+                        if(response.device_read_at != null){
+                            is_response_received = true;
+                            $.ajax({
+                                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                                    type: "GET",
+                                    url: "/getDeviceSetpoints/" + trid,
+                            })
+                            .done(function(response){
+                                console.log(response)
+                                $('#input-pure_EC_target-'+trid).val(response.pure_EC_target)
+                                $('#input-pre_purify_time-'+trid).val(response.pre_purify_time)
+                                $('#input-purify_time-'+trid).val(response.purify_time)
+                                $('#input-waste_time-'+trid).val(response.waste_time)
+                                $('#input-HF_waste_time-'+trid).val(response.HF_waste_time)
+                                $('#input-CIP_dose-'+trid).val(response.CIP_dose)
+                                $('#input-CIP_dose_rec-'+trid).val(response.CIP_dose_rec)
+                                $('#input-CIP_dose_total-'+trid).val(response.CIP_dose_total)
+                                $('#input-CIP_flow_total-'+trid).val(response.CIP_flow_total)
+                                $('#input-CIP_flow_flush-'+trid).val(response.CIP_flow_flush)
+                                $('#input-CIP_flow_rec-'+trid).val(response.CIP_flow_rec)
+                                $('#input-CIP_flush_time-'+trid).val(response.CIP_flush_time)
+                                $('#input-WV_check_time-'+trid).val(response.WV_check_time)
+                                $('#input-wait_HT_time-'+trid).val(response.wait_HT_time)
+                                $('#input-p_flow_target-'+trid).val(response.p_flow_target)
+                                $('#input-low_flow_purify_alarm-'+trid).val(response.low_flow_purify_alarm)
+                                $('#input-low_flow_waste_alarm-'+trid).val(response.low_flow_waste_alarm)
+                                $('#input-CIP_cycles-'+trid).val(response.CIP_cycles)
+                                $('#input-temperature_alarm-'+trid).val(response.temperature_alarm)
+                                $('#input-max_CIP_prt-'+trid).val(response.max_CIP_prt)
+                                $('#input-pump_p_factor-'+trid).val(response.pump_p_factor)
+                                $('#input-dynamic_p_factor-'+trid).val(response.dynamic_p_factor)
+                                $('#input-p_max_volt-'+trid).val(response.p_max_volt)
+                                $('#input-w_max_volt-'+trid).val(response.w_max_volt)
+                                $('#input-w_value-'+trid).val(response.w_value)
+                                $('#input-flow_k_factor-'+trid).val(response.flow_k_factor)
+                                $('#input-volume_unit-'+trid).val(response.volume_unit)
+                                $('#input-bypass_option-'+trid).val(response.bypass_option)
+                                $('#input-start_pressure-'+trid).val(response.start_pressure)
+                                $('#input-stop_pressure-'+trid).val(response.stop_pressure)
+                                $('#input-bypass_pressure-'+trid).val(response.bypass_pressure)
+                                $('#input-CIP_pressure-'+trid).val(response.CIP_pressure)
+                                $('#input-wait_time_before_CIP-'+trid).val(response.wait_time_before_CIP)
+
+                                Swal.fire('Success','Setpoints updated in server','success')
+                            })
+                        }
+                    })
+                }
+            }, 10000); // 10 seconds
+        })
     })
 
     //when user clicks on the device row

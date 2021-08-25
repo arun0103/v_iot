@@ -95,6 +95,7 @@ Route::post('/current_date/{id}',[App\Http\Controllers\CommandsController::class
 Route::post('/current_time/{id}',[App\Http\Controllers\CommandsController::class, 'current_time'])->middleware('auth');
 Route::post('/command/stop/{id}',[App\Http\Controllers\CommandsController::class, 'stopDevice'])->middleware('auth');
 Route::post('/command/start/{id}',[App\Http\Controllers\CommandsController::class, 'StartDevice'])->middleware('auth');
+Route::post('/command/getSetpointsFromDevice/{id}',[App\Http\Controllers\CommandsController::class, 'getSetpointsFromDevice'])->middleware('auth');
 Route::get('/command_status/{command}/{id}',[App\Http\Controllers\CommandsController::class, 'checkCommandStatus'])->middleware('auth');
 
 //Live
