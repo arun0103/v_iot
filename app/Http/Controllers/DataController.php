@@ -15,7 +15,7 @@ use Auth;
 class DataController extends Controller
 {
     // for super admin
-    public function getAllDeviceLatestDataEvery15Seconds(){
+    public function refreshDashboardData(){
         $devices = Device::with('latest_log','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->get();
         // return response()->json($devices);
         $today = date(Carbon::now());
@@ -52,6 +52,12 @@ class DataController extends Controller
                 //calculate total volume
                 $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
                 $total_volume = $last_record->tpv*0.2642007926;
+                if($monthly_volume > $total_volume || $monthly_volume < 0){
+                    $monthly_volume = $total_volume;
+                }
+                if($daily_volume >$total_volume || $daily_volumen <0){
+                    $daily_volume = $total_volume;
+                }
                 $volume = [
                     'daily'=>round($daily_volume,2),
                     'monthly'=>round($monthly_volume,2),
@@ -68,7 +74,7 @@ class DataController extends Controller
         return response()->json($dataToSend);
     }
     //for user
-    public function getUserDevicesLatestDataEvery5Seconds(){
+    public function refreshUserDashboardData(){
         $userDevicesIDs = UserDevices::where('user_id',Auth::user()->id)->pluck('device_id');
         //return response()->json($userDevicesIDs);
         $devices = Device::where('id',array($userDevicesIDs))->with('latest_log','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->get();
@@ -182,5 +188,9 @@ class DataController extends Controller
     public function getPureECTarget($id){
         $pureECtarget = Setpoints::where('device_id',$id)->pluck('pure_EC_target');
         return response()->json($pureECtarget);
+    }
+
+    public function getVolumeHour($device_id){
+
     }
 }
