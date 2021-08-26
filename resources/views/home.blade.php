@@ -1928,6 +1928,55 @@
                     break;
             }
         })
+        $('.btn_device_start_stop').on('click', function(){
+            var trid = $(this).closest('section').attr('id'); // table row ID
+            alert(trid)
+            switch($('#btn_device_start_stop-'+trid).text()){
+                case "Stop":
+                    command_sent = "Stop";
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/command/stop/"+ trid,
+                    })
+                    .done(function(response){
+                        console.log(response);
+                        Swal.fire('Success','Command recorded.','success')
+                        start_stop_command_sent[trid] = true;
+                        $('#device_status-'+trid).text('Pending')
+                        document.getElementById('device_status-'+trid).style.color = 'black'
+                        document.getElementById('device_status_pic-'+trid).style.color = 'black'
+                        $('#btn_device_start_stop-'+trid).text('Stopping')
+                        $('#btn_device_start_stop-'+trid).removeClass('btn-danger').addClass('btn-primary')
+                        $('#btn_device_start_stop-'+trid).attr('disabled','true');
+                        // var date = new Date(response.created_at)
+                        // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                    break;
+                case "Start":
+                    command_sent = "Start";
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/command/start/"+ trid,
+                    })
+                    .done(function(response){
+                        console.log(response);
+                        Swal.fire('Success','Command recorded.','success')
+                        start_stop_command_sent[trid] = true;
+                        $('#device_status-'+trid).text('Pending')
+                        document.getElementById('device_status-'+trid).style.color = 'black'
+                        document.getElementById('device_status_pic-'+trid).style.color = 'black'
+                        $('#btn_device_start_stop-'+trid).text('Starting')
+                        $('#btn_device_start_stop-'+trid).removeClass('btn-primary').addClass('btn-danger')
+                        $('#btn_device_start_stop-'+trid).attr('disabled','true');
+                        // var date = new Date(response.created_at)
+                        // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                    break;
+            }
+
+        })
         $('.btn_live_view').on('click', function(){
             var now = new Date();
             $('#live_start_time').text(now);
@@ -1936,8 +1985,6 @@
             view_live_device = device_id;
             $("#modal-live-title").text($('#device_name-'+view_live_device).text() + " : Live View");
             $('#modal-live_view').modal('show');
-
-
         })
         $('.close_live_view').on("click", function(){
             is_live_view = false;
