@@ -982,29 +982,29 @@
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Critic Acid</th>
-                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p class="critic_acid_error" id="critic_acid_error-{{$device->deviceDetails->id}}"></p></td>
-                                                                <td><input style="width:100px" type="number" id="input_critic_acid-{{$device->deviceDetails->id}}" class="form-control input_critic_acid" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->critic_acid: ''}}" disabled> gal</td>
+                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                <td><input style="width:100px" type="number" id="input_critic_acid-{{$device->deviceDetails->id}}" class="form-control input_critic_acid" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->critic_acid: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Pre-filter</th>
-                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="pre_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service</td>
-                                                                <td><input style="width:100px" type="number" id="input_pre_filter-{{$device->deviceDetails->id}}" class="form-control input_pre_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->pre_filter: ''}}" disabled> gal</td>
+                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="pre_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                <td><input style="width:100px" type="number" id="input_pre_filter-{{$device->deviceDetails->id}}" class="form-control input_pre_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->pre_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Post-filter</th>
-                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="post_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service</td>
-                                                                <td><input style="width:100px" type="number" id="input_post_filter-{{$device->deviceDetails->id}}" class="form-control input_post_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->post_filter: ''}}" disabled> gal</td>
+                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="post_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                <td><input style="width:100px" type="number" id="input_post_filter-{{$device->deviceDetails->id}}" class="form-control input_post_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->post_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">General</th>
-                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service</td>
-                                                                <td><input style="width:100px" type="number" id="general_service_filter-{{$device->deviceDetails->id}}" class="form-control input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled> gal</td>
+                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                <td><input style="width:100px" type="number" id="input_general_service-{{$device->deviceDetails->id}}" class="form-control input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
@@ -1410,10 +1410,26 @@
                         var volume_left_general_service = response[i]['deviceDetails']['device_settings'].general_service - response[i]['deviceVolume'].total + general_service_reset_value ;
                         $('#general_service_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_general_service.toFixed(2));
                         //check if maintenance needed
+                        var is_maintenance_needed = false;
                         if(volume_left_critic_acid < 0){
-                            $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>Maintenance needed</p>");
+                            is_maintenance_needed = true;
                             $('#critic_acid_error-'+response[i]['deviceDetails'].id).text("Critic acid refill needed!").css("color","red");
                         }
+                        if(volume_left_pre_filter < 0){
+                            is_maintenance_needed = true;
+                            $('#pre_filter_error-'+response[i]['deviceDetails'].id).text("Pre-filter refill needed!").css("color","red");
+                        }
+                        if(volume_left_post_filter < 0){
+                            is_maintenance_needed = true;
+                            $('#post_filter_error-'+response[i]['deviceDetails'].id).text("Post-filter refill needed!").css("color","red");
+                        }
+                        if(volume_left_general_service < 0){
+                            is_maintenance_needed = true;
+                            $('#general_service_error-'+response[i]['deviceDetails'].id).text("General service needed!").css("color","red");
+                        }
+                        if(is_maintenance_needed)
+                            $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>Maintenance needed</p>");
+
 
                     }
                     // if live view
@@ -1675,7 +1691,7 @@
 
             $('.btn-save-critic_acid').on('click', function(){
                 var trid = $(this).closest('section').attr('id'); // table row ID
-                if($('#input_critic_acid-'+trid).val() >0 && $('#input_critic_acid-'+trid).val() < 50000){
+                if($('#input_critic_acid-'+trid).val() >0 && $('#input_critic_acid-'+trid).val() <= 100000){
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
@@ -1695,7 +1711,7 @@
             })
             $('.btn-save-pre_filter').on('click', function(){
                 var trid = $(this).closest('section').attr('id'); // table row ID
-                if($('#input_pre_filter-'+trid).val() >0 && $('#input_pre_filter-'+trid).val() < 50000){
+                if($('#input_pre_filter-'+trid).val() >0 && $('#input_pre_filter-'+trid).val() <= 100000){
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
@@ -1714,7 +1730,7 @@
             })
             $('.btn-save-post_filter').on('click', function(){
                 var trid = $(this).closest('section').attr('id'); // table row ID
-                if($('#input_post_filter-'+trid).val() >0 && $('#input_post_filter-'+trid).val() < 50000){
+                if($('#input_post_filter-'+trid).val() >0 && $('#input_post_filter-'+trid).val() <= 100000){
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
@@ -1733,7 +1749,7 @@
             })
             $('.btn-save-general_service').on('click', function(){
                 var trid = $(this).closest('section').attr('id'); // table row ID
-                if($('#input_general_service-'+trid).val() >0 && $('#input_general_service-'+trid).val() < 50000){
+                if($('#input_general_service-'+trid).val() >0 && $('#input_general_service-'+trid).val() <= 100000){
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
