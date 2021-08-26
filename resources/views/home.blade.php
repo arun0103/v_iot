@@ -1412,7 +1412,7 @@
                         //check if maintenance needed
                         if(volume_left_critic_acid < 0){
                             $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>Maintenance needed</p>");
-                            $('#critic_acid_error-'+response[i]['deviceDetails'].id)).text("Critic acid refill needed!").css("color","red");
+                            $('#critic_acid_error-'+response[i]['deviceDetails'].id).text("Critic acid refill needed!").css("color","red");
                         }
 
                     }
