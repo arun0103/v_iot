@@ -65,13 +65,16 @@
                                         <td>
                                             <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">
+                                                <a href="#" class="dropdown-item operation-edit_device">
+                                                    <i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>
+                                                </a>
+                                                <a href="#" class="dropdown-item operation-assign_user">
                                                     <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
                                                 </a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item view-device-users" id="view_user_devices"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>
                                                 <div class="dropdown-divider"></div>
-                                                <a id="operation-delete-device-{{$device->id}}" href="#" class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>
+                                                <a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-{{$device->id}}"><i class="far fa-trash-alt"></i> Delete Device</a>
                                             </div>
                                             <!-- </div> -->
                                         </td>
@@ -289,6 +292,83 @@
                 <!-- /.modal-dialog -->"
             </form>
         </div>
+        <!-- /.modal -->
+        <div class="modal fade" id="modal-edit-device">
+            <form id="form_editDevice" class="form-horizontal" autocomplete="no">
+                {{ csrf_field() }}
+                <div class="modal-dialog modal-lg" >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal-title_newDevice">Edit Device</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row roundPadding20" id="editDevice">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label for="edit_selectModel" class="control-label">Model</label>
+                                                <select name="model" id="edit_selectModel" class="form-control" title="Select Model">
+                                                    <option value="U">DiUse</option>
+                                                    <option value="E">DiEntry</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label for="inputSN_edit" class="control-label">PCB Serial Number</label>
+                                                <input type="number" class="form-control" id="inputSN_edit" placeholder="Serial Number" name="serial_number" autocomplete="no">
+                                                <span id="error_edit_sn"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label for="inputDN_edit" class="control-label">Device Serial Number</label>
+                                                <input type="text" class="form-control" id="inputDN_edit" placeholder="Device Number" name="device_number" autocomplete="no">
+                                                <span id="error_edit_dn"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                            <label for="inputManufacturedDate_edit" class="control-label">Manufactured Date</label>
+                                                <input class="form-control datepicker" id="inputManufacturedDate_edit" name="manufactured_date" width="234" placeholder="MM / DD / YYYY" autocomplete="off"/>
+                                                <span id="error_edit_manufactured_date"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                            <label for="inputFirmwareVersion_edit" class="control-label">Firmware Version</label>
+                                                <input type="text" class="form-control" id="inputFirmwareVersion_edit" name="firmware" width="234" placeholder="E.G. 2021.01.01_test"/>
+                                                <span id="error_edit_firmware"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                            <label for="select_user_id_edit" class="control-label">User</label><br>
+                                                <select name="user_id" id="select_user_id_edit" class="form-control" style="width:100%; height:100%">
+                                                    <option></option>
+                                                    @foreach($users as $user)
+                                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="btn_confirm_save_edit_device" value="Add">Save</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->"
+            </form>
+        </div>
 
         <div class="modal fade" id="modal-view-device-users">
             <div class="modal-dialog modal-lg" >
@@ -367,13 +447,13 @@
                             '<td>-</td>'
                             +'<td><a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
                                             +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-                                                +'<a href="#" class="dropdown-item">'
+                                                +'<a href="#" class="dropdown-item operation-assign_user">'
                                                     +'<i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>'
                                                 +'</a>'
                                                 +'<div class="dropdown-divider"></div>'
                                                 +'<a href="#" class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
                                                 +'<div class="dropdown-divider"></div>'
-                                                +'<a id="operation-delete-device-'+response['data'].id+'" href="#" class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>'
+                                                +'<a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-'+response['data'].id+'"><i class="far fa-trash-alt"></i> Delete Device</a>'
                                             +'</div></td></tr>')
 
                         Swal.fire(
@@ -394,7 +474,78 @@
                 console.log( response );
         });
     })
+    var edit_device_id = null;
+    $('.operation-edit_device').on('click', function(){
+        var device_id = $(this).closest('tr').attr('id'); // table row ID
+        edit_device_id = device_id;
+        //alert("check" + device_id)
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/device_detail/"+device_id,
+        })
+        .done(function(response){
+            console.log(response)
+            $('#edit_selectModel').val(response.model).trigger('change');
+            $('#inputSN_edit').val(response.serial_number);
+            $('#inputDN_edit').val(response.device_number);
+            $('#inputFirmwareVersion_edit').val(response.firmware);
+            $('#inputManufacturedDate_edit').val(response.installation_date);
+            $('#modal-edit-device').modal('show')
+        })
 
+    })
+    $('#btn_confirm_save_edit_device').on('click',function(){
+        if(validateEditDevice()){
+            $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "PATCH",
+                    url: "/saveEditedDevice/" + edit_device_id,
+                    data: {
+                        "model": $('#edit_selectModel').val(),
+                        "serial_number":$('#inputSN_edit').val(),
+                        "device_number":$('#inputDN_edit').val(),
+                        "firmware":$('#inputFirmwareVersion_edit').val(),
+                        "installation_date":$('#inputManufacturedDate_edit').val(),
+                    },
+                })
+                .done(function(response){
+                    console.log(response)
+                    $('tr#'+response.id+" td:eq(0)").text(response.serial_number)
+                    $('tr#'+response.id+" td:eq(1)").text(response.device_number)
+                    $('tr#'+response.id+" td:eq(2)").text(response.model == 'U'?'DiUse':'DiEntry')
+                    $('#modal-edit-device').modal('hide')
+                    Swal.fire(
+                        'Saved!',
+                        'Device modified! ',
+                        'success'
+                    )
+                })
+        }
+    })
+    function validateEditDevice(){
+        var is_valid = true;
+        //clear previous errors
+        $('#error_edit_sn').text("");
+        $('#error_edit_dn').text("");
+        //check serial number
+        if($('#inputSN_edit').val()==""){
+            $('#error_edit_sn').text("Serial number cannot be empty!").css("color","red");
+            is_valid = false;
+        }
+        //check device number
+        if($('#inputDN_edit').val()==""){
+            $('#error_edit_dn').text("Device number cannot be empty!").css("color","red");
+            is_valid = false;
+        }
+        //check firmware
+        if($('#inputFirmwareVersion_edit').val() ==""){
+            $('#error_edit_firmware').text("Firmware version cannot be empty!").css("color","red");
+            is_valid = false;
+        }
+        return is_valid;
+
+    }
     $('#btn_confirm_assign_user').on('click',function(e){
         e.preventDefault();
         var formData = {

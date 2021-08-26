@@ -27,6 +27,20 @@ class DeviceController extends Controller
             $devices = UserDevices::where('user_id',$userId)->get();
         return view('devices')->with(['devices'=>$devices]);
     }
+    public function getDeviceDetails($id){
+        $device = Device::where('id',$id)->first();
+        return response()->json($device);
+    }
+    public function saveEditedDevice($device_id, Request $req){
+        $device = Device::where('id',$device_id)->first();
+        $device->model = $req->model;
+        $device->serial_number = $req->serial_number;
+        $device->device_number = $req->device_number;
+        $device->installation_date = $req->installation_date;
+        $device->firmware = $req->firmware;
+        $device->save();
+        return response()->json($device);
+    }
     public function getUserDevices($userId){
         $userDevices = UserDevices::where('user_id',$userId)->get();
         return view('devices')->with(['devices'=>$devices]);

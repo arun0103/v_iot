@@ -67,9 +67,12 @@ Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showCha
 // });
 Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->name('devices')->middleware('auth');
 
+//device
+Route::get('/device_detail/{id}', [App\Http\Controllers\DeviceController::class, 'getDeviceDetails'])->middleware('auth');
 Route::delete('/deleteUserDevice/{id}', [App\Http\Controllers\DeviceController::class, 'deleteUserDevice'])->middleware('auth');
 Route::delete('/deleteUserAccessFromDevice/{user_device_id}', [App\Http\Controllers\DeviceController::class, 'deleteUserAccessFromDevice'])->middleware('auth');
 Route::get('/viewDeviceUsers/{id}', [App\Http\Controllers\DeviceController::class, 'viewDeviceUsers'])->middleware('auth');
+Route::patch('/saveEditedDevice/{id}',[App\Http\Controllers\DeviceController::class,'saveEditedDevice'])->middleware('auth');
 
 //user
 Route::delete('/deleteUser/{id}',[App\Http\Controllers\SuperController::class, 'deleteUserById'])->middleware('auth');
