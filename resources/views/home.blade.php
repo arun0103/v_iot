@@ -1930,7 +1930,6 @@
         })
         $('.btn_device_start_stop').on('click', function(){
             var trid = $(this).closest('section').attr('id'); // table row ID
-            alert(trid)
             switch($('#btn_device_start_stop-'+trid).text()){
                 case "Stop":
                     command_sent = "Stop";

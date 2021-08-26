@@ -2469,9 +2469,9 @@
                 url: "/refreshDashboardData",
             })
             .done(function(response){
-                // console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                // console.log(response);
-                // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                console.log("% % % %  Refreshing Dashboad Data % % % % %")
+                console.log(response);
+                console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                 // console.log("command sent time: "+ command_sent_time)
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
