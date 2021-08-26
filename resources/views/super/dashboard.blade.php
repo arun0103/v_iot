@@ -876,21 +876,20 @@
                                                                                             </div>
                                                                                         </div>
                                                                                         @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
-                                                                                        </br>
-                                                                                        <div>
-                                                                                            <b>Module Health :</b><i style="color:green; font-weight:bold" id="device_health_status-{{$device->id}}">Good</i>
-                                                                                            <i id="info_device_health-{{$device->id}}" class="fas fa-info-circle float-right info_device_health" data-toggle="dropdown" ></i>
-                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                                                <a href="#" class="dropdown-item">
-                                                                                                    <div class="media">
-                                                                                                        <div class="media-body">
-                                                                                                            <p class="text-sm"><b><i><span id="info_device_health_text-{{$device->id}}"></span></i></b></p>
-                                                                                                            <p class="text-sm" id="info_device_health_description-{{$device->id}}"></p>
+                                                                                            </br>
+                                                                                            <div><b>Module Health :</b><i style="color:green; font-weight:bold" id="device_health_status-{{$device->id}}">Good</i>
+                                                                                                <i id="info_device_health-{{$device->id}}" class="fas fa-info-circle float-right info_device_health" data-toggle="dropdown" ></i>
+                                                                                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                    <a href="#" class="dropdown-item">
+                                                                                                        <div class="media">
+                                                                                                            <div class="media-body">
+                                                                                                                <p class="text-sm"><b><i><span id="info_device_health_text-{{$device->id}}"></span></i></b></p>
+                                                                                                                <p class="text-sm" id="info_device_health_description-{{$device->id}}"></p>
+                                                                                                            </div>
                                                                                                         </div>
-                                                                                                    </div>
-                                                                                                </a>
+                                                                                                    </a>
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
                                                                                         @endif
                                                                                     </div>
                                                                                     <!-- /.card-body -->
@@ -907,8 +906,7 @@
                                                                                         <h3 class="card-title">Volume </h3>
                                                                                         <div class="card-tools">
                                                                                             <i id="volume_chart-{{$device->id}}" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
-                                                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                                                                        </button>
+                                                                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> </button>-->
                                                                                         </div>
                                                                                         <!-- /.card-tools -->
                                                                                     </div>
@@ -923,48 +921,48 @@
                                                                                                 </select>
                                                                                             </div>
                                                                                         </div>
-                                                                                    <span><b>Daily :</b> <i id="daily_volume-{{$device->id}}">...</i>
-                                                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
-                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                                            <a class="dropdown-item">
-                                                                                                <div class="media">
-                                                                                                    <div class="media-body">
-                                                                                                        <p class="text-sm"><b><i>Daily Volume</i></b></p>
-                                                                                                        <p class="text-sm">Volume produced during the last 24 hrs.</p>
+                                                                                        <span><b>Daily :</b> <i id="daily_volume-{{$device->id}}">...</i>
+                                                                                            <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i>Daily Volume</i></b></p>
+                                                                                                            <p class="text-sm">Volume produced during the last 24 hrs.</p>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                            </a>
-                                                                                        </div>
-                                                                                    </span>
-                                                                                    <br/><br/>
-                                                                                    <span><b>Monthly :</b> <i id="monthly_volume-{{$device->id}}">...</i>
-                                                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
-                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                                            <a class="dropdown-item">
-                                                                                                <div class="media">
-                                                                                                    <div class="media-body">
-                                                                                                        <p class="text-sm"><b><i>Monthly Volume</i></b></p>
-                                                                                                        <p class="text-sm">Volume produced during the last 31 days.</p>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                        </span>
+                                                                                        <br/><br/>
+                                                                                        <span><b>Monthly :</b> <i id="monthly_volume-{{$device->id}}">...</i>
+                                                                                            <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i>Monthly Volume</i></b></p>
+                                                                                                            <p class="text-sm">Volume produced during the last 31 days.</p>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                            </a>
-                                                                                        </div>
-                                                                                    </span>
-                                                                                    <br/><br/>
-                                                                                    <!-- <p><b>Yearly :</b> <i>800 Gallons</i></p> -->
-                                                                                    <span><b>Total :</b> <i id="total_volume-{{$device->id}}">...</i>
-                                                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
-                                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                                            <a class="dropdown-item">
-                                                                                                <div class="media">
-                                                                                                    <div class="media-body">
-                                                                                                        <p class="text-sm"><b><i>Total Volume</i></b></p>
-                                                                                                        <p class="text-sm">Volume produced during the last 6 months.</p>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                        </span>
+                                                                                        <br/><br/>
+                                                                                        <!-- <p><b>Yearly :</b> <i>800 Gallons</i></p> -->
+                                                                                        <span><b>Total :</b> <i id="total_volume-{{$device->id}}">...</i>
+                                                                                            <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                                                <a class="dropdown-item">
+                                                                                                    <div class="media">
+                                                                                                        <div class="media-body">
+                                                                                                            <p class="text-sm"><b><i>Total Volume</i></b></p>
+                                                                                                            <p class="text-sm">Volume produced during the last 6 months.</p>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                            </a>
-                                                                                        </div>
-                                                                                    </span>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                        </span>
                                                                                     </div>
                                                                                     <!-- /.card-body -->
                                                                                 </div>
@@ -986,8 +984,7 @@
                                                                                                 </a>
                                                                                             </div>
                                                                                             <!-- <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i> -->
-                                                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                                                                        </button>
+                                                                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> -->
                                                                                         </div>
                                                                                         <!-- /.card-tools -->
                                                                                     </div>
@@ -1015,18 +1012,16 @@
                                                                                     <div class="card-header">
                                                                                         <h3 class="card-title">Alarms</h3>
                                                                                         <div class="card-tools">
-                                                                                        <i class="btn fas fa-table" id="info_device_alarms_table-{{$device->id}}"></i>
-                                                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                                                                        </button>
+                                                                                            <i class="btn fas fa-table" id="info_device_alarms_table-{{$device->id}}"></i>
                                                                                         </div>
                                                                                         <!-- /.card-tools -->
                                                                                     </div>
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
-                                                                                    @if($device->latest_log != null)
-                                                                                        <p hidden>Alarm Code: <span id="alarm_code_{{$device->id}}">{{$device->latest_log->alarm}}</span></p>
-                                                                                        <section class="alarms-list" id="alarmsList_{{$device->id}}"></section>
-                                                                                    @endif
+                                                                                        @if($device->latest_log != null)
+                                                                                            <p hidden>Alarm Code: <span id="alarm_code_{{$device->id}}">{{$device->latest_log->alarm}}</span></p>
+                                                                                            <section class="alarms-list" id="alarmsList_{{$device->id}}"></section>
+                                                                                        @endif
                                                                                     </div>
                                                                                     <!-- /.card-body -->
                                                                                 </div>
@@ -1363,7 +1358,7 @@
                                                     <div class="col-lg-12">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <h2 class="card-title" style="margin-top:-9px!important">Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->id}}">Edit</button></h2>
+                                                                <h3 class="card-title" style="margin-top: 0px;">Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->id}}" style="margin-bottom:5px">Edit</button></h3>
                                                                 <div class="card-tools">
                                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->id}}">
                                                                         <i class="fas fa-minus"></i>
@@ -1374,10 +1369,10 @@
                                                                 <div class="row">
                                                                     <div class="col-lg-3 col-md-3"><span><b>Critic Acid</b></span></div>
                                                                     <div class="col-lg-2 col-md-2">
-                                                                        <span id="critic_acid_volume_left-{{$device->id}}" ></span>
+                                                                        <span id="critic_acid_volume_left-{{$device->id}}" ></span><b> / </b>
                                                                     </div>
-                                                                    <div class="col-lg-3 col-md-3">
-                                                                        <b> / </b><input type="number" id="input_critic_acid-{{$device->id}}" class="small-inputs input_critic_acid" value="{{$device->device_settings!= null ? $device->device_settings->critic_acid: ''}}" disabled>
+                                                                    <div class="col-lg-2 col-md-2">
+                                                                        <input type="number" id="input_critic_acid-{{$device->id}}" class="small-inputs input_critic_acid" value="{{$device->device_settings!= null ? $device->device_settings->critic_acid: ''}}" disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <button class="btn btn-primary btn-sm btn-save-critic_acid" id="btn_save_critic_acid-{{$device->id}}" hidden>Save</button>
@@ -1387,10 +1382,10 @@
                                                                 <div class="row">
                                                                     <div class="col-lg-3 col-md-3"><span><b>Pre-filter:</b></span></div>
                                                                     <div class="col-lg-2 col-md-2">
-                                                                        <span id="pre_filter_volume_left-{{$device->id}}" style="float:right"></span>
+                                                                        <span id="pre_filter_volume_left-{{$device->id}}"></span><b> / </b>
                                                                     </div>
-                                                                    <div class="col-lg-3 col-md-3">
-                                                                        <b> / </b><input type="number" id="input_pre_filter-{{$device->id}}" class="small-inputs input_pre_filter" value="{{$device->device_settings!= null ? $device->device_settings->pre_filter: ''}}"  disabled>
+                                                                    <div class="col-lg-2 col-md-2">
+                                                                        <input type="number" id="input_pre_filter-{{$device->id}}" class="small-inputs input_pre_filter" value="{{$device->device_settings!= null ? $device->device_settings->pre_filter: ''}}"  disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <button class="btn btn-primary btn-sm btn-save-pre_filter" id="btn_save_pre_filter-{{$device->id}}" hidden>Save</button>
@@ -1399,9 +1394,11 @@
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-lg-3 col-md-3"><span><b>Post-filter:</b></span></div>
-                                                                    <div class="col-lg-6 col-md-5">
-                                                                        <span id="post_filter_volume_left-{{$device->id}}"></span>
-                                                                        <b> / </b><input type="number" id="input_post_filter-{{$device->id}}" class="small-inputs input_post_filter" value="{{$device->device_settings!= null ? $device->device_settings->post_filter: ''}}" disabled>
+                                                                    <div class="col-lg-2 col-md-2">
+                                                                        <span id="post_filter_volume_left-{{$device->id}}"></span><b> / </b>
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-2">
+                                                                        <input type="number" id="input_post_filter-{{$device->id}}" class="small-inputs input_post_filter" value="{{$device->device_settings!= null ? $device->device_settings->post_filter: ''}}" disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                     <button class="btn btn-primary btn-sm btn-save-post_filter" id="btn_save_post_filter-{{$device->id}}" hidden>Save</button>
@@ -1410,9 +1407,11 @@
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-lg-3 col-md-3"><span><b>General Service:</b></span></div>
-                                                                    <div class="col-lg-6 col-md-5">
-                                                                        <span id="general_service_volume_left-{{$device->id}}"></span>
-                                                                        <b> / </b><input type="number" id="input_general_service-{{$device->id}}" class="small-inputs input_general_service" value="{{$device->device_settings!= null ? $device->device_settings->general_service: ''}}" disabled>
+                                                                    <div class="col-lg-2 col-md-2">
+                                                                        <span id="general_service_volume_left-{{$device->id}}"></span><b> / </b>
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-2">
+                                                                        <input type="number" id="input_general_service-{{$device->id}}" class="small-inputs input_general_service" value="{{$device->device_settings!= null ? $device->device_settings->general_service: ''}}" disabled>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-4">
                                                                         <button class="btn btn-primary btn-sm btn-save-general_service" id="btn_save_general_service-{{$device->id}}" hidden>Save</button>
@@ -2439,9 +2438,11 @@
             }
             if(response.logs.length > 0){
                 $('tr#' + device_trid).toggle();
-                $('html, body').animate({
-                    scrollTop: $('tr#' + device_trid).prop("scrollHeight") + $("#"+device_trid).height()
-                }, 1000);
+                var element = document.getElementById(device_trid);
+                element.scrollIntoView()
+                // $('html, body').animate({
+                //     scrollTop: -20
+                // }, 1000);
             }else
                 Swal.fire("Error", "No Data found! ", "info")
         });

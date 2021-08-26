@@ -848,8 +848,7 @@
                                                         <h3 class="card-title">Volume </h3>
                                                         <div class="card-tools">
                                                             <i id="volume_chart-{{$device->deviceDetails->id}}" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
-                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                                        </button>
+                                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> -->
                                                         </div>
                                                         <!-- /.card-tools -->
                                                     </div>
@@ -917,9 +916,6 @@
                                                                     </div>
                                                                 </a>
                                                             </div>
-                                                            <!-- <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i> -->
-                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                                        </button>
                                                         </div>
                                                         <!-- /.card-tools -->
                                                     </div>
@@ -948,8 +944,7 @@
                                                         <h3 class="card-title">Alarms</h3>
                                                         <div class="card-tools">
                                                         <i class="btn fas fa-table" id="info_device_alarms_table-{{$device->deviceDetails->id}}"></i>
-                                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i> -->
-                                                        </button>
+
                                                         </div>
                                                         <!-- /.card-tools -->
                                                     </div>

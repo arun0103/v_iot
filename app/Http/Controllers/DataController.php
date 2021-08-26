@@ -118,6 +118,7 @@ class DataController extends Controller
                 }
                 if($daily_volume >$total_volume || $daily_volume <0){
                     $daily_volume = $total_volume;
+                    $monthly_volume = $total_volume;
                 }
                 $volume = [
                     'daily'=>round($daily_volume,2),

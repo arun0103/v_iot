@@ -21,7 +21,7 @@
         .content-header{
             margin-top:55px;
         }
-        h2.card-title{
+        h3.card-title{
             margin-top: 8px;
             margin-bottom: -8px;
         }
