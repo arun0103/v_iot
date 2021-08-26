@@ -974,38 +974,39 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <table class="table">
+                                                        <table class="table stripped">
                                                             <tr>
-                                                                <th>Critic Acid</th>
-                                                                <td style="line-height: 2em;text-align:right"><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></td>
-                                                                <td style="line-height: 2em;text-align:right">/</td>
-                                                                <td><input type="number" id="input_critic_acid-{{$device->deviceDetails->id}}" class="small-inputs input_critic_acid" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->critic_acid: ''}}" disabled></td>
-                                                                <td><button class="btn btn-primary btn-sm btn-save-critic_acid" id="btn_save_critic_acid-{{$device->deviceDetails->id}}" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn-sm btn_reset_critic_acid" id="btn_reset_critic_acid-{{$device->deviceDetails->id}}">Reset</button></td>
+                                                                <th><h3>Service</h3></th>
+                                                                <th colspan="2" style="text-align:center"><h3>Setpoints</h3></th>
+                                                                <th colspan="2" style="text-align:center"><h3>Actions</h3></th>
                                                             </tr>
                                                             <tr>
-                                                                <th>Pre-filter</th>
-                                                                <td style="line-height: 2em;text-align:right"><span id="pre_filter_volume_left-{{$device->deviceDetails->id}}"></td>
-                                                                <td style="line-height: 2em;text-align:right">/</td>
-                                                                <td><input type="number" id="input_pre_filter-{{$device->deviceDetails->id}}" class="small-inputs input_pre_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->pre_filter: ''}}" disabled></td>
-                                                                <td><button class="btn btn-primary btn-sm btn-save-pre_filter" id="btn_save_pre_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn-sm btn_reset_pre_filter" id="btn_reset_pre_filter-{{$device->deviceDetails->id}}">Reset</button></td>
+                                                                <th style="line-height: 2.5em">Critic Acid</th>
+                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service</td>
+                                                                <td><input style="width:100px" type="number" id="input_critic_acid-{{$device->deviceDetails->id}}" class="form-control input_critic_acid" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->critic_acid: ''}}" disabled> gal</td>
+                                                                <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid-{{$device->deviceDetails->id}}" hidden>Save</button></td>
+                                                                <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
-                                                                <th>Post-filter</th>
-                                                                <td style="line-height: 2em;text-align:right"><span id="post_filter_volume_left-{{$device->deviceDetails->id}}"></td>
-                                                                <td style="line-height: 2em;text-align:right">/</td>
-                                                                <td><input type="number" id="input_post_filter-{{$device->deviceDetails->id}}" class="small-inputs input_post_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->post_filter: ''}}" disabled></td>
-                                                                <td><button class="btn btn-primary btn-sm btn-save-post_filter" id="btn_save_post_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn-sm btn_reset_post_filter" id="btn_reset_post_filter-{{$device->deviceDetails->id}}">Reset</button></td>
+                                                                <th style="line-height: 2.5em">Pre-filter</th>
+                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="pre_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service</td>
+                                                                <td><input style="width:100px" type="number" id="input_pre_filter-{{$device->deviceDetails->id}}" class="form-control input_pre_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->pre_filter: ''}}" disabled> gal</td>
+                                                                <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
+                                                                <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
-                                                                <th>General Service</th>
-                                                                <td style="line-height: 2em;text-align:right"><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></td>
-                                                                <td style="line-height: 2em;text-align:right">/</td>
-                                                                <td><input type="number" id="general_service_filter-{{$device->deviceDetails->id}}" class="small-inputs input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled></td>
-                                                                <td><button class="btn btn-primary btn-sm btn-save-general_service" id="btn_save_general_service-{{$device->deviceDetails->id}}" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn-sm btn_reset_general_service" id="btn_reset_general_service-{{$device->deviceDetails->id}}">Reset</button></td>
+                                                                <th style="line-height: 2.5em">Post-filter</th>
+                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="post_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service</td>
+                                                                <td><input style="width:100px" type="number" id="input_post_filter-{{$device->deviceDetails->id}}" class="form-control input_post_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->post_filter: ''}}" disabled> gal</td>
+                                                                <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
+                                                                <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter-{{$device->deviceDetails->id}}">Reset</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th style="line-height: 2.5em">General</th>
+                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service</td>
+                                                                <td><input style="width:100px" type="number" id="general_service_filter-{{$device->deviceDetails->id}}" class="form-control input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled> gal</td>
+                                                                <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service-{{$device->deviceDetails->id}}" hidden>Save</button></td>
+                                                                <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                         </table>
                                                     </div>
