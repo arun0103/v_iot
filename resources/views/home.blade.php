@@ -982,7 +982,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Critic Acid</th>
-                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<span class="critic_acid_error" id="critic_acid_error-{{$device->deviceDetails->id}}"></span></td>
+                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p class="critic_acid_error" id="critic_acid_error-{{$device->deviceDetails->id}}"></p></td>
                                                                 <td><input style="width:100px" type="number" id="input_critic_acid-{{$device->deviceDetails->id}}" class="form-control input_critic_acid" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->critic_acid: ''}}" disabled> gal</td>
                                                                 <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid-{{$device->deviceDetails->id}}">Reset</button></td>
