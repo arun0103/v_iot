@@ -2259,6 +2259,7 @@
             console.log("Saved Setpoints for device_id: "+trid);
             console.log(response);
             Swal.fire('Success','Set - Setpoints command sent to device.','success')
+            // wait for response and notify if value error
 
         });
 
@@ -2335,7 +2336,7 @@
                             .done(function(response){
                                 console.log(response)
                                 $('#input-pure_EC_target-'+trid).val(response.pure_EC_target)
-                                $('#input-pre_purify_time-'+trid).val(response.pre_purify_time)
+                                $('#input-pre_purify_time-'+trid).val(response.prepurify_time)
                                 $('#input-purify_time-'+trid).val(response.purify_time)
                                 $('#input-waste_time-'+trid).val(response.waste_time)
                                 $('#input-HF_waste_time-'+trid).val(response.HF_waste_time)
