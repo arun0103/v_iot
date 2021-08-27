@@ -135,6 +135,19 @@ class DataController extends Controller
         }
         return response()->json($dataToSend);
     }
+    public function getUserDevicesSetpointsForCalculation(){
+        $userDevices = UserDevices::where('user_id',Auth::user()->id)->with('setpoints')->get();
+        $dataToSend = [];
+        foreach($userDevices as $device){
+            $data = [
+                'device_id'=>$device->device_id,
+                'volume_unit'=>$device->setpoints[0]->volume_unit,
+                'CIP_cycles'=>$device->setpoints[0]->CIP_cycles
+            ];
+            array_push($dataToSend, $data);
+        }
+        return response()->json($dataToSend);
+    }
 
     // get the setpoints of a device having id
     public function getDeviceSetpoints($id){

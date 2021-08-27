@@ -1233,6 +1233,18 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        // get the setpoints from the database and save for future calculations
+        // CIP_cycle, volume unit,
+        var userDevices;
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getUserDevicesSetpointsForCalculation",
+        })
+        .done(function(response){
+            console.log(response);
+            userDevices = response;
+        });
         $('.volume_custom_time').hide();
         $('#btn_reload_graph').hide();
         $('#volumeChart').hide();
@@ -1259,18 +1271,15 @@
 
                         //change the status if new data is available
                         if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time){
-                            // console.log("Entered");
                             var status = "";
                             var color = "";
                             // change the status
                             if(response[i]['deviceDetails'].latest_log.step == 0 || response[i]['deviceDetails'].latest_log.step == 1 || response[i]['deviceDetails'].latest_log.step == 13){
-                                // console.log("Entered: idle");
                                 status = "IDLE";
                                 color = "orange";
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).text("Start");
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeClass('btn-danger').addClass('btn-primary')
                             }else{
-                                // console.log("Entered: running");
                                 status = "RUNNING";
                                 color = "green";
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).text("Stop");
@@ -1297,7 +1306,6 @@
                                 if(response_command.device_read_at != null){
                                     start_stop_command_sent[response_command.device_id] = false;
                                     command_sent_time = new Date(response_command.created_at);
-                                    // console.log("Changed Command sent time : "+ command_sent_time)
                                     $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
                                     switch(response_command.command){
                                         case "Start":
@@ -1313,15 +1321,12 @@
                         // change the water quality
                         var water_quality ="";
                         var setpoint_pure_EC_target = response[i]['deviceDetails']['setpoints'].pure_EC_target;
-                        console.log("Setpoint: "+setpoint_pure_EC_target);
                         var avg_EC_target = response[i]['deviceDetails'].latest_log.ec;
-                        console.log("Avg     :" +avg_EC_target);
                         var difference_ec = setpoint_pure_EC_target - avg_EC_target;
                         if(difference_ec<0){
                             difference_ec = difference_ec * (-1);
                         }
                         var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
-                        console.log("PERCENT: "+percentage_EC_target)
                         if(percentage_EC_target <= 10){
                             water_quality = "On Target ";
                             $('#info_device_conductivity_text-'+response[i]['deviceDetails'].id).text("On Target").css("color","green")
@@ -1425,8 +1430,6 @@
                         }
                         if(is_maintenance_needed)
                             $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>Maintenance needed</p>");
-
-
                     }
                     // if live view
                     if(is_live_view){
@@ -1448,13 +1451,10 @@
                 .done(function(response){
                     console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
                     console.log(response);
-                    console.log(response.created_at);
                     if(device_data_created_at != response.created_at){
                         device_data_created_at = response.created_at;
                         var recorded_date = new Date(response.created_at);
-                        // console.log(recorded_date);
                         recorded_date = recorded_date.toString();
-                        // console.log(recorded_date);
                         var status = "";
                         if(response.step == 0 ||response.step == 1 || response.step ==13)
                             status = "IDLE"
@@ -1521,30 +1521,30 @@
                         for(var  j= 0 ; j < bin_alarms.length ; j++){
                             if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
                                 switch(j){
-                                    case 0: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
-                                    case 1: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
-                                    case 2: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
-                                    case 3: alarm_names.push('<div style="color:red">FLOWMETER COMM ERROR</div>');break;
-                                    case 4: alarm_names.push('<div style="color:red">ATLAS TEMPERATURE ERROR</div>');break;
-                                    case 5: alarm_names.push('<div style="color:red">ZERO EC ALARM</div>');break;
-                                    case 6: alarm_names.push('<div style="color:red">ATLAS I2C COM ERROR</div>');break;
-                                    case 7: alarm_names.push('<div style="color:red">LOW PRESSURE ALARM</div>');break;
-                                    case 8: alarm_names.push('<div style="color:red">PAE AC INPUT FAIL</div>');break;
-                                    case 9: alarm_names.push('<div style="color:red">PAE AC POWER DOWN</div>');break;
-                                    case 10:alarm_names.push('<div style="color:red">PAE HIGH TEMPERATURE</div>');break;
-                                    case 11:alarm_names.push('<div style="color:red">PAE AUX OR SMPS FAIL</div>');break;
-                                    case 12:alarm_names.push('<div style="color:red">PAE FAN FAIL</div>');break;
-                                    case 13:alarm_names.push('<div style="color:red">PAE OVER TEMP SHUTDOWN</div>');break;
-                                    case 14:alarm_names.push('<div style="color:red">PAE OVER LOAD SHUTDOWN</div>');break;
-                                    case 15:alarm_names.push('<div style="color:red">PAE OVER VOLT SHUTDOWN</div>');break;
-                                    case 16:alarm_names.push('<div style="color:red">PAE COMMUNICATION ERROR</div>');break;
-                                    case 17:alarm_names.push('<div style="color:red">CIP LOW LEVEL ALARM</div>');break;
-                                    case 18:alarm_names.push('<div style="color:red">WASTE VALVE ALARM</div>');break;
-                                    case 19:alarm_names.push('<div style="color:red">LEAKAGE ALARM</div>');break;
-                                    case 20:alarm_names.push('<div style="color:red">CABINET TEMP ALARM</div>');break;
-                                    case 21:alarm_names.push('<div style="color:red">BYPASS ALARM</div>');break;
-                                    case 22:alarm_names.push('<div style="color:red">LOW FLOW WASTE ALARM</div>');break;
-                                    case 23:alarm_names.push('<div style="color:red">LOW FLOW PURE ALARM</div>');break;
+                                    case 0: alarm_names.push('<div style="color:red">&nbsp;Reserved For future</div>');break;
+                                    case 1: alarm_names.push('<div style="color:red">&nbsp;Reserved For future</div>');break;
+                                    case 2: alarm_names.push('<div style="color:red">&nbsp;Reserved For future</div>');break;
+                                    case 3: alarm_names.push('<div style="color:red">&nbsp;FLOWMETER COMM ERROR</div>');break;
+                                    case 4: alarm_names.push('<div style="color:red">&nbsp;ATLAS TEMPERATURE ERROR</div>');break;
+                                    case 5: alarm_names.push('<div style="color:red">&nbsp;ZERO EC ALARM</div>');break;
+                                    case 6: alarm_names.push('<div style="color:red">&nbsp;ATLAS I2C COM ERROR</div>');break;
+                                    case 7: alarm_names.push('<div style="color:red">&nbsp;LOW PRESSURE ALARM</div>');break;
+                                    case 8: alarm_names.push('<div style="color:red">&nbsp;PAE AC INPUT FAIL</div>');break;
+                                    case 9: alarm_names.push('<div style="color:red">&nbsp;PAE AC POWER DOWN</div>');break;
+                                    case 10:alarm_names.push('<div style="color:red">&nbsp;PAE HIGH TEMPERATURE</div>');break;
+                                    case 11:alarm_names.push('<div style="color:red">&nbsp;PAE AUX OR SMPS FAIL</div>');break;
+                                    case 12:alarm_names.push('<div style="color:red">&nbsp;PAE FAN FAIL</div>');break;
+                                    case 13:alarm_names.push('<div style="color:red">&nbsp;PAE OVER TEMP SHUTDOWN</div>');break;
+                                    case 14:alarm_names.push('<div style="color:red">&nbsp;PAE OVER LOAD SHUTDOWN</div>');break;
+                                    case 15:alarm_names.push('<div style="color:red">&nbsp;PAE OVER VOLT SHUTDOWN</div>');break;
+                                    case 16:alarm_names.push('<div style="color:red">&nbsp;PAE COMMUNICATION ERROR</div>');break;
+                                    case 17:alarm_names.push('<div style="color:red">&nbsp;CIP LOW LEVEL ALARM</div>');break;
+                                    case 18:alarm_names.push('<div style="color:red">&nbsp;WASTE VALVE ALARM</div>');break;
+                                    case 19:alarm_names.push('<div style="color:red">&nbsp;LEAKAGE ALARM</div>');break;
+                                    case 20:alarm_names.push('<div style="color:red">&nbsp;CABINET TEMP ALARM</div>');break;
+                                    case 21:alarm_names.push('<div style="color:red">&nbsp;BYPASS ALARM</div>');break;
+                                    case 22:alarm_names.push('<div style="color:red">&nbsp;LOW FLOW WASTE ALARM</div>');break;
+                                    case 23:alarm_names.push('<div style="color:red">&nbsp;LOW FLOW PURE ALARM</div>');break;
                                 }
                             }
                         }
@@ -1556,38 +1556,60 @@
                             case "2" : mode_name="MANUAL FLUSH";break;
                             case "3" : mode_name="MANUAL CIP";break;
                         }
+
+                        //calculate volume and flow according to volume_unit setpoint
+                        var volume, volume_unit;
+                        var flow , flow_unit;
+                        var device_setpoint_volume_unit = userDevices.find(device_id =>device_id = view_live_device).volume_unit;
+                        switch(device_setpoint_volume_unit){
+                            case 0 : volume = (response.tpv*0.2642007926).toFixed(2);
+                                    volume_unit = "gal";
+                                    flow = (response.c_flow*0.2642007926).toFixed(2);
+                                    flow_unit = "GPM";
+                                break;
+                            case 1 : volume = response.tpv;
+                                    volume_unit = "L";
+                                    flow = response.c_flow.toFixed(2);
+                                    flow_unit = "LPM";
+                                break;
+                        }
+                        // calculate cycles left
+                        var device_setpoint_CIP_cycles = userDevices.find(device_id =>device_id = view_live_device).CIP_cycles;
+                        var cycles_left = device_setpoint_CIP_cycles - response.cycle;
+                        if(cycles_left < 0)
+                            cycles_left = 0;
                         $('#live_data_rows').prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
                                 '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
                                 '<div class="timeline-body">'+
                                 '<div class="timeline-header">'+
                                         '<span class="userimage"><img src="/images/running.gif"></span>'+
-                                        '<span class="username">'+status +'<small></small></span>'+
+                                        '<span class="username">'+status +'<small>'+step_name+'</small></span>'+
                                         '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+'] </span>'+
                                         '<span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span>'+
                                     '</div>'+
                                     '<div class="timeline-content">'+
                                         '<div class="row">'+
                                             '<div class="col-sm-6">'+
-                                                '<span>CYCLE :'+response.cycle+'</span><br/>'+
-                                                '<span>CURRENT FLOW :'+response.c_flow+' L/min</span><br/>'+
-                                                '<span>ANALOG OUTPUT VOLTAGE :'+response.aov+' V</span><br/>'+
-                                                '<span>CABINET TEMPERATURE :'+response.c_temp+' \xB0C</span><br/>'+
-                                                '<span>Avg. CONDUCTIVITY(ec) :'+response.ec+' \xB5/cm</span><br/>'+
-                                                '<span>MODE :'+mode_name+'</span>'+
+                                                '<span>Cycles left before next CIP : '+cycles_left+' cycles</span><br/>'+
+                                                '<span>FLOW : '+flow+' '+flow_unit+'</span><br/>'+
+                                                '<span>PUMP SPEED : '+response.aov/0.05+'%</span><br/>'+
+                                                '<span>CABINET TEMPERATURE : '+response.c_temp+' \xB0C</span><br/>'+
+                                                '<span>AVG. CONDUCTIVITY(ec) : '+response.ec+' \xB5/cm</span><br/>'+
+                                                // '<span>MODE :'+mode_name+'</span>'+
                                             '</div>'+
                                             '<div class="col-sm-6">'+
-                                                '<span>STEP :'+step_name+'</span><br/>'+
-                                                '<span>PRESSURE :'+response.pressure.toFixed(2)+' bar</span><br/>'+
-                                                '<span>PAE VOLTAGE :'+response.pae_volt+' V</span><br/>'+
-                                                '<span>WATER TEMPERATURE :'+response.w_temp+' \xB0C</span><br/>'+
-                                                '<span>PERCENTAGE RECOVERY :'+response.percentage_recovery+'%</span><br/>'+
-                                                '<span>TOTAL PURE VOLUME :'+response.tpv+' L</span><br/>'+
+                                                // '<span>STEP :'+step_name+'</span><br/>'+
+                                                '<span>PRESSURE : '+response.pressure.toFixed(2)+' bar</span><br/>'+
+                                                '<span>PAE VOLTAGE : '+response.pae_volt+' V</span><br/>'+
+                                                '<span>RECOVERY : '+response.percentage_recovery+'%</span><br/>'+
+                                                '<span>WATER TEMPERATURE : '+response.w_temp+' \xB0C</span><br/>'+
+                                                '<span>TOTAL PURE VOLUME : '+volume+' '+volume_unit+'</span><br/>'+
                                             '</div>'+
                                         '</div>'+
                                         '<div class="row">'+
                                             '<div class="col-sm-12">'+
                                                 '<table class="table">'+
-                                                    '<tr><th colspan="5" style="text-align:center;color:blue">INPUT</th></tr>'+
+                                                    '<tr><th colspan="5" style="text-align:center;color:blue">DIGITAL INPUT</th></tr>'+
                                                     '<tr>'+
                                                         '<th>LEVEL</th>'+
                                                         '<th>BYPASS</th>'+
