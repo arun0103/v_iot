@@ -21,10 +21,10 @@
         .content-header{
             margin-top:55px;
         }
-        h3.card-title{
+        /* h3.card-title{
             margin-top: 8px;
             margin-bottom: -8px;
-        }
+        } */
     </style>
     @yield('head')
 
@@ -74,7 +74,7 @@
 
 
       <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <h4><i class="far fa-bell"></i></h4>
           <span class="badge badge-warning navbar-badge">15</span>
@@ -99,7 +99,7 @@
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <h4><i class="fas fa-expand-arrows-alt"></i></h4>
@@ -147,43 +147,43 @@
                with font-awesome or any other icon font library -->
             <li class="nav-item">
                 <a href="{{route('home')}}" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                    Dashboard
-                    <!-- <span class="right badge badge-danger">New</span> -->
-                </p>
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                        Dashboard
+                        <!-- <span class="right badge badge-danger">New</span> -->
+                    </p>
                 </a>
             </li>
             @if(Auth::user()->role == 'S' || Auth::user()->role == 'R')
                 <li class="nav-item">
                     <a href="{{route('devices')}}" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>
-                        Devices
-                        <span class="right badge badge-danger">New</span>
-                    </p>
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Devices
+                            <span class="right badge badge-danger">New</span>
+                        </p>
                     </a>
                 </li>
             @endif
             @if(Auth::user()->role == 'S')
             <li class="nav-item">
                 <a href="{{route('resellers')}}" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
-                <p>
-                   Resellers
-                    <!-- <span class="right badge badge-danger">New</span> -->
-                </p>
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Resellers
+                        <!-- <span class="right badge badge-danger">New</span> -->
+                    </p>
                 </a>
             </li>
             @endif
             @if(Auth::user()->role == 'S' || Auth::user()->role == 'R')
             <li class="nav-item">
                 <a href="{{route('users')}}" class="nav-link">
-                <i class="nav-icon fas fa-user"></i>
-                <p>
-                    Users
-                    <!-- <span class="right badge badge-danger">New</span> -->
-                </p>
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>
+                        Users
+                        <!-- <span class="right badge badge-danger">New</span> -->
+                    </p>
                 </a>
             </li>
             @endif

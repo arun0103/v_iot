@@ -2,6 +2,9 @@
 
 @section('head')
 <style>
+    .card-tools i{
+        padding-top:1px;
+    }
     .f-r-info{
         float:right;
         line-height:25px;
@@ -756,27 +759,24 @@
                         @foreach($userDevices as $device)
                             <section id="{{$device->deviceDetails->id}}">
                                 <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title" id="device_name-{{$device->deviceDetails->id}}">{{$device->device_name}} </h4>
+                                    <h2 class="card-header" id="device_name-{{$device->deviceDetails->id}}">{{$device->device_name}}
                                         <button type="button" class="btn btn-primary btn_live_view" style="margin-left:10px">Live View</button>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                 <i class="fas fa-minus"></i>
                                             </button>
                                         </div>
-                                    </div>
+                                    </h2>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-lg-3 col-md-6 col-sm-6 box">
                                                 <div class="card card-outline card-success">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">Status </h3>
+                                                    <h5 class="card-header">Status
                                                         <div class="card-tools">
                                                             <i class="btn fas fa-sync-alt btn-refresh" id="device-sync-{{$device->deviceDetails->id}}"></i>
                                                         </div>
                                                         <!-- /.card-tools -->
-                                                    </div>
-                                                    <!-- /.card-header -->
+                                                    </h5>
                                                     <div class="card-body">
                                                         <div>
                                                             <i id="device_status_pic-{{$device->deviceDetails->id}}" class="fas fa fa-certificate blink_me" style="color:green"></i>&nbsp;&nbsp;
@@ -844,14 +844,13 @@
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-sm-6 box ">
                                                 <div class="card card-outline card-success">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">Volume </h3>
+                                                    <h5 class="card-header">Volume
                                                         <div class="card-tools">
                                                             <i id="volume_chart-{{$device->deviceDetails->id}}" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
                                                             <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> -->
                                                         </div>
                                                         <!-- /.card-tools -->
-                                                    </div>
+                                                    </h5>
                                                     <!-- /.card-header -->
                                                     <div class="card-body">
                                                     <span><b>Daily :</b> <i id="daily_volume-{{$device->deviceDetails->id}}">...</i>
@@ -902,8 +901,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-sm-6 box">
                                                 <div class="card card-outline card-success">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">Water Quality </h3>
+                                                    <h5 class="card-header">Water Quality
                                                         <div class="card-tools">
                                                             <i id="info_conductivity-{{$device->deviceDetails->id}}" class="btn fas fa-info-circle float-right" data-toggle="dropdown"></i>
                                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="info_displayed_conductivity-{{$device->deviceDetails->id}}">
@@ -918,7 +916,7 @@
                                                             </div>
                                                         </div>
                                                         <!-- /.card-tools -->
-                                                    </div>
+                                                    </h5>
                                                     <!-- /.card-header -->
                                                     <div class="card-body">
                                                         <i class="fas fa fa-certificate" id="device_condutivity_icon-{{$device->deviceDetails->id}}" style="color:green">&nbsp;&nbsp;
@@ -940,14 +938,13 @@
                                             </div>
                                             <div class="col-lg-3 col-md-6 col-sm-6 box">
                                                 <div class="card card-outline card-success">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">Alarms</h3>
+                                                    <h5 class="card-header">Alarms
                                                         <div class="card-tools">
                                                         <i class="btn fas fa-table" id="info_device_alarms_table-{{$device->deviceDetails->id}}"></i>
 
                                                         </div>
                                                         <!-- /.card-tools -->
-                                                    </div>
+                                                    </h5>
                                                     <!-- /.card-header -->
                                                     <div class="card-body">
                                                     @if($device->deviceDetails->latest_log != null)
@@ -965,14 +962,13 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="card">
-                                                    <div class="card-header">
-                                                        <h2 class="card-title" style="margin-top:-9px!important">Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->deviceDetails->id}}">Edit</button></h2>
+                                                    <h5 class="card-header" >Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->deviceDetails->id}}">Edit</button>
                                                         <div class="card-tools">
                                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->deviceDetails->id}}">
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
                                                         </div>
-                                                    </div>
+                                                    </h5>
                                                     <div class="card-body">
                                                         <table class="table stripped">
                                                             <tr>
@@ -983,28 +979,28 @@
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Critic Acid</th>
                                                                 <td style="line-height: 2.5em;text-align:right"><b><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error-{{$device->deviceDetails->id}}"></p></td>
-                                                                <td><input style="width:100px" type="number" id="input_critic_acid-{{$device->deviceDetails->id}}" class="form-control input_critic_acid" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->critic_acid: ''}}" disabled><span class="text-muted"> gal</span></td>
+                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid-{{$device->deviceDetails->id}}" class="form-control input_critic_acid" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->critic_acid: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Pre-filter</th>
                                                                 <td style="line-height: 2.5em;text-align:right"><b><span id="pre_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error-{{$device->deviceDetails->id}}"></p></td>
-                                                                <td><input style="width:100px" type="number" id="input_pre_filter-{{$device->deviceDetails->id}}" class="form-control input_pre_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->pre_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
+                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter-{{$device->deviceDetails->id}}" class="form-control input_pre_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->pre_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Post-filter</th>
                                                                 <td style="line-height: 2.5em;text-align:right"><b><span id="post_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error-{{$device->deviceDetails->id}}"></p></td>
-                                                                <td><input style="width:100px" type="number" id="input_post_filter-{{$device->deviceDetails->id}}" class="form-control input_post_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->post_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
+                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter-{{$device->deviceDetails->id}}" class="form-control input_post_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->post_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">General</th>
                                                                 <td style="line-height: 2.5em;text-align:right"><b><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error-{{$device->deviceDetails->id}}"></p></td>
-                                                                <td><input style="width:100px" type="number" id="input_general_service-{{$device->deviceDetails->id}}" class="form-control input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled><span class="text-muted"> gal</span></td>
+                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_general_service-{{$device->deviceDetails->id}}" class="form-control input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
@@ -1667,10 +1663,10 @@
                 old_pre_filter[trid] = $('.input_pre_filter').val();
                 old_post_filter[trid] = $('.input_post_filter').val();
                 old_general_service[trid] = $('.input_general_service').val();
-                $('.input_critic_acid').removeAttr("disabled");
-                $('.input_pre_filter').removeAttr("disabled");
-                $('.input_post_filter').removeAttr("disabled");
-                $('.input_general_service').removeAttr("disabled");
+                $('.input_critic_acid').removeAttr("disabled").addClass("border border-primary");
+                $('.input_pre_filter').removeAttr("disabled").addClass("border border-primary");
+                $('.input_post_filter').removeAttr("disabled").addClass("border border-primary");
+                $('.input_general_service').removeAttr("disabled").addClass("border border-primary");
             })
             $('.input_critic_acid').on('keyup', function(){
                 var trid = $(this).closest('section').attr('id'); // table row ID
