@@ -1784,7 +1784,7 @@
                         .done(function(response){
                             console.log(response);
                             Swal.fire('Done!','General Service is reset.','success')
-                            $('#critic_acid_error-'+device_id).text("");
+                            $('#critic_acid_error-'+device_id).text("").trigger("change");
                         })
 
                     }
@@ -1813,7 +1813,7 @@
                         .done(function(response){
                             console.log(response);
                             Swal.fire('Done!','General Service is reset.','success')
-                            $('#pre_filter_error-'+device_id).text("");
+                            $('#pre_filter_error-'+device_id).text("").trigger("change");
                         })
 
                     }
@@ -1842,7 +1842,7 @@
                         .done(function(response){
                             console.log(response);
                             Swal.fire('Done!','General Service is reset.','success')
-                            $('#post_filter_error-'+device_id).text("");
+                            $('#post_filter_error-'+device_id).text("").trigger("change");
                         })
 
                     }
@@ -1871,7 +1871,7 @@
                         .done(function(response){
                             console.log(response);
                             Swal.fire('Done!','General Service is reset.','success')
-                            $('#general_service_error-'+device_id).text("");
+                            $('#general_service_error-'+device_id).text("").trigger("change");
                         })
 
                     }
