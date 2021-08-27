@@ -1413,11 +1413,11 @@
                         }
                         if(volume_left_pre_filter < 0){
                             is_maintenance_needed = true;
-                            $('#pre_filter_error-'+response[i]['deviceDetails'].id).text("Pre-filter refill needed!").css("color","red");
+                            $('#pre_filter_error-'+response[i]['deviceDetails'].id).text("Pre-filter replacement needed!").css("color","red");
                         }
                         if(volume_left_post_filter < 0){
                             is_maintenance_needed = true;
-                            $('#post_filter_error-'+response[i]['deviceDetails'].id).text("Post-filter refill needed!").css("color","red");
+                            $('#post_filter_error-'+response[i]['deviceDetails'].id).text("Post-filter replacement needed!").css("color","red");
                         }
                         if(volume_left_general_service < 0){
                             is_maintenance_needed = true;
