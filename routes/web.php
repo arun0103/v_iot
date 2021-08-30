@@ -82,6 +82,7 @@ Route::get('/getResellersList',[App\Http\Controllers\SuperController::class, 'ge
 
 //Dashboard routes
 Route::get('/deviceDetail/{id}',[App\Http\Controllers\HomeController::class, 'getDeviceDetails'])->middleware('auth');
+Route::get('/getDeviceAlarms/{id}',[App\Http\Controllers\DataController::class, 'getDeviceAlarms'])->middleware('auth');
 
 /////device settings
 Route::post('/saveCriticAcid/{id}',[App\Http\Controllers\DeviceController::class, 'saveCriticAcid'])->middleware('auth');
@@ -99,6 +100,7 @@ Route::post('/current_time/{id}',[App\Http\Controllers\CommandsController::class
 Route::post('/command/stop/{id}',[App\Http\Controllers\CommandsController::class, 'stopDevice'])->middleware('auth');
 Route::post('/command/start/{id}',[App\Http\Controllers\CommandsController::class, 'StartDevice'])->middleware('auth');
 Route::post('/command/getSetpointsFromDevice/{id}',[App\Http\Controllers\CommandsController::class, 'getSetpointsFromDevice'])->middleware('auth');
+Route::post('/resetAllAlarms/{id}',[App\Http\Controllers\CommandsController::class, 'resetAllAlarms'])->middleware('auth');
 Route::get('/command_status/{command}/{id}',[App\Http\Controllers\CommandsController::class, 'checkCommandStatus'])->middleware('auth');
 
 //Live

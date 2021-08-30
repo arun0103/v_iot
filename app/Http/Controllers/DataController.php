@@ -148,6 +148,22 @@ class DataController extends Controller
         }
         return response()->json($dataToSend);
     }
+    public function getDeviceAlarms($device_id){
+        $device_serial = Device::where('id',$device_id)->first();
+        $allAlarms = RawLogs::where('serial_number',$device_serial->serial_number)
+                        ->groupBy(['id','log_dt','alarm'])->orderBy('log_dt','desc')->get(['id','log_dt','alarm']);
+        $dataToSend =[];
+        for($i=count($allAlarms); $i>0; $i--){
+            $data = $allAlarms[$i];
+            if($allAlarms[$i-1]->alarm == $allAlarms[$i]){
+                continue;
+            }else{
+
+            }
+
+        }
+        return response()->json($allAlarms);
+    }
 
     // get the setpoints of a device having id
     public function getDeviceSetpoints($id){
