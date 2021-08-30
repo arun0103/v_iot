@@ -153,16 +153,25 @@ class DataController extends Controller
         $allAlarms = RawLogs::where('serial_number',$device_serial->serial_number)
                         ->groupBy(['id','log_dt','alarm'])->orderBy('log_dt','desc')->get(['id','log_dt','alarm']);
         $dataToSend =[];
-        for($i=count($allAlarms); $i>0; $i--){
+        $alarm_start_timestamp = $allAlarms[count($allAlarms)-1]->log_dt;
+        $alarm_end_timestamp = $alarm_start_timestamp;
+        // return response()->json($allAlarms);
+        for($i=count($allAlarms)-1; $i>0; $i--){
             $data = $allAlarms[$i];
-            if($allAlarms[$i-1]->alarm == $allAlarms[$i]){
+            if($allAlarms[$i]->alarm == $allAlarms[$i-1]->alarm){
                 continue;
             }else{
-
+                $alarm_end_timestamp = $allAlarms[$i-1]->log_dt;
+                $data = [
+                    'start'=>$alarm_start_timestamp,
+                    'end' =>$alarm_end_timestamp,
+                    'alarms'=>$allAlarms[$i]->alarm
+                ];
+                array_push($dataToSend,$data);
+                $alarm_start_timestamp = $alarm_end_timestamp;
             }
-
         }
-        return response()->json($allAlarms);
+        return response()->json($dataToSend);
     }
 
     // get the setpoints of a device having id

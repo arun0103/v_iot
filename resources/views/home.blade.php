@@ -1290,9 +1290,9 @@
                     url: "/refreshUserDashboardData",
                 })
                 .done(function(response){
-                    console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                    console.log(response);
-                    console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                    // console.log("% % % %  Refreshing Dashboad Data % % % % %")
+                    // console.log(response);
+                    // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                     // console.log("command sent time: "+ command_sent_time)
                     for(var i=0; i<response.length;i++){
                         if(response[i]['deviceDetails'].latest_log != null){
@@ -1389,9 +1389,7 @@
 
                             // change alarm
                             var alarms = response[i]['deviceDetails'].latest_log.alarm;
-                            console.log(alarms)
                             if(alarms >0){
-                                console.log(response[i]['deviceDetails'].id)
                                 $('#btn_reset_alarms-'+response[i]['deviceDetails'].id).removeAttr("hidden");
                             }
                             var bin_alarms = (alarms >>> 0).toString(2); // changing alarms to binary
@@ -1464,10 +1462,6 @@
                             }
                             if(is_maintenance_needed)
                                 $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>Maintenance needed</p>");
-                        }
-                        // if live view
-                        if(is_live_view){
-
                         }
                     }
                 });
@@ -2119,10 +2113,69 @@
             })
             .done(function(response){
                 console.log(response)
+                for(var i=0 ;i< response.length; i++){
+                    if(response[i].alarms != 0){
+                        var alarm_names = calculateAlarm(response[i].alarms);
+                        // console.log(alarm_names)
+                        $('#alarms_history_row').prepend('<li><div class="timeline-time"><span class="time">'+response[i].start+'</span></div>'+
+                            '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
+                            '<div class="timeline-body">'+
+                                '<div class="timeline-header">'+
+                                    '<span class="username">'+response[i].start +' - '+response[i].end+'</span>'+
+                                '</div>'+
+                                '<div class="timeline-content">'+
+                                    alarm_names+
+                                '</div>'+
+                            '</div>'+
+                        '</li>');
+                    }
+                }
+
             })
 
             $('#modal-view_alarms_history').modal('show');
         })
+
+        function calculateAlarm(alarm_code){
+            var alarms = alarm_code;
+            var bin_alarms = (alarms >>> 0).toString(2);
+            for(var ii = bin_alarms.length; ii<24 ; ii++){
+                bin_alarms = "0"+bin_alarms;
+            }
+            var alarm_names = [];
+            for(var  j= 0 ; j < bin_alarms.length ; j++){
+                if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
+                    switch(j){
+                        case 0: alarm_names.push('<h5 style="color:red">&nbsp;Reserved For future</h5>');break;
+                        case 1: alarm_names.push('<h5 style="color:red">&nbsp;Reserved For future</h5>');break;
+                        case 2: alarm_names.push('<h5 style="color:red">&nbsp;Reserved For future</h5>');break;
+                        case 3: alarm_names.push('<h5 style="color:red">&nbsp;FLOWMETER COMM ERROR</h5>');break;
+                        case 4: alarm_names.push('<h5 style="color:red">&nbsp;ATLAS TEMPERATURE ERROR</h5>');break;
+                        case 5: alarm_names.push('<h5 style="color:red">&nbsp;ZERO EC ALARM</h5>');break;
+                        case 6: alarm_names.push('<h5 style="color:red">&nbsp;ATLAS I2C COM ERROR</h5>');break;
+                        case 7: alarm_names.push('<h5 style="color:red">&nbsp;LOW PRESSURE ALARM</h5>');break;
+                        case 8: alarm_names.push('<h5 style="color:red">&nbsp;PAE AC INPUT FAIL</h5>');break;
+                        case 9: alarm_names.push('<h5 style="color:red">&nbsp;PAE AC POWER DOWN</h5>');break;
+                        case 10:alarm_names.push('<h5 style="color:red">&nbsp;PAE HIGH TEMPERATURE</h5>');break;
+                        case 11:alarm_names.push('<h5 style="color:red">&nbsp;PAE AUX OR SMPS FAIL</h5>');break;
+                        case 12:alarm_names.push('<h5 style="color:red">&nbsp;PAE FAN FAIL</h5>');break;
+                        case 13:alarm_names.push('<h5 style="color:red">&nbsp;PAE OVER TEMP SHUTDOWN</h5>');break;
+                        case 14:alarm_names.push('<h5 style="color:red">&nbsp;PAE OVER LOAD SHUTDOWN</h5>');break;
+                        case 15:alarm_names.push('<h5 style="color:red">&nbsp;PAE OVER VOLT SHUTDOWN</h5>');break;
+                        case 16:alarm_names.push('<h5 style="color:red">&nbsp;PAE COMMUNICATION ERROR</h5>');break;
+                        case 17:alarm_names.push('<h5 style="color:red">&nbsp;CIP LOW LEVEL ALARM</h5>');break;
+                        case 18:alarm_names.push('<h5 style="color:red">&nbsp;WASTE VALVE ALARM</h5>');break;
+                        case 19:alarm_names.push('<h5 style="color:red">&nbsp;LEAKAGE ALARM</h5>');break;
+                        case 20:alarm_names.push('<h5 style="color:red">&nbsp;CABINET TEMP ALARM</h5>');break;
+                        case 21:alarm_names.push('<h5 style="color:red">&nbsp;BYPASS ALARM</h5>');break;
+                        case 22:alarm_names.push('<h5 style="color:red">&nbsp;LOW FLOW WASTE ALARM</h5>');break;
+                        case 23:alarm_names.push('<h5 style="color:red">&nbsp;LOW FLOW PURE ALARM</h5>');break;
+
+                    }
+                }
+            }
+            return alarm_names
+        }
 
 
         //chart
