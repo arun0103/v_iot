@@ -1622,9 +1622,9 @@
                                                 '<div class="col-sm-6">'+
                                                     '<span>Cycles left before next CIP : '+cycles_left+' cycles</span><br/>'+
                                                     '<span>FLOW : '+flow+' '+flow_unit+'</span><br/>'+
-                                                    '<span>PUMP SPEED : '+response.aov/0.05+'%</span><br/>'+
+                                                    '<span>PUMP SPEED : '+(response.aov/0.05).toFixed(2)+'%</span><br/>'+
                                                     '<span>CABINET TEMPERATURE : '+response.c_temp+' \xB0C</span><br/>'+
-                                                    '<span>AVG. CONDUCTIVITY(ec) : '+response.ec+' \xB5/cm</span><br/>'+
+                                                    '<span>AVG. CONDUCTIVITY(EC) : '+response.ec+' \xB5s/cm</span><br/>'+
                                                     // '<span>MODE :'+mode_name+'</span>'+
                                                 '</div>'+
                                                 '<div class="col-sm-6">'+
