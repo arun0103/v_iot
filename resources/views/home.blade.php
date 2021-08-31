@@ -1590,15 +1590,17 @@
                             var flow , flow_unit;
                             var device_setpoint_volume_unit = userDevices.find(device_id =>device_id = view_live_device).volume_unit;
                             switch(device_setpoint_volume_unit){
-                                case 0 : volume = (response.tpv*0.2642007926).toFixed(2);
-                                        volume_unit = "gal";
-                                        flow = (response.c_flow*0.2642007926).toFixed(2);
-                                        flow_unit = "GPM";
-                                    break;
-                                case 1 : volume = response.tpv;
+                                case 0 :
+                                        volume = response.tpv;
                                         volume_unit = "L";
                                         flow = response.c_flow.toFixed(2);
                                         flow_unit = "LPM";
+                                    break;
+                                case 1 :
+                                    volume = (response.tpv*0.2642007926).toFixed(2);
+                                        volume_unit = "gal";
+                                        flow = (response.c_flow*0.2642007926).toFixed(2);
+                                        flow_unit = "GPM";
                                     break;
                             }
                             // calculate cycles left
@@ -2117,7 +2119,7 @@
                     if(response[i].alarms != 0){
                         var alarm_names = calculateAlarm(response[i].alarms);
                         // console.log(alarm_names)
-                        $('#alarms_history_row').prepend('<li><div class="timeline-time"><span class="time">'+response[i].start+'</span></div>'+
+                        $('#alarms_history_row').prepend('<li><div class="timeline-time"><span class="time">'+ new Date(response[i].start)+'</span></div>'+
                             '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
                             '<div class="timeline-body">'+
                                 '<div class="timeline-header">'+
