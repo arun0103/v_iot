@@ -966,7 +966,7 @@
                                         <div class="row" id="maintenance_tab-{{$device->deviceDetails->id}}">
                                             <div class="col-lg-12">
                                                 <div class="card">
-                                                    <h5 class="card-header" >Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->deviceDetails->id}}">Edit</button>
+                                                    <h5 class="card-header" >Routine Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->deviceDetails->id}}">Edit</button>
                                                         <div class="card-tools">
                                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->deviceDetails->id}}">
                                                                 <i class="fas fa-minus"></i>
@@ -1290,9 +1290,9 @@
                     url: "/refreshUserDashboardData",
                 })
                 .done(function(response){
-                    // console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                    // console.log(response);
-                    // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                    console.log("% % % %  Refreshing Dashboad Data % % % % %")
+                    console.log(response);
+                    console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                     // console.log("command sent time: "+ command_sent_time)
                     for(var i=0; i<response.length;i++){
                         if(response[i]['deviceDetails'].latest_log != null){
@@ -1461,7 +1461,7 @@
                                 $('#general_service_error-'+response[i]['deviceDetails'].id).text("General service needed!").css("color","red");
                             }
                             if(is_maintenance_needed)
-                                $('section#alarmsList_'+response[i]['deviceDetails'].id).append('<a class="goto_maintenance" id="goto_maintenance-'+response[i]['deviceDetails'].id+'"><p style="color:red">Routine Maintenance Needed</p><a>');
+                                $('section#alarmsList_'+response[i]['deviceDetails'].id).append('<a class="goto_maintenance" id="goto_maintenance-'+response[i]['deviceDetails'].id+'"><p><button class="btn btn-warning btn_goto_maintenance">Routine Maintenance Needed</button></p><a>');
                         }
                     }
                 });
