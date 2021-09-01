@@ -1461,7 +1461,7 @@
                                 $('#general_service_error-'+response[i]['deviceDetails'].id).text("General service needed!").css("color","red");
                             }
                             if(is_maintenance_needed)
-                                $('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>Maintenance needed</p>");
+                                $('section#alarmsList_'+response[i]['deviceDetails'].id).append('<a href="#btn_edit_maintenance'+response[i]['deviceDetails'].id+'"><p>Routine Maintenance Needed</p><a>');
                         }
                     }
                 });

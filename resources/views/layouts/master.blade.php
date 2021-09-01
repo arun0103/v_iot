@@ -107,7 +107,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" href="#" role="button">
-          <h4><i class="fas fa-th-large"></i></h4>
+          <h4><i class="fas fa-th-large" id="control_sidebar_btn"></i></h4>
         </a>
       </li>
     </ul>
@@ -246,14 +246,13 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
 
-
     @yield('content')
 
   </div>
   <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
+  <aside id="control_sidebar_main" class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3 flex justify-content-center">
       <a href="{{route('logout')}}">Logout</a>
@@ -278,6 +277,17 @@
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{asset('js/app.js')}}"></script>
+<script>
+    $(".content-wrapper").click(function() {
+        if ($("#control_sidebar_main").hasClass("control-sidebar-open")) {
+            $("#control_sidebar_main").removeClass("control-sidebar-open");
+        }
+        $('#control_sidebar_main').css('display','none')
+    });
+    $('#control_sidebar_btn').on('click', function(){
+        $('#control_sidebar_main').addClass("control-sidebar-open")
+    })
+</script>
 @yield('scripts')
 </body>
 </html>

@@ -105,7 +105,7 @@
                                         <div class="card-header">
                                             <div class="card-title">Devices</div>
                                             <div class="card-tools">
-                                                <button class="btn btn-sm btn-primary">Add</button>
+                                                <button class="btn btn-sm btn-primary" id="btn_add_new_userDevice">Add</button>
                                             </div>
                                             <div class="card-body">
                                                 <table class="table">
@@ -244,6 +244,80 @@
         </div>
 
 </div>
+<div class="modal fade" id="modal-add-new-user-device">
+    <form id="form_addUser" class="form-horizontal" autocomplete="no">
+        {{ csrf_field() }}
+        <div class="modal-dialog modal-lg" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-title">Add New Device</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row roundPadding20">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="inputSerialNumber" class="control-label">PCB Serial Number </label>
+                                <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <p class="text-sm"><b><i>Power on your device!</i></b></p>
+                                                <p class="text-sm">You can find it in the screen of the device for serial number</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <input type="number" min="1" class="form-control" id="inputSerialNumber" placeholder="Serial Number" name="serialNumber" autocomplete="no">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="inputDeviceNumber" class="control-label">Device Number </label>
+                                <i id="info_device" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <p class="text-sm"><b><i>Switch off your device</i></b></p>
+                                                <p class="text-sm">Open the panel and look into the board for device number</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <input type="number" min="1" class="form-control" id="inputDeviceNumber" placeholder="Device Number" name="deviceNumber" autocomplete="no">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="inputDeviceName" class="control-label">Device Name </label>
+                                <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <p class="text-sm"><b><i>Give your device a name</i></b></p>
+                                                <p class="text-sm">Give a unique name to each device so that you won't get confused later</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <input type="text" class="form-control" id="inputDeviceName" placeholder="Name of your device" name="deviceName" autocomplete="no">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btn_confirm_add_device" value="Add">Add</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->"
+    </form>
+</div>
 
 <!-- might not need later -->
 <div class="modal" tabindex="-1" role="dialog" id="profile_edit_modal">
@@ -277,6 +351,7 @@
     </div>
   </div>
 </div>
+
 <script type="module" src="{{asset('js/profile.js')}}"></script>
 <script type="text/javascript">
     $(window).load(function() {
@@ -289,7 +364,59 @@
         })
 
         $(".loader").fadeOut("fast");
-});
+        $('#btn_add_new_userDevice').on('click',function(){
+            // alert("hi");
+            $('#modal-add-new-user-device').modal('show');
+        })
+        $('#btn_confirm_add_device').on('click', function() {
+            var serial = $('#inputSerialNumber').val();
+            var device = $('#inputDeviceNumber').val();
+            var name = $('#inputDeviceName').val();
+
+            $.ajax({
+                method: "POST",
+                url: "api/addUserDevice",
+                data: { "_token": "{{ csrf_token() }}","serial_number": serial, "device_number": device , "device_name":name}
+            })
+            .done(function( msg ) {
+                console.log(msg)
+                switch(msg['message']){
+                    case 'Error':
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Device Not Found In Database!',
+                            icon: 'error',
+                            confirmButtonText: 'Cool'
+                        })
+                        break;
+                    case 'Success':
+                        Swal.fire({
+                            title: 'Hurray',
+                            text: "Device Added! \nDo you want to add another?",
+                            icon: 'success',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, I have more than one devices!',
+                            cancelButtonText: 'No'
+                        }).then((result) => {
+                            if (!result.isConfirmed) {
+                                $('#modal-add-new-device').modal('toggle');
+                                location.reload(true);
+                            }
+                        })
+                        break;
+                    default:
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Unkown error occurred!',
+                            icon: 'error',
+                            confirmButtonText: 'Cool'
+                        })
+                }
+            });
+        });
+    });
 </script>
 @endsection
 
