@@ -77,7 +77,7 @@ class DataController extends Controller
     public function refreshUserDashboardData(){
         $userDevicesIDs = UserDevices::where('user_id',Auth::user()->id)->pluck('device_id');
         //return response()->json($userDevicesIDs);
-        $devices = Device::whereIn('id',array($userDevicesIDs))->with('latest_log','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->get();
+        $devices = Device::whereIn('id',$userDevicesIDs)->with('latest_log','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->get();
         return response()->json($devices);
         $today = date(Carbon::now());
         $thirtyOnedays = date(Carbon::now()->subDays(31));
