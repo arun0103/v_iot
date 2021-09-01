@@ -1721,7 +1721,7 @@
         // End of live view
         // Maintenance
             $('.alarms-list').on('click','.goto_maintenance', function(){
-                alert('Hi')
+                // alert('Hi')
                 var trid = $(this).closest('section').attr('id'); // table row ID
                 $("html, body").animate({ scrollTop: $("#btn_edit_maintenance-"+trid).offset().top});
             })
