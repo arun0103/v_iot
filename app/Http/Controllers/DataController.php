@@ -137,6 +137,7 @@ class DataController extends Controller
     }
     public function getUserDevicesSetpointsForCalculation(){
         $userDevices = UserDevices::where('user_id',Auth::user()->id)->with('setpoints')->get();
+        return response()->json($userDevices);
         $dataToSend = [];
         foreach($userDevices as $device){
             $data = [

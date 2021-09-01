@@ -1270,7 +1270,7 @@
             url: "/getUserDevicesSetpointsForCalculation",
         })
         .done(function(response){
-            // console.log(response);
+            console.log(response);
             userDevices = response;
         });
         $('.volume_custom_time').hide();
