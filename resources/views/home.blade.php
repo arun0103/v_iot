@@ -1461,7 +1461,7 @@
                                 $('#general_service_error-'+response[i]['deviceDetails'].id).text("General service needed!").css("color","red");
                             }
                             if(is_maintenance_needed)
-                                $('section#alarmsList_'+response[i]['deviceDetails'].id).append('<a href="#btn_edit_maintenance'+response[i]['deviceDetails'].id+'"><p>Routine Maintenance Needed</p><a>');
+                                $('section#alarmsList_'+response[i]['deviceDetails'].id).append('<a class="goto_maintenance" id="goto_maintenance'+response[i]['deviceDetails'].id+'"><p style="color:red">Routine Maintenance Needed</p><a>');
                         }
                     }
                 });
@@ -1720,6 +1720,10 @@
             })
         // End of live view
         // Maintenance
+        $('.goto_maintenance').on('click', function(){
+            var trid = $(this).closest('section').attr('id'); // table row ID
+            $("html, body").animate({ scrollTop: $("#btn_edit_maintenance-"+trid).offset().top});
+        })
             var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
             $('.btn_edit_maintenance').on('click',function(){
                 var trid = $(this).closest('section').attr('id'); // table row ID
