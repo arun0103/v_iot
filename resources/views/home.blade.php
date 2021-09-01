@@ -963,7 +963,7 @@
                                     </div>
                                     <!-- /.card-body -->
                                     <div class="card-footer">
-                                        <div class="row">
+                                        <div class="row" id="maintenance_tab-{{$device->deviceDetails->id}}">
                                             <div class="col-lg-12">
                                                 <div class="card">
                                                     <h5 class="card-header" >Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->deviceDetails->id}}">Edit</button>
@@ -1723,7 +1723,7 @@
             $('.alarms-list').on('click','.goto_maintenance', function(){
                 // alert('Hi')
                 var trid = $(this).closest('section').attr('id'); // table row ID
-                $("html, body").animate({ scrollTop: $("#btn_edit_maintenance-"+trid).offset().top});
+                $("html, body").animate({ scrollTop: $("#maintenance_tab-"+trid).offset().top});
             })
             var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
             $('.btn_edit_maintenance').on('click',function(){
