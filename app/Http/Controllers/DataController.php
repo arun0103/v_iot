@@ -140,10 +140,11 @@ class DataController extends Controller
         // return response()->json($userDevices);
         $dataToSend = [];
         foreach($userDevices as $device){
+            return $device;
             $data = [
                 'device_id'=>$device->device_id,
-                'volume_unit'=>$device->setpoints[0]->volume_unit,
-                'CIP_cycles'=>$device->setpoints[0]->CIP_cycles
+                'volume_unit'=>$device->setpoints->volume_unit,
+                'CIP_cycles'=>$device->setpoints->CIP_cycles
             ];
             array_push($dataToSend, $data);
         }
