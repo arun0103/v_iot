@@ -1723,7 +1723,7 @@
             $('.alarms-list').on('click','.goto_maintenance', function(){
                 // alert('Hi')
                 var trid = $(this).closest('section').attr('id'); // table row ID
-                $("html, body").animate({ scrollTop: $(document).height()});
+                $("html, body").animate({ scrollTop: $(document).height()}, "slow");
             })
             var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
             $('.btn_edit_maintenance').on('click',function(){
