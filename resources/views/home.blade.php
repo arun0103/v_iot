@@ -1720,11 +1720,11 @@
             })
         // End of live view
         // Maintenance
-        $('.goto_maintenance').on('click', function(){
-            alert('Hi')
-            var trid = $(this).closest('section').attr('id'); // table row ID
-            $("html, body").animate({ scrollTop: $("#btn_edit_maintenance-"+trid).offset().top});
-        })
+            $('.info_device_alarms_table').on('click','.goto_maintenance', function(){
+                alert('Hi')
+                var trid = $(this).closest('section').attr('id'); // table row ID
+                $("html, body").animate({ scrollTop: $("#btn_edit_maintenance-"+trid).offset().top});
+            })
             var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
             $('.btn_edit_maintenance').on('click',function(){
                 var trid = $(this).closest('section').attr('id'); // table row ID
