@@ -231,12 +231,16 @@ class DeviceController extends Controller
     }
     // function to send get setpoints commands to all the users devices
     public function getMyDevicesSetpoints(){
+        $command_ids =[];
         $userDevices = UserDevices::where('user_id',Auth::user()->id)->get();
+        return response()->json($userDevices);
         foreach($userDevices as $device){
             $command = new Device_commands();
             $command->device_id = $device->id;
             $command->command = "Setpoints-get";
             $command->save();
+            array_push($command_ids,$command->id);
         }
+        return response()->json($command_ids);
     }
 }
