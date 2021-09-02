@@ -1382,6 +1382,8 @@
                                     var alarms = response[i]['deviceDetails'].latest_log.alarm;
                                     if(alarms >0){
                                         $('#btn_reset_alarms-'+response[i]['deviceDetails'].id).removeAttr("hidden");
+                                    }else{
+                                        $('#btn_reset_alarms-'+response[i]['deviceDetails'].id).attr("hidden","true");
                                     }
                                     var bin_alarms = (alarms >>> 0).toString(2); // changing alarms to binary
                                     for(var ii = bin_alarms.length; ii<24 ; ii++){
@@ -1882,8 +1884,8 @@
                         })
                         .done(function(response){
                             console.log(response);
-                            Swal.fire('Done!','General Service is reset.','success')
                             $('#critic_acid_error-'+device_id).text("").trigger("change");
+                            Swal.fire('Done!','Critic acid refilled.','success')
                         })
 
                     }
@@ -1911,8 +1913,8 @@
                         })
                         .done(function(response){
                             console.log(response);
-                            Swal.fire('Done!','General Service is reset.','success')
                             $('#pre_filter_error-'+device_id).text("").trigger("change");
+                            Swal.fire('Done!','Pre-filter replaced.','success')
                         })
 
                     }
@@ -1940,7 +1942,7 @@
                         })
                         .done(function(response){
                             console.log(response);
-                            Swal.fire('Done!','General Service is reset.','success')
+                            Swal.fire('Done!','Post filter replaced.','success')
                             $('#post_filter_error-'+device_id).text("").trigger("change");
                         })
 
@@ -1969,8 +1971,8 @@
                         })
                         .done(function(response){
                             console.log(response);
-                            Swal.fire('Done!','General Service is reset.','success')
                             $('#general_service_error-'+device_id).text("").trigger("change");
+                            Swal.fire('Done!','General Service performed.','success')
                         })
 
                     }
