@@ -854,12 +854,13 @@
                                                                                         </div>
                                                                                         <div><br>
                                                                                             <span><b>Connection :</b></span>
-                                                                                            <i id="device_connection_status-{{$device->id}}" style="color:green">
+                                                                                            <i id="device_connection_status-{{$device->id}}" >
                                                                                                 @if($device->latest_log != null)
                                                                                                     @if(Carbon\Carbon::now()->diffInMinutes($device->latest_log->created_at) < 2)
                                                                                                         {{"Connected"}}
                                                                                                     @else
                                                                                                         {{"Disconnected"}}
+
                                                                                                     @endif
                                                                                                 @endif
                                                                                             </i>
@@ -870,6 +871,9 @@
                                                                                                         <div class="media-body">
                                                                                                             <p class="text-sm"><b><i><span id="info_device_connection_text-{{$device->id}}"></span></i></b></p>
                                                                                                             <p class="text-sm" id="info_device_connection_description-{{$device->id}}"></p>
+                                                                                                            @if($device->latest_log != null)
+                                                                                                                <p>Last Data Received: <span id="last_data_received-{{$device->id}}">{{$device->latest_log->created_at}}</span></p>
+                                                                                                            @endif
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </a>
@@ -2576,6 +2580,7 @@
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected").css("color","green")
                         else
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected").css("color","red")
+                        $('#last_data_received-'+response[i]['deviceDetails'].id ).text(new Date(response[i]['deviceDetails']['latest_log'].created_at))
                         // change volume
                         switch(select_view_volume_by){
                             case "gallons":
