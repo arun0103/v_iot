@@ -233,10 +233,10 @@ class DeviceController extends Controller
     public function getMyDevicesSetpoints(){
         $command_ids =[];
         $userDevices = UserDevices::where('user_id',Auth::user()->id)->get();
-        return response()->json($userDevices);
+        //return response()->json($userDevices);
         foreach($userDevices as $device){
             $command = new Device_commands();
-            $command->device_id = $device->id;
+            $command->device_id = $device->device_id;
             $command->command = "Setpoints-get";
             $command->save();
             array_push($command_ids,$command->id);
