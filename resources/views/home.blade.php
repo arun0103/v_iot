@@ -1538,6 +1538,7 @@
                                     output_binary_string = "0".concat(output_binary_string);
                                 }
                             }
+                            console.log("Output : "+output_binary_string);
                             var output_names = [];
                             for(var i =0 ; i<output_binary_string.length; i++){
                                 if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
