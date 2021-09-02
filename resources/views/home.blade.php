@@ -1315,7 +1315,7 @@
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
 
                                 //change the status if new data is available
-                                    if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time){
+                                    if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && +new Date(response[i]['deviceDetails'].latest_log.created_at) >= +command_sent_time){
                                         var status = "";
                                         var color = "";
                                         // change the status
