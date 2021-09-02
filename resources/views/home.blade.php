@@ -811,7 +811,7 @@
                                                                             <p class="text-sm"><b><i><span id="info_device_connection_text-{{$device->deviceDetails->id}}"></span></i></b></p>
                                                                             <p class="text-sm" id="info_device_connection_description-{{$device->deviceDetails->id}}"></p>
                                                                             @if($device->deviceDetails->latest_log != null)
-                                                                                <p>Last Data Received: <span id="last_data_received-{{$device->id}}">{{$device->deviceDetails->latest_log->created_at}}</span></p>
+                                                                                <p>Last Data Received: <span id="last_data_received-{{$device->deviceDetails->id}}">{{$device->deviceDetails->latest_log->created_at}}</span></p>
                                                                             @endif
                                                                         </div>
                                                                     </div>
