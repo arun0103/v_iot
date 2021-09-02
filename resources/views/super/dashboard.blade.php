@@ -2576,7 +2576,7 @@
                         //console.log("test Created_at: "+test_created_at);
                         var dd = test_now - test_created_at;
                         //console.log("Difference :"+dd/1000/60);
-                        if(dd < 15*1000) // 15 seconds
+                        if(dd < 25*1000) // 25 seconds
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected").css("color","green")
                         else
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected").css("color","red")

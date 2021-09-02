@@ -796,7 +796,7 @@
                                                             <span><b>Connection :</b></span>
                                                             <i id="device_connection_status-{{$device->deviceDetails->id}}">
                                                                 @if($device->deviceDetails->latest_log != null)
-                                                                    @if(Carbon\Carbon::now()->diffInMinutes($device->deviceDetails->latest_log->created_at) < 2)
+                                                                    @if(Carbon\Carbon::now()->diffInMinutes($device->deviceDetails->latest_log->created_at) < 1)
                                                                         {{"Connected"}}
                                                                     @else
                                                                         {{"Disconnected"}}
@@ -1356,7 +1356,7 @@
                                     var test_now = new Date();
                                     var test_created_at = new Date(response[i]['deviceDetails'].latest_log.created_at);
                                     var dd = test_now - test_created_at;
-                                    if(dd < 15*1000){ // 15 seconds
+                                    if(dd < 25*1000){ // 25 seconds
                                         $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected").css("color","green")
                                     }else{
                                         $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected").css("color","red")
