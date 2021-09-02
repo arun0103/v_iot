@@ -1681,15 +1681,15 @@
                                                             '<th>SPARE</th>'+
                                                         '</tr>'+
                                                         '<tr>'+
+                                                            '<td>'+output_names[15]+'</td>'+
+                                                            '<td>'+output_names[14]+'</td>'+
+                                                            '<td>'+output_names[13]+'</td>'+
+                                                            '<td>'+output_names[12]+'</td>'+
+                                                            '<td>'+output_names[11]+'</td>'+
+                                                            '<td>'+output_names[10]+'</td>'+
+                                                            '<td>'+output_names[9]+'</td>'+
                                                             '<td>'+output_names[8]+'</td>'+
                                                             '<td>'+output_names[7]+'</td>'+
-                                                            '<td>'+output_names[6]+'</td>'+
-                                                            '<td>'+output_names[5]+'</td>'+
-                                                            '<td>'+output_names[4]+'</td>'+
-                                                            '<td>'+output_names[3]+'</td>'+
-                                                            '<td>'+output_names[2]+'</td>'+
-                                                            '<td>'+output_names[1]+'</td>'+
-                                                            '<td>'+output_names[0]+'</td>'+
                                                         '</tr>'+
                                                     '</table>'+
                                                 '</div>'+
