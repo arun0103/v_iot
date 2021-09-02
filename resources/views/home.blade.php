@@ -1272,8 +1272,8 @@
             url: "/getMyDevicesSetpoints",
         })
         .done(function(response){
-            console.log("********** devices *******");
-            console.log(response)
+            // console.log("********** devices *******");
+            // console.log(response)
         })
 
         // get the setpoints from the database and save for future calculations

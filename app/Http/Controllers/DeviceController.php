@@ -241,6 +241,6 @@ class DeviceController extends Controller
             $command->save();
             array_push($command_ids,$command->id);
         }
-        return response()->json($command_ids);
+        // return response()->json($command_ids);
     }
 }
