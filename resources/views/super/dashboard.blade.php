@@ -2014,7 +2014,7 @@
                                                 '</table>'+
                                             '</div>'+
                                         '</div>'+
-                                        '<div class="row" style="border:1px solid black">'+
+                                        '<div class="row" style="border:1px solid black; margin:5px">'+
                                             '<div class="col-sm-12"><h4>ALARMS</h4></div>'+
                                                 alarm_names+
                                         '</div>'+
