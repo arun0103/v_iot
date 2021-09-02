@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Device;
 use App\Models\UserDevices;
 use App\Models\RawLogs;
+use App\Models\Device_commands;
 use App\Models\Device_settings;
 use App\Models\DeviceSettingsLogs;
 
@@ -227,5 +228,15 @@ class DeviceController extends Controller
         $maintenance->maintained_by = Auth::user()->id;
         $maintenance->save();
         return response()->json($maintenance);
+    }
+    // function to send get setpoints commands to all the users devices
+    public function getMyDevicesSetpoints(){
+        $userDevices = UserDevices::where('user_id',Auth::user()->id)->get();
+        foreach($userDevices as $device){
+            $command = new Device_commands();
+            $command->device_id = $device->id;
+            $command->command = "Setpoints-get";
+            $command->save();
+        }
     }
 }

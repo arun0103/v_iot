@@ -976,8 +976,8 @@
                                                             </button>
                                                         </div>
                                                     </h5>
-                                                    <div class="card-body">
-                                                        <table class="table stripped">
+                                                    <div class="card-body table-stripped table-responsive-md table-responsive-sm">
+                                                        <table class="table ">
                                                             <tr>
                                                                 <th><h3>Service</h3></th>
                                                                 <th colspan="2" style="text-align:center"><h3>Setpoints</h3></th>
@@ -1264,6 +1264,16 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        // get all User devices latest setpoints
+
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getMyDevicesSetpoints",
+        })
+        .done(function(response){
+        })
+
         // get the setpoints from the database and save for future calculations
         // CIP_cycle, volume unit are two setpoints that is needed to calculate live view data
         var userDevices;
@@ -1723,6 +1733,15 @@
                 var device_id = $(this).closest('section').attr('id');
                 is_live_view = true;
                 view_live_device = device_id;
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "GET",
+                    url: "/getUserDevicesSetpointsForCalculation",
+                })
+                .done(function(response){
+                    console.log(response);
+                    userDevices = response;
+                });
                 $("#modal-live-title").text($('#device_name-'+view_live_device).text() + " : Live View");
                 $('#modal-live_view').modal('show');
             })
