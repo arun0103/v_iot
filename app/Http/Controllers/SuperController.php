@@ -12,6 +12,7 @@ use App\Models\Reseller;
 use App\Models\Device;
 use App\Models\UserProfile;
 use App\Models\UserDevices;
+use App\Models\Setpoints;
 use App\Models\Device_settings;
 use App\Notifications\HelloNewUser;
 use App\Notifications\EmailUpdated;
@@ -223,6 +224,44 @@ class SuperController extends Controller
                 $device_setting->post_filter = 10000;
                 $device_setting->general_service = 10000;
                 $device_setting->save();
+                // add device's default setpoints
+                $device_setpoints = new Setpoints();
+                $device_setpoints->device_id = $device->id;
+                $device_setpoints->pure_EC_target = 0;
+                $device_setpoints->prepurify_time = 0;
+                $device_setpoints->purify_time = 0;
+                $device_setpoints->waste_time = 0;
+                $device_setpoints->HF_waste_time = 0;
+                $device_setpoints->CIP_dose = 0;
+                $device_setpoints->CIP_dose_rec = 0;
+                $device_setpoints->CIP_dose_total = 0;
+                $device_setpoints->CIP_flow_total = 0;
+                $device_setpoints->CIP_flow_flush = 0;
+                $device_setpoints->CIP_flow_rec = 0;
+                $device_setpoints->CIP_flush_time = 0;
+                $device_setpoints->WV_check_time = 0;
+                $device_setpoints->wait_HT_time = 0;
+                $device_setpoints->p_flow_target = 0;
+                $device_setpoints->low_flow_purify_alarm = 0;
+                $device_setpoints->low_flow_waste_alarm = 0;
+                $device_setpoints->CIP_cycles = 0;
+                $device_setpoints->temperature_alarm = 0;
+                $device_setpoints->max_CIP_prt = 0;
+                $device_setpoints->pump_p_factor = 0;
+                $device_setpoints->dynamic_p_factor = 0;
+                $device_setpoints->p_max_volt = 0;
+                $device_setpoints->w_max_volt = 0;
+                $device_setpoints->w_value = 0;
+                $device_setpoints->flow_k_factor = 0;
+                $device_setpoints->volume_unit = 0;
+                $device_setpoints->bypass_option = 0;
+                $device_setpoints->start_pressure = 0;
+                $device_setpoints->stop_pressure = 0;
+                $device_setpoints->bypass_pressure = 0;
+                $device_setpoints->CIP_pressure = 0;
+                $device_setpoints->wait_time_before_CIP = 0;
+                $device_setpoints->save();
+
 
                 // link device with user and notify by email
 
