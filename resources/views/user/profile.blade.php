@@ -384,7 +384,7 @@
                     case 'Error':
                         Swal.fire({
                             title: 'Error!',
-                            text: 'Device Not Found In Database!',
+                            text: msg.description,
                             icon: 'error',
                             confirmButtonText: 'Cool'
                         })

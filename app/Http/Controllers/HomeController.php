@@ -135,7 +135,7 @@ class HomeController extends Controller
             else{
                 $response =[
                     'message' => 'Error',
-                    'description' =>'Already Exists'
+                    'description' =>'Device already exists in your profile!'
                 ];
             }
         }else{
