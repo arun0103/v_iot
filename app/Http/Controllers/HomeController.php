@@ -118,9 +118,11 @@ class HomeController extends Controller
     public function addUserDevice(Request $req){
         $user = Auth::user();
         $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->first();
+        //return response()->json($searchDevice);
         if($searchDevice != null){ // if device is registered in database by Super Admin
             $userDevice = UserDevices::where([['user_id',$user->id],['device_id',$searchDevice->id]])->get();
-            if($userDevice != null){
+            //return response()->json([$userDevice, count($userDevice)]);
+            if(count($userDevice) < 0){
                 $added = new UserDevices();
                 $added->user_id = $user->id;
                 $added->device_id = $searchDevice->id;
