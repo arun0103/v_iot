@@ -2126,6 +2126,24 @@
                                             cancelButtonText: 'No'
                                             }).then((result) => {
                                             if (result.isConfirmed) {
+                                                $.ajax({
+                                                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                                                    type: "POST",
+                                                    url: "/command/start/"+ trid,
+                                                })
+                                                .done(function(response){
+                                                    console.log(response);
+                                                    Swal.fire('Success','Command recorded.','success')
+                                                    start_stop_command_sent[trid] = true;
+                                                    $('#device_status-'+trid).text('Pending')
+                                                    document.getElementById('device_status-'+trid).style.color = 'black'
+                                                    document.getElementById('device_status_pic-'+trid).style.color = 'black'
+                                                    $('#btn_device_start_stop-'+trid).text('Starting')
+                                                    $('#btn_device_start_stop-'+trid).removeClass('btn-primary').addClass('btn-danger')
+                                                    $('#btn_device_start_stop-'+trid).attr('disabled','true');
+                                                    // var date = new Date(response.created_at)
+                                                    // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                                                });
 
                                             }
                                         })
