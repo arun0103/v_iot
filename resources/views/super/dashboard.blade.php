@@ -1059,6 +1059,19 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_1" id="btn_relay_1-{{$device->id}}">Relay 1</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_2" id="btn_relay_2-{{$device->id}}">Relay 2</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_3" id="btn_relay_3-{{$device->id}}">Relay 3</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_4" id="btn_relay_4-{{$device->id}}">Relay 4</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_5" id="btn_relay_5-{{$device->id}}">Relay 5</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_6" id="btn_relay_6-{{$device->id}}">Relay 6</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_7" id="btn_relay_7-{{$device->id}}">Relay 7</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_8" id="btn_relay_8-{{$device->id}}">Relay 8</button></div>
+                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_9" id="btn_relay_9-{{$device->id}}">Relay 9</button></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
                                                                             <div class="col-lg-12">
                                                                                 <div class="card card-outline">
                                                                                     <div class="card-header"><h4 class="card-title">Control Logs</h4></div>

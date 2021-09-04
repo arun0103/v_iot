@@ -11,8 +11,6 @@ use App\Models\UserDevices;
 use Auth;
 use Carbon\Carbon;
 
-
-
 class HomeController extends Controller
 {
     /**
@@ -88,7 +86,7 @@ class HomeController extends Controller
             return view('super/dashboard')->with(['users'=>$users])
                                             ->with(['devices'=>$devices]);
         }elseif($loggedInUser->role =='R'){
-            $users = User::where([['reseller_id',$loggedInUser->reseller_id],['role','U']])->get();
+            $users = User::where([['reseller_id',$loggedInUser->reseller_id],['role','U']])->with('latest_log','device_settings','device_commands','setpoints')->get();
 
             $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->get();
             return view('home')->with(['users'=>$users])
@@ -96,7 +94,7 @@ class HomeController extends Controller
         }
         else{
             $users = $loggedInUser;
-            $userDevices = UserDevices::where('user_id',$loggedInUser->id)->get();
+            $userDevices = UserDevices::where('user_id',$loggedInUser->id)->with("deviceDetails")->get();
         }
         //dd($userDevices);
         return view('home')->with(['users'=>$users])

@@ -758,8 +758,8 @@
                         @foreach($userDevices as $device)
                             <section id="{{$device->deviceDetails->id}}">
                                 <div class="card">
-                                    <h2 class="card-header"> <span id="device_name-{{$device->deviceDetails->id}}">{{$device->device_name}} </span>
-                                        <button type="button" class="btn btn-primary btn_live_view" style="margin-left:10px">Live View</button>
+                                    <h2 class="card-header"> <span id="device_name-{{$device->deviceDetails->id}}">{{$device->deviceDetails->serial_number}} </span>
+                                        <!-- <button type="button" class="btn btn-primary btn_live_view" style="margin-left:10px">Live View</button> -->
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                 <i class="fas fa-minus"></i>
@@ -971,9 +971,9 @@
                                                 <div class="card">
                                                     <h5 class="card-header" >Routine Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->deviceDetails->id}}">Edit</button>
                                                         <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->deviceDetails->id}}">
+                                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->deviceDetails->id}}">
                                                                 <i class="fas fa-minus"></i>
-                                                            </button>
+                                                            </button> -->
                                                         </div>
                                                     </h5>
                                                     <div class="card-body table-stripped table-responsive-md table-responsive-sm">
@@ -985,28 +985,45 @@
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Critic Acid</th>
-                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                <td style="line-height: 2.5em;text-align:right">
+                                                                    <span id="critic_acid_details-{{$device->deviceDetails->id}}">
+                                                                        <b><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
+                                                                    </span>
+                                                                    <p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error-{{$device->deviceDetails->id}}"></p>
+                                                                </td>
                                                                 <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid-{{$device->deviceDetails->id}}" class="form-control input_critic_acid" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->critic_acid: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Pre-filter</th>
-                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="pre_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                <td style="line-height: 2.5em;text-align:right">
+                                                                    <span id="pre_filter_details-{{$device->deviceDetails->id}}">
+                                                                        <b><span id="pre_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
+                                                                    </span>
+                                                                    <p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error-{{$device->deviceDetails->id}}"></p></td>
                                                                 <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter-{{$device->deviceDetails->id}}" class="form-control input_pre_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->pre_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Post-filter</th>
-                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="post_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                <td style="line-height: 2.5em;text-align:right">
+                                                                    <span id="post_filter_details-{{$device->deviceDetails->id}}">
+                                                                        <b><span id="post_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
+                                                                    </span>
+                                                                    <p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error-{{$device->deviceDetails->id}}"></p></td>
                                                                 <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter-{{$device->deviceDetails->id}}" class="form-control input_post_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->post_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter-{{$device->deviceDetails->id}}">Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">General</th>
-                                                                <td style="line-height: 2.5em;text-align:right"><b><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service<p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                <td style="line-height: 2.5em;text-align:right">
+                                                                    <span id="general_service_details-{{$device->deviceDetails->id}}">
+                                                                        <b><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
+                                                                    </span>
+                                                                    <p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error-{{$device->deviceDetails->id}}"></p></td>
                                                                 <td class="form-inline"><input style="width:100px" type="number" id="input_general_service-{{$device->deviceDetails->id}}" class="form-control input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled><span class="text-muted"> gal</span></td>
                                                                 <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service-{{$device->deviceDetails->id}}">Reset</button></td>
@@ -1315,7 +1332,7 @@
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
 
                                 //change the status if new data is available
-                                    if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && +new Date(response[i]['deviceDetails'].latest_log.created_at) >= +command_sent_time){
+                                    if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && +new Date(response[i]['deviceDetails'].latest_log.log_dt) >= command_sent_time){
                                         var status = "";
                                         var color = "";
                                         // change the status
@@ -1350,7 +1367,7 @@
                                             // console.log(response_command);
                                             if(response_command.device_read_at != null){
                                                 start_stop_command_sent[response_command.device_id] = false;
-                                                command_sent_time = new Date(response_command.device_read_at);
+                                                command_sent_time = +new Date(response_command.device_read_at);
                                                 $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
                                                 switch(response_command.command){
                                                     case "Start":
@@ -1455,33 +1472,42 @@
                                 var general_service_reset_value = response[i]['deviceDetails']['latest_maintenance_general_service']!=null?response[i]['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
 
                                 var volume_left_critic_acid = response[i]['deviceDetails']['device_settings'].critic_acid - response[i]['deviceVolume'].total + critic_acid_reset_value ;
-                                $('#critic_acid_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_critic_acid.toFixed(2));
                                 var volume_left_pre_filter = response[i]['deviceDetails']['device_settings'].pre_filter - response[i]['deviceVolume'].total + pre_filter_reset_value ;
-                                $('#pre_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_pre_filter.toFixed(2));
                                 var volume_left_post_filter = response[i]['deviceDetails']['device_settings'].post_filter - response[i]['deviceVolume'].total + post_filter_reset_value ;
-                                $('#post_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_post_filter.toFixed(2));
                                 var volume_left_general_service = response[i]['deviceDetails']['device_settings'].general_service - response[i]['deviceVolume'].total + general_service_reset_value ;
-                                $('#general_service_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_general_service.toFixed(2));
                                 //check if maintenance needed
                                 var is_maintenance_needed = false;
                                 if(volume_left_critic_acid < 0){
+                                    volume_left_critic_acid = 0;
                                     is_maintenance_needed = true;
+                                    $('#critic_acid_details-'+response[i]['deviceDetails'].id).attr("hidden","true");
                                     $('#critic_acid_error-'+response[i]['deviceDetails'].id).text("Critic acid refill needed!").css("color","red");
                                 }
                                 if(volume_left_pre_filter < 0){
+                                    volume_left_pre_filter = 0;
                                     is_maintenance_needed = true;
+                                    $('#pre_filter_details-'+response[i]['deviceDetails'].id).attr("hidden","true");
                                     $('#pre_filter_error-'+response[i]['deviceDetails'].id).text("Pre-filter replacement needed!").css("color","red");
                                 }
                                 if(volume_left_post_filter < 0){
+                                    volume_left_post_filter = 0;
                                     is_maintenance_needed = true;
+                                    $('#post_filter_details-'+response[i]['deviceDetails'].id).attr("hidden","true");
                                     $('#post_filter_error-'+response[i]['deviceDetails'].id).text("Post-filter replacement needed!").css("color","red");
                                 }
                                 if(volume_left_general_service < 0){
+                                    volume_left_general_service = 0;
                                     is_maintenance_needed = true;
+                                    $('#general_service_details-'+response[i]['deviceDetails'].id).attr("hidden","true");
                                     $('#general_service_error-'+response[i]['deviceDetails'].id).text("General service needed!").css("color","red");
                                 }
                                 if(is_maintenance_needed)
                                     $('section#alarmsList_'+response[i]['deviceDetails'].id).append('<a class="goto_maintenance" id="goto_maintenance-'+response[i]['deviceDetails'].id+'"><p><button class="btn btn-warning btn_goto_maintenance">Routine Maintenance Needed</button></p><a>');
+                                $('#critic_acid_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_critic_acid.toFixed(2));
+                                $('#pre_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_pre_filter.toFixed(2));
+                                $('#post_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_post_filter.toFixed(2));
+                                $('#general_service_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_general_service.toFixed(2));
+
                             }
                         }
                     });
@@ -1754,7 +1780,8 @@
             $('.alarms-list').on('click','.goto_maintenance', function(){
                 // alert('Hi')
                 var trid = $(this).closest('section').attr('id'); // table row ID
-                $("html, body").animate({ scrollTop: $(document).height()}, "slow");
+                var element = document.getElementById("maintenance_tab-"+trid);
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' })
             })
             var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
             $('.btn_edit_maintenance').on('click',function(){
@@ -1885,6 +1912,8 @@
                         .done(function(response){
                             console.log(response);
                             $('#critic_acid_error-'+device_id).text("").trigger("change");
+                            $('#critic_acid_details-'+device_id).removeAttr("hidden");
+                            $('#critic_acid_volume_left-'+device_id).text(critic_acid_reset_value);
                             Swal.fire('Done!','Critic acid refilled.','success')
                         })
 
@@ -1914,6 +1943,8 @@
                         .done(function(response){
                             console.log(response);
                             $('#pre_filter_error-'+device_id).text("").trigger("change");
+                            $('#pre_filter_details-'+device_id).removeAttr("hidden");
+                            $('#pre_filter_volume_left-'+device_id).text(pre_filter_reset_value).trigger("change");
                             Swal.fire('Done!','Pre-filter replaced.','success')
                         })
 
@@ -1942,8 +1973,10 @@
                         })
                         .done(function(response){
                             console.log(response);
-                            Swal.fire('Done!','Post filter replaced.','success')
                             $('#post_filter_error-'+device_id).text("").trigger("change");
+                            $('#post_filter_details-'+device_id).removeAttr("hidden");
+                            $('#post_filter_volume_left-'+device_id).text(post_filter_reset_value).trigger("change");
+                            Swal.fire('Done!','Post filter replaced.','success')
                         })
 
                     }
@@ -1972,6 +2005,8 @@
                         .done(function(response){
                             console.log(response);
                             $('#general_service_error-'+device_id).text("").trigger("change");
+                            $('#general_service_details-'+device_id).removeAttr("hidden");
+                            $('#general_service_volume_left-'+device_id).text(general_service_reset_value).trigger("change");
                             Swal.fire('Done!','General Service performed.','success')
                         })
 
@@ -2021,11 +2056,11 @@
 
             }
         })
-        $('#info_conductivity').on('click', function(){
-            $('#info_conductivity_text').text("Conductivity")
-            $('#info_conductivity_description').text('')
-            $('#info_conductivity_description').append("Conductivity is how we measure the amount of minerals content in the water.")
-        })
+        // $('#info_conductivity').on('click', function(){
+        //     $('#info_conductivity_text').text("Conductivity")
+        //     $('#info_conductivity_description').text('')
+        //     $('#info_conductivity_description').append("Conductivity is how we measure the amount of minerals content in the water.")
+        // })
         $('.info_device_conductivity').on('click', function(){
             var trid = $(this).closest('section').attr('id'); // table row ID
             switch($('#device_conductivity_value-'+trid).text()){
@@ -2079,12 +2114,21 @@
                                     console.log(response);
                                     if(response.device_read_at != null){
                                         read_database = false;
-                                        Swal.fire(
-                                            'Cleared!',
-                                            'All alarms are cleared! Alarms might pop up again if it is not resolved!',
-                                            'success'
-                                        )
                                         $('#btn_reset_alarms-'+trid).attr('hidden','true');
+                                        Swal.fire({
+                                            title: 'Restart Operation?',
+                                            text: "Would you like to restart device?",
+                                            icon: 'info',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Yes',
+                                            cancelButtonText: 'No'
+                                            }).then((result) => {
+                                            if (result.isConfirmed) {
+
+                                            }
+                                        })
                                     }
                                 });
                             }

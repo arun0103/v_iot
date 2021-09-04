@@ -12,6 +12,7 @@ use App\Models\Reseller;
 use App\Models\Device;
 use App\Models\UserProfile;
 use App\Models\UserDevices;
+use App\Models\Device_settings;
 use App\Notifications\HelloNewUser;
 use App\Notifications\EmailUpdated;
 use Auth;
@@ -70,16 +71,16 @@ class SuperController extends Controller
                 $new_user->reseller_id = $loggedInUser->reseller_id;
             }
         $new_user->created_by = $loggedInUser->id ;
-// uncomment below five lines
-        // $random_password = "";
-        // $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
-        // for($i = 0; $i < 8 ; $i++){
-        //     $random_password .= substr($characters, (rand() % (strlen($characters))),1);
-        // }
+        // uncomment below five lines
+                // $random_password = "";
+                // $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
+                // for($i = 0; $i < 8 ; $i++){
+                //     $random_password .= substr($characters, (rand() % (strlen($characters))),1);
+                // }
 
-// Delete it in production to generate random
+        // Delete it in production to generate random
         $random_password = "123456789";
-//
+        //
         $new_user->password = Hash::make($random_password);
         $new_user->save();
 
@@ -214,6 +215,14 @@ class SuperController extends Controller
                     'description'=> 'Device Added',
                     'data'=>$device
                 ];
+                // add device's maintenance settings to default value
+                $device_setting = new Device_settings();
+                $device_setting->device_id = $device->id;
+                $device_setting->critic_acid = 10000;
+                $device_setting->pre_filter = 10000;
+                $device_setting->post_filter = 10000;
+                $device_setting->general_service = 10000;
+                $device_setting->save();
 
                 // link device with user and notify by email
 
