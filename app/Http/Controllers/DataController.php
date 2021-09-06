@@ -136,16 +136,27 @@ class DataController extends Controller
         return response()->json($dataToSend);
     }
     public function getUserDevicesSetpointsForCalculation(){
-        $userDevices = UserDevices::where('user_id',Auth::user()->id)->with('setpoints')->get();
-        // return response()->json($userDevices);
         $dataToSend = [];
-        foreach($userDevices as $device){
-            $data = [
-                'device_id'=>$device->device_id,
-                'volume_unit'=>$device->setpoints[0]->volume_unit,
-                'CIP_cycles'=>$device->setpoints[0]->CIP_cycles
-            ];
-            array_push($dataToSend, $data);
+        if(Auth::user()->role == "U" ||Auth::user()->role == "R"){
+            $userDevices = UserDevices::where('user_id',Auth::user()->id)->with('setpoints')->get();
+            foreach($userDevices as $device){
+                $data = [
+                    'device_id'=>$device->device_id,
+                    'volume_unit'=>$device->setpoints[0]->volume_unit,
+                    'CIP_cycles'=>$device->setpoints[0]->CIP_cycles
+                ];
+                array_push($dataToSend, $data);
+            }
+        }else if(Auth::user()->role == "S"){
+            $userDevices = Device::with('setpoints')->get();
+            foreach($userDevices as $device){
+                $data = [
+                    'device_id'=>$device->id,
+                    'volume_unit'=>$device->setpoints->volume_unit,
+                    'CIP_cycles'=>$device->setpoints->CIP_cycles
+                ];
+                array_push($dataToSend, $data);
+            }
         }
         return response()->json($dataToSend);
     }

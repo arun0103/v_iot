@@ -103,6 +103,26 @@ Route::post('/command/start/{id}',[App\Http\Controllers\CommandsController::clas
 Route::post('/command/getSetpointsFromDevice/{id}',[App\Http\Controllers\CommandsController::class, 'getSetpointsFromDevice'])->middleware('auth');
 Route::post('/resetAllAlarms/{id}',[App\Http\Controllers\CommandsController::class, 'resetAllAlarms'])->middleware('auth');
 Route::get('/command_status/{command}/{id}',[App\Http\Controllers\CommandsController::class, 'checkCommandStatus'])->middleware('auth');
+// relay commands
+Route::post('/turn_relay_1_on/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_1_on'])->middleware('auth');
+Route::post('/turn_relay_1_off/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_1_off'])->middleware('auth');
+Route::post('/turn_relay_2_on/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_2_on'])->middleware('auth');
+Route::post('/turn_relay_2_off/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_2_off'])->middleware('auth');
+Route::post('/turn_relay_3_on/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_3_on'])->middleware('auth');
+Route::post('/turn_relay_3_off/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_3_off'])->middleware('auth');
+Route::post('/turn_relay_4_on/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_4_on'])->middleware('auth');
+Route::post('/turn_relay_4_off/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_4_off'])->middleware('auth');
+Route::post('/turn_relay_5_on/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_5_on'])->middleware('auth');
+Route::post('/turn_relay_5_off/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_5_off'])->middleware('auth');
+Route::post('/turn_relay_6_on/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_6_on'])->middleware('auth');
+Route::post('/turn_relay_6_off/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_6_off'])->middleware('auth');
+Route::post('/turn_relay_7_on/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_7_on'])->middleware('auth');
+Route::post('/turn_relay_7_off/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_7_off'])->middleware('auth');
+Route::post('/turn_relay_8_on/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_8_on'])->middleware('auth');
+Route::post('/turn_relay_8_off/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_8_off'])->middleware('auth');
+Route::post('/turn_relay_9_on/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_9_on'])->middleware('auth');
+Route::post('/turn_relay_9_off/{id}',[App\Http\Controllers\CommandsController::class, 'turn_relay_9_off'])->middleware('auth');
+
 
 //Live
 Route::get('/deviceLiveData/{id}',[App\Http\Controllers\DeviceController::class, 'getLiveData'])->middleware('auth');

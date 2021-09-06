@@ -722,6 +722,68 @@
     }
 
 </style>
+<!-- switch button styles -->
+<style>
+    .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    }
+
+    .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+
+    .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #FF0000;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    input:checked + .slider {
+    background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+    border-radius: 34px;
+    }
+
+    .slider.round:before {
+    border-radius: 50%;
+    }
+</style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
@@ -769,7 +831,7 @@
                                             <td>{{$device->serial_number}}</td>
                                             <td>{{$device->model == 'U' ? 'DiUse' : 'DiEntry'}}</td>
                                             <td>{{$device->userDevices->count()}}</td>
-                                            <td class="status">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</td>
+                                            <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
                                             <td><span class="ec">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></td>
                                             <td>
                                                 <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
@@ -824,7 +886,7 @@
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="tab-content" style="max-height:500px; overflow-y:scroll; overflow-x:hidden;">
-                                                                    <div class="tab-pane fade show active" role="tabpanel" id="tab_avg_data_{{$device->id}}" style="max-height:500px; overflow:hidden;">
+                                                                    <div class="tab-pane fade show active" role="tabpanel" id="tab_avg_data_{{$device->id}}" style="max-height:600px; overflow:hidden;">
                                                                         <div class="row">
                                                                             <div class="col-lg-3 col-md-6 col-sm-6 box">
                                                                                 <div class="card card-outline card-success">
@@ -864,6 +926,7 @@
                                                                                                     @endif
                                                                                                 @endif
                                                                                             </i>
+                                                                                            <i id="device_output-{{$device->id}}" hidden>{{$device->latest_log != null?$device->latest_log->output:""}}</i>
                                                                                             <i id="info_device_connection" class="fas fa-info-circle float-right info-device-connection" data-toggle="dropdown" ></i>
                                                                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                                                 <a href="#" class="dropdown-item">
@@ -1060,15 +1123,81 @@
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_1" id="btn_relay_1-{{$device->id}}">Relay 1</button></div>
-                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_2" id="btn_relay_2-{{$device->id}}">Relay 2</button></div>
-                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_3" id="btn_relay_3-{{$device->id}}">Relay 3</button></div>
-                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_4" id="btn_relay_4-{{$device->id}}">Relay 4</button></div>
-                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_5" id="btn_relay_5-{{$device->id}}">Relay 5</button></div>
-                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_6" id="btn_relay_6-{{$device->id}}">Relay 6</button></div>
-                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_7" id="btn_relay_7-{{$device->id}}">Relay 7</button></div>
-                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_8" id="btn_relay_8-{{$device->id}}">Relay 8</button></div>
-                                                                                <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_relay_9" id="btn_relay_9-{{$device->id}}">Relay 9</button></div>
+                                                                                <div class="card">
+                                                                                    <div class="card-header">
+                                                                                        <h2 class="card-title">Relays</h2>
+                                                                                        <div class="card-tools">
+                                                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->id}}">
+                                                                                                <i class="fas fa-minus"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="card-body">
+                                                                                        <div class="d-inline-flex p-2">
+                                                                                            <h4>1. MIV &nbsp;&nbsp; </h4>
+                                                                                            <label class="switch">
+                                                                                                <input type="checkbox" id="btn_relay_1-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_1"></span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="d-inline-flex p-2">
+                                                                                            <h4>2. Bypass &nbsp;&nbsp; </h4>
+                                                                                            <label class="switch">
+                                                                                                <input type="checkbox" id="btn_relay_2-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_2"></span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="d-inline-flex p-2">
+                                                                                            <h4>3. POV  &nbsp;&nbsp;</h4>
+                                                                                            <label class="switch">
+                                                                                                <input type="checkbox" id="btn_relay_3-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_3"></span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="d-inline-flex p-2">
+                                                                                            <h4>4. WOV &nbsp;&nbsp; </h4>
+                                                                                            <label class="switch">
+                                                                                                <input type="checkbox" id="btn_relay_4-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_4"></span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="d-inline-flex p-2">
+                                                                                            <h4>5. CIP  &nbsp;&nbsp;</h4>
+                                                                                            <label class="switch">
+                                                                                                <input type="checkbox" id="btn_relay_5-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_5"></span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="d-inline-flex p-2">
+                                                                                            <h4>6. SHUNT &nbsp;&nbsp; </h4>
+                                                                                            <label class="switch">
+                                                                                                <input type="checkbox" id="btn_relay_6-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_6"></span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="d-inline-flex p-2">
+                                                                                            <h4>7. POLARITY &nbsp;&nbsp; </h4>
+                                                                                            <label class="switch">
+                                                                                                <input type="checkbox" id="btn_relay_7-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_7"></span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="d-inline-flex p-2">
+                                                                                            <h4>8. PAE &nbsp;&nbsp; </h4>
+                                                                                            <label class="switch">
+                                                                                                <input type="checkbox" id="btn_relay_8-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_8"></span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="d-inline-flex p-2">
+                                                                                            <h4>9. BUZZER &nbsp;&nbsp;</h4>
+                                                                                            <label class="switch">
+                                                                                                <input type="checkbox" id="btn_relay_9-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_9"></span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -1756,7 +1885,7 @@
             $('#input_general_service-'+trid).val(old_general_service[trid])
         }
     })
-//end of maintenance
+// end of maintenance
     var select_view_volume_by = "gallons";
     $('#select_view_volume_by').on('change',function(){
         select_view_volume_by = $('#select_view_volume_by').val();
@@ -1787,19 +1916,312 @@
                 break;
         }
     })
-    $('.btn_flush_module').on('click', function(){
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "POST",
-            url: "/flush_module/"+ trid,
+    // controls
+        $('.btn_flush_module').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/flush_module/"+ trid,
+            })
+            .done(function(response){
+                Swal.fire('Success','Command recorded.','success')
+                var date = new Date(response.created_at)
+                $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+            });
         })
-        .done(function(response){
-            Swal.fire('Success','Command recorded.','success')
-            var date = new Date(response.created_at)
-            $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
-        });
-    })
+        //relays
+        $('.btn_relay_1').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if(!$('#btn_relay_1-'+trid).is('[disabled=disabled]')){
+                if($('#btn_relay_1-'+trid).is(":checked")){
+                // turning relay off
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_1_off/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }else{
+                    // turning relay on
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_1_on/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }
+            }else{
+                Swal.fire('Error',"Cannot operate while device is running", "error")
+            }
+        })
+        $('.btn_relay_2').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if(!$('#btn_relay_2-'+trid).is('[disabled=disabled]')){
+                if($('#btn_relay_2-'+trid).is(":checked")){
+                // turning relay off
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_2_off/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }else{
+                    // turning relay on
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_2_on/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }
+            }else{
+                Swal.fire('Error',"Cannot operate while device is running", "error")
+            }
+        })
+        $('.btn_relay_3').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if(!$('#btn_relay_3-'+trid).is('[disabled=disabled]')){
+                if($('#btn_relay_3-'+trid).is(":checked")){
+                // turning relay off
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_3_off/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }else{
+                    // turning relay on
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_3_on/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }
+            }else{
+                Swal.fire('Error',"Cannot operate while device is running", "error")
+            }
+        })
+        $('.btn_relay_4').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if(!$('#btn_relay_4-'+trid).is('[disabled=disabled]')){
+                if($('#btn_relay_4-'+trid).is(":checked")){
+                // turning relay off
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_4_off/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }else{
+                    // turning relay on
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_4_on/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }
+            }else{
+                Swal.fire('Error',"Cannot operate while device is running", "error")
+            }
+        })
+        $('.btn_relay_5').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if(!$('#btn_relay_5-'+trid).is('[disabled=disabled]')){
+                if($('#btn_relay_5-'+trid).is(":checked")){
+                // turning relay off
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_5_off/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }else{
+                    // turning relay on
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_5_on/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }
+            }else{
+                Swal.fire('Error',"Cannot operate while device is running", "error")
+            }
+        })
+        $('.btn_relay_6').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if(!$('#btn_relay_6-'+trid).is('[disabled=disabled]')){
+                if($('#btn_relay_6-'+trid).is(":checked")){
+                // turning relay off
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_6_off/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }else{
+                    // turning relay on
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_6_on/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }
+            }else{
+                Swal.fire('Error',"Cannot operate while device is running", "error")
+            }
+        })
+        $('.btn_relay_7').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if(!$('#btn_relay_7-'+trid).is('[disabled=disabled]')){
+                if($('#btn_relay_7-'+trid).is(":checked")){
+                // turning relay off
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_7_off/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }else{
+                    // turning relay on
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_7_on/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }
+            }else{
+                Swal.fire('Error',"Cannot operate while device is running", "error")
+            }
+        })
+        $('.btn_relay_8').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if(!$('#btn_relay_8-'+trid).is('[disabled=disabled]')){
+                if($('#btn_relay_8-'+trid).is(":checked")){
+                // turning relay off
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_8_off/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }else{
+                    // turning relay on
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_8_on/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }
+            }else{
+                Swal.fire('Error',"Cannot operate while device is running", "error")
+            }
+        })
+        $('.btn_relay_9').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if(!$('#btn_relay_9-'+trid).is('[disabled=disabled]')){
+                if($('#btn_relay_9-'+trid).is(":checked")){
+                // turning relay off
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_9_off/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }else{
+                    // turning relay on
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/turn_relay_9_on/"+ trid,
+                    })
+                    .done(function(response){
+                        Swal.fire('Success','Command recorded.','success')
+                        var date = new Date(response.created_at)
+                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                    });
+                }
+            }else{
+                Swal.fire('Error',"Cannot operate while device is running", "error")
+            }
+        })
+
+
+    // end of controls
 
     var view_live_device = null; // to track whether user wants to view live data of particular device
     var view_mode = "average";
@@ -1831,6 +2253,16 @@
         // collect live data and display
         //its doing in every 5 sec when the document is ready
         var device_data_created_at = null;
+        var userDevices = [];
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getUserDevicesSetpointsForCalculation",
+        })
+        .done(function(response){
+            // console.log(response);
+            userDevices = response;
+        });
         setInterval(function(){
             if(view_live_device != null){
                 $.ajax({
@@ -1890,7 +2322,7 @@
                                 input_names.push("LOW");
                         }
                         // calculating output
-                        var output_binary_string = response.output.toString(2);
+                        var output_binary_string = (response.output >>> 0).toString(2);
                         if(output_binary_string.length < 9){
                             for(var i = output_binary_string.length; i<9; i++){
                                 output_binary_string = "0".concat(output_binary_string);
@@ -1914,30 +2346,30 @@
                         for(var  j= 0 ; j < bin_alarms.length ; j++){
                             if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
                                 switch(j){
-                                    case 0: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
-                                    case 1: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
-                                    case 2: alarm_names.push('<div style="color:red">Reserved For future</div>');break;
-                                    case 3: alarm_names.push('<div style="color:red">FLOWMETER COMM ERROR</div>');break;
-                                    case 4: alarm_names.push('<div style="color:red">ATLAS TEMPERATURE ERROR</div>');break;
-                                    case 5: alarm_names.push('<div style="color:red">ZERO EC ALARM</div>');break;
-                                    case 6: alarm_names.push('<div style="color:red">ATLAS I2C COM ERROR</div>');break;
-                                    case 7: alarm_names.push('<div style="color:red">LOW PRESSURE ALARM</div>');break;
-                                    case 8: alarm_names.push('<div style="color:red">PAE AC INPUT FAIL</div>');break;
-                                    case 9: alarm_names.push('<div style="color:red">PAE AC POWER DOWN</div>');break;
-                                    case 10:alarm_names.push('<div style="color:red">PAE HIGH TEMPERATURE</div>');break;
-                                    case 11:alarm_names.push('<div style="color:red">PAE AUX OR SMPS FAIL</div>');break;
-                                    case 12:alarm_names.push('<div style="color:red">PAE FAN FAIL</div>');break;
-                                    case 13:alarm_names.push('<div style="color:red">PAE OVER TEMP SHUTDOWN</div>');break;
-                                    case 14:alarm_names.push('<div style="color:red">PAE OVER LOAD SHUTDOWN</div>');break;
-                                    case 15:alarm_names.push('<div style="color:red">PAE OVER VOLT SHUTDOWN</div>');break;
-                                    case 16:alarm_names.push('<div style="color:red">PAE COMMUNICATION ERROR</div>');break;
-                                    case 17:alarm_names.push('<div style="color:red">CIP LOW LEVEL ALARM</div>');break;
-                                    case 18:alarm_names.push('<div style="color:red">WASTE VALVE ALARM</div>');break;
-                                    case 19:alarm_names.push('<div style="color:red">LEAKAGE ALARM</div>');break;
-                                    case 20:alarm_names.push('<div style="color:red">CABINET TEMP ALARM</div>');break;
-                                    case 21:alarm_names.push('<div style="color:red">BYPASS ALARM</div>');break;
-                                    case 22:alarm_names.push('<div style="color:red">LOW FLOW WASTE ALARM</div>');break;
-                                    case 23:alarm_names.push('<div style="color:red">LOW FLOW PURE ALARM</div>');break;
+                                    case 0: alarm_names.push('<div style="color:red">&nbsp; Reserved For future</div>');break;
+                                    case 1: alarm_names.push('<div style="color:red">&nbsp; Reserved For future</div>');break;
+                                    case 2: alarm_names.push('<div style="color:red">&nbsp; Reserved For future</div>');break;
+                                    case 3: alarm_names.push('<div style="color:red">&nbsp; FLOWMETER COMM ERROR</div>');break;
+                                    case 4: alarm_names.push('<div style="color:red">&nbsp; ATLAS TEMPERATURE ERROR</div>');break;
+                                    case 5: alarm_names.push('<div style="color:red">&nbsp; ZERO EC ALARM</div>');break;
+                                    case 6: alarm_names.push('<div style="color:red">&nbsp; ATLAS I2C COM ERROR</div>');break;
+                                    case 7: alarm_names.push('<div style="color:red">&nbsp; LOW PRESSURE ALARM</div>');break;
+                                    case 8: alarm_names.push('<div style="color:red">&nbsp; PAE AC INPUT FAIL</div>');break;
+                                    case 9: alarm_names.push('<div style="color:red">&nbsp; PAE AC POWER DOWN</div>');break;
+                                    case 10:alarm_names.push('<div style="color:red">&nbsp; PAE HIGH TEMPERATURE</div>');break;
+                                    case 11:alarm_names.push('<div style="color:red">&nbsp; PAE AUX OR SMPS FAIL</div>');break;
+                                    case 12:alarm_names.push('<div style="color:red">&nbsp; PAE FAN FAIL</div>');break;
+                                    case 13:alarm_names.push('<div style="color:red">&nbsp; PAE OVER TEMP SHUTDOWN</div>');break;
+                                    case 14:alarm_names.push('<div style="color:red">&nbsp; PAE OVER LOAD SHUTDOWN</div>');break;
+                                    case 15:alarm_names.push('<div style="color:red">&nbsp; PAE OVER VOLT SHUTDOWN</div>');break;
+                                    case 16:alarm_names.push('<div style="color:red">&nbsp; PAE COMMUNICATION ERROR</div>');break;
+                                    case 17:alarm_names.push('<div style="color:red">&nbsp; CIP LOW LEVEL ALARM</div>');break;
+                                    case 18:alarm_names.push('<div style="color:red">&nbsp; WASTE VALVE ALARM</div>');break;
+                                    case 19:alarm_names.push('<div style="color:red">&nbsp; LEAKAGE ALARM</div>');break;
+                                    case 20:alarm_names.push('<div style="color:red">&nbsp; CABINET TEMP ALARM</div>');break;
+                                    case 21:alarm_names.push('<div style="color:red">&nbsp; BYPASS ALARM</div>');break;
+                                    case 22:alarm_names.push('<div style="color:red">&nbsp; LOW FLOW WASTE ALARM</div>');break;
+                                    case 23:alarm_names.push('<div style="color:red">&nbsp; LOW FLOW PURE ALARM</div>');break;
                                 }
                             }
                         }
@@ -1949,32 +2381,54 @@
                             case "2" : mode_name="MANUAL FLUSH";break;
                             case "3" : mode_name="MANUAL CIP";break;
                         }
+                        //calculate volume and flow according to volume_unit setpoint
+                        var volume, volume_unit;
+                        var flow , flow_unit;
+                        var device_setpoint_volume_unit = userDevices.find(device_id =>device_id = view_live_device).volume_unit;
+                        switch(device_setpoint_volume_unit){
+                            case 0 :
+                                    volume = response.tpv;
+                                    volume_unit = "L";
+                                    flow = response.c_flow.toFixed(2);
+                                    flow_unit = "LPM";
+                                break;
+                            case 1 :
+                                volume = (response.tpv*0.2642007926).toFixed(2);
+                                    volume_unit = "gal";
+                                    flow = (response.c_flow*0.2642007926).toFixed(2);
+                                    flow_unit = "GPM";
+                                break;
+                        }
+                        // calculate cycles left
+                        var device_setpoint_CIP_cycles = userDevices.find(device_id =>device_id = view_live_device).CIP_cycles;
+                        var cycles_left = device_setpoint_CIP_cycles - response.cycle;
+                        if(cycles_left < 0)
+                            cycles_left = 0;
                         $('#live_data_rows_'+view_live_device).prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
                                 '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
                                 '<div class="timeline-body">'+
                                    '<div class="timeline-header">'+
                                         '<span class="userimage"><img src="/images/running.gif"></span>'+
-                                        '<span class="username">'+status +'<small></small></span>'+
+                                        '<span class="username">'+status +'<small>'+step_name+'</small></span>'+
                                         '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+'] </span>'+
                                         '<span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span>'+
                                     '</div>'+
                                     '<div class="timeline-content">'+
                                         '<div class="row">'+
                                             '<div class="col-sm-6">'+
-                                                '<span>CYCLE :'+response.cycle+'</span><br/>'+
-                                                '<span>CURRENT FLOW :'+response.c_flow+' L/min</span><br/>'+
-                                                '<span>ANALOG OUTPUT VOLTAGE :'+response.aov+' V</span><br/>'+
-                                                '<span>CABINET TEMPERATURE :'+response.c_temp+' \xB0C</span><br/>'+
-                                                '<span>Avg. CONDUCTIVITY(ec) :'+response.ec+' \xB5/cm</span><br/>'+
-                                                '<span>MODE :'+mode_name+'</span>'+
+                                                '<span>Cycles left before next CIP : '+cycles_left+' cycles</span><br/>'+
+                                                '<span>FLOW : '+flow+' '+flow_unit+'</span><br/>'+
+                                                '<span>PUMP SPEED : '+(response.aov/0.05).toFixed(2)+'%</span><br/>'+
+                                                '<span>CABINET TEMPERATURE : '+response.c_temp+' \xB0C</span><br/>'+
+                                                '<span>AVG. CONDUCTIVITY(EC) : '+response.ec+' \xB5s/cm</span><br/>'+
                                             '</div>'+
                                             '<div class="col-sm-6">'+
-                                                '<span>STEP :'+step_name+'</span><br/>'+
-                                                '<span>PRESSURE :'+response.pressure.toFixed(2)+' bar</span><br/>'+
-                                                '<span>PAE VOLTAGE :'+response.pae_volt+' V</span><br/>'+
-                                                '<span>WATER TEMPERATURE :'+response.w_temp+' \xB0C</span><br/>'+
-                                                '<span>PERCENTAGE RECOVERY :'+response.percentage_recovery+'%</span><br/>'+
-                                                '<span>TOTAL PURE VOLUME :'+response.tpv+' L</span><br/>'+
+                                                // '<span>STEP :'+step_name+'</span><br/>'+
+                                                '<span>PRESSURE : '+response.pressure.toFixed(2)+' bar</span><br/>'+
+                                                    '<span>PAE VOLTAGE : '+response.pae_volt+' V</span><br/>'+
+                                                    '<span>RECOVERY : '+response.percentage_recovery+'%</span><br/>'+
+                                                    '<span>WATER TEMPERATURE : '+response.w_temp+' \xB0C</span><br/>'+
+                                                    '<span>TOTAL PURE VOLUME : '+volume+' '+volume_unit+'</span><br/>'+
                                             '</div>'+
                                         '</div>'+
                                         '<div class="row">'+
@@ -2059,6 +2513,43 @@
         $('#btn_edit_setpoint-'+trid).attr('hidden',true);
         $('#btn_save_setpoint-'+trid).attr('hidden',true)
         $('#btn_cancel_setpoint-'+trid).attr('hidden',true)
+        // check the relays status and device step
+        var output = $('#device_output-'+trid).text();
+        // calculating output
+        var output_binary_string = (output >>> 0).toString(2);
+
+        for(var i =7 ; i<output_binary_string.length; i++){
+            console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
+            if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
+                $('#btn_relay_'+(i-6)+'-'+trid).attr("checked",false).trigger("change");
+            else
+                $('#btn_relay_'+(i-6)+'-'+trid).attr("checked", true).trigger("change");
+
+        }
+
+        if($('#status-'+trid).text() =="RUNNING"){
+            // disable all the relay commands
+            $('#btn_relay_1-'+trid).attr("disabled","true");
+            $('#btn_relay_2-'+trid).attr("disabled","true");
+            $('#btn_relay_3-'+trid).attr("disabled","true");
+            $('#btn_relay_4-'+trid).attr("disabled","true");
+            $('#btn_relay_5-'+trid).attr("disabled","true");
+            $('#btn_relay_6-'+trid).attr("disabled","true");
+            $('#btn_relay_7-'+trid).attr("disabled","true");
+            $('#btn_relay_8-'+trid).attr("disabled","true");
+            $('#btn_relay_9-'+trid).attr("disabled","true");
+        }else{
+            $('#btn_relay_1-'+trid).removeAttr("disabled");
+            $('#btn_relay_2-'+trid).removeAttr("disabled");
+            $('#btn_relay_3-'+trid).removeAttr("disabled");
+            $('#btn_relay_4-'+trid).removeAttr("disabled");
+            $('#btn_relay_5-'+trid).removeAttr("disabled");
+            $('#btn_relay_6-'+trid).removeAttr("disabled");
+            $('#btn_relay_7-'+trid).removeAttr("disabled");
+            $('#btn_relay_8-'+trid).removeAttr("disabled");
+            $('#btn_relay_9-'+trid).removeAttr("disabled");
+        }
+
         // get the commands list
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},

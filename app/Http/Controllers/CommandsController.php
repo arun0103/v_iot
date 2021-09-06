@@ -75,4 +75,132 @@ class CommandsController extends Controller
         $command->save();
         return response()->json($command);
     }
+
+    // relay commands
+    public function turn_relay_1_on($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-1-on";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_1_off($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-1-off";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_2_on($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-2-on";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_2_off($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-2-off";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_3_on($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-3-on";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_3_off($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-3-off";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_4_on($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-4-on";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_4_off($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-4-off";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_5_on($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-5-on";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_5_off($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-5-off";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_6_on($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-6-on";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_6_off($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-6-off";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_7_on($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-7-on";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_7_off($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-7-off";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_8_on($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-8-on";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_8_off($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-8-off";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_9_on($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-9-on";
+        $command->save();
+        return response()->json($command);
+    }
+    public function turn_relay_9_off($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Relay-9-off";
+        $command->save();
+        return response()->json($command);
+    }
 }
