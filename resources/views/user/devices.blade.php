@@ -52,7 +52,7 @@
                                         <th>More</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="device_lists">
                                 @foreach($devices as $device)
                                     <tr id="{{$device->id}}" class="device">
                                         <td>{{$device->serial_number}}</td>
@@ -751,7 +751,28 @@
                         alert("adding another device")
                     }
                 })
-
+                $('#device_lists').append('<tr id="response.data.id"><td>'+response.data.deviceDetails.serial_number +'</td>'
+                                            +'<td>'+response.data.deviceDetails.device_number +'</td>'
+                                            +'<td>'+response.data.deviceDetails.model =='U'?"DiUSE" :"DiEntry" +'</td>'
+                                            +'<td> 0 '+'</td>'
+                                            +'<td> -'+'</td>'
+                                            +'<td>'
+                                                +'<a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
+                                                +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+                                                    +'<a href="#" class="dropdown-item operation-edit_device">'
+                                                        +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
+                                                    +'</a>'
+                                                    +'<a href="#" class="dropdown-item operation-assign_user">'
+                                                        +'<i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>'
+                                                    +'</a>'
+                                                    +'<div class="dropdown-divider"></div>'
+                                                    +'<a class="dropdown-item view-device-users" id="view_user_devices"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
+                                                    +'<div class="dropdown-divider"></div>'
+                                                    +'<a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-{{$device->id}}"><i class="far fa-trash-alt"></i> Delete Device</a>'
+                                                +'</div>'
+                                            +'</td>'
+                                        +'</tr>'
+                )
                 break;
             default:
                 Swal.fire({

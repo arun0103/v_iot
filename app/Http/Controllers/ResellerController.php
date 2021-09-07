@@ -108,9 +108,10 @@ class ResellerController extends Controller
             if($searchDevice->reseller_id == null){ // if searched device has not been assigned to reseller before
                 $searchDevice->reseller_id = $user->reseller_id;
                 $searchDevice->save();
-                $userDevice = UserDevices::where([['user_id',$user->id],['device_id',$searchDevice->id]])->get();
+                $userDevice = UserDevices::where([['user_id',$user->id],['device_id',$searchDevice->id]])->with('deviceDetails')->get();
                 $response =[
                     'message' => 'Success',
+                    'data'=>$userDevice
                 ];
 
             }else{
