@@ -90,7 +90,7 @@ class HomeController extends Controller
 
             $devices = Device::where('reseller_id',$loggedInUser->id)->with('latest_log','device_settings','device_commands','setpoints')->get();
             return view('super/dashboard')->with(['users'=>$users])
-                    ->with(['userDevices'=>$devices]);
+                    ->with(['devices'=>$devices]);
         }
         else{
             $users = $loggedInUser;
