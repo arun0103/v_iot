@@ -86,9 +86,9 @@ class HomeController extends Controller
             return view('super/dashboard')->with(['users'=>$users])
                                             ->with(['devices'=>$devices]);
         }elseif($loggedInUser->role =='R'){
-            $users = User::where([['reseller_id',$loggedInUser->reseller_id],['role','U']])->with('latest_log','device_settings','device_commands','setpoints')->get();
+            $users = User::where([['reseller_id',$loggedInUser->reseller_id],['role','U']])->get();
 
-            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->get();
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log','device_settings','device_commands','setpoints')->get();
             return view('home')->with(['users'=>$users])
                     ->with(['userDevices'=>$devices]);
         }

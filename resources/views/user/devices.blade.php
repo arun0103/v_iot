@@ -750,6 +750,7 @@
                     }
 
                 })
+                $('#device_lists .odd').remove();
                 $('#device_lists').append('<tr id="'+response.data.id+'"><td>'+response.data.serial_number +'</td>'
                                             +'<td>'+response.data.device_number +'</td>'
                                             +'<td>'+response.data.model =='U'?"DiUSE" :"DiEntry" +'</td>'
