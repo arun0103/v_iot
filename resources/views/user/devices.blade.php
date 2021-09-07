@@ -397,7 +397,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <!-- <button type="button" class="btn btn-primary" id="btn_confirm_add_reseller_device" value="Add">Add</button> -->
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -745,7 +744,11 @@
                     cancelButtonText: 'No'
                 }).then((result) => {
                     if (!result.isConfirmed) {
-
+                        alert("thank you for adding")
+                        $('#modal-add-user-device').modal('hide')
+                    }
+                    else{
+                        alert("adding another device")
                     }
                 })
 
