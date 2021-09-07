@@ -750,9 +750,9 @@
                     }
 
                 })
-                $('#device_lists').append('<tr id="response.data.id"><td>'+response.data.deviceDetails.serial_number +'</td>'
-                                            +'<td>'+response.data.deviceDetails.device_number +'</td>'
-                                            +'<td>'+response.data.deviceDetails.model =='U'?"DiUSE" :"DiEntry" +'</td>'
+                $('#device_lists').append('<tr id="response.data.id"><td>'+response.data.serial_number +'</td>'
+                                            +'<td>'+response.data.device_number +'</td>'
+                                            +'<td>'+response.data.model =='U'?"DiUSE" :"DiEntry" +'</td>'
                                             +'<td> 0 '+'</td>'
                                             +'<td> -'+'</td>'
                                             +'<td>'
@@ -767,7 +767,7 @@
                                                     +'<div class="dropdown-divider"></div>'
                                                     +'<a class="dropdown-item view-device-users" id="view_user_devices"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
                                                     +'<div class="dropdown-divider"></div>'
-                                                    +'<a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-"'+response.data.deviceDetails.id+'><i class="far fa-trash-alt"></i> Delete Device</a>'
+                                                    +'<a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-"'+response.data.id+'><i class="far fa-trash-alt"></i> Delete Device</a>'
                                                 +'</div>'
                                             +'</td>'
                                         +'</tr>'
