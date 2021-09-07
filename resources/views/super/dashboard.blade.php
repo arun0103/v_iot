@@ -1697,34 +1697,34 @@
 
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="view_userDevices_modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Edit {{Auth::user()->name}}'s Profile</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-            <form id="form_profile_info" action="api/updateProfile" method="POST">
-                {{ csrf_field() }}
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h5 style="text-decoration:underline">Personal Information</h5>
-                            <table class="table">
-                                <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
-                                <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="email" id="txt_email" value="{{Auth::user()->email}}"></td></tr>
-                            </table>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit {{Auth::user()->name}}'s Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <form id="form_profile_info" action="api/updateProfile" method="POST">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h5 style="text-decoration:underline">Personal Information</h5>
+                                <table class="table">
+                                    <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
+                                    <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="email" id="txt_email" value="{{Auth::user()->email}}"></td></tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
     </div><!-- dont know where it came from  -->
 
     <div class="modal fade" id="modal-map_view">
@@ -1779,113 +1779,113 @@
 
     })
 //
-// Maintenance
-    var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
-    $('.btn_edit_maintenance').on('click',function(){
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        old_critic_value[trid] = $('.input_critic_acid').val();
-        old_pre_filter[trid] = $('.input_pre_filter').val();
-        old_post_filter[trid] = $('.input_post_filter').val();
-        old_general_service[trid] = $('.input_general_service').val();
-        $('.input_critic_acid').removeAttr("disabled");
-        $('.input_pre_filter').removeAttr("disabled");
-        $('.input_post_filter').removeAttr("disabled");
-        $('.input_general_service').removeAttr("disabled");
-    })
-    $('.input_critic_acid').on('keyup', function(){
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        $('#btn_save_critic_acid-'+trid).removeAttr("hidden");
-    });
-    $('.input_pre_filter').on('keyup', function(){
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        $('#btn_save_pre_filter-'+trid).removeAttr("hidden");
-    });
-    $('.input_post_filter').on('keyup', function(){
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        $('#btn_save_post_filter-'+trid).removeAttr("hidden");
-    });
-    $('.input_general_service').on('keyup', function(){
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        $('#btn_save_general_service-'+trid).removeAttr("hidden");
-    });
+    // Maintenance
+        var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
+        $('.btn_edit_maintenance').on('click',function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            old_critic_value[trid] = $('.input_critic_acid').val();
+            old_pre_filter[trid] = $('.input_pre_filter').val();
+            old_post_filter[trid] = $('.input_post_filter').val();
+            old_general_service[trid] = $('.input_general_service').val();
+            $('.input_critic_acid').removeAttr("disabled");
+            $('.input_pre_filter').removeAttr("disabled");
+            $('.input_post_filter').removeAttr("disabled");
+            $('.input_general_service').removeAttr("disabled");
+        })
+        $('.input_critic_acid').on('keyup', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            $('#btn_save_critic_acid-'+trid).removeAttr("hidden");
+        });
+        $('.input_pre_filter').on('keyup', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            $('#btn_save_pre_filter-'+trid).removeAttr("hidden");
+        });
+        $('.input_post_filter').on('keyup', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            $('#btn_save_post_filter-'+trid).removeAttr("hidden");
+        });
+        $('.input_general_service').on('keyup', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            $('#btn_save_general_service-'+trid).removeAttr("hidden");
+        });
 
-    $('.btn-save-critic_acid').on('click', function(){
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        if($('#input_critic_acid-'+trid).val() >0 && $('#input_critic_acid-'+trid).val() < 50000){
-            $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "POST",
-                url: "/saveCriticAcid/"+ trid,
-                data: {"critic_acid":$('#input_critic_acid-'+trid).val()}
+        $('.btn-save-critic_acid').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if($('#input_critic_acid-'+trid).val() >0 && $('#input_critic_acid-'+trid).val() < 50000){
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "POST",
+                    url: "/saveCriticAcid/"+ trid,
+                    data: {"critic_acid":$('#input_critic_acid-'+trid).val()}
 
-            })
-            .done(function(response){
-                // console.log(response)
-                Swal.fire('Success','Critic Acid Updated','success')
-                $('#btn_save_critic_acid-'+trid).attr("hidden", true);
-            });
-        }else{
-            Swal.fire("Error", "Value out of range[0-50,000]","error");
-            $('#input_critic_acid-'+trid).val(old_critic_value[trid])
-        }
-    })
-    $('.btn-save-pre_filter').on('click', function(){
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        if($('#input_pre_filter-'+trid).val() >0 && $('#input_pre_filter-'+trid).val() < 50000){
-            $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "POST",
-                url: "/savePreFilter/"+ trid,
-                data: {"pre_filter":$('#input_pre_filter-'+trid).val()}
+                })
+                .done(function(response){
+                    // console.log(response)
+                    Swal.fire('Success','Critic Acid Updated','success')
+                    $('#btn_save_critic_acid-'+trid).attr("hidden", true);
+                });
+            }else{
+                Swal.fire("Error", "Value out of range[0-50,000]","error");
+                $('#input_critic_acid-'+trid).val(old_critic_value[trid])
+            }
+        })
+        $('.btn-save-pre_filter').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if($('#input_pre_filter-'+trid).val() >0 && $('#input_pre_filter-'+trid).val() < 50000){
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "POST",
+                    url: "/savePreFilter/"+ trid,
+                    data: {"pre_filter":$('#input_pre_filter-'+trid).val()}
 
-            })
-            .done(function(response){
-                Swal.fire('Success','Pre-filter Updated','success')
-                $('#btn_save_pre_filter-'+trid).attr("hidden", true);
-            });
-        }else{
-            Swal.fire("Error", "Value out of range[0-50,000]","error");
-            $('#input_pre_filter-'+trid).val(old_pre_filter[trid])
-        }
-    })
-    $('.btn-save-post_filter').on('click', function(){
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        if($('#input_post_filter-'+trid).val() >0 && $('#input_post_filter-'+trid).val() < 50000){
-            $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "POST",
-                url: "/savePostFilter/"+ trid,
-                data: {"post_filter":$('#input_post_filter-'+trid).val()}
+                })
+                .done(function(response){
+                    Swal.fire('Success','Pre-filter Updated','success')
+                    $('#btn_save_pre_filter-'+trid).attr("hidden", true);
+                });
+            }else{
+                Swal.fire("Error", "Value out of range[0-50,000]","error");
+                $('#input_pre_filter-'+trid).val(old_pre_filter[trid])
+            }
+        })
+        $('.btn-save-post_filter').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if($('#input_post_filter-'+trid).val() >0 && $('#input_post_filter-'+trid).val() < 50000){
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "POST",
+                    url: "/savePostFilter/"+ trid,
+                    data: {"post_filter":$('#input_post_filter-'+trid).val()}
 
-            })
-            .done(function(response){
-                Swal.fire('Success','Post-filter Updated','success')
-                $('#btn_save_post_filter-'+trid).attr("hidden", true);
-            });
-        }else{
-            Swal.fire("Error", "Value out of range[0-50,000]","error");
-            $('#input_post_filter-'+trid).val(old_post_filter[trid])
-        }
-    })
-    $('.btn-save-general_service').on('click', function(){
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        if($('#input_general_service-'+trid).val() >0 && $('#input_general_service-'+trid).val() < 50000){
-            $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "POST",
-                url: "/saveGeneralService/"+ trid,
-                data: {"general_service":$('#input_general_service-'+trid).val()}
-            })
-            .done(function(response){
-                Swal.fire('Success','General Service Updated','success')
-                $('#btn_save_general_service-'+trid).attr("hidden", true);
-            });
-        }else{
-            Swal.fire("Error", "Value out of range[0-50,000]","error");
-            $('#input_general_service-'+trid).val(old_general_service[trid])
-        }
-    })
-// end of maintenance
+                })
+                .done(function(response){
+                    Swal.fire('Success','Post-filter Updated','success')
+                    $('#btn_save_post_filter-'+trid).attr("hidden", true);
+                });
+            }else{
+                Swal.fire("Error", "Value out of range[0-50,000]","error");
+                $('#input_post_filter-'+trid).val(old_post_filter[trid])
+            }
+        })
+        $('.btn-save-general_service').on('click', function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            if($('#input_general_service-'+trid).val() >0 && $('#input_general_service-'+trid).val() < 50000){
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "POST",
+                    url: "/saveGeneralService/"+ trid,
+                    data: {"general_service":$('#input_general_service-'+trid).val()}
+                })
+                .done(function(response){
+                    Swal.fire('Success','General Service Updated','success')
+                    $('#btn_save_general_service-'+trid).attr("hidden", true);
+                });
+            }else{
+                Swal.fire("Error", "Value out of range[0-50,000]","error");
+                $('#input_general_service-'+trid).val(old_general_service[trid])
+            }
+        })
+    // end of maintenance
     var select_view_volume_by = "gallons";
     $('#select_view_volume_by').on('change',function(){
         select_view_volume_by = $('#select_view_volume_by').val();
@@ -3038,6 +3038,8 @@
                                 }
                             });
                         }
+                        // change output value
+                        $('#device_output-'+response[i]['deviceDetails'].id).text(response[i]['deviceDetails'].latest_log.output)
                         // change the water quality
                         var water_quality ="";
                         var setpoint_pure_EC_target = response[i]['deviceDetails']['setpoints'].pure_EC_target;
