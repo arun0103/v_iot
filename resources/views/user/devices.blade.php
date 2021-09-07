@@ -474,7 +474,7 @@
         });
     })
     var edit_device_id = null;
-    $('.operation-edit_device').on('click', function(){
+    $('#device_lists').on('click','.operation-edit_device', function(){
         var device_id = $(this).closest('tr').attr('id'); // table row ID
         edit_device_id = device_id;
         //alert("check" + device_id)
@@ -588,7 +588,7 @@
         });
     })
 
-    $('.view-device-users').on('click', function(){
+    $('#device_lists').on('click','.view-device-users', function(){
         var device_id = $(this).closest('tr').attr('id'); // table row ID
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -649,7 +649,7 @@
         })
 
     })
-    $('.operation-delete').on('click', function(){
+    $('#device_lists').on('click','.operation-delete', function(){
         Swal.fire({
             title: ' Are you sure to delete?',
             text: "You won't be able to revert this!",
@@ -750,7 +750,7 @@
                     }
 
                 })
-                $('#device_lists').append('<tr id="response.data.id"><td>'+response.data.serial_number +'</td>'
+                $('#device_lists').append('<tr id="'+response.data.id+'"><td>'+response.data.serial_number +'</td>'
                                             +'<td>'+response.data.device_number +'</td>'
                                             +'<td>'+response.data.model =='U'?"DiUSE" :"DiEntry" +'</td>'
                                             +'<td> 0 '+'</td>'
