@@ -767,7 +767,7 @@
                                                     +'<div class="dropdown-divider"></div>'
                                                     +'<a class="dropdown-item view-device-users" id="view_user_devices"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
                                                     +'<div class="dropdown-divider"></div>'
-                                                    +'<a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-{{$device->id}}"><i class="far fa-trash-alt"></i> Delete Device</a>'
+                                                    +'<a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-"'+response.data.deviceDetails.id+'><i class="far fa-trash-alt"></i> Delete Device</a>'
                                                 +'</div>'
                                             +'</td>'
                                         +'</tr>'
