@@ -3082,11 +3082,13 @@
                         //console.log("test Created_at: "+test_created_at);
                         var dd = test_now - test_created_at;
                         //console.log("Difference :"+dd/1000/60);
-                        if(dd < 25*1000) // 25 seconds
+                        if(dd < 25*1000){ // 25 seconds
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected").css("color","green")
-                        else
+                            $('#device-info-'+response[i]['deviceDetails'].id ).css("color","green")
+                        }else{
+                            $('#device-info-'+response[i]['deviceDetails'].id ).css("color","black")
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Disconnected").css("color","red")
-                        $('#last_data_received-'+response[i]['deviceDetails'].id ).text(new Date(response[i]['deviceDetails']['latest_log'].created_at))
+                        }$('#last_data_received-'+response[i]['deviceDetails'].id ).text(new Date(response[i]['deviceDetails']['latest_log'].created_at))
                         // change volume
                         switch(select_view_volume_by){
                             case "gallons":
