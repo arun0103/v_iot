@@ -715,6 +715,7 @@
             data: formData,
         })
         .done(function(response){
+            console.log(response)
             switch(response['message']){
             case 'Error':
                 Swal.fire({
@@ -744,12 +745,10 @@
                     cancelButtonText: 'No'
                 }).then((result) => {
                     if (!result.isConfirmed) {
-                        alert("thank you for adding")
+                        // alert("thank you for adding")
                         $('#modal-add-user-device').modal('hide')
                     }
-                    else{
-                        alert("adding another device")
-                    }
+
                 })
                 $('#device_lists').append('<tr id="response.data.id"><td>'+response.data.deviceDetails.serial_number +'</td>'
                                             +'<td>'+response.data.deviceDetails.device_number +'</td>'
