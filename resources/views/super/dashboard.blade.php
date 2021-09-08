@@ -2986,11 +2986,12 @@
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
                         $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
-                        last_step[i] = response[i]['deviceDetails'].latest_log.step
+
                         //change the status if new data is available
                         if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && +new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time && last_step[i] != response[i]['deviceDetails'].latest_log.step){
                             var status = "";
                             var color = "";
+                            last_step[i] = response[i]['deviceDetails'].latest_log.step
                             if(response[i]['deviceDetails'].latest_log.step == 0 || response[i]['deviceDetails'].latest_log.step == 1 || response[i]['deviceDetails'].latest_log.step == 13){
                                 status = "IDLE";
                                 color = "orange";
@@ -3027,7 +3028,7 @@
                             $('#device_status-'+response[i]['deviceDetails'].id).text(status);   // device info status
                             document.getElementById('device_status-'+response[i]['deviceDetails'].id).style.color = color;
                             document.getElementById('device_status_pic-'+response[i]['deviceDetails'].id).style.color = color;
-                        }else{
+                        }else if(start_stop_command_sent[response[i]['deviceDetails'].id] == true){
                             $('#device-info-'+response[i]['deviceDetails'].id +' .status').text("Pending"); // row status
                             $('#device_status-'+response[i]['deviceDetails'].id).text("Pending");   // device info status
                             document.getElementById('device_status-'+response[i]['deviceDetails'].id).style.color = "black";
