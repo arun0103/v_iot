@@ -3062,6 +3062,18 @@
                         $('#device_mode-'+response[i]['deviceDetails'].id).text(response[i]['deviceDetails'].latest_log.mode)
                         // change output value
                         $('#device_output-'+response[i]['deviceDetails'].id).text(response[i]['deviceDetails'].latest_log.output)
+                        // calculating output
+                        var output = response[i]['deviceDetails'].latest_log.output
+                        var output_binary_string = (output >>> 0).toString(2);
+
+                        for(var i =1; i<10; i++ ){
+                            console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
+                            if(output_binary_string.charAt(16-i)=='1') // 1 = OFF, 0 = ON
+                                $('#btn_relay_'+i+'-'+trid).attr("checked",false).trigger("change");
+                            else
+                                $('#btn_relay_'+i+'-'+trid).attr("checked", true).trigger("change");
+
+                        }
                         // change the water quality
                         var water_quality ="";
                         var setpoint_pure_EC_target = response[i]['deviceDetails']['setpoints'].pure_EC_target;
