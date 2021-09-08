@@ -1136,29 +1136,29 @@
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>1. MIV &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_9-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_9"></span>
+                                                                                                <input type="checkbox" id="btn_relay_1-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_1"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>2. Bypass &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_8-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_8"></span>
+                                                                                                <input type="checkbox" id="btn_relay_2-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_2"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>3. POV  &nbsp;&nbsp;</h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_7-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_7"></span>
+                                                                                                <input type="checkbox" id="btn_relay_3-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_3"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>4. WOV &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_6-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_6"></span>
+                                                                                                <input type="checkbox" id="btn_relay_4-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_4"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
@@ -1171,29 +1171,29 @@
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>6. SHUNT &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_4-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_4"></span>
+                                                                                                <input type="checkbox" id="btn_relay_6-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_6"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>7. POLARITY &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_3-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_3"></span>
+                                                                                                <input type="checkbox" id="btn_relay_7-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_7"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>8. PAE &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_2-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_2"></span>
+                                                                                                <input type="checkbox" id="btn_relay_8-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_8"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>9. BUZZER &nbsp;&nbsp;</h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_1-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_1"></span>
+                                                                                                <input type="checkbox" id="btn_relay_9-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_9"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>
@@ -2518,12 +2518,12 @@
         // calculating output
         var output_binary_string = (output >>> 0).toString(2);
 
-        for(var i =7 ; i<output_binary_string.length; i++){
+        for(var i =1; i<10; i++ ){
             console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
-            if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
-                $('#btn_relay_'+(i-6)+'-'+trid).attr("checked",false).trigger("change");
+            if(output_binary_string.charAt(16-i)=='1') // 1 = OFF, 0 = ON
+                $('#btn_relay_'+i+'-'+trid).attr("checked",false).trigger("change");
             else
-                $('#btn_relay_'+(i-6)+'-'+trid).attr("checked", true).trigger("change");
+                $('#btn_relay_'+i+'-'+trid).attr("checked", true).trigger("change");
 
         }
 
