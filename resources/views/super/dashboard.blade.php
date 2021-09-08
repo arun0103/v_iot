@@ -3041,9 +3041,8 @@
                                 console.log(response_command);
                                 if(response_command.device_read_at != null){
                                     start_stop_command_sent[response_command.device_id] = false;
-                                    command_sent_time = +new Date(response_command.created_at);
+                                    command_sent_time = +new Date(response_command.created_at) +10000;
                                     console.log("Changed Command sent time : "+ command_sent_time)
-                                    $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
                                     switch(response.command){
                                         case "Start":
                                             $('#device-info-'+response.device_id +' .status').text("Starting"); // row status
@@ -3052,6 +3051,7 @@
                                             $('#device-info-'+response.device_id +' .status').text("Stopping"); // row status
                                             break;
                                     }
+                                    $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
                                 }
                             });
                         }
