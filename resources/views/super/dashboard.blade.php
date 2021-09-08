@@ -900,8 +900,8 @@
                                                                                     <!-- /.card-header -->
                                                                                     <div class="card-body">
                                                                                         <div>
-                                                                                            <i id="device_status_pic-{{$device->id}}" class="fas fa fa-certificate blink_me" style="color:green"></i>&nbsp;&nbsp;
-                                                                                            <span style="color:green" id="device_status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</span>
+                                                                                            <i id="device_status_pic-{{$device->id}}" class="fas fa fa-certificate blink_me"></i>&nbsp;&nbsp;
+                                                                                            <span id="device_status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</span>
                                                                                             <i id="info_device_status-{{$device->id}}" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
                                                                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                                                 <a href="#" class="dropdown-item">
@@ -916,7 +916,7 @@
                                                                                         </div>
                                                                                         <div><br>
                                                                                             <span><b>Connection :</b></span>
-                                                                                            <i id="device_mode-{{$device->id}}"></i>
+                                                                                            <i id="device_mode-{{$device->id}}" hidden>{{$device->latest_log != null?$device->latest_log->output:""}}</i>
                                                                                             <i id="device_connection_status-{{$device->id}}" >
                                                                                                 @if($device->latest_log != null)
                                                                                                     @if(Carbon\Carbon::now()->diffInMinutes($device->latest_log->created_at) < 2)
@@ -2528,7 +2528,7 @@
 
         }
 
-        if($('#device_mode-'+trid).text() !="0"){
+        if($('#device_status-'+trid).text() !="IDLE"){
             // disable all the relay commands
             $('#btn_relay_1-'+trid).attr("disabled","true");
             $('#btn_relay_2-'+trid).attr("disabled","true");
@@ -2990,18 +2990,37 @@
                         // console.log(response[i]['deviceDetails']);
 
                         //change the status if new data is available
-                        if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time){
-
+                        if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && +new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time){
                             var status = "";
                             var color = "";
                             if(response[i]['deviceDetails'].latest_log.step == 0 || response[i]['deviceDetails'].latest_log.step == 1 || response[i]['deviceDetails'].latest_log.step == 13){
                                 status = "IDLE";
                                 color = "orange";
+                                //enable all relay commands
+                                $('#btn_relay_1-'+trid).removeAttr("disabled");
+                                $('#btn_relay_2-'+trid).removeAttr("disabled");
+                                $('#btn_relay_3-'+trid).removeAttr("disabled");
+                                $('#btn_relay_4-'+trid).removeAttr("disabled");
+                                $('#btn_relay_5-'+trid).removeAttr("disabled");
+                                $('#btn_relay_6-'+trid).removeAttr("disabled");
+                                $('#btn_relay_7-'+trid).removeAttr("disabled");
+                                $('#btn_relay_8-'+trid).removeAttr("disabled");
+                                $('#btn_relay_9-'+trid).removeAttr("disabled");
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).text("Start");
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeClass('btn-danger').addClass('btn-primary')
                             }else{
                                 status = "RUNNING";
                                 color = "green";
+                                // disable all the relay commands
+                                $('#btn_relay_1-'+trid).attr("disabled","true");
+                                $('#btn_relay_2-'+trid).attr("disabled","true");
+                                $('#btn_relay_3-'+trid).attr("disabled","true");
+                                $('#btn_relay_4-'+trid).attr("disabled","true");
+                                $('#btn_relay_5-'+trid).attr("disabled","true");
+                                $('#btn_relay_6-'+trid).attr("disabled","true");
+                                $('#btn_relay_7-'+trid).attr("disabled","true");
+                                $('#btn_relay_8-'+trid).attr("disabled","true");
+                                $('#btn_relay_9-'+trid).attr("disabled","true");
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).text("Stop");
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeClass('btn-primary').addClass('btn-danger')
                             }
