@@ -3044,7 +3044,7 @@
                                 console.log(response_command);
                                 if(response_command.device_read_at != null){
                                     start_stop_command_sent[response_command.device_id] = false;
-                                    command_sent_time = +new Date(response_command.created_at) +10000;
+                                    command_sent_time = +new Date(response_command.device_read_at);
                                     console.log("Changed Command sent time : "+ command_sent_time)
                                     switch(response.command){
                                         case "Start":
@@ -3055,6 +3055,8 @@
                                             break;
                                     }
                                     $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
+                                }else{
+                                    command_sent_time = +new Date(response_command.created_at +10000);
                                 }
                             });
                         }
