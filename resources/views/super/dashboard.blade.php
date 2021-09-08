@@ -2997,30 +2997,30 @@
                                 status = "IDLE";
                                 color = "orange";
                                 //enable all relay commands
-                                $('#btn_relay_1-'+trid).removeAttr("disabled");
-                                $('#btn_relay_2-'+trid).removeAttr("disabled");
-                                $('#btn_relay_3-'+trid).removeAttr("disabled");
-                                $('#btn_relay_4-'+trid).removeAttr("disabled");
-                                $('#btn_relay_5-'+trid).removeAttr("disabled");
-                                $('#btn_relay_6-'+trid).removeAttr("disabled");
-                                $('#btn_relay_7-'+trid).removeAttr("disabled");
-                                $('#btn_relay_8-'+trid).removeAttr("disabled");
-                                $('#btn_relay_9-'+trid).removeAttr("disabled");
+                                $('#btn_relay_1-'+response[i]['deviceDetails'].id).removeAttr("disabled");
+                                $('#btn_relay_2-'+response[i]['deviceDetails'].id).removeAttr("disabled");
+                                $('#btn_relay_3-'+response[i]['deviceDetails'].id).removeAttr("disabled");
+                                $('#btn_relay_4-'+response[i]['deviceDetails'].id).removeAttr("disabled");
+                                $('#btn_relay_5-'+response[i]['deviceDetails'].id).removeAttr("disabled");
+                                $('#btn_relay_6-'+response[i]['deviceDetails'].id).removeAttr("disabled");
+                                $('#btn_relay_7-'+response[i]['deviceDetails'].id).removeAttr("disabled");
+                                $('#btn_relay_8-'+response[i]['deviceDetails'].id).removeAttr("disabled");
+                                $('#btn_relay_9-'+response[i]['deviceDetails'].id).removeAttr("disabled");
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).text("Start");
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeClass('btn-danger').addClass('btn-primary')
                             }else{
                                 status = "RUNNING";
                                 color = "green";
                                 // disable all the relay commands
-                                $('#btn_relay_1-'+trid).attr("disabled","true");
-                                $('#btn_relay_2-'+trid).attr("disabled","true");
-                                $('#btn_relay_3-'+trid).attr("disabled","true");
-                                $('#btn_relay_4-'+trid).attr("disabled","true");
-                                $('#btn_relay_5-'+trid).attr("disabled","true");
-                                $('#btn_relay_6-'+trid).attr("disabled","true");
-                                $('#btn_relay_7-'+trid).attr("disabled","true");
-                                $('#btn_relay_8-'+trid).attr("disabled","true");
-                                $('#btn_relay_9-'+trid).attr("disabled","true");
+                                $('#btn_relay_1-'+response[i]['deviceDetails'].id).attr("disabled","true");
+                                $('#btn_relay_2-'+response[i]['deviceDetails'].id).attr("disabled","true");
+                                $('#btn_relay_3-'+response[i]['deviceDetails'].id).attr("disabled","true");
+                                $('#btn_relay_4-'+response[i]['deviceDetails'].id).attr("disabled","true");
+                                $('#btn_relay_5-'+response[i]['deviceDetails'].id).attr("disabled","true");
+                                $('#btn_relay_6-'+response[i]['deviceDetails'].id).attr("disabled","true");
+                                $('#btn_relay_7-'+response[i]['deviceDetails'].id).attr("disabled","true");
+                                $('#btn_relay_8-'+response[i]['deviceDetails'].id).attr("disabled","true");
+                                $('#btn_relay_9-'+response[i]['deviceDetails'].id).attr("disabled","true");
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).text("Stop");
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeClass('btn-primary').addClass('btn-danger')
                             }
