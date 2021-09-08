@@ -3069,9 +3069,9 @@
                         for(var i =1; i<10; i++ ){
                             console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
                             if(output_binary_string.charAt(16-i)=='1') // 1 = OFF, 0 = ON
-                                $('#btn_relay_'+i+'-'+trid).attr("checked",false).trigger("change");
+                                $('#btn_relay_'+i+'-'+response[i]['deviceDetails'].id).attr("checked",false).trigger("change");
                             else
-                                $('#btn_relay_'+i+'-'+trid).attr("checked", true).trigger("change");
+                                $('#btn_relay_'+i+'-'+response[i]['deviceDetails'].id).attr("checked", true).trigger("change");
 
                         }
                         // change the water quality
