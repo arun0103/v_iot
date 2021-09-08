@@ -916,6 +916,7 @@
                                                                                         </div>
                                                                                         <div><br>
                                                                                             <span><b>Connection :</b></span>
+                                                                                            <i id="device_mode-{{$device->id}}"></i>
                                                                                             <i id="device_connection_status-{{$device->id}}" >
                                                                                                 @if($device->latest_log != null)
                                                                                                     @if(Carbon\Carbon::now()->diffInMinutes($device->latest_log->created_at) < 2)
@@ -2527,7 +2528,7 @@
 
         }
 
-        if($('#status-'+trid).text() =="RUNNING"){
+        if($('#device_mode-'+trid).text() !="0"){
             // disable all the relay commands
             $('#btn_relay_1-'+trid).attr("disabled","true");
             $('#btn_relay_2-'+trid).attr("disabled","true");
@@ -3038,6 +3039,8 @@
                                 }
                             });
                         }
+                        // change mode
+                        $('#device_mode-'+response[i]['deviceDetails'].id).text(response[i]['deviceDetails'].latest_log.mode)
                         // change output value
                         $('#device_output-'+response[i]['deviceDetails'].id).text(response[i]['deviceDetails'].latest_log.output)
                         // change the water quality
