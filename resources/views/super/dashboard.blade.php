@@ -3066,9 +3066,9 @@
                         var output = response[i]['deviceDetails'].latest_log.output
                         var output_binary_string = (output >>> 0).toString(2);
 
-                        for(var i =1; i<10; i++ ){
+                        for(var index =1; index<10; index++ ){
                             console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
-                            if(output_binary_string.charAt(16-i)=='1') // 1 = OFF, 0 = ON
+                            if(output_binary_string.charAt(16-index)=='1') // 1 = OFF, 0 = ON
                                 $('#btn_relay_'+i+'-'+response[i]['deviceDetails'].id).attr("checked",false).trigger("change");
                             else
                                 $('#btn_relay_'+i+'-'+response[i]['deviceDetails'].id).attr("checked", true).trigger("change");
