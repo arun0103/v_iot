@@ -3052,8 +3052,6 @@
                                             $('#device-info-'+response.device_id +' .status').text("Stopping"); // row status
                                             break;
                                     }
-                                }else{
-                                    command_sent_time = +new Date(response_command.device_read_at);
                                 }
                             });
                         }
