@@ -2980,14 +2980,11 @@
             })
             .done(function(response){
                 console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                console.log(response);
-                console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
-                // console.log("command sent time: "+ command_sent_time)
+                // console.log(response);
+                // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
                         $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
-                        // console.log("Displaying response data");
-                        // console.log(response[i]['deviceDetails']);
 
                         //change the status if new data is available
                         if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && +new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time){
@@ -3044,7 +3041,7 @@
                                 console.log(response_command);
                                 if(response_command.device_read_at != null){
                                     start_stop_command_sent[response_command.device_id] = false;
-                                    command_sent_time = new Date(response_command.created_at);
+                                    command_sent_time = +new Date(response_command.created_at);
                                     console.log("Changed Command sent time : "+ command_sent_time)
                                     $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
                                     switch(response.command){
@@ -3055,6 +3052,8 @@
                                             $('#device-info-'+response.device_id +' .status').text("Stopping"); // row status
                                             break;
                                     }
+                                }else{
+                                    command_sent_time = +new Date(response_command.device_read_at);
                                 }
                             });
                         }
@@ -3067,7 +3066,7 @@
                         var output_binary_string = (output >>> 0).toString(2);
 
                         for(var index =1; index<10; index++ ){
-                            console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
+                            // console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
                             if(output_binary_string.charAt(16-index)=='1') // 1 = OFF, 0 = ON
                                 $('#btn_relay_'+i+'-'+response[i]['deviceDetails'].id).attr("checked",false).trigger("change");
                             else
