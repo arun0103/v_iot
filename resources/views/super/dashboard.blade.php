@@ -2982,13 +2982,12 @@
                 console.log("% % % %  Refreshing Dashboad Data % % % % %")
                 // console.log(response);
                 // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
-                var last_log_date = [];
                 for(var i=0; i<response.length;i++){
                     if(response[i]['deviceDetails'].latest_log != null){
                         $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
 
                         //change the status if new data is available
-                        if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && +new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time && last_log_date[i] != response[i]['deviceDetails'].latest_log.log_dt){
+                        if(start_stop_command_sent[response[i]['deviceDetails'].id] != true && +new Date(response[i]['deviceDetails'].latest_log.created_at) >= command_sent_time){
                             var status = "";
                             var color = "";
                             if(response[i]['deviceDetails'].latest_log.step == 0 || response[i]['deviceDetails'].latest_log.step == 1 || response[i]['deviceDetails'].latest_log.step == 13){
@@ -3041,7 +3040,6 @@
                                 console.log("*************** Response of command ****************");
                                 console.log(response_command);
                                 if(response_command.device_read_at != null){
-                                    last_log_date[i] = response[i]['deviceDetails'].latest_log.log_dt
                                     start_stop_command_sent[response_command.device_id] = false;
                                     command_sent_time = +new Date(response_command.created_at) +10000;
                                     console.log("Changed Command sent time : "+ command_sent_time)
