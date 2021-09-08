@@ -2099,6 +2099,15 @@
                 confirmButtonText: 'Yes, Clear it!'
                 }).then((result) => {
                 if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Clearing alarms!',
+                        html: 'Please Wait!',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                        },
+                    })
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
@@ -2108,15 +2117,7 @@
                         var read_database = true;
                         setInterval(function(){
                             if(read_database){
-                                Swal.fire({
-                                    title: 'Clearing alarms!',
-                                    html: 'Please Wait!',
-                                    allowOutsideClick: false,
-                                    allowEscapeKey: false,
-                                    didOpen: () => {
-                                        Swal.showLoading()
-                                    },
-                                })
+
                                 $.ajax({
                                     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                                     type: "GET",
