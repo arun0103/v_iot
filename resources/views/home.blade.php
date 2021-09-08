@@ -1781,7 +1781,7 @@
                 // alert('Hi')
                 var trid = $(this).closest('section').attr('id'); // table row ID
                 var element = document.getElementById("maintenance_tab-"+trid);
-                element.scrollIntoView()
+                $('#maintenance_tab-'+trid).scrollIntoView()
             })
             var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
             $('.btn_edit_maintenance').on('click',function(){
@@ -2105,6 +2105,15 @@
                         var read_database = true;
                         setInterval(function(){
                             if(read_database){
+                                Swal.fire({
+                                    title: 'Clearing alarms!',
+                                    html: 'Please Wait!',
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                    },
+                                })
                                 $.ajax({
                                     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                                     type: "GET",
@@ -2114,6 +2123,7 @@
                                     console.log(response);
                                     if(response.device_read_at != null){
                                         read_database = false;
+                                        Swal.close();
                                         $('#btn_reset_alarms-'+trid).attr('hidden','true');
                                         Swal.fire({
                                             title: 'Restart Operation?',
