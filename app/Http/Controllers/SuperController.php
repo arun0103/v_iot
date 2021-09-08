@@ -196,6 +196,16 @@ class SuperController extends Controller
         }
         return view('home');
     }
+    public function resellerDevices(){
+        $loggedInUser = Auth::user();
+        if($loggedInUser->role == 'R'){
+            $users = User::where([['reseller_id',$loggedInUser->reseller_id],['role','U']])->get();
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log')->get();
+
+            return view('reseller/devices')->with(['devices'=>$devices])->with(['users'=>$users]);
+        }
+        return view('home');
+    }
     public function create_device(Request $request){
         $loggedInUser = Auth::user();
         $message = null;

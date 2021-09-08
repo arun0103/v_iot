@@ -21,6 +21,14 @@
         .content-header{
             margin-top:55px;
         }
+        .modal-full {
+            min-width: 100%;
+            margin: 0;
+        }
+        .modal-full .modal-content {
+            min-height: 100vh;
+            min-width:100vw;
+        }
         /* h3.card-title{
             margin-top: 8px;
             margin-bottom: -8px;

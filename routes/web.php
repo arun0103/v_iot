@@ -66,6 +66,10 @@ Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showCha
 
 // });
 Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->name('devices')->middleware('auth');
+Route::get('/resellerDevices',[App\Http\Controllers\SuperController::class,'resellerDevices'])->name('resellerDevices')->middleware('auth');
+
+// Resellers
+Route::get('/searchRegisteredDevice',[App\Http\Controllers\ResellerController::class, 'searchRegisteredDevice'])->middleware('auth');
 
 //device
 Route::get('/getMyDevicesSetpoints', [App\Http\Controllers\DeviceController::class, 'getMyDevicesSetpoints'])->middleware('auth');

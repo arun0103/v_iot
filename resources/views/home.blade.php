@@ -1781,7 +1781,7 @@
                 // alert('Hi')
                 var trid = $(this).closest('section').attr('id'); // table row ID
                 var element = document.getElementById("maintenance_tab-"+trid);
-                element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                element.scrollIntoView()
             })
             var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
             $('.btn_edit_maintenance').on('click',function(){

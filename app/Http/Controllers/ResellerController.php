@@ -23,6 +23,10 @@ class ResellerController extends Controller
         }
         return view('super.resellers')->with(['resellers'=>$data]);//->with(['devices'=>$devices]);//->renderSections()['content'];
     }
+    public function searchRegisteredDevice(Request $req){
+        $search = Device::where([['serial_number',$req->serial_number],['device_number',$req->device_number]])->first();
+        return response()->json($search);
+    }
 
     public function addNewReseller(Request $req){
         $loggedInUser = Auth::user();
