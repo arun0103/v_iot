@@ -1136,29 +1136,29 @@
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>1. MIV &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_1-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_1"></span>
+                                                                                                <input type="checkbox" id="btn_relay_9-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_9"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>2. Bypass &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_2-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_2"></span>
+                                                                                                <input type="checkbox" id="btn_relay_8-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_8"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>3. POV  &nbsp;&nbsp;</h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_3-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_3"></span>
+                                                                                                <input type="checkbox" id="btn_relay_7-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_7"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>4. WOV &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_4-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_4"></span>
+                                                                                                <input type="checkbox" id="btn_relay_6-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_6"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
@@ -1171,29 +1171,29 @@
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>6. SHUNT &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_6-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_6"></span>
+                                                                                                <input type="checkbox" id="btn_relay_4-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_4"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>7. POLARITY &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_7-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_7"></span>
+                                                                                                <input type="checkbox" id="btn_relay_3-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_3"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>8. PAE &nbsp;&nbsp; </h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_8-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_8"></span>
+                                                                                                <input type="checkbox" id="btn_relay_2-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_2"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                         <div class="d-inline-flex p-2">
                                                                                             <h4>9. BUZZER &nbsp;&nbsp;</h4>
                                                                                             <label class="switch">
-                                                                                                <input type="checkbox" id="btn_relay_9-{{$device->id}}">
-                                                                                                <span class="slider round btn_relay_9"></span>
+                                                                                                <input type="checkbox" id="btn_relay_1-{{$device->id}}">
+                                                                                                <span class="slider round btn_relay_1"></span>
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>

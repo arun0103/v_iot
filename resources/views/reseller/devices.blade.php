@@ -263,9 +263,15 @@
                                             </div>
                                         </div>
                                         <div class="row roundPadding20">
+                                            <div class="col-sm-4">
+                                                <label for="select_county" class="control-label"> Country</label>
+                                                <select class="form-control" name="select_country" id="select_country">
+
+                                                </select>
+                                            </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="inputUserName" class="control-label">User's Full Name </label>
+                                                    <label for="input_street_address_1" class="control-label">Street address </label>
                                                     <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
                                                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
                                                         <a href="#" class="dropdown-item">
@@ -276,7 +282,7 @@
                                                             </div>
                                                         </a>
                                                     </div>
-                                                    <input type="text" class="form-control" id="inputUserName" placeholder="User's Full Name" name="userName" autocomplete="no">
+                                                    <input type="text" class="form-control" id="input_street_address_1" placeholder="Street address" name="street_address_1" autocomplete="no">
                                                 </div>
                                             </div>
                                         </div>
@@ -418,6 +424,17 @@
     <script type="text/javascript">
     $(document).ready(function () {
         var stepper = new Stepper($('.bs-stepper')[0])
+        //Call restful countries country endpoint
+        $.get('https://restcountries.eu/rest/v2/all',function(countries){
+            console.log(countries)
+            //Loop through returned result and populate countries select
+            $.each(countries.data,function(key,value){
+                $('#select_country')
+                    .append($("<option></option>")
+                        .attr("value", value.name)
+                        .text(value.name));
+            });
+        });
     })
     $('#btn_next_1').on('click', function(e){
         e.preventDefault();
