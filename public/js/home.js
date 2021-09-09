@@ -284,7 +284,7 @@ $('#btn_download_pdf_graph').on('click', function() {
 $('tr a.link_view_users' ).on('click', function() {
     var trid = $(this).closest('tr').attr('id'); // table row ID
     console.log(trid)
-  });
+});
 $('.btn_device_start_stop').on('click', function(){
     var trid = $(this).closest('tr').attr('id'); // table row ID
     switch($('#btn_device_start_stop-'+trid).text()){
@@ -296,7 +296,7 @@ $('.btn_device_start_stop').on('click', function(){
                 url: "/command/stop/"+ trid,
             })
             .done(function(response){
-                console.log(response);
+                //console.log(response);
                 Swal.fire('Success','Command recorded.','success')
                 start_stop_command_sent[trid] = true;
                 $('#device_status-'+trid).text('Pending')
@@ -317,7 +317,7 @@ $('.btn_device_start_stop').on('click', function(){
                 url: "/command/start/"+ trid,
             })
             .done(function(response){
-                console.log(response);
+                //console.log(response);
                 Swal.fire('Success','Command recorded.','success')
                 start_stop_command_sent[trid] = true;
                 $('#device_status-'+trid).text('Pending')

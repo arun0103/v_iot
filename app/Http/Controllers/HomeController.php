@@ -10,6 +10,7 @@ use App\Models\UserDevices;
 
 use Auth;
 use Carbon\Carbon;
+use Session;
 
 class HomeController extends Controller
 {
@@ -108,6 +109,7 @@ class HomeController extends Controller
 
     public function logout(){
         Auth::logout();
+        Session::flush();
         // return response()->json(['message' => 'Logged Out'], 200);
         return redirect()->route('login');
         return view('auth/login');
