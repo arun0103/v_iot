@@ -1912,7 +1912,7 @@
                                         start_stop_command_sent = false;
                                         command_sent_time = new Date(response_command.created_at);
                                         console.log("Changed Command sent time : "+ command_sent_time)
-                                        $('#btn_device_start_stop-'+response_command.device_id).attr('disabled',false).change();
+                                        $('#btn_device_start_stop').attr('disabled',false).change();
                                         switch(response.command){
                                             case "Start":
                                                 $('#device-info'+' .status').text("Starting"); // row status
