@@ -99,7 +99,7 @@ class ResellerController extends Controller
     }
 
     public function addResellerDevice(Request $req){
-        $user = Auth::user();
+        $loggedInUser = Auth::user();
         $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->with('model')->first();
         if($searchDevice == null){ //if the device is not registered in database by Super Admin
             $response =[
@@ -161,7 +161,7 @@ class ResellerController extends Controller
                     ];
                 }
                 // save the reseller id so that it is officially sold by the reseller
-                $searchDevice->reseller_id = $user->id;
+                $searchDevice->reseller_id = $loggedInUser->id;
                 $searchDevice->save();
 
 
