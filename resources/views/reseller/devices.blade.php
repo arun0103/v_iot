@@ -555,7 +555,7 @@
     $('#btn_next_1').on('click', function(e){
         e.preventDefault();
         //validate both inputs are registered
-        if($('#inputSerialNumber').val().length !=0 && $('#inputDeviceNumber').text().length != 0){
+        if($('#inputSerialNumber').val().length !=0 && $('#inputDeviceNumber').text().length() != 0){
             $('#inputSerialNumber').removeClass("error")
             $('#inputDeviceNumber').removeClass("error")
             $.ajax({
