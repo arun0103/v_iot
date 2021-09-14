@@ -2846,7 +2846,7 @@
 
         }
 
-        if($('#status').text() =="RUNNING"){
+        if($('#status-'+device_id).text() =="RUNNING"){
             // disable all the relay commands
             $('#btn_relay_1').attr("disabled","true");
             $('#btn_relay_2').attr("disabled","true");
