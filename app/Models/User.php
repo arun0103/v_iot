@@ -55,6 +55,6 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\UserProfile','user_id');
     }
     public function reseller(){
-        return $this->belongsTo('App\Models\Reseller','reseller_id');
+        return $this->belongsTo('App\Models\Reseller','reseller_id', 'id');
     }
 }

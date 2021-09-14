@@ -48,8 +48,8 @@ class ResellerController extends Controller
 
         if($reseller->save()){
             $user = new User();
-            $user->name = $reseller->company_name;
-            $user->email = $reseller->email;
+            $user->name = $req->company_name;
+            $user->email = $req->email;
             $user->role = 'R' ;
             $user->created_by = $loggedInUser->id ;
             $user->reseller_id = $reseller->id ;
@@ -100,7 +100,7 @@ class ResellerController extends Controller
 
     public function addResellerDevice(Request $req){
         $user = Auth::user();
-        $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->first();
+        $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->with('model')->first();
         if($searchDevice == null){ //if the device is not registered in database by Super Admin
             $response =[
                 'message' => 'Error',
@@ -110,11 +110,40 @@ class ResellerController extends Controller
         }
         if($searchDevice->count() >0){ // if device is registered in database by Super Admin
             if($searchDevice->reseller_id == null){ // if searched device has not been assigned to reseller before
-                $searchDevice->reseller_id = $user->reseller_id;
+                $searchDevice->reseller_id = $user->id;
                 $searchDevice->save();
+                // create new user
+                $newUser = new User();
+                $newUser->name = $req->user_name;
+                $newUser->email = $req->user_email;
+                $newUser->role = "U";
+                $newUser->address = json_encode($req->user_address);
+                $newUser->mobile = $req->user_mobile;
+                $newUser->created_by = $user->id;
+                $newUser->reseller_id = $user->id;
+                // uncomment below five lines
+                    // $random_password = "";
+                    // $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
+                    // for($i = 0; $i < 8 ; $i++){
+                    //     $random_password .= substr($characters, (rand() % (strlen($characters))),1);
+                    // }
+
+                // Delete it in production to generate random
+                $random_password = "123456789";
+                //
+                $newUser->password = Hash::make($random_password);
+                $newUser->save();
+                // associate device to newly created user
+                $userDevice = new UserDevices();
+                $userDevice->user_id = $newUser->id;
+                $userDevice->device_id = $searchDevice->id;
+                $userDevice->save();
                 $response =[
                     'message' => 'Success',
-                    'data'=>$searchDevice
+                    'data'=>[
+                        'device'=>$searchDevice,
+                        'user'=>$newUser
+                    ]
                 ];
 
             }else{

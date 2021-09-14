@@ -15,7 +15,7 @@ class CreateRawDataTable extends Migration
     {
         Schema::create('raw_data', function (Blueprint $table) {
             $table->id();
-            $table->string('serial_number');
+            $table->string('serial_number',9);
             $table->timestamp('log_dt');
             $table->integer('cycle');
             $table->integer('step');

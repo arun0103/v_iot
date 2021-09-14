@@ -21,9 +21,11 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('role',1);
             $table->string('avatar')->nullable();
-            $table->text('location')->nullable();
+            $table->json('address')->nullable();
+            $table->string('mobile')->nullable();
             $table->bigInteger('created_by');
             $table->bigInteger('reseller_id')->nullable();
+            $table->bigInteger('reseller_company_id')->nullable();
             $table->timestamp('last_login')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

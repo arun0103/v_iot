@@ -57,7 +57,7 @@
                                     <tr id="{{$device->id}}" class="device">
                                         <td>{{$device->serial_number}}</td>
                                         <td>{{$device->device_number}}</td>
-                                        <td>{{$device->model == 'U'?'DiUse':($device->model == 'E'?'DiEntry':'Unknown')}}</td>
+                                        <td>{{$device->model->name}}</td>
                                         <td id="count_userDevices-{{$device->id}}">{{count($device->userDevices)}}</td>
                                         <td>
                                             {{$device->latest_log!=null?$device->latest_log->created_at:"-"}}
@@ -106,8 +106,9 @@
                                             <div class="form-group">
                                                 <label for="selectModel" class="control-label">Model</label>
                                                 <select name="model" id="selectModel" class="form-control" title="Select Model">
-                                                    <option value="U">DiUse</option>
-                                                    <option value="E">DiEntry</option>
+                                                    @foreach($models as $model)
+                                                        <option value="{{$model->id}}">{{$model->name}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

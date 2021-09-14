@@ -20,6 +20,11 @@ class Device extends Model
         'created_at','updated_at'
     ];
 
+
+    public function model(){
+        return $this->belongsTo('App\Models\Models','model_id','id');
+    }
+
     public function userDevices(){
         return $this->hasMany(UserDevices::class, 'device_id','id');
     }

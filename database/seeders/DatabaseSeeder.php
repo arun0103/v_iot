@@ -23,5 +23,13 @@ class DatabaseSeeder extends Seeder
             'created_by' => 1,
 
         ]);
+        \DB::table('models')->insert([
+            'name'=>"DiUse",
+            'created_by' => 1
+        ]);
+        \DB::table('models')->insert([
+            'name'=>"DiEntry",
+            'created_by' => 1
+        ]);
     }
 }

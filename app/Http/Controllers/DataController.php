@@ -73,6 +73,55 @@ class DataController extends Controller
         }
         return response()->json($dataToSend);
     }
+    public function refreshStatusData($id){
+        $device = Device::where('id',$id)->with('latest_log','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->first();
+        $today = date(Carbon::now());
+        $thirtyOnedays = date(Carbon::now()->subDays(31));
+        $previousDay = date(Carbon::now()->subDays(1));
+        $volume = [];
+        if($device->latest_log != null){
+            // calculate daily volume
+            $daily_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$previousDay,$today])->get();
+            $daily_logs_count = count($daily_logs);
+            $daily_volume = 0;
+            if($daily_logs_count !=0){
+                $latest_tpv = $daily_logs[$daily_logs_count -1]->tpv;
+                $last_tpv = $daily_logs[0]->tpv;
+                $daily_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+            }
+            $daily_logs =[];
+            //calculate monthly volume
+            $monthly_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$thirtyOnedays,$today])->get();
+            $monthly_logs_count = count($monthly_logs);
+            $monthly_volume = 0;
+            if($monthly_logs_count !=0){
+                $latest_tpv = $monthly_logs[$monthly_logs_count-1]->tpv;
+                $last_tpv = $monthly_logs[0]->tpv;
+                $monthly_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+            }
+            $monthly_logs = [];
+            //calculate total volume
+            $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
+            $total_volume = $last_record->tpv*0.2642007926;
+            if($monthly_volume > $total_volume || $monthly_volume < 0){
+                $monthly_volume = $total_volume;
+            }
+            if($daily_volume >$total_volume || $daily_volume <0){
+                $daily_volume = $total_volume;
+            }
+            $volume = [
+                'daily'=>round($daily_volume,2),
+                'monthly'=>round($monthly_volume,2),
+                'total'=>round($total_volume,2)
+            ];
+            $last_record = null;
+        }
+        $deviceData = [
+            'deviceDetails'=>$device,
+            'deviceVolume'=>$volume
+        ];
+        return response()->json($deviceData);
+    }
     //for user
     public function refreshUserDashboardData(){
         $userDevicesIDs = UserDevices::where('user_id',Auth::user()->id)->pluck('device_id');
@@ -160,11 +209,23 @@ class DataController extends Controller
         }
         return response()->json($dataToSend);
     }
+    public function getDeviceSetpointsForCalculation($device_id){
+
+        $device_setpoints = Device::where('id',$device_id)->with('setpoints')->first();
+        $dataToSend = [
+            'device_id'=>$device_setpoints->id,
+            'volume_unit'=>$device_setpoints->setpoints->volume_unit,
+            'CIP_cycles'=>$device_setpoints->setpoints->CIP_cycles
+        ];
+        return response()->json($dataToSend);
+    }
     public function getDeviceAlarms($device_id){
         $device_serial = Device::where('id',$device_id)->first();
         $allAlarms = RawLogs::where('serial_number',$device_serial->serial_number)
                         ->groupBy(['id','log_dt','alarm'])->orderBy('log_dt','desc')->get(['id','log_dt','alarm']);
+        //return response()->json($allAlarms);
         $dataToSend =[];
+
         $alarm_start_timestamp = $allAlarms[count($allAlarms)-1]->log_dt;
         $alarm_end_timestamp = $alarm_start_timestamp;
         // return response()->json($allAlarms);
@@ -182,6 +243,14 @@ class DataController extends Controller
                 array_push($dataToSend,$data);
                 $alarm_start_timestamp = $alarm_end_timestamp;
             }
+        }
+        if(count($allAlarms) ==1){
+            $data =[
+                'start' =>$alarm_start_timestamp,
+                'end' =>$alarm_end_timestamp,
+                'alarms' =>$allAlarms[0]->alarm
+            ];
+            array_push($dataToSend, $data);
         }
         return response()->json($dataToSend);
     }

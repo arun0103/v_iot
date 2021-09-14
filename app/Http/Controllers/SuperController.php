@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeUser;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Models;
 use App\Models\Reseller;
 use App\Models\Device;
 use App\Models\UserProfile;
@@ -43,7 +44,7 @@ class SuperController extends Controller
             return view('admin/users')->with(['users'=>$all]);
         }
         elseif($loggedInUser->role == 'R'){
-            $resellerUser = User::where('reseller_id', $loggedInUser->reseller_id)->with('reseller')->withCount('userDevices')->get();
+            $resellerUser = User::where([['reseller_id', $loggedInUser->reseller->id],['role','U']])->with('reseller')->withCount('userDevices')->get();
             return view('admin/users')->with(['users'=>$resellerUser]);
         }
         return view('home');
@@ -183,16 +184,18 @@ class SuperController extends Controller
     public function devices(){
         $loggedInUser = Auth::user();
         if($loggedInUser->role == 'S'){
-            $all = Device::with('latest_log')->get();
+            $all = Device::with('latest_log', 'model')->get();
             //dd($all);
             $users = User::all();
-            return view('user/devices')->with(['devices'=>$all])->with(['users'=>$users]);
+            $models = Models::all();
+            return view('user/devices')->with(['devices'=>$all])->with(['users'=>$users])->with(['models'=>$models]);
         }
         elseif($loggedInUser->role == 'R'){
             $users = User::where([['reseller_id',$loggedInUser->reseller_id],['role','U']])->get();
-            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log')->get();
+            $devices = Device::where('reseller_id',$loggedInUser->id)->with('latest_log')->get();
+            $models = Models::all();
 
-            return view('user/devices')->with(['devices'=>$devices])->with(['users'=>$users]);
+            return view('reseller/devices')->with(['devices'=>$devices])->with(['users'=>$users])->with(['models'=>$models]);
         }
         return view('home');
     }
@@ -201,8 +204,9 @@ class SuperController extends Controller
         if($loggedInUser->role == 'R'){
             $users = User::where([['reseller_id',$loggedInUser->reseller_id],['role','U']])->get();
             $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log')->get();
+            $models = Models::all();
 
-            return view('reseller/devices')->with(['devices'=>$devices])->with(['users'=>$users]);
+            return view('reseller/devices')->with(['devices'=>$devices])->with(['users'=>$users])->with(['models'=>$models]);
         }
         return view('home');
     }
@@ -215,9 +219,9 @@ class SuperController extends Controller
                 $device = new Device();
                 $device->serial_number = $request->serial_number ;
                 $device->device_number = $request->device_number ;
-                $device->model = $request->model;
+                $device->model_id = $request->model;
                 $device->firmware = $request->firmware;
-                $device->installation_date= date('Y-m-d',strtotime($request->installation_date));
+                $device->manufactured_date= date('Y-m-d',strtotime($request->installation_date));
                 $device->reseller_id= $request->reseller_id ;
                 $device->created_by = $loggedInUser->id ;
                 $device->save();

@@ -829,7 +829,7 @@
                                     @foreach($devices as $device)
                                         <tr class="table-info device-row" id="device-info-{{$device->id}}" >
                                             <td>{{$device->serial_number}}</td>
-                                            <td>{{$device->model == 'U' ? 'DiUse' : 'DiEntry'}}</td>
+                                            <td>{{$device->model->name}}</td>
                                             <td>{{$device->userDevices->count()}}</td>
                                             <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
                                             <td><span class="ec">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></td>
@@ -943,7 +943,7 @@
                                                                                                 </a>
                                                                                             </div>
                                                                                         </div>
-                                                                                        @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
+                                                                                        <!-- @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
                                                                                             </br>
                                                                                             <div><b>Module Health :</b><i style="color:green; font-weight:bold" id="device_health_status-{{$device->id}}">Good</i>
                                                                                                 <i id="info_device_health-{{$device->id}}" class="fas fa-info-circle float-right info_device_health" data-toggle="dropdown" ></i>
@@ -958,7 +958,7 @@
                                                                                                     </a>
                                                                                                 </div>
                                                                                             </div>
-                                                                                        @endif
+                                                                                        @endif -->
                                                                                     </div>
                                                                                     <!-- /.card-body -->
                                                                                     <div class="card-footer">

@@ -7,6 +7,20 @@
         border: 1px solid red;
     }
 </style>
+<style>
+    /* ---- ---- --- For hiding up down arrow from number inputs --- --- -----  */
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+</style>
 
 @endsection
 
@@ -49,7 +63,7 @@
                                         <th>PCB Serial #</th>
                                         <th>Device Serial #</th>
                                         <th>Model</th>
-                                        <th># Assigned Users</th>
+                                        <th>Firmware</th>
                                         <th>Last Data Received Time</th>
                                         <th>More</th>
                                     </tr>
@@ -59,20 +73,21 @@
                                     <tr id="{{$device->id}}" class="device">
                                         <td>{{$device->serial_number}}</td>
                                         <td>{{$device->device_number}}</td>
-                                        <td>{{$device->model == 'U'?'DiUse':($device->model == 'E'?'DiEntry':'Unknown')}}</td>
-                                        <td id="count_userDevices-{{$device->id}}">{{count($device->userDevices)}}</td>
+                                        <td>{{$device->model->name}}</td>
+                                        <td>{{$device->firmware}}</td>
                                         <td>
                                             {{$device->latest_log!=null?$device->latest_log->created_at:"-"}}
                                         </td>
                                         <td>
                                             <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                <a href="#" class="dropdown-item operation-edit_device">
+                                                <!-- <a href="#" class="dropdown-item operation-edit_device">
                                                     <i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>
-                                                </a>
-                                                <a href="#" class="dropdown-item operation-assign_user">
+                                                </a> -->
+                                                <!-- <a href="#" class="dropdown-item operation-assign_user">
                                                     <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                                </a>
+                                                </a>-->
+                                                <a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Update Firmware</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item view-device-users" id="view_user_devices"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>
                                                 <div class="dropdown-divider"></div>
@@ -156,7 +171,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="modal-title-user_device">Add Device and User</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" id="btn_close_add_device_user" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
                             <div class="bs-stepper">
@@ -223,7 +238,7 @@
                                     </div>
                                     <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
                                         <div class="row roundPadding20">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label for="inputUserName" class="control-label">User's Full Name </label>
                                                     <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
@@ -236,10 +251,10 @@
                                                             </div>
                                                         </a>
                                                     </div>
-                                                    <input type="text" class="form-control" id="inputUserName" placeholder="User's Full Name" name="userName" autocomplete="no">
+                                                    <input type="text" class="form-control" id="inputUserName" placeholder="Full Name" name="userName" autocomplete="no">
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label for="inputUserEmail" class="control-label">User's Email </label>
                                                     <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
@@ -253,7 +268,30 @@
                                                             </div>
                                                         </a>
                                                     </div>
-                                                    <input type="email" class="form-control" id="inputUserEmail" placeholder="User's Email" name="userEmail" autocomplete="no">
+                                                    <input type="email" class="form-control" id="inputUserEmail" placeholder="Email" name="userEmail" autocomplete="no">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <!-- <div class="input-group form-group">
+                                                    <label for="inputUserMobile" class="control-label">User's Mobile # </label><br/>
+                                                    <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                                    </div>
+                                                    <input id="inputMobile" type="tel" class="form-control" data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']" data-mask="" inputmode="number">
+                                                </div> -->
+                                                <div class="form-group">
+                                                    <label for="inputUserMobile" class="control-label">User's Mobile # </label>
+                                                    <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
+                                                        <a href="#" class="dropdown-item">
+                                                            <div class="media">
+                                                                <div class="media-body">
+                                                                    <p class="text-sm"><b><i>Contact number</i></b></p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <input type="number" class="form-control" id="inputUserMobile" placeholder="Mobile Number" name="UserMobile" autocomplete="no">
                                                 </div>
                                             </div>
                                         </div>
@@ -263,11 +301,33 @@
                                             </div>
                                         </div>
                                         <div class="row roundPadding20">
-                                            <div class="col-sm-4">
-                                                <label for="select_county" class="control-label"> Country</label>
-                                                <select class="form-control" name="select_country" id="select_country">
-
+                                            <div class="col-sm-3">
+                                                <label for="select_county" class="control-label"> Country</label><br/>
+                                                <select class="form-control select2" id="select_country" style="width:100%">
+                                                    <option></option>
                                                 </select>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label for="select_state" class="control-label"> State/District</label><br/>
+                                                <select class="form-control select2" id="select_state" style="width:100%">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="input_city" class="control-label">City</label>
+                                                    <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
+                                                        <a href="#" class="dropdown-item">
+                                                            <div class="media">
+                                                                <div class="media-body">
+                                                                    <p class="text-sm"><b><i>The city where user lives in</i></b></p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="input_city" placeholder="City" name="city" autocomplete="no">
+                                                </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
@@ -277,12 +337,44 @@
                                                         <a href="#" class="dropdown-item">
                                                             <div class="media">
                                                                 <div class="media-body">
-                                                                    <p class="text-sm"><b><i>Name of the person who bought the device</i></b></p>
+                                                                    <p class="text-sm"><b><i>Name of the street</i></b></p>
                                                                 </div>
                                                             </div>
                                                         </a>
                                                     </div>
                                                     <input type="text" class="form-control" id="input_street_address_1" placeholder="Street address" name="street_address_1" autocomplete="no">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="input_house_address_1" class="control-label">House address </label>
+                                                    <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
+                                                        <a href="#" class="dropdown-item">
+                                                            <div class="media">
+                                                                <div class="media-body">
+                                                                    <p class="text-sm"><b><i>House number, nearby landmarks</i></b></p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="input_house_address_1" placeholder="House address" name="house_address_1" autocomplete="no">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label for="input_zip_code" class="control-label">Zip Code </label>
+                                                    <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
+                                                        <a href="#" class="dropdown-item">
+                                                            <div class="media">
+                                                                <div class="media-body">
+                                                                    <p class="text-sm"><b><i>Zip Code / Postal Code</i></b></p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="input_zip_code" placeholder="House address" name="zip_code" autocomplete="no">
                                                 </div>
                                             </div>
                                         </div>
@@ -320,8 +412,10 @@
                                             <div class="form-group">
                                                 <label for="edit_selectModel" class="control-label">Model</label>
                                                 <select name="model" id="edit_selectModel" class="form-control" title="Select Model">
-                                                    <option value="U">DiUse</option>
-                                                    <option value="E">DiEntry</option>
+                                                    @foreach($models as $model)
+                                                    <option value="{{$model->id}}">{{$model->name}}</option>
+
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -419,22 +513,44 @@
 
 @section('scripts')
     <script src="{{asset('js/device.js')}}"></script>
+    <script src="{{asset('js/countries.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"> -->
 
-    <script type="text/javascript">
+<script type="text/javascript">
     $(document).ready(function () {
         var stepper = new Stepper($('.bs-stepper')[0])
-        //Call restful countries country endpoint
-        $.get('https://restcountries.eu/rest/v2/all',function(countries){
-            console.log(countries)
-            //Loop through returned result and populate countries select
-            $.each(countries.data,function(key,value){
-                $('#select_country')
-                    .append($("<option></option>")
-                        .attr("value", value.name)
-                        .text(value.name));
-            });
+        $('.select2').select2({
+            placeholder: 'Select an option',
+            dropdownParent: $('#modal-add-user-device'),
+            theme: "classic",
+            width: 'resolve'
         });
+        $(document).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+        // $("#inputMobile").inputmask();
+        //console.log(countries)
+        for(var i =0; i<countries.length; i++)
+            $('#select_country').append('<option id="option_country_'+i+'" value ="'+countries[i].alpha2Code+'">'+countries[i].country+'</option>');
+
+
+    })
+    $('#btn_close_add_device_user').on('click', function(){
+        $('#modal-add-user-device').modal('hide');
+    })
+    $('#select_country').on('change',function(){
+        var id = $(this).children(":selected").attr("value");
+        // id = id.replace("option_country_","")
+        // console.log(id)
+        var found = countries.filter(function(item) { return item.alpha2Code === id; });
+
+        // console.log(found)
+        $('#select_state').find('option').remove().end()
+                .append('<option></option>')
+        for(var i =0;i<found[0]['states'].length;i++)
+            $('#select_state').append('<option value ="'+found[0].states[i]+'">'+found[0].states[i]+'</option>');
+
     })
     $('#btn_next_1').on('click', function(e){
         e.preventDefault();
@@ -548,7 +664,7 @@
         })
         .done(function(response){
             console.log(response)
-            $('#edit_selectModel').val(response.model).trigger('change');
+            $('#edit_selectModel').val(response.model_id).trigger('change');
             $('#inputSN_edit').val(response.serial_number);
             $('#inputDN_edit').val(response.device_number);
             $('#inputFirmwareVersion_edit').val(response.firmware);
@@ -564,11 +680,11 @@
                     type: "PATCH",
                     url: "/saveEditedDevice/" + edit_device_id,
                     data: {
-                        "model": $('#edit_selectModel').val(),
+                        "model_id": $('#edit_selectModel').val(),
                         "serial_number":$('#inputSN_edit').val(),
                         "device_number":$('#inputDN_edit').val(),
                         "firmware":$('#inputFirmwareVersion_edit').val(),
-                        "installation_date":$('#inputManufacturedDate_edit').val(),
+                        "manufactured_date":$('#inputManufacturedDate_edit').val(),
                     },
                 })
                 .done(function(response){
@@ -715,7 +831,7 @@
     $('#device_lists').on('click','.operation-delete', function(){
         Swal.fire({
             title: ' Are you sure to delete?',
-            text: "You won't be able to revert this!",
+            text: "Users associated with this device will not be able to access the device!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -766,9 +882,21 @@
     $('#btn_confirm_add_reseller_device').on('click', function(e){
         e.preventDefault();
         var formData = {
+            // Device Info
             'serial_number': $('#inputSerialNumber').val(),
             'device_number': $('#inputDeviceNumber').val(),
-            'device_name': $('#inputDeviceName').val()
+            //User Info
+            'user_name': $('#inputUserName').val(),
+            'user_email': $('#inputUserEmail').val(),
+            'user_mobile': $('#inputUserMobile').val(),
+            'user_address': {
+                                'country': $('#select_country').val(),
+                                'state': $('#select_state').val(),
+                                'city': $('#input_city').val(),
+                                'street_address': $('#input_street_address_1').val(),
+                                'house_address': $('#input_house_address_1').val(),
+                                'zip_code': $('#input_zip_code').val()
+                            }
         }
         console.log(formData)
         $.ajax({
@@ -816,18 +944,19 @@
                 $('#device_lists .odd').remove();
                 $('#device_lists').append('<tr id="'+response.data.id+'"><td>'+response.data.serial_number +'</td>'
                                             +'<td>'+response.data.device_number +'</td>'
-                                            +'<td>'+response.data.model =='U'?"DiUSE" :"DiEntry" +'</td>'
+                                            +'<td>'+response.data.model.name +'</td>'
                                             +'<td> 0 '+'</td>'
                                             +'<td> -'+'</td>'
                                             +'<td>'
                                                 +'<a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
                                                 +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-                                                    +'<a href="#" class="dropdown-item operation-edit_device">'
-                                                        +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
-                                                    +'</a>'
-                                                    +'<a href="#" class="dropdown-item operation-assign_user">'
-                                                        +'<i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>'
-                                                    +'</a>'
+                                                    //  +'<a href="#" class="dropdown-item operation-edit_device">'
+                                                    //     +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
+                                                    // +'</a>'
+                                                    // +'<a href="#" class="dropdown-item operation-assign_user">'
+                                                    //     +'<i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>'
+                                                    // +'</a>'
+                                                    +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Update Firmware</a>'
                                                     +'<div class="dropdown-divider"></div>'
                                                     +'<a class="dropdown-item view-device-users" id="view_user_devices"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
                                                     +'<div class="dropdown-divider"></div>'

@@ -34,10 +34,10 @@ class DeviceController extends Controller
     }
     public function saveEditedDevice($device_id, Request $req){
         $device = Device::where('id',$device_id)->first();
-        $device->model = $req->model;
+        $device->model_id = $req->model_id;
         $device->serial_number = $req->serial_number;
         $device->device_number = $req->device_number;
-        $device->installation_date = $req->installation_date;
+        $device->manufactured_date = $req->manufactured_date;
         $device->firmware = $req->firmware;
         $device->save();
         return response()->json($device);
@@ -66,6 +66,9 @@ class DeviceController extends Controller
                 break;
             case 'R':
                 $device = Device::where('id', $id)->first();
+                $associatedUsers = UserDevices::where('device_id',$device->id)->get();
+                foreach($associatedUsers as $user)
+                    $user->delete();
                 $device->reseller_id = null;
                 $device->save();
                 $data = [

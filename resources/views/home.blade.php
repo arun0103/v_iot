@@ -1053,18 +1053,20 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                    <span>This is your dashboard. You can view your device(s) information once you add them. </br>
-                                            So lets begin by adding some devices by clicking on Add New Device</span></br>
+                                    <span>This is your dashboard. </br>
+                                           Your access to the device have been revoked by the reseller <br/>
+                                           Please contact your reseller
+                                        </span></br>
                                     </div>
                                     <!-- /.card-body -->
-                                    <div class="card-footer">
+                                    <!-- <div class="card-footer">
                                         @if(Auth::user()->role == 'U')
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new-device">Add New Device</button>
                                         @endif
                                         @if(Auth::user()->role == 'R')
                                         <a href="{{route('devices')}}"><button class="btn btn-primary">Add New Device</button></a>
                                         @endif
-                                    </div>
+                                    </div> -->
                                     <!-- /.card-footer-->
                                 </div>
                             </div>

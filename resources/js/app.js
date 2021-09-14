@@ -14,6 +14,8 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 import 'jquery-ui/ui/widgets/datepicker.js';
 import 'datatables.net/js/jquery.dataTables.js';
+//var Inputmask = require('inputmask');
+//import Inputmask from "inputmask";
 
 var dt = require( 'datatables.net' );
 require('select2');
