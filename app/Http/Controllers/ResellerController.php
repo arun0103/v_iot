@@ -140,23 +140,31 @@ class ResellerController extends Controller
                     $userDevice->user_id = $newUser->id;
                     $userDevice->device_id = $searchDevice->id;
                     $userDevice->save();
+                    $response =[
+                        'message' => 'Success',
+                        'data'=>[
+                            'device'=>$searchDevice,
+                            'user'=>$newUser
+                        ]
+                    ];
                 }else{
                     $userDevice = new UserDevices();
                     $userDevice->user_id = $user->id;
                     $userDevice->device_id = $searchDevice->id;
                     $userDevice->save();
+                    $response =[
+                        'message' => 'Success',
+                        'data'=>[
+                            'device'=>$searchDevice,
+                            'user'=>$user
+                        ]
+                    ];
                 }
                 // save the reseller id so that it is officially sold by the reseller
                 $searchDevice->reseller_id = $user->id;
                 $searchDevice->save();
 
-                $response =[
-                    'message' => 'Success',
-                    'data'=>[
-                        'device'=>$searchDevice,
-                        'user'=>$newUser
-                    ]
-                ];
+
 
             }else{
                 $response =[
