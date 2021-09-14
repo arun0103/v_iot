@@ -2250,45 +2250,43 @@
     })
     // controls
         $('.btn_flush_module').on('click', function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "POST",
-                url: "/flush_module/"+ trid,
+                url: "/flush_module/"+ device_id,
             })
             .done(function(response){
                 Swal.fire('Success','Command recorded.','success')
                 var date = new Date(response.created_at)
-                $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
             });
         })
         //relays
         $('.btn_relay_1').on('click', function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            if(!$('#btn_relay_1-'+trid).is('[disabled=disabled]')){
-                if($('#btn_relay_1-'+trid).is(":checked")){
+            if(!$('#btn_relay_1').is('[disabled=disabled]')){
+                if($('#btn_relay_1').is(":checked")){
                 // turning relay off
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_1_off/"+ trid,
+                        url: "/turn_relay_1_off/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }else{
                     // turning relay on
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_1_on/"+ trid,
+                        url: "/turn_relay_1_on/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }
             }else{
@@ -2296,31 +2294,30 @@
             }
         })
         $('.btn_relay_2').on('click', function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            if(!$('#btn_relay_2-'+trid).is('[disabled=disabled]')){
-                if($('#btn_relay_2-'+trid).is(":checked")){
+            if(!$('#btn_relay_2').is('[disabled=disabled]')){
+                if($('#btn_relay_2').is(":checked")){
                 // turning relay off
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_2_off/"+ trid,
+                        url: "/turn_relay_2_off/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }else{
                     // turning relay on
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_2_on/"+ trid,
+                        url: "/turn_relay_2_on/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }
             }else{
@@ -2328,31 +2325,30 @@
             }
         })
         $('.btn_relay_3').on('click', function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            if(!$('#btn_relay_3-'+trid).is('[disabled=disabled]')){
-                if($('#btn_relay_3-'+trid).is(":checked")){
+            if(!$('#btn_relay_3').is('[disabled=disabled]')){
+                if($('#btn_relay_3').is(":checked")){
                 // turning relay off
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_3_off/"+ trid,
+                        url: "/turn_relay_3_off/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }else{
                     // turning relay on
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_3_on/"+ trid,
+                        url: "/turn_relay_3_on/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }
             }else{
@@ -2360,31 +2356,30 @@
             }
         })
         $('.btn_relay_4').on('click', function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            if(!$('#btn_relay_4-'+trid).is('[disabled=disabled]')){
-                if($('#btn_relay_4-'+trid).is(":checked")){
+            if(!$('#btn_relay_4').is('[disabled=disabled]')){
+                if($('#btn_relay_4').is(":checked")){
                 // turning relay off
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_4_off/"+ trid,
+                        url: "/turn_relay_4_off/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }else{
                     // turning relay on
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_4_on/"+ trid,
+                        url: "/turn_relay_4_on/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }
             }else{
@@ -2392,31 +2387,30 @@
             }
         })
         $('.btn_relay_5').on('click', function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            if(!$('#btn_relay_5-'+trid).is('[disabled=disabled]')){
-                if($('#btn_relay_5-'+trid).is(":checked")){
+            if(!$('#btn_relay_5').is('[disabled=disabled]')){
+                if($('#btn_relay_5').is(":checked")){
                 // turning relay off
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_5_off/"+ trid,
+                        url: "/turn_relay_5_off/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }else{
                     // turning relay on
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_5_on/"+ trid,
+                        url: "/turn_relay_5_on/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }
             }else{
@@ -2424,31 +2418,30 @@
             }
         })
         $('.btn_relay_6').on('click', function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            if(!$('#btn_relay_6-'+trid).is('[disabled=disabled]')){
-                if($('#btn_relay_6-'+trid).is(":checked")){
+            if(!$('#btn_relay_6').is('[disabled=disabled]')){
+                if($('#btn_relay_6').is(":checked")){
                 // turning relay off
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_6_off/"+ trid,
+                        url: "/turn_relay_6_off/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }else{
                     // turning relay on
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_6_on/"+ trid,
+                        url: "/turn_relay_6_on/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }
             }else{
@@ -2456,31 +2449,30 @@
             }
         })
         $('.btn_relay_7').on('click', function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            if(!$('#btn_relay_7-'+trid).is('[disabled=disabled]')){
-                if($('#btn_relay_7-'+trid).is(":checked")){
+            if(!$('#btn_relay_7').is('[disabled=disabled]')){
+                if($('#btn_relay_7').is(":checked")){
                 // turning relay off
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_7_off/"+ trid,
+                        url: "/turn_relay_7_off/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }else{
                     // turning relay on
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_7_on/"+ trid,
+                        url: "/turn_relay_7_on/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }
             }else{
@@ -2488,31 +2480,30 @@
             }
         })
         $('.btn_relay_8').on('click', function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            if(!$('#btn_relay_8-'+trid).is('[disabled=disabled]')){
-                if($('#btn_relay_8-'+trid).is(":checked")){
+            if(!$('#btn_relay_8').is('[disabled=disabled]')){
+                if($('#btn_relay_8').is(":checked")){
                 // turning relay off
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_8_off/"+ trid,
+                        url: "/turn_relay_8_off/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }else{
                     // turning relay on
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_8_on/"+ trid,
+                        url: "/turn_relay_8_on/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }
             }else{
@@ -2520,31 +2511,30 @@
             }
         })
         $('.btn_relay_9').on('click', function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            if(!$('#btn_relay_9-'+trid).is('[disabled=disabled]')){
-                if($('#btn_relay_9-'+trid).is(":checked")){
+            if(!$('#btn_relay_9').is('[disabled=disabled]')){
+                if($('#btn_relay_9').is(":checked")){
                 // turning relay off
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_9_off/"+ trid,
+                        url: "/turn_relay_9_off/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }else{
                     // turning relay on
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/turn_relay_9_on/"+ trid,
+                        url: "/turn_relay_9_on/"+ device_id,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')
                         var date = new Date(response.created_at)
-                        $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                        $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                 }
             }else{
