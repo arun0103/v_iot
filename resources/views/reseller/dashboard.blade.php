@@ -989,9 +989,9 @@
                                 <div class="card">
                                     <h5 class="card-header">
                                         <div class="card-tools">
-                                            <button type="button" class="btn btn-info btn_edit_setpoints" hidden>Edit</button>
-                                            <button type="button" class="btn btn-danger btn_save_setpoints" hidden>Save</button>
-                                            <button type="button" class="btn btn-light btn_cancel_setpoints" hidden>Cancel</button>
+                                            <button type="button" class="btn btn-info" id="btn_edit_setpoints" hidden>Edit</button>
+                                            <button type="button" class="btn btn-danger" id="btn_save_setpoints" hidden>Save</button>
+                                            <button type="button" class="btn btn-light" id="btn_cancel_setpoints" hidden>Cancel</button>
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#">
                                                 <i class="fas fa-minus"></i>
                                             </button>
@@ -2553,9 +2553,9 @@
         $('#tab_live_data').hide();
         $('#tab_avg_data').show();
         $('#btn_refresh_live_data').attr('hidden', true);
-        $('#btn_edit_setpoint').attr('hidden',true);
-        $('#btn_save_setpoint').attr('hidden',true)
-        $('#btn_cancel_setpoint').attr('hidden',true)
+        $('#btn_edit_setpoints').attr('hidden',true);
+        $('#btn_save_setpoints').attr('hidden',true)
+        $('#btn_cancel_setpoints').attr('hidden',true)
 
     })
     $('.nav_link-live_data').on('click', function(){
@@ -2565,9 +2565,9 @@
         $('#tab_avg_data').hide();
         $('#tab_live_data').attr('hidden',false);
         $('#tab_live_data').show();
-        $('#btn_edit_setpoint').attr('hidden',true);
-        $('#btn_save_setpoint').attr('hidden',true)
-        $('#btn_cancel_setpoint').attr('hidden',true)
+        $('#btn_edit_setpoints').attr('hidden',true);
+        $('#btn_save_setpoints').attr('hidden',true)
+        $('#btn_cancel_setpoints').attr('hidden',true)
         var now = new Date();
         $('#live_start_time').text(now);
         // collect live data and display
@@ -2829,9 +2829,9 @@
         $('#tab_live_data').hide();
         $('#tab_control').attr('hidden',false);
         $('#tab_control').show();
-        $('#btn_edit_setpoint').attr('hidden',true);
-        $('#btn_save_setpoint').attr('hidden',true)
-        $('#btn_cancel_setpoint').attr('hidden',true)
+        $('#btn_edit_setpoints').attr('hidden',true);
+        $('#btn_save_setpoints').attr('hidden',true)
+        $('#btn_cancel_setpoints').attr('hidden',true)
         // check the relays status and device step
         var output = $('#device_output').text();
         // calculating output
@@ -2904,7 +2904,7 @@
         $('#tab_control').hide();
         $('#tab_setpoints').attr('hidden',false);
         // $('#tab_setpoints_'+trid).show();
-        $('#btn_edit_setpoint').attr('hidden',false);
+        $('#btn_edit_setpoints').attr('hidden',false);
         $('.input-setpoints').attr('disabled',true);
 
         // get the list of setpoints from the database
@@ -3021,16 +3021,16 @@
         // Request server for recent logs
     })
 
-    $('.btn_edit_setpoints').on('click', function(){
-        $('#btn_edit_setpoint').attr('hidden',true)
-        $('#btn_save_setpoint').attr('hidden',false)
-        $('#btn_cancel_setpoint').attr('hidden',false)
+    $('#btn_edit_setpoints').on('click', function(){
+        $('#btn_edit_setpoints').attr('hidden',true)
+        $('#btn_save_setpoints').attr('hidden',false)
+        $('#btn_cancel_setpoints').attr('hidden',false)
         $('.input-setpoints').attr('disabled',false);
     })
-    $('.btn_save_setpoints').on('click', function(){
-        $('#btn_edit_setpoint').attr('hidden',false)
-        $('#btn_save_setpoint').attr('hidden',true)
-        $('#btn_cancel_setpoint').attr('hidden',true)
+    $('#btn_save_setpoints').on('click', function(){
+        $('#btn_edit_setpoints').attr('hidden',false)
+        $('#btn_save_setpoints').attr('hidden',true)
+        $('#btn_cancel_setpoints').attr('hidden',true)
         $('.input-setpoints').attr('disabled',true);
 
         console.log(" ' ' ' ' ' ' ' ' ' ' ' ' '' ");
@@ -3088,10 +3088,10 @@
         });
 
     })
-    $('.btn_cancel_setpoints').on('click', function(){
-        $('#btn_edit_setpoint').attr('hidden',false)
-        $('#btn_save_setpoint').attr('hidden',true)
-        $('#btn_cancel_setpoint').attr('hidden',true)
+    $('#btn_cancel_setpoints').on('click', function(){
+        $('#btn_edit_setpoints').attr('hidden',false)
+        $('#btn_save_setpoints').attr('hidden',true)
+        $('#btn_cancel_setpoints').attr('hidden',true)
         $('.input-setpoints').attr('disabled',true);
 
         // put old values in the input fields
