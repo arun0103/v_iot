@@ -110,10 +110,9 @@ class ResellerController extends Controller
         }
         if($searchDevice->count() >0){ // if device is registered in database by Super Admin
             if($searchDevice->reseller_id == null){ // if searched device has not been assigned to reseller before
-                $searchDevice->reseller_id = $user->id;
-                $searchDevice->save();
+
                 //search user
-                $user = User::where('email',$req->email)->first();
+                $user = User::where('email',$req->user_email)->first();
                 if($user->count() < 0){
                     // create new user
                     $newUser = new User();
@@ -147,7 +146,9 @@ class ResellerController extends Controller
                     $userDevice->device_id = $searchDevice->id;
                     $userDevice->save();
                 }
-
+                // save the reseller id so that it is officially sold by the reseller
+                $searchDevice->reseller_id = $user->id;
+                $searchDevice->save();
 
                 $response =[
                     'message' => 'Success',
