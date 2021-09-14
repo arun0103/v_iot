@@ -226,7 +226,7 @@
                                                             </div>
                                                         </a>
                                                     </div>
-                                                    <input type="number" min="1" class="form-control" id="inputDeviceNumber" placeholder="Device Number" name="deviceNumber" autocomplete="no">
+                                                    <input type="text" min="1" class="form-control" id="inputDeviceNumber" placeholder="Device Number" name="deviceNumber" autocomplete="no">
                                                 </div>
                                             </div>
                                         </div>
