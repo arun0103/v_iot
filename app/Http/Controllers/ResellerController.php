@@ -112,32 +112,43 @@ class ResellerController extends Controller
             if($searchDevice->reseller_id == null){ // if searched device has not been assigned to reseller before
                 $searchDevice->reseller_id = $user->id;
                 $searchDevice->save();
-                // create new user
-                $newUser = new User();
-                $newUser->name = $req->user_name;
-                $newUser->email = $req->user_email;
-                $newUser->role = "U";
-                $newUser->address = json_encode($req->user_address);
-                $newUser->mobile = $req->user_mobile;
-                $newUser->created_by = $user->id;
-                $newUser->reseller_id = $user->id;
-                // uncomment below five lines
-                    // $random_password = "";
-                    // $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
-                    // for($i = 0; $i < 8 ; $i++){
-                    //     $random_password .= substr($characters, (rand() % (strlen($characters))),1);
-                    // }
+                //search user
+                $user = User::where('email',$req->email)->first();
+                if($user->count() < 0){
+                    // create new user
+                    $newUser = new User();
+                    $newUser->name = $req->user_name;
+                    $newUser->email = $req->user_email;
+                    $newUser->role = "U";
+                    $newUser->address = json_encode($req->user_address);
+                    $newUser->mobile = $req->user_mobile;
+                    $newUser->created_by = $user->id;
+                    $newUser->reseller_id = $user->id;
+                    // uncomment below five lines
+                        // $random_password = "";
+                        // $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
+                        // for($i = 0; $i < 8 ; $i++){
+                        //     $random_password .= substr($characters, (rand() % (strlen($characters))),1);
+                        // }
 
-                // Delete it in production to generate random
-                $random_password = "123456789";
-                //
-                $newUser->password = Hash::make($random_password);
-                $newUser->save();
-                // associate device to newly created user
-                $userDevice = new UserDevices();
-                $userDevice->user_id = $newUser->id;
-                $userDevice->device_id = $searchDevice->id;
-                $userDevice->save();
+                    // Delete it in production to generate random
+                    $random_password = "123456789";
+                    //
+                    $newUser->password = Hash::make($random_password);
+                    $newUser->save();
+                    // associate device to newly created user
+                    $userDevice = new UserDevices();
+                    $userDevice->user_id = $newUser->id;
+                    $userDevice->device_id = $searchDevice->id;
+                    $userDevice->save();
+                }else{
+                    $userDevice = new UserDevices();
+                    $userDevice->user_id = $user->id;
+                    $userDevice->device_id = $searchDevice->id;
+                    $userDevice->save();
+                }
+
+
                 $response =[
                     'message' => 'Success',
                     'data'=>[
