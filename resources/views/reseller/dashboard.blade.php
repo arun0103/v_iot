@@ -2587,7 +2587,7 @@
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
-            url: "/getUserDevicesSetpointsForCalculation",
+            url: "/getDeviceSetpointsForCalculation/"+device_id,
         })
         .done(function(response){
             console.log(response);
