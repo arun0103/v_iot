@@ -127,7 +127,7 @@ class ResellerController extends Controller
                     $newUser->address = json_encode($req->user_address);
                     $newUser->mobile = $req->user_mobile;
                     $newUser->created_by = $loggedInUser->id;
-                    $newUser->reseller_id = $loggedInUser->id;
+                    $newUser->reseller_id = $loggedInUser->reseller_id;
                     // uncomment below five lines
                         // $random_password = "";
                         // $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
