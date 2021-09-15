@@ -2254,16 +2254,16 @@
         // collect live data and display
         //its doing in every 5 sec when the document is ready
         var device_data_created_at = null;
-        var userDevices = [];
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "GET",
-            url: "/getUserDevicesSetpointsForCalculation",
-        })
-        .done(function(response){
-            // console.log(response);
-            userDevices = response;
-        });
+        // var userDevices = [];
+        // $.ajax({
+        //     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+        //     type: "GET",
+        //     url: "/getUserDevicesSetpointsForCalculation",
+        // })
+        // .done(function(response){
+        //     // console.log(response);
+        //     userDevices = response;
+        // });
         setInterval(function(){
             if(view_live_device != null){
                 $.ajax({
@@ -2402,7 +2402,7 @@
                         }
                         // calculate cycles left
                         var device_setpoint_CIP_cycles = userDevices.find(device_id =>device_id = view_live_device).CIP_cycles;
-                        console.log("CIP CYCLES setpoint: "+ device_setpoint_CIP_Cycles)
+                        //console.log("CIP CYCLES setpoint: "+ device_setpoint_CIP_Cycles)
                         var cycles_left = device_setpoint_CIP_cycles - response.cycle;
                         if(cycles_left < 0)
                             cycles_left = 0;
@@ -2902,7 +2902,6 @@
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
             url: "/deviceDetail/"+ device_trid,
-
         })
         .done(function(response){
             console.log("Device Detail response of id: "+response.id)
@@ -2970,6 +2969,16 @@
     var command_sent_time = null;
 
     $(document).ready(function () {
+        var userDevices =[];
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getUserDevicesSetpointsForCalculation",
+        })
+        .done(function(response){
+            // console.log(response);
+            userDevices = response;
+        });
         // check status
 
         $('.loader').hide();
