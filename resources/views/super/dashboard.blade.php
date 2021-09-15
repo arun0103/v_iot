@@ -2254,16 +2254,16 @@
         // collect live data and display
         //its doing in every 5 sec when the document is ready
         var device_data_created_at = null;
-        // var userDevices = [];
-        // $.ajax({
-        //     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-        //     type: "GET",
-        //     url: "/getUserDevicesSetpointsForCalculation",
-        // })
-        // .done(function(response){
-        //     // console.log(response);
-        //     userDevices = response;
-        // });
+        var userDevices = [];
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getUserDevicesSetpointsForCalculation",
+        })
+        .done(function(response){
+            console.log(response);
+            userDevices = response;
+        });
         setInterval(function(){
             if(view_live_device != null){
                 $.ajax({
