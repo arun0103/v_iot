@@ -58,6 +58,7 @@ Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showCha
     Route::delete('/deleteReseller',[App\Http\Controllers\ResellerController::class, 'delete'])->middleware('auth');
     Route::get('/resellerDevices/{id}',[App\Http\Controllers\ResellerController::class, 'getResellerDevices'])->middleware('auth');
     Route::post('/addResellerDevice',[App\Http\Controllers\ResellerController::class, 'addResellerDevice'])->middleware('auth');
+    Route::get('/getAllResellersUser',[App\Http\Controllers\ResellerController::class, 'getAllResellersUser'])->middleware('auth');
 
 
     Route::post('/addNewDevice',[App\Http\Controllers\SuperController::class,'create_device'])->middleware('auth');

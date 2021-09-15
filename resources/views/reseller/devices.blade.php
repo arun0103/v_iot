@@ -237,7 +237,17 @@
                                         </div>
                                     </div>
                                     <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <h3>Existing Users</h3>
+                                                <select class="select2 form-control" id="select_existing_user" style="width:100%">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <br>
                                         <div class="row roundPadding20">
+                                            <div class="col-lg-12"><h3>New User</h3></div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label for="inputUserName" class="control-label">User's Full Name </label>
@@ -313,6 +323,7 @@
                                                     <option></option>
                                                 </select>
                                             </div>
+
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="input_city" class="control-label">City</label>
@@ -518,6 +529,7 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"> -->
 
 <script type="text/javascript">
+    let list_of_users;
     $(document).ready(function () {
         var stepper = new Stepper($('.bs-stepper')[0])
         $('.select2').select2({
@@ -530,9 +542,9 @@
             document.querySelector('.select2-search__field').focus();
         });
         // $("#inputMobile").inputmask();
-        //console.log(countries)
+        console.log(countries)
         for(var i =0; i<countries.length; i++)
-            $('#select_country').append('<option id="option_country_'+i+'" value ="'+countries[i].alpha2Code+'">'+countries[i].country+'</option>');
+            $('#select_country').append('<option id="option_country_'+i+'" value ="'+countries[i].country+'">'+countries[i].country+'</option>');
 
 
     })
@@ -543,7 +555,7 @@
         var id = $(this).children(":selected").attr("value");
         // id = id.replace("option_country_","")
         // console.log(id)
-        var found = countries.filter(function(item) { return item.alpha2Code === id; });
+        var found = countries.filter(function(item) { return item.country === id; });
 
         // console.log(found)
         $('#select_state').find('option').remove().end()
@@ -573,6 +585,17 @@
                     if(response.reseller_id != null){
                         Swal.fire("Error", "Device already registered to reseller!","error");
                     }else{
+                        //get all the users of reseller from database
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "GET",
+                            url: "/getAllResellersUser",
+                        })
+                        .done(function(response){
+                            list_of_users = response
+                            for(let i=0;i<response.length;i++)
+                                $('#select_existing_user').append('<option value ="'+response[i].id+'">'+response[i].name+' ('+response[i].email+')</option>');
+                        })
                         var stepper = new Stepper(document.querySelector('.bs-stepper'));
                         stepper.next();
                     }
@@ -590,68 +613,7 @@
             }
         }
     })
-    $('#btn_confirm_add_new_device').on('click', function(e){
-        e.preventDefault();
-        var formData = {
-            'model':$('#selectModel').val(),
-            'serial_number':$('#inputSN').val(),
-            'device_number':$('#inputDN').val(),
-            'manufactured_date':$('#inputManufacturedDate').val(),
-            'firmware':$('#inputFirmwareVersion').val(),
-            'reseller_id':$('#select_user_id').val(),
-        }
-        $.ajax({
-            method: "post",
-            url: "/addNewDevice",
-            data: formData,
-            })
-            .done(function( response ) {
-                console.log(response.data)
-                switch(response['message']){
-                    case 'Error':
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text:  response.description,
-                            //footer: '<a href="../login">Login as Adminstrator?</a>'
-                        });
-                        break;
-                    case 'Success':
-                        console.log(response);
-                        var model_name = response.data.model == 'U'? 'DiUse': 'DiEntry';
-                        $('tbody').prepend('<tr id="'+response.data.id+'" class="device"><td>'+response.data.serial_number + '</td><td>'
-                            + response.data.device_number + '</td><td>'+ model_name +
-                            '</td><td>0</td>'+
-                            '<td>-</td>'
-                            +'<td><a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
-                                            +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-                                                +'<a href="#" class="dropdown-item operation-assign_user">'
-                                                    +'<i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>'
-                                                +'</a>'
-                                                +'<div class="dropdown-divider"></div>'
-                                                +'<a href="#" class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
-                                                +'<div class="dropdown-divider"></div>'
-                                                +'<a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-'+response['data'].id+'"><i class="far fa-trash-alt"></i> Delete Device</a>'
-                                            +'</div></td></tr>')
 
-                        Swal.fire(
-                            'Added!',
-                            'Device has been added',
-                            'success'
-                        );
-                        break;
-                    default:
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!' + response.description,
-                            footer: response
-                        })
-
-                }
-                console.log( response );
-        });
-    })
     var edit_device_id = null;
     $('#device_lists').on('click','.operation-edit_device', function(){
         var device_id = $(this).closest('tr').attr('id'); // table row ID
@@ -673,34 +635,7 @@
         })
 
     })
-    $('#btn_confirm_save_edit_device').on('click',function(){
-        if(validateEditDevice()){
-            $.ajax({
-                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                    type: "PATCH",
-                    url: "/saveEditedDevice/" + edit_device_id,
-                    data: {
-                        "model_id": $('#edit_selectModel').val(),
-                        "serial_number":$('#inputSN_edit').val(),
-                        "device_number":$('#inputDN_edit').val(),
-                        "firmware":$('#inputFirmwareVersion_edit').val(),
-                        "manufactured_date":$('#inputManufacturedDate_edit').val(),
-                    },
-                })
-                .done(function(response){
-                    console.log(response)
-                    $('tr#'+response.id+" td:eq(0)").text(response.serial_number)
-                    $('tr#'+response.id+" td:eq(1)").text(response.device_number)
-                    $('tr#'+response.id+" td:eq(2)").text(response.model == 'U'?'DiUse':'DiEntry')
-                    $('#modal-edit-device').modal('hide')
-                    Swal.fire(
-                        'Saved!',
-                        'Device modified! ',
-                        'success'
-                    )
-                })
-        }
-    })
+
     function validateEditDevice(){
         var is_valid = true;
         //clear previous errors
@@ -942,10 +877,10 @@
 
                 })
                 $('#device_lists .odd').remove();
-                $('#device_lists').append('<tr id="'+response.data.id+'"><td>'+response.data.serial_number +'</td>'
-                                            +'<td>'+response.data.device_number +'</td>'
-                                            +'<td>'+response.data.model.name +'</td>'
-                                            +'<td> 0 '+'</td>'
+                $('#device_lists').append('<tr id="'+response.data.device.id+'"><td>'+response.data.device.serial_number +'</td>'
+                                            +'<td>'+response.data.device.device_number +'</td>'
+                                            +'<td>'+response.data.device.model.name +'</td>'
+                                            +'<td>'+response.data.device.firmware +'</td>'
                                             +'<td> -'+'</td>'
                                             +'<td>'
                                                 +'<a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
@@ -976,6 +911,20 @@
         }
         })
     })
+    $('#select_existing_user').on('change',function(){
+        let selected_user = list_of_users.find(el =>el.id == $('#select_existing_user').val())
+        console.log(selected_user);
+        $('#inputUserName').val(selected_user.name)
+        $('#inputUserEmail').val(selected_user.email)
+        $('#inputUserMobile').val(selected_user.mobile)
+        let address = JSON.parse(selected_user.address)
+        $('#select_country').val(address.country).change()
+        $('#select_state').val(address.state)
+        $('#input_city').val(address.city)
+        $('#input_street_address_1').val(address.street_address)
+        $('#input_house_address_1').val(address.house_address)
+        $('#input_zip_code').val(address.zip_code)
+    })
 
     $('#btn_confirm_add_device').on('click', function(e){
         e.preventDefault();
@@ -1005,5 +954,95 @@
             }
         })
     })
+    // $('#btn_confirm_add_new_device').on('click', function(e){
+    //     e.preventDefault();
+    //     var formData = {
+    //         'model':$('#selectModel').val(),
+    //         'serial_number':$('#inputSN').val(),
+    //         'device_number':$('#inputDN').val(),
+    //         'manufactured_date':$('#inputManufacturedDate').val(),
+    //         'firmware':$('#inputFirmwareVersion').val(),
+    //         'reseller_id':$('#select_user_id').val(),
+    //     }
+    //     $.ajax({
+    //         method: "post",
+    //         url: "/addNewDevice",
+    //         data: formData,
+    //         })
+    //         .done(function( response ) {
+    //             console.log(response.data)
+    //             switch(response['message']){
+    //                 case 'Error':
+    //                     Swal.fire({
+    //                         icon: 'error',
+    //                         title: 'Oops...',
+    //                         text:  response.description,
+    //                         //footer: '<a href="../login">Login as Adminstrator?</a>'
+    //                     });
+    //                     break;
+    //                 case 'Success':
+    //                     console.log(response);
+    //                     var model_name = response.data.model == 'U'? 'DiUse': 'DiEntry';
+    //                     $('tbody').prepend('<tr id="'+response.data.id+'" class="device"><td>'+response.data.serial_number + '</td><td>'
+    //                         + response.data.device_number + '</td><td>'+ model_name +
+    //                         '</td><td>0</td>'+
+    //                         '<td>-</td>'
+    //                         +'<td><a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
+    //                                         +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+    //                                             +'<a href="#" class="dropdown-item operation-assign_user">'
+    //                                                 +'<i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>'
+    //                                             +'</a>'
+    //                                             +'<div class="dropdown-divider"></div>'
+    //                                             +'<a href="#" class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
+    //                                             +'<div class="dropdown-divider"></div>'
+    //                                             +'<a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-'+response['data'].id+'"><i class="far fa-trash-alt"></i> Delete Device</a>'
+    //                                         +'</div></td></tr>')
+
+    //                     Swal.fire(
+    //                         'Added!',
+    //                         'Device has been added',
+    //                         'success'
+    //                     );
+    //                     break;
+    //                 default:
+    //                     Swal.fire({
+    //                         icon: 'error',
+    //                         title: 'Oops...',
+    //                         text: 'Something went wrong!' + response.description,
+    //                         footer: response
+    //                     })
+
+    //             }
+    //             console.log( response );
+    //     });
+    // })
+    // $('#btn_confirm_save_edit_device').on('click',function(){
+    //     if(validateEditDevice()){
+    //         $.ajax({
+    //                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+    //                 type: "PATCH",
+    //                 url: "/saveEditedDevice/" + edit_device_id,
+    //                 data: {
+    //                     "model_id": $('#edit_selectModel').val(),
+    //                     "serial_number":$('#inputSN_edit').val(),
+    //                     "device_number":$('#inputDN_edit').val(),
+    //                     "firmware":$('#inputFirmwareVersion_edit').val(),
+    //                     "manufactured_date":$('#inputManufacturedDate_edit').val(),
+    //                 },
+    //             })
+    //             .done(function(response){
+    //                 console.log(response)
+    //                 $('tr#'+response.id+" td:eq(0)").text(response.serial_number)
+    //                 $('tr#'+response.id+" td:eq(1)").text(response.device_number)
+    //                 $('tr#'+response.id+" td:eq(2)").text(response.model == 'U'?'DiUse':'DiEntry')
+    //                 $('#modal-edit-device').modal('hide')
+    //                 Swal.fire(
+    //                     'Saved!',
+    //                     'Device modified! ',
+    //                     'success'
+    //                 )
+    //             })
+    //     }
+    // })
 </script>
 @endsection

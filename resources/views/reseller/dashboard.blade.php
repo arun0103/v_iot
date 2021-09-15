@@ -4,10 +4,7 @@
 <!-- <script src="{{asset('js/require.js')}}"></script> -->
 <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiNdCuOv2SfFYbx2Bl0PhUGtvOgwAC762wyq7NZtQ8ISA98uAlaHJa5X3vLeNp6r' async defer></script>
 <style>
-    .small-inputs{
-        width:100px;
-        border:1px solid blue;
-    }
+
     .modal-body {
         max-height: calc(100vh - 60px);
         overflow-y: auto;
@@ -834,7 +831,7 @@
                                         @foreach($devices as $device)
                                             <tr class="table-info device-row" id="device-info-{{$device->id}}" >
                                                 <td>{{$device->serial_number}}</td>
-                                                <td>{{$device->model == 'U' ? 'DiUse' : 'DiEntry'}}</td>
+                                                <td>{{$device->model->name}}</td>
                                                 <td>{{$device->userDevices->count()}}</td>
                                                 <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
                                                 <td><span class="ec">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></td>
@@ -979,7 +976,7 @@
         <div class="modal-dialog modal-full" >
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #87bde6">
-                    <h4 class="modal-title" id="modal-detail-title"></h4>
+                    <h4 class="modal-title" id="modal-detail-title"></h4><br>
                     <button type="button" class="close btn_close_modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body" style="background-color: #3979a9">
@@ -992,9 +989,9 @@
                                             <button type="button" class="btn btn-info" id="btn_edit_setpoints" hidden>Edit</button>
                                             <button type="button" class="btn btn-danger" id="btn_save_setpoints" hidden>Save</button>
                                             <button type="button" class="btn btn-light" id="btn_cancel_setpoints" hidden>Cancel</button>
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#">
+                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#">
                                                 <i class="fas fa-minus"></i>
-                                            </button>
+                                            </button> -->
                                         </div>
                                         <ul class="nav nav-tabs card-header-tabs" role="tablist">
                                             <li class="nav-item nav_link-avg_data"  >
@@ -1321,7 +1318,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <!-- <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="card card-outline">
                                                             <div class="card-header"><h4 class="card-title">Control Logs</h4></div>
@@ -1340,7 +1337,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             <div class="tab-pane fade" role="tabpanel" id="tab_setpoints" hidden>
                                                 <div class="row">
@@ -1618,7 +1615,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer">
+                                    <div class="card-footer" id="footer_maintenance">
                                         <div class="row" id="maintenance_tab">
                                             <div class="col-lg-12">
                                                 <div class="card">
@@ -1642,7 +1639,7 @@
                                                                     </span>
                                                                     <p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error"></p>
                                                                 </td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid" class="form-control input_critic_acid" value="" disabled><span class="text-muted"> gal</span></td>
+                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid" class="form-control input_critic_acid" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid">Reset</button></td>
                                                             </tr>
@@ -1653,7 +1650,7 @@
                                                                         <b><span id="pre_filter_volume_left"></span></b> gal left before next service
                                                                     </span>
                                                                     <p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error"></p></td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter" class="form-control input_pre_filter" value="" disabled><span class="text-muted"> gal</span></td>
+                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter" class="form-control input_pre_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter">Reset</button></td>
                                                             </tr>
@@ -1664,7 +1661,7 @@
                                                                         <b><span id="post_filter_volume_left"></span></b> gal left before next service
                                                                     </span>
                                                                     <p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error"></p></td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter" class="form-control input_post_filter" value="" disabled><span class="text-muted"> gal</span></td>
+                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter" class="form-control input_post_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter">Reset</button></td>
                                                             </tr>
@@ -1675,7 +1672,7 @@
                                                                         <b><span id="general_service_volume_left"></span></b> gal left before next service
                                                                     </span>
                                                                     <p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error"></p></td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_general_service" class="form-control input_general_service" value="" disabled><span class="text-muted"> gal</span></td>
+                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_general_service" class="form-control input_general_service" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                 <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service" hidden>Save</button></td>
                                                                 <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service">Reset</button></td>
                                                             </tr>
@@ -1688,74 +1685,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="row">
-                            <div class="col-lg-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title" style="margin-top: 0px;">Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance" style="margin-bottom:5px">Edit</button></h3>
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3"><span><b>Critic Acid</b></span></div>
-                                            <div class="col-lg-2 col-md-2">
-                                                <span id="critic_acid_volume_left" ></span><b> / </b>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2">
-                                                <input type="number" id="input_critic_acid" class="small-inputs input_critic_acid" value="" disabled>
-                                            </div>
-                                            <div class="col-lg-3 col-md-4">
-                                                <button class="btn btn-primary btn-sm btn-save-critic_acid" id="btn_save_critic_acid" hidden>Save</button>
-                                                <button class="btn btn-danger btn-sm" id="btn_reset_critic_acid">Reset</button>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3"><span><b>Pre-filter:</b></span></div>
-                                            <div class="col-lg-2 col-md-2">
-                                                <span id="pre_filter_volume_left"></span><b> / </b>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2">
-                                                <input type="number" id="input_pre_filter" class="small-inputs input_pre_filter" value=""  disabled>
-                                            </div>
-                                            <div class="col-lg-3 col-md-4">
-                                                <button class="btn btn-primary btn-sm btn-save-pre_filter" id="btn_save_pre_filter" hidden>Save</button>
-                                                <button class="btn btn-danger btn-sm" id="btn_reset_pre_filter">Reset</button>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3"><span><b>Post-filter:</b></span></div>
-                                            <div class="col-lg-2 col-md-2">
-                                                <span id="post_filter_volume_left"></span><b> / </b>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2">
-                                                <input type="number" id="input_post_filter-" class="small-inputs input_post_filter" value="" disabled>
-                                            </div>
-                                            <div class="col-lg-3 col-md-4">
-                                            <button class="btn btn-primary btn-sm btn-save-post_filter" id="btn_save_post_filter" hidden>Save</button>
-                                            <button class="btn btn-danger btn-sm" id="btn_reset_post_filter">Reset</button>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3"><span><b>General Service:</b></span></div>
-                                            <div class="col-lg-2 col-md-2">
-                                                <span id="general_service_volume_left"></span><b> / </b>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2">
-                                                <input type="number" id="input_general_service" class="small-inputs input_general_service" value="" disabled>
-                                            </div>
-                                            <div class="col-lg-3 col-md-4">
-                                                <button class="btn btn-primary btn-sm btn-save-general_service" id="btn_save_general_service" hidden>Save</button>
-                                                <button class="btn btn-danger btn-sm" id="btn_reset_general_service">Reset</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                     </section>
                 </div>
 
@@ -1826,6 +1755,7 @@
 <script>
     var device_id = 0;
     let device_serial = null;
+    var critic_acid_reset_value, pre_filter_reset_value, post_filter_reset_value, general_service_reset_value;
     $(document).ready(function () {
         let refresh_data;
         //when user clicks on the device row
@@ -1874,6 +1804,16 @@
                                 if(response['deviceDetails'].latest_log.step == 0 || response['deviceDetails'].latest_log.step == 1 || response['deviceDetails'].latest_log.step == 13){
                                     status = "IDLE";
                                     color = "orange";
+                                    //enable all relay commands
+                                    $('#btn_relay_1').removeAttr("disabled");
+                                    $('#btn_relay_2').removeAttr("disabled");
+                                    $('#btn_relay_3').removeAttr("disabled");
+                                    $('#btn_relay_4').removeAttr("disabled");
+                                    $('#btn_relay_5').removeAttr("disabled");
+                                    $('#btn_relay_6').removeAttr("disabled");
+                                    $('#btn_relay_7').removeAttr("disabled");
+                                    $('#btn_relay_8').removeAttr("disabled");
+                                    $('#btn_relay_9').removeAttr("disabled");
                                     if($('#device_status_pic').hasClass("running"))
                                         $('#device_status_pic').removeClass("running")
                                     if(!$('#device_status_pic').hasClass("idle"))
@@ -1883,6 +1823,16 @@
                                 }else{
                                     status = "RUNNING";
                                     color = "green";
+                                    // disable all the relay commands
+                                    $('#btn_relay_1').attr("disabled","true");
+                                    $('#btn_relay_2').attr("disabled","true");
+                                    $('#btn_relay_3').attr("disabled","true");
+                                    $('#btn_relay_4').attr("disabled","true");
+                                    $('#btn_relay_5').attr("disabled","true");
+                                    $('#btn_relay_6').attr("disabled","true");
+                                    $('#btn_relay_7').attr("disabled","true");
+                                    $('#btn_relay_8').attr("disabled","true");
+                                    $('#btn_relay_9').attr("disabled","true");
                                     if($('#device_status_pic').hasClass("idle"))
                                         $('#device_status_pic').removeClass("idle")
                                     if(!$('#device_status_pic').hasClass("running"))
@@ -1926,6 +1876,18 @@
                             }
                             // change output value
                             $('#device_output').text(response['deviceDetails'].latest_log.output)
+                            // calculating output
+                            var output = response['deviceDetails'].latest_log.output
+                            var output_binary_string = (output >>> 0).toString(2);
+
+                            for(var index =1; index<10; index++ ){
+                                // console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
+                                if(output_binary_string.charAt(16-index)=='1') // 1 = OFF, 0 = ON
+                                    $('#btn_relay_'+index).attr("checked",false).trigger("change");
+                                else
+                                    $('#btn_relay_'+index).attr("checked", true).trigger("change");
+
+                            }
                             // change the water quality
                             var water_quality ="";
                             var setpoint_pure_EC_target = response['deviceDetails']['setpoints'].pure_EC_target;
@@ -2021,10 +1983,10 @@
                             }
                             // maintenance
                             //get past reset values
-                            var critic_acid_reset_value = response['deviceDetails']['latest_maintenance_critic_acid']!=null?response['deviceDetails']['latest_maintenance_critic_acid'].volume_value:0;
-                            var pre_filter_reset_value = response['deviceDetails']['latest_maintenance_pre_filter']!=null?response['deviceDetails']['latest_maintenance_pre_filter'].volume_value:0;
-                            var post_filter_reset_value = response['deviceDetails']['latest_maintenance_post_filter']!=null?response['deviceDetails']['latest_maintenance_post_filter'].volume_value:0;
-                            var general_service_reset_value = response['deviceDetails']['latest_maintenance_general_service']!=null?response['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
+                            critic_acid_reset_value = response['deviceDetails']['latest_maintenance_critic_acid']!=null?response['deviceDetails']['latest_maintenance_critic_acid'].volume_value:0;
+                            pre_filter_reset_value = response['deviceDetails']['latest_maintenance_pre_filter']!=null?response['deviceDetails']['latest_maintenance_pre_filter'].volume_value:0;
+                            post_filter_reset_value = response['deviceDetails']['latest_maintenance_post_filter']!=null?response['deviceDetails']['latest_maintenance_post_filter'].volume_value:0;
+                            general_service_reset_value = response['deviceDetails']['latest_maintenance_general_service']!=null?response['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
                             //maintenance setpoints
                             $('#input_critic_acid').val(response['deviceDetails']['device_settings'].critic_acid);
                             $('#input_pre_filter').val(response['deviceDetails']['device_settings'].pre_filter);
@@ -2217,6 +2179,122 @@
                 $('#input_general_service').val(old_general_service)
             }
         })
+        $('.btn_reset_critic_acid').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var v = $('#total_volume').text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetCriticAcid/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            $('#critic_acid_error').text("").trigger("change");
+                            $('#critic_acid_details').removeAttr("hidden");
+                            $('#critic_acid_volume_left').text(critic_acid_reset_value);
+                            Swal.fire('Done!','Critic acid refilled.','success')
+                        })
+
+                    }
+                })
+
+            })
+            $('.btn_reset_pre_filter').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var v = $('#total_volume').text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetPreFilter/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            $('#pre_filter_error').text("").trigger("change");
+                            $('#pre_filter_details').removeAttr("hidden");
+                            $('#pre_filter_volume_left').text(pre_filter_reset_value).trigger("change");
+                            Swal.fire('Done!','Pre-filter replaced.','success')
+                        })
+
+                    }
+                })
+
+            })
+            $('.btn_reset_post_filter').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var v = $('#total_volume').text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetPostFilter/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            $('#post_filter_error').text("").trigger("change");
+                            $('#post_filter_details').removeAttr("hidden");
+                            $('#post_filter_volume_left').text(post_filter_reset_value).trigger("change");
+                            Swal.fire('Done!','Post filter replaced.','success')
+                        })
+
+                    }
+                })
+
+            })
+            $('.btn_reset_general_service').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. Do you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var v = $('#total_volume').text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetGeneralService/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            $('#general_service_error').text("").trigger("change");
+                            $('#general_service_details').removeAttr("hidden");
+                            $('#general_service_volume_left').text(general_service_reset_value).trigger("change");
+                            Swal.fire('Done!','General Service performed.','success')
+                        })
+
+                    }
+                })
+
+            })
     // end of maintenance
     var select_view_volume_by = "gallons";
     $('#select_view_volume_by').on('change',function(){
@@ -2556,7 +2634,7 @@
         $('#btn_edit_setpoints').attr('hidden',true);
         $('#btn_save_setpoints').attr('hidden',true)
         $('#btn_cancel_setpoints').attr('hidden',true)
-
+        $('#footer_maintenance').attr('hidden',false)
     })
     $('.nav_link-live_data').on('click', function(){
         view_mode = "live";
@@ -2568,6 +2646,7 @@
         $('#btn_edit_setpoints').attr('hidden',true);
         $('#btn_save_setpoints').attr('hidden',true)
         $('#btn_cancel_setpoints').attr('hidden',true)
+        $('#footer_maintenance').attr('hidden',true)
         var now = new Date();
         $('#live_start_time').text(now);
         // collect live data and display
@@ -2643,7 +2722,7 @@
                         }
                         // calculating output
                         var output_binary_string = (response.output >>> 0).toString(2);
-                        if(output_binary_string.length < 9){
+                        if(output_binary_string.length < 16){
                             for(var i = output_binary_string.length; i<9; i++){
                                 output_binary_string = "0".concat(output_binary_string);
                             }
@@ -2832,6 +2911,7 @@
         $('#btn_edit_setpoints').attr('hidden',true);
         $('#btn_save_setpoints').attr('hidden',true)
         $('#btn_cancel_setpoints').attr('hidden',true)
+        $('#footer_maintenance').attr('hidden',true)
         // check the relays status and device step
         var output = $('#device_output').text();
         // calculating output
@@ -2906,6 +2986,7 @@
         // $('#tab_setpoints_'+trid).show();
         $('#btn_edit_setpoints').attr('hidden',false);
         $('.input-setpoints').attr('disabled',true);
+        $('#footer_maintenance').attr('hidden',true)
 
         // get the list of setpoints from the database
         $.ajax({

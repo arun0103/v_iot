@@ -3071,9 +3071,9 @@
                         for(var index =1; index<10; index++ ){
                             // console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
                             if(output_binary_string.charAt(16-index)=='1') // 1 = OFF, 0 = ON
-                                $('#btn_relay_'+i+'-'+response[i]['deviceDetails'].id).attr("checked",false).trigger("change");
+                                $('#btn_relay_'+index+'-'+response[i]['deviceDetails'].id).attr("checked",false).trigger("change");
                             else
-                                $('#btn_relay_'+i+'-'+response[i]['deviceDetails'].id).attr("checked", true).trigger("change");
+                                $('#btn_relay_'+index+'-'+response[i]['deviceDetails'].id).attr("checked", true).trigger("change");
 
                         }
                         // change the water quality

@@ -97,6 +97,11 @@ class ResellerController extends Controller
         $resellerDevices = Device::where('reseller_id',$id)->with('latest_log')->withCount('userDevices')->get();
         return response()->json($resellerDevices);
     }
+    public function getAllResellersUser(){
+        $loggedInUser = Auth::user();
+        $resellersUser = User::where([['reseller_id',$loggedInUser->id],['role','U']])->get();
+        return response()->json($resellersUser);
+    }
 
     public function addResellerDevice(Request $req){
         $loggedInUser = Auth::user();
@@ -113,7 +118,7 @@ class ResellerController extends Controller
 
                 //search user
                 $user = User::where('email',$req->user_email)->first();
-                if($user->count() < 0){
+                if($user == null){
                     // create new user
                     $newUser = new User();
                     $newUser->name = $req->user_name;
@@ -121,8 +126,8 @@ class ResellerController extends Controller
                     $newUser->role = "U";
                     $newUser->address = json_encode($req->user_address);
                     $newUser->mobile = $req->user_mobile;
-                    $newUser->created_by = $user->id;
-                    $newUser->reseller_id = $user->id;
+                    $newUser->created_by = $loggedInUser->id;
+                    $newUser->reseller_id = $loggedInUser->id;
                     // uncomment below five lines
                         // $random_password = "";
                         // $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
@@ -163,8 +168,6 @@ class ResellerController extends Controller
                 // save the reseller id so that it is officially sold by the reseller
                 $searchDevice->reseller_id = $loggedInUser->id;
                 $searchDevice->save();
-
-
 
             }else{
                 $response =[
