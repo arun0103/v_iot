@@ -40,8 +40,8 @@ class SuperController extends Controller
         $loggedInUser = Auth::user();
         $data = [];
         if($loggedInUser->role == 'S'){
-            $all = User::where('role','U')->orderby('created_at','desc')->withCount('userDevices')->get();
-            return view('admin/users')->with(['users'=>$all]);
+            $all = User::where('role','U')->orderby('created_at','desc')->withCount('userDevices')->with('reseller')->get();
+            return view('super/users')->with(['users'=>$all]);
         }
         elseif($loggedInUser->role == 'R'){
             $resellerUser = User::where([['reseller_id', $loggedInUser->reseller->id],['role','U']])->with('reseller')->withCount('userDevices')->get();
@@ -428,7 +428,6 @@ class SuperController extends Controller
     //API calls
     public function getAllUsers(){
         $users = User::where('role','U')->get();
-        dd($users);
         return response($users,200);
     }
     public function getAllResellers(){
