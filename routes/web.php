@@ -42,7 +42,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
-
+//Reseller
+Route::get('/reseller',[App\Http\Controllers\SuperController::class,'getAllResellers'])->middleware('auth')->name('resellers');
+Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->name('devices')->middleware('auth');
 
 //Charts
 Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showChart'])->name('line-chart');
@@ -67,10 +69,11 @@ Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showCha
     Route::post('/addUserDevice', [App\Http\Controllers\HomeController::class,'addUserDevice'])->middleware('auth');
 
 // });
-Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->name('devices')->middleware('auth');
+
 Route::get('/resellerDevices',[App\Http\Controllers\SuperController::class,'resellerDevices'])->name('resellerDevices')->middleware('auth');
 
 // Resellers
+
 Route::get('/searchRegisteredDevice',[App\Http\Controllers\ResellerController::class, 'searchRegisteredDevice'])->middleware('auth');
 
 //device

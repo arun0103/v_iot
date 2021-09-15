@@ -25,8 +25,7 @@ Route::get('/getUsers',[App\Http\Controllers\SuperController::class,'getAllUsers
 
 
 
-//Reseller
-Route::get('/reseller',[App\Http\Controllers\SuperController::class,'getAllResellers'])->name('resellers')->middleware('auth');
+
 
 
 //User

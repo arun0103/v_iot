@@ -166,7 +166,7 @@ class ResellerController extends Controller
                     ];
                 }
                 // save the reseller id so that it is officially sold by the reseller
-                $searchDevice->reseller_id = $loggedInUser->id;
+                $searchDevice->reseller_id = $loggedInUser->reseller->id;
                 $searchDevice->save();
 
             }else{

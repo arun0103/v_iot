@@ -191,8 +191,8 @@ class SuperController extends Controller
             return view('user/devices')->with(['devices'=>$all])->with(['users'=>$users])->with(['models'=>$models]);
         }
         elseif($loggedInUser->role == 'R'){
-            $users = User::where([['reseller_id',$loggedInUser->reseller_id],['role','U']])->get();
-            $devices = Device::where('reseller_id',$loggedInUser->id)->with('latest_log')->get();
+            $users = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
+            $devices = Device::where('reseller_id',$loggedInUser->reseller->id)->with('latest_log')->get();
             $models = Models::all();
 
             return view('reseller/devices')->with(['devices'=>$devices])->with(['users'=>$users])->with(['models'=>$models]);
@@ -431,14 +431,19 @@ class SuperController extends Controller
         return response($users,200);
     }
     public function getAllResellers(){
-        $resellers = Reseller::orderBy('created_at','desc')->with('users')->get();
-        // dd($resellers);
-        $data = [];
-        foreach($resellers as $reseller){
-            $resellerDevices = Device::where('reseller_id',$reseller->id)->get();
-            array_push($data, ['data'=>$reseller, 'device_count'=>count($resellerDevices)]);
+        $loggedInUser = Auth::user();
+        if($loggedInUser->role=='S'){
+            $resellers = Reseller::orderBy('created_at','desc')->with('users')->get();
+            // dd($resellers);
+            $data = [];
+            foreach($resellers as $reseller){
+                $resellerDevicesCount = Device::where('reseller_id',$reseller->id)->count();
+                array_push($data, ['data'=>$reseller, 'device_count'=>$resellerDevicesCount]);
+            }
+            return view('super.resellers')->with(['resellers'=>$data]);
+        }else{
+           return view('home');
         }
-        return view('super.resellers')->with(['resellers'=>$data]);
     }
     public function getResellersList(){
         $list = Reseller::get(['id','company_name']);
