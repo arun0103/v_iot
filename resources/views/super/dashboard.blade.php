@@ -2385,7 +2385,7 @@
                         //calculate volume and flow according to volume_unit setpoint
                         var volume, volume_unit;
                         var flow , flow_unit;
-                        var device_setpoints = userDevices.find(device_id =>device_id === view_live_device)
+                        var device_setpoints = userDevices.find(device_id =>device_id == view_live_device)
                         console.log("Device setpoints : "+ device_setpoints)
                         var device_setpoint_volume_unit = device_setpoints.volume_unit;
                         switch(device_setpoint_volume_unit){
