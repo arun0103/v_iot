@@ -2403,7 +2403,7 @@
                         // calculate cycles left
                         var device_setpoint_CIP_cycles = userDevices.find(device_id =>device_id = view_live_device).CIP_cycles;
                         console.log(userDevices)
-                        console.log("CIP CYCLES setpoint: "+ device_setpoint_CIP_Cycles)
+                        console.log("CIP CYCLES setpoint: "+ device_setpoint_CIP_cycles)
                         var cycles_left = device_setpoint_CIP_cycles - response.cycle;
                         if(cycles_left < 0)
                             cycles_left = 0;
