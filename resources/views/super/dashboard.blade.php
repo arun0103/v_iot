@@ -2385,7 +2385,7 @@
                         //calculate volume and flow according to volume_unit setpoint
                         var volume, volume_unit;
                         var flow , flow_unit;
-                        var device_setpoint_volume_unit = userDevices.find(device_id =>device_id = view_live_device).volume_unit;
+                        var device_setpoint_volume_unit = userDevices.find(device_id =>device_id === view_live_device).volume_unit;
                         switch(device_setpoint_volume_unit){
                             case 0 :
                                     volume = response.tpv;
@@ -2401,7 +2401,7 @@
                                 break;
                         }
                         // calculate cycles left
-                        var device_setpoint_CIP_cycles = userDevices.find(device_id =>device_id = view_live_device).CIP_cycles;
+                        var device_setpoint_CIP_cycles = userDevices.find(device_id =>device_id === view_live_device).CIP_cycles;
                         console.log(view_live_device)
                         console.log(userDevices)
                         console.log("CIP CYCLES setpoint: "+ device_setpoint_CIP_cycles)
