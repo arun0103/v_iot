@@ -21,7 +21,7 @@ class Reseller extends Model
         'address' => 'array',
         'phone' => 'array',
     ];
-    public function reseller_users(){
-        return $this->belongsTo('App\Models\User','user_id','id');
+    public function users(){
+        return $this->belongsTo('App\Models\User','id','reseller_id');
     }
 }

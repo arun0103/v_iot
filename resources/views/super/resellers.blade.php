@@ -469,13 +469,13 @@
                     $('#reseller_device_table_body').empty();
                     for(var i=0; i<data.length; i++){
                         var device_model = data[i].model == 'U'?"DiUse":'DiEntry';
-                        var last_data = data[i].latest_log!= null?data[i].lastest_log.created_at:"-";
+                        var last_data = data[i].latest_log!= null?data[i].latest_log.created_at:"-";
                         $('#reseller_device_table_body').append('<tr><td>'+data[i].serial_number+ '</td>'+
                         '<td>'+ data[i].device_number+'</td>'+
                         '<td>'+device_model + '</td>'+
                         '<td>'+data[i].user_devices_count+'</td>'+ // no. of users
                         '<td>'+ last_data+'</td>'+ // last record received on
-                        '<td><i class="fa fa-trash delete_device_from_reseller"></i>Delete</td></tr>'
+                        '<td><i class="fa fa-trash delete_device_from_reseller"></i> Delete</td></tr>'
                         )
                     }
                     $('#modal-view_reseller_device').modal('show');

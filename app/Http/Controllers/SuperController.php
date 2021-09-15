@@ -431,7 +431,8 @@ class SuperController extends Controller
         return response($users,200);
     }
     public function getAllResellers(){
-        $resellers = Reseller::orderBy('created_at','desc')->get();
+        $resellers = Reseller::orderBy('created_at','desc')->with('users')->get();
+        // dd($resellers);
         $data = [];
         foreach($resellers as $reseller){
             $resellerDevices = Device::where('reseller_id',$reseller->id)->get();
