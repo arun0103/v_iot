@@ -99,7 +99,7 @@ class HomeController extends Controller
             $userDevices = UserDevices::where('user_id',$loggedInUser->id)->with("deviceDetails")->get();
         }
         //dd($userDevices);
-        return view('home')->with(['users'=>$users])
+        return view('user/dashboard')->with(['users'=>$users])
                             ->with(['userDevices'=>$userDevices]);
     }
 

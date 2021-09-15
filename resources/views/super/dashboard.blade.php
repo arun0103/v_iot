@@ -2402,6 +2402,7 @@
                         }
                         // calculate cycles left
                         var device_setpoint_CIP_cycles = userDevices.find(device_id =>device_id = view_live_device).CIP_cycles;
+                        console.log("CIP CYCLES setpoint: "+ device_setpoint_CIP_Cycles)
                         var cycles_left = device_setpoint_CIP_cycles - response.cycle;
                         if(cycles_left < 0)
                             cycles_left = 0;
@@ -3118,7 +3119,7 @@
                         //console.log("test Created_at: "+test_created_at);
                         var dd = test_now - test_created_at;
                         //console.log("Difference :"+dd/1000/60);
-                        if(dd < 25*1000){ // 25 seconds
+                        if(dd < 60*1000){ // 60 seconds
                             $('#device_connection_status-'+response[i]['deviceDetails'].id ).text("Connected").css("color","green")
                             $('#device-info-'+response[i]['deviceDetails'].id ).css("color","green")
                         }else{

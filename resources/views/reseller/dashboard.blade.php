@@ -1919,7 +1919,7 @@
                             var now = new Date();
                             var created_at = new Date(response['deviceDetails'].latest_log.created_at);
                             var dd = now - created_at;
-                            if(dd < 25*1000){ // 25 seconds
+                            if(dd < 60*1000){ // 60 seconds
                                 $('#device_connection_status' ).text("Connected").css("color","green")
                                 $('#device-info').css("color","green")
                             }else{
