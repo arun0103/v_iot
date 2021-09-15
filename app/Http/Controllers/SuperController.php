@@ -41,6 +41,7 @@ class SuperController extends Controller
         $data = [];
         if($loggedInUser->role == 'S'){
             $all = User::where('role','U')->orderby('created_at','desc')->withCount('userDevices')->with('reseller')->get();
+            dd($all);
             return view('super/users')->with(['users'=>$all]);
         }
         elseif($loggedInUser->role == 'R'){
