@@ -837,6 +837,7 @@
                                                 <td><span class="ec">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></td>
                                                 <td>
                                                     <button class="btn btn-primary view_device_details">View</button>
+                                                    <i class="fas fa-bell btn_notifications"></i>
                                                     <!-- <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                         <a href="#" class="dropdown-item">
@@ -1736,6 +1737,49 @@
         </div>
 
     </div>
+    <div class="modal fade" id="modal-device_notifications">
+        <div class="modal-dialog modal-full" >
+            <div class="modal-header">
+                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                    <li class="nav-item nav_maintenance_logs"  >
+                        <a class="nav-link active" aria-current="page" href="#tab_maintenance_logs" data-toggle="tab" >Maintenance Logs</a>
+                    </li>
+                    <li class="nav-item nav_controls_logs">
+                        <a class="nav-link" href="#tab_control_logs" data-toggle="tab">Control Logs<i id="btn_refresh_live_data" class="btn fas fa-sync-alt" hidden></i></a>
+                    </li>
+                </ul>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-content">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel" id="tab_maintenance_logs">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 box">
+                                <table class="table stripped-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Old Value</th>
+                                            <th>New Value</th>
+                                            <th>Updated By</th>
+                                            <th>Updated At</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="maintenance_logs_body">
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+
+        </div>
+
+    </div>
 
 <!-- <script type="module" src="{{asset('js/home.js')}}"></script> -->
 <!-- <script type="module" src="{{asset('js/map.js')}}"></script> -->
@@ -2080,6 +2124,31 @@
 
         //shake
 
+        //Notifications
+        $('.btn_notifications').on('click',function(){
+            var trid = $(this).closest('tr').attr('id'); // table row ID
+            device_id = trid.replace("device-info-",'') // device id  from table row
+
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/getDeviceNotifications/"+device_id,
+            })
+            .done(function(response){
+                console.log(response);
+                $('#maintenance_logs_body').html('');
+                for(let i = 0; i<response.length; i++){
+                    $('#maintenance_logs_body').append('<tr id="'+response[i].id +'"><td>'+response[i].parameter+'</td>'
+                        +'<td>'+response[i].old_value +'</td>'
+                        +'<td>'+response[i].new_value +'</td>'
+                        +'<td>'+response[i].changer_details.name +'</td>'
+                        +'<td>'+ new Date(response[i].created_at) +'</td>'
+                        +'</tr>'
+                    )
+                }
+                $('#modal-device_notifications').modal('show');
+            });
+        })
 
     });
     // Maintenance

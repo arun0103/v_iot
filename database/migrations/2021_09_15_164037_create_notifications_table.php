@@ -18,7 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->bigInteger('device_id');
             $table->string('type');
             $table->string('description');
-            $table->boolean('viewed')->nullable();
+            $table->boolean('is_viewed')->nullable();
             $table->bigInteger('created_by');
             $table->timestamps();
         });

@@ -15,10 +15,13 @@ class DeviceSettingsLogs extends Model
         'parameter',
         'old_value',
         'new_value',
-        'changed_by',
+        'changed_by','is_viewed',
         'created_at','updated_at'
     ];
     public function device(){
         return $this->hasOne('App\Models\Device','device_id','id');
+    }
+    public function changerDetails(){
+        return $this->hasOne('App\Models\User', 'id','changed_by');
     }
 }

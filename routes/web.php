@@ -84,6 +84,10 @@ Route::delete('/deleteUserAccessFromDevice/{user_device_id}', [App\Http\Controll
 Route::get('/viewDeviceUsers/{id}', [App\Http\Controllers\DeviceController::class, 'viewDeviceUsers'])->middleware('auth');
 Route::patch('/saveEditedDevice/{id}',[App\Http\Controllers\DeviceController::class,'saveEditedDevice'])->middleware('auth');
 
+//Device notifications
+Route::get('/getDeviceNotifications/{id}', [App\Http\Controllers\DeviceController::class, 'getDeviceNotifications'])->middleware('auth');
+
+
 //user
 Route::delete('/deleteUser/{id}',[App\Http\Controllers\SuperController::class, 'deleteUserById'])->middleware('auth');
 Route::post('/super/addUser',[App\Http\Controllers\SuperController::class,'create_user'])->middleware('auth');

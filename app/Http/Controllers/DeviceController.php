@@ -246,4 +246,9 @@ class DeviceController extends Controller
         }
         // return response()->json($command_ids);
     }
+    // function to get device notifications
+    public function getDeviceNotifications($device_id){
+        $notifications = DeviceSettingsLogs::where('device_id',$device_id)->with('changerDetails:id,name,role')->get();
+        return response()->json($notifications);
+    }
 }

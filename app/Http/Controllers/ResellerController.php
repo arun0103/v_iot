@@ -99,7 +99,7 @@ class ResellerController extends Controller
     }
     public function getAllResellersUser(){
         $loggedInUser = Auth::user();
-        $resellersUser = User::where([['reseller_id',$loggedInUser->id],['role','U']])->get();
+        $resellersUser = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
         return response()->json($resellersUser);
     }
 

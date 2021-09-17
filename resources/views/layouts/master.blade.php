@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>{{ config('app.name', 'Voltea') }}</title>
-
+    <link rel="icon" type="image/png" href="{{URL::to('/img/favicon.ico')}}"/>
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>

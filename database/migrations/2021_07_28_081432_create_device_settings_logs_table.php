@@ -20,6 +20,7 @@ class CreateDeviceSettingsLogsTable extends Migration
             $table->decimal('old_value');
             $table->decimal('new_value');
             $table->bigInteger('changed_by');
+            $table->boolean('is_viewed')->nullable();
             $table->timestamps();
         });
     }
