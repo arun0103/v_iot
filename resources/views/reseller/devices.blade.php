@@ -53,7 +53,7 @@
                         <div class="card-header border-0 bg-top-logo-color">
                             <h2 class="card-title">List of Devices</h2>
                             <div class="card-tools">
-                                <button type="button" id="btn_add_users" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-user-device">Add New</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-user-device">Add New</button>
                             </div>
                         </div>
                         <div class="card-body table-responsive">

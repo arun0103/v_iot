@@ -818,7 +818,7 @@
                         <div class="col-lg-12 col-md-12">
                             <!-- <h3>All Devices</h3> -->
                             <div class="table-responsive">
-                                <table class=" table-hover datatable">
+                                <table class=" table-hover datatable" data-turbolinks="false">
                                     <thead class="thead-dark">
                                         <th>S.N</th>
                                         <th>Model</th>
@@ -1801,6 +1801,7 @@
     let device_serial = null;
     var critic_acid_reset_value, pre_filter_reset_value, post_filter_reset_value, general_service_reset_value;
     $(document).ready(function () {
+        $('.datatable').dataTable();
         let refresh_data;
         //when user clicks on the device row
             $('.view_device_details').on('click',function(){

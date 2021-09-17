@@ -21,7 +21,7 @@ var dt = require( 'datatables.net' );
 require('select2');
 
 $('.datepicker').datepicker();
-$('.datatable').DataTable({ renderer: { "header": "bootstrap" } });
+//$('.datatable').DataTable({ renderer: { "header": "bootstrap" } });
 
 //jsPDF
 const { jsPDF } = require("jspdf"); // will automatically load the node version

@@ -1887,12 +1887,8 @@ var dt = __webpack_require__(/*! datatables.net */ "./node_modules/datatables.ne
 
 __webpack_require__(/*! select2 */ "./node_modules/select2/dist/js/select2.js");
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker').datepicker();
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datatable').DataTable({
-  renderer: {
-    "header": "bootstrap"
-  }
-}); //jsPDF
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker').datepicker(); //$('.datatable').DataTable({ renderer: { "header": "bootstrap" } });
+//jsPDF
 
 var _require2 = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js"),
     jsPDF = _require2.jsPDF; // will automatically load the node version
