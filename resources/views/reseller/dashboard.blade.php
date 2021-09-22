@@ -791,36 +791,32 @@
 @endsection
 @section('content')
     <div id="app">
-        <!-- Content Header (Page header) -->
         <div class="content-header content-header-dashboard">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0">Dashboard</h1>
                         <button type="button" class="btn btn-info" id="btn_map_view">Map View</button>
-                    </div><!-- /.col -->
+                    </div>
                     <div class="col-sm-6">
-
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.content-header -->
-        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 @if(count($devices)>0)
                     <div class="row" id="table-total-devices">
                         <div class="col-lg-12 col-md-12">
-                            <!-- <h3>All Devices</h3> -->
                             <div class="table-responsive">
                                 <table class=" table-hover datatable" data-turbolinks="false">
                                     <thead class="thead-dark">
                                         <th>S.N</th>
+                                        <th>Device Name</th>
                                         <th>Model</th>
                                         <th>#Users</th>
                                         <th>Status</th>
@@ -830,14 +826,21 @@
                                     <tbody>
                                         @foreach($devices as $device)
                                             <tr class="table-info device-row" id="device-info-{{$device->id}}" >
-                                                <td>{{$device->serial_number}}</td>
+                                                <td id="device-serial-number_{{$device->id}}">{{$device->serial_number}}</td>
+                                                <td>
+                                                    @if($device->device_name != null)
+                                                        {{$device->device_name}}
+                                                    @else
+                                                        {{"-"}}
+                                                    @endif
+                                                </td>
                                                 <td>{{$device->model->name}}</td>
                                                 <td>{{$device->userDevices->count()}}</td>
                                                 <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
                                                 <td><span class="ec">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></td>
                                                 <td>
                                                     <button class="btn btn-primary view_device_details">View</button>
-                                                    <i class="fas fa-bell btn_notifications"></i>
+                                                    <i class="btn fas fa-bell btn_notifications"></i>
                                                     <!-- <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                         <a href="#" class="dropdown-item">
@@ -875,11 +878,9 @@
                                     <p>You can view your device(s) information once you add them. </p>
                                     <p>If you have sold any devices, then lets begin by adding some devices by clicking on Add New Device</span></br>
                                 </div>
-                                <!-- /.card-body -->
                                 <div class="card-footer">
                                     <a href="{{route('devices')}}"><button class="btn btn-primary">Add New Device</button></a>
                                 </div>
-                                <!-- /.card-footer-->
                             </div>
                         </div>
                     </div>
@@ -897,7 +898,6 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 ">
-                            <!-- begin timeline -->
                             <ul class="timeline" id="alarms_history_row">
 
                             </ul>
@@ -908,7 +908,6 @@
                     <button type="button" class="btn btn-default pull-left close_alarms_history"  data-dismiss="modal">Close</button>
                 </div>
             </div>
-            <!-- /.modal-content -->
         </div>
     </div>
     <div class="modal fade modal-volume-chart" id="modal-volume-chart">
@@ -963,14 +962,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <!-- <button type="button" class="btn btn-primary" id="btn_download_pdf_graph">Download PDF</button> -->
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <!-- <button type="submit" class="btn btn-primary" onClick="getChart()" id="btn_confirm_view" value="View">View</button> -->
                     </div>
                 </div>
-                <!-- /.modal-content -->
             </div>
-            <!-- /.modal-dialog -->"
         </form>
     </div>
     <div class="modal fade modals-device-detail" id="modal-device-detail">
@@ -990,9 +985,6 @@
                                             <button type="button" class="btn btn-info" id="btn_edit_setpoints" hidden>Edit</button>
                                             <button type="button" class="btn btn-danger" id="btn_save_setpoints" hidden>Save</button>
                                             <button type="button" class="btn btn-light" id="btn_cancel_setpoints" hidden>Cancel</button>
-                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#">
-                                                <i class="fas fa-minus"></i>
-                                            </button> -->
                                         </div>
                                         <ul class="nav nav-tabs card-header-tabs" role="tablist">
                                             <li class="nav-item nav_link-avg_data"  >
@@ -1020,9 +1012,7 @@
                                                                 <div class="card-tools">
                                                                     <i class="btn fas fa-sync-alt btn-refresh" id="device-sync"></i>
                                                                 </div>
-                                                                <!-- /.card-tools -->
                                                             </div>
-                                                            <!-- /.card-header -->
                                                             <div class="card-body">
                                                                 <div>
                                                                     <i id="device_status_pic" class="fas fa fa-certificate"></i>&nbsp;&nbsp;
@@ -1059,24 +1049,7 @@
                                                                         </a>
                                                                     </div>
                                                                 </div>
-                                                                <!-- @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
-                                                                    </br>
-                                                                    <div><b>Module Health :</b><i style="color:green; font-weight:bold" id="device_health_status-{{$device->id}}">Good</i>
-                                                                        <i id="info_device_health-{{$device->id}}" class="fas fa-info-circle float-right info_device_health" data-toggle="dropdown" ></i>
-                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                            <a href="#" class="dropdown-item">
-                                                                                <div class="media">
-                                                                                    <div class="media-body">
-                                                                                        <p class="text-sm"><b><i><span id="info_device_health_text-{{$device->id}}"></span></i></b></p>
-                                                                                        <p class="text-sm" id="info_device_health_description-{{$device->id}}"></p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-                                                                @endif -->
                                                             </div>
-                                                            <!-- /.card-body -->
                                                             <div class="card-footer">
                                                                 <div class="row flex">
                                                                     <button id="btn_device_start_stop" class="btn btn-danger center btn_device_start_stop" hidden>Stop</button>
@@ -1091,9 +1064,7 @@
                                                                 <div class="card-tools">
                                                                     <i id="volume_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
                                                                 </div>
-                                                                <!-- /.card-tools -->
                                                             </div>
-                                                            <!-- /.card-header -->
                                                             <div class="card-body">
                                                                 <div class="row">
                                                                     <div class="col-sm-12">
@@ -1132,7 +1103,6 @@
                                                                     </div>
                                                                 </span>
                                                                 <br/><br/>
-                                                                <!-- <p><b>Yearly :</b> <i>800 Gallons</i></p> -->
                                                                 <span><b>Total :</b> <i id="total_volume">...</i>
                                                                     <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
                                                                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -1147,7 +1117,6 @@
                                                                     </div>
                                                                 </span>
                                                             </div>
-                                                            <!-- /.card-body -->
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6 col-sm-6 box">
@@ -1166,12 +1135,8 @@
                                                                             </div>
                                                                         </a>
                                                                     </div>
-                                                                    <!-- <i id="conductivity_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-conductivity-chart" ></i> -->
-                                                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> -->
                                                                 </div>
-                                                                <!-- /.card-tools -->
                                                             </div>
-                                                            <!-- /.card-header -->
                                                             <div class="card-body">
                                                                 <i class="fas fa fa-certificate" id="device_condutivity_icon" style="color:green">&nbsp;&nbsp;
                                                                 <span id="device_conductivity_value"></span></i>
@@ -1197,14 +1162,11 @@
                                                                 <div class="card-tools">
                                                                     <i id="info_device_alarms_table" class="btn fas fa-table" data-toggle="modal" data-target="#modal-view_alarms_history" href="#modal-view_alarms_history"></i>
                                                                 </div>
-                                                                <!-- /.card-tools -->
                                                             </div>
-                                                            <!-- /.card-header -->
                                                             <div class="card-body">
                                                                 <p hidden>Alarm Code: <span id="alarm_code"></span></p>
                                                                 <section class="alarms-list" id="alarmsList"></section>
                                                             </div>
-                                                            <!-- /.card-body -->
                                                             <div class="card-footer">
                                                                 <div class="row flex">
                                                                     <button id="btn_reset_alarms" class="btn btn-danger center btn_reset_alarms" hidden>Clear All Alarms</button>
@@ -1217,7 +1179,6 @@
                                             <div class="tab-pane fade" role="tabpanel" id="tab_live_data" hidden>
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12 ">
-                                                        <!-- begin timeline -->
                                                         <ul class="timeline live_data_rows" id="live_data_rows">
                                                             <li>
                                                                 <div class="timeline-time"><span class="time" id="live_start_time"></span></div>
@@ -1319,26 +1280,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="card card-outline">
-                                                            <div class="card-header"><h4 class="card-title">Control Logs</h4></div>
-                                                            <div class="card-body">
-                                                                <table class=" table-hover datatable">
-                                                                    <thead class="thead-dark">
-                                                                        <th>Date Time</th>
-                                                                        <th>Command</th>
-                                                                        <th>Status</th>
-                                                                        <th>Actions</th>
-                                                                    </thead>
-                                                                    <tbody id="command" class="commands">
-
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
                                             </div>
                                             <div class="tab-pane fade" role="tabpanel" id="tab_setpoints" hidden>
                                                 <div class="row">
@@ -1642,7 +1583,7 @@
                                                                 </td>
                                                                 <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid" class="form-control input_critic_acid" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid">Reset</button></td>
+                                                                <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid" disabled>Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Pre-filter</th>
@@ -1653,7 +1594,7 @@
                                                                     <p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error"></p></td>
                                                                 <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter" class="form-control input_pre_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter">Reset</button></td>
+                                                                <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter" disabled>Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">Post-filter</th>
@@ -1664,7 +1605,7 @@
                                                                     <p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error"></p></td>
                                                                 <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter" class="form-control input_post_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                 <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter">Reset</button></td>
+                                                                <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter" disabled>Reset</button></td>
                                                             </tr>
                                                             <tr>
                                                                 <th style="line-height: 2.5em">General</th>
@@ -1675,7 +1616,7 @@
                                                                     <p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error"></p></td>
                                                                 <td class="form-inline"><input style="width:100px" type="number" id="input_general_service" class="form-control input_general_service" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                 <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service">Reset</button></td>
+                                                                <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service" disabled>Reset</button></td>
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -1688,11 +1629,8 @@
                         </div>
                     </section>
                 </div>
-
             </div>
-            <!-- /.modal-content -->
         </div>
-
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="view_userDevices_modal">
         <div class="modal-dialog" role="document">
@@ -1724,7 +1662,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="modal-map_view">
         <div class="modal-dialog modal-full" >
             <div class="modal-content">
@@ -1732,57 +1669,103 @@
 
                <div id="myMap" style='position:relative;width:800px;height:500px;'></div>
             </div>
-            <!-- /.modal-content -->
-
         </div>
-
     </div>
     <div class="modal fade" id="modal-device_notifications">
         <div class="modal-dialog modal-full" >
-            <div class="modal-header">
-                <ul class="nav nav-tabs card-header-tabs" role="tablist">
-                    <li class="nav-item nav_maintenance_logs"  >
-                        <a class="nav-link active" aria-current="page" href="#tab_maintenance_logs" data-toggle="tab" >Maintenance Logs</a>
-                    </li>
-                    <li class="nav-item nav_controls_logs">
-                        <a class="nav-link" href="#tab_control_logs" data-toggle="tab">Control Logs<i id="btn_refresh_live_data" class="btn fas fa-sync-alt" hidden></i></a>
-                    </li>
-                </ul>
+            <div class="modal-header" style="background-color: #87bde6">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5 class="modal-title" id="notifications_heading">Notifications</h5>
+                    </div>
+                </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-content">
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" role="tabpanel" id="tab_maintenance_logs">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 box">
-                                <table class="table stripped-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Parameter</th>
-                                            <th>Old Value</th>
-                                            <th>New Value</th>
-                                            <th>Updated By</th>
-                                            <th>Updated At</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="maintenance_logs_body">
+            <div class="modal-content" style="background-color: #3979a9">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <li class="nav-item nav_maintenance_logs"  >
+                                <a class="nav-link active" aria-current="page" href="#tab_maintenance_logs" data-toggle="tab" >Maintenance Logs</a>
+                            </li>
+                            <li class="nav-item nav_controls_logs">
+                                <a class="nav-link" href="#tab_controls_logs" data-toggle="tab">Command Logs<i id="btn_refresh_live_data" class="btn fas fa-sync-alt" hidden></i></a>
+                            </li>
+                            <li class="nav-item nav_setpoints_logs">
+                                <a class="nav-link" href="#tab_setpoints_logs" data-toggle="tab">Setpoints Logs<i id="btn_refresh_live_data" class="btn fas fa-sync-alt" hidden></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" role="tabpanel" id="tab_maintenance_logs">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 box">
+                                        <table class="table" id="maintenance_logs_table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Parameter</th>
+                                                    <th>Old Value</th>
+                                                    <th>New Value</th>
+                                                    <th>Updated By</th>
+                                                    <th>Updated At</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="maintenance_logs_body">
 
-                                    </tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" role="tabpanel" id="tab_controls_logs">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 box">
+                                        <table class="table" id="control_logs_table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Command</th>
+                                                    <th>Executed at</th>
+                                                    <th>Message</th>
+                                                    <th>Created By</th>
+                                                    <th>Created At</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="controls_logs_body">
 
-                                </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" role="tabpanel" id="tab_setpoints_logs">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 box">
+                                        <table class="table" id="setpoints_logs_table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Parameter</th>
+                                                    <th>Old Value</th>
+                                                    <th>New Value</th>
+                                                    <th>Updated By</th>
+                                                    <th>Updated At</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="setpoints_logs_body">
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.modal-content -->
-
         </div>
-
     </div>
 
-<!-- <script type="module" src="{{asset('js/home.js')}}"></script> -->
-<!-- <script type="module" src="{{asset('js/map.js')}}"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- //Bing map -->
     <script type='text/javascript'>
@@ -1800,6 +1783,7 @@
     var device_id = 0;
     let device_serial = null;
     var critic_acid_reset_value, pre_filter_reset_value, post_filter_reset_value, general_service_reset_value;
+    var btn_clicked = null;
     $(document).ready(function () {
         $('.datatable').dataTable();
         let refresh_data;
@@ -1817,10 +1801,8 @@
                     url: "/getDeviceSetpointsForCalculation/"+device_id,
                 })
                 .done(function(response){
-                    // console.log(response);
                     userDevices = response;
                 });
-                // console.log("#### TR Clicked of device id: "+device_trid)
                 $('#tab_avg_data').show();
                 $('#tab_live_data').hide();
                 $('#btn_refresh_live_data').attr('hidden', true);
@@ -1843,22 +1825,23 @@
                             // console.log(response[i]['deviceDetails']);
 
                             //change the status if new data is available
-                            if(start_stop_command_sent != true && new Date(response['deviceDetails'].latest_log.created_at) >= command_sent_time){
+                            if(start_stop_command_sent != true && +new Date(response['deviceDetails'].latest_log.created_at) >= command_sent_time){
                                 var status = "";
                                 var color = "";
                                 if(response['deviceDetails'].latest_log.step == 0 || response['deviceDetails'].latest_log.step == 1 || response['deviceDetails'].latest_log.step == 13){
                                     status = "IDLE";
                                     color = "orange";
                                     //enable all relay commands
-                                    $('#btn_relay_1').removeAttr("disabled");
-                                    $('#btn_relay_2').removeAttr("disabled");
-                                    $('#btn_relay_3').removeAttr("disabled");
-                                    $('#btn_relay_4').removeAttr("disabled");
-                                    $('#btn_relay_5').removeAttr("disabled");
-                                    $('#btn_relay_6').removeAttr("disabled");
-                                    $('#btn_relay_7').removeAttr("disabled");
-                                    $('#btn_relay_8').removeAttr("disabled");
-                                    $('#btn_relay_9').removeAttr("disabled");
+                                        $('#btn_relay_1').removeAttr("disabled");
+                                        $('#btn_relay_2').removeAttr("disabled");
+                                        $('#btn_relay_3').removeAttr("disabled");
+                                        $('#btn_relay_4').removeAttr("disabled");
+                                        $('#btn_relay_5').removeAttr("disabled");
+                                        $('#btn_relay_6').removeAttr("disabled");
+                                        $('#btn_relay_7').removeAttr("disabled");
+                                        $('#btn_relay_8').removeAttr("disabled");
+                                        $('#btn_relay_9').removeAttr("disabled");
+                                    //
                                     if($('#device_status_pic').hasClass("running"))
                                         $('#device_status_pic').removeClass("running")
                                     if(!$('#device_status_pic').hasClass("idle"))
@@ -1869,15 +1852,16 @@
                                     status = "RUNNING";
                                     color = "green";
                                     // disable all the relay commands
-                                    $('#btn_relay_1').attr("disabled","true");
-                                    $('#btn_relay_2').attr("disabled","true");
-                                    $('#btn_relay_3').attr("disabled","true");
-                                    $('#btn_relay_4').attr("disabled","true");
-                                    $('#btn_relay_5').attr("disabled","true");
-                                    $('#btn_relay_6').attr("disabled","true");
-                                    $('#btn_relay_7').attr("disabled","true");
-                                    $('#btn_relay_8').attr("disabled","true");
-                                    $('#btn_relay_9').attr("disabled","true");
+                                        $('#btn_relay_1').attr("disabled","true");
+                                        $('#btn_relay_2').attr("disabled","true");
+                                        $('#btn_relay_3').attr("disabled","true");
+                                        $('#btn_relay_4').attr("disabled","true");
+                                        $('#btn_relay_5').attr("disabled","true");
+                                        $('#btn_relay_6').attr("disabled","true");
+                                        $('#btn_relay_7').attr("disabled","true");
+                                        $('#btn_relay_8').attr("disabled","true");
+                                        $('#btn_relay_9').attr("disabled","true");
+                                    //
                                     if($('#device_status_pic').hasClass("idle"))
                                         $('#device_status_pic').removeClass("idle")
                                     if(!$('#device_status_pic').hasClass("running"))
@@ -1905,7 +1889,7 @@
                                     // console.log(response_command);
                                     if(response_command.device_read_at != null){
                                         start_stop_command_sent = false;
-                                        command_sent_time = new Date(response_command.created_at);
+                                        command_sent_time = +new Date(response_command.device_read_at);
                                         console.log("Changed Command sent time : "+ command_sent_time)
                                         $('#btn_device_start_stop').attr('disabled',false).change();
                                         switch(response.command){
@@ -1916,6 +1900,9 @@
                                                 $('#device-info'+' .status').text("Stopping"); // row status
                                                 break;
                                         }
+                                    }else{
+                                        command_sent_time = +new Date(response_command.created_at)
+                                        console.log("Command sent time : "+ command_sent_time)
                                     }
                                 });
                             }
@@ -1931,7 +1918,6 @@
                                     $('#btn_relay_'+index).attr("checked",false).trigger("change");
                                 else
                                     $('#btn_relay_'+index).attr("checked", true).trigger("change");
-
                             }
                             // change the water quality
                             var water_quality ="";
@@ -2053,24 +2039,28 @@
                                 is_maintenance_needed = true;
                                 $('#critic_acid_details').attr("hidden","true");
                                 $('#critic_acid_error').text("Critic acid refill needed!").css("color","red");
+                                $('#btn_reset_critic_acid').attr('disabled', false);
                             }
                             if(volume_left_pre_filter < 0){
                                 volume_left_pre_filter = 0;
                                 is_maintenance_needed = true;
                                 $('#pre_filter_details').attr("hidden","true");
                                 $('#pre_filter_error').text("Pre-filter replacement needed!").css("color","red");
+                                $('#btn_reset_pre_filter').attr('disabled', false);
                             }
                             if(volume_left_post_filter < 0){
                                 volume_left_post_filter = 0;
                                 is_maintenance_needed = true;
                                 $('#post_filter_details').attr("hidden","true");
                                 $('#post_filter_error').text("Post-filter replacement needed!").css("color","red");
+                                $('#btn_reset_post_filter').attr('disabled', false);
                             }
                             if(volume_left_general_service < 0){
                                 volume_left_general_service = 0;
                                 is_maintenance_needed = true;
                                 $('#general_service_details').attr("hidden","true");
                                 $('#general_service_error').text("General service needed!").css("color","red");
+                                $('#btn_reset_general_service').attr('disabled', false);
                             }
                             if(is_maintenance_needed)
                                 $('section#alarmsList').append('<a class="goto_maintenance" id="goto_maintenance"><p><button class="btn btn-warning btn_goto_maintenance">Routine Maintenance Needed</button></p><a>');
@@ -2090,7 +2080,6 @@
             })
             $('.btn_close_modal').on('click', function(){
                 clearInterval(refresh_data);
-                // alert('Closed');
             })
         // check status
 
@@ -2126,31 +2115,96 @@
         //shake
 
         //Notifications
-        $('.btn_notifications').on('click',function(){
-            var trid = $(this).closest('tr').attr('id'); // table row ID
-            device_id = trid.replace("device-info-",'') // device id  from table row
-
-            $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "GET",
-                url: "/getDeviceNotifications/"+device_id,
+            $('.btn_notifications').on('click',function(){
+                var trid = $(this).closest('tr').attr('id'); // table row ID
+                device_id = trid.replace("device-info-",'') // device id  from table row
+                $('#notifications_heading').text("Notifications: "+$('#device-serial-number_'+device_id).text())
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "GET",
+                    url: "/getDeviceNotifications/"+device_id,
+                })
+                .done(function(response){
+                    // If table is initialized
+                    if ($.fn.DataTable.isDataTable('#maintenance_logs_table')){
+                        // Destroy existing table
+                        $('#maintenance_logs_table').DataTable().destroy();
+                    }
+                    // update maintenance logs table
+                    $('#maintenance_logs_body').html('');
+                    if(response.maintenance.length == 0){
+                        $('#maintenance_logs_table').attr('hidden', true);
+                    }else{
+                        $('#maintenance_logs_table').attr('hidden', false);
+                    }
+                    for(let i = 0; i<response.maintenance.length; i++){
+                        $('#maintenance_logs_body').append('<tr id="'+response.maintenance[i].id +'"><td>'+response.maintenance[i].parameter+'</td>'
+                            +'<td>'+response.maintenance[i].old_value +'</td>'
+                            +'<td>'+response.maintenance[i].new_value +'</td>'
+                            +'<td>'+response.maintenance[i].changer_details.name +'</td>'
+                            +'<td>'+ new Date(response.maintenance[i].created_at) +'</td>'
+                            +'</tr>'
+                        )
+                    }
+                    // Initialize the table
+                    $('#maintenance_logs_table').DataTable();
+                    // If table is initialized
+                    if ($.fn.DataTable.isDataTable('#control_logs_table')){
+                        // Destroy existing table
+                        $('#control_logs_table').DataTable().destroy();
+                    }
+                    // update controls logs table
+                    $('#controls_logs_body').html('');
+                    for(let i = 0; i<response.controls.length; i++){
+                        let device_read_at = response.controls[i].device_read_at == null ? '-' : new Date(response.controls[i].device_read_at)
+                        let device_response_data = response.controls[i].device_response_data == null ? '-': response.controls[i].device_response_data
+                        $('#controls_logs_body').append('<tr id="'+response.controls[i].id +'"><td>'+response.controls[i].command+'</td>'
+                            +'<td>'+device_read_at +'</td>'
+                            +'<td>'+device_response_data+'</td>'
+                            +'<td>'+response.controls[i].creator_details.name +'</td>'
+                            +'<td>'+ new Date(response.controls[i].created_at) +'</td>'
+                            +'</tr>'
+                        )
+                    }
+                    // Initialize the table
+                    $('#control_logs_table').DataTable();
+                    // If table is initialized
+                    if ($.fn.DataTable.isDataTable('#setpoints_logs_table')){
+                        // Destroy existing table
+                        $('#setpoints_logs_table').DataTable().destroy();
+                    }
+                    // update setpoints logs table
+                    $('#setpoints_logs_body').html('');
+                    for(let i = 0; i<response.setpoints.length; i++){
+                        $('#setpoints_logs_body').append('<tr id="'+response.setpoints[i].id +'"><td>'+response.setpoints[i].parameter+'</td>'
+                            +'<td>'+response.setpoints[i].old_value +'</td>'
+                            +'<td>'+response.setpoints[i].new_value +'</td>'
+                            +'<td>'+response.setpoints[i].changer_details.name +'</td>'
+                            +'<td>'+ new Date(response.setpoints[i].created_at) +'</td>'
+                            +'</tr>'
+                        )
+                    }
+                    // Initialize the table
+                    $('#setpoints_logs_table').DataTable();
+                    $('#modal-device_notifications').modal('show');
+                });
             })
-            .done(function(response){
-                console.log(response);
-                $('#maintenance_logs_body').html('');
-                for(let i = 0; i<response.length; i++){
-                    $('#maintenance_logs_body').append('<tr id="'+response[i].id +'"><td>'+response[i].parameter+'</td>'
-                        +'<td>'+response[i].old_value +'</td>'
-                        +'<td>'+response[i].new_value +'</td>'
-                        +'<td>'+response[i].changer_details.name +'</td>'
-                        +'<td>'+ new Date(response[i].created_at) +'</td>'
-                        +'</tr>'
-                    )
-                }
-                $('#modal-device_notifications').modal('show');
-            });
-        })
-
+            $('.nav_maintenance_logs').on('click',function(){
+                $('#tab_maintenance_logs').show();
+                $('#tab_controls_logs').hide();
+                $('#tab_setpoints_logs').hide();
+            })
+            $('.nav_controls_logs').on('click',function(){
+                $('#tab_controls_logs').show();
+                $('#tab_setpoints_logs').hide();
+                $('#tab_maintenance_logs').hide();
+            })
+            $('.nav_setpoints_logs').on('click',function(){
+                $('#tab_setpoints_logs').show();
+                $('#tab_controls_logs').hide();
+                $('#tab_maintenance_logs').hide();
+            })
+        //
     });
     // Maintenance
         var old_critic_value, old_pre_filter, old_post_filter, old_general_service;
@@ -2187,7 +2241,6 @@
 
                 })
                 .done(function(response){
-                    // console.log(response)
                     Swal.fire('Success','Critic Acid Updated','success')
                     $('#btn_save_critic_acid').attr("hidden", true);
                 });
@@ -2273,10 +2326,8 @@
                             $('#critic_acid_volume_left').text(critic_acid_reset_value);
                             Swal.fire('Done!','Critic acid refilled.','success')
                         })
-
                     }
                 })
-
             })
             $('.btn_reset_pre_filter').on('click', function(){
                 Swal.fire({
@@ -2302,10 +2353,8 @@
                             $('#pre_filter_volume_left').text(pre_filter_reset_value).trigger("change");
                             Swal.fire('Done!','Pre-filter replaced.','success')
                         })
-
                     }
                 })
-
             })
             $('.btn_reset_post_filter').on('click', function(){
                 Swal.fire({
@@ -2699,6 +2748,7 @@
         view_mode = "average";
         view_live_device = null; // we are not in live mode
         $('#tab_live_data').hide();
+        $('#tab_control').hide();
         $('#tab_avg_data').show();
         $('#btn_refresh_live_data').attr('hidden', true);
         $('#btn_edit_setpoints').attr('hidden',true);
@@ -2729,7 +2779,6 @@
             url: "/getDeviceSetpointsForCalculation/"+device_id,
         })
         .done(function(response){
-            console.log(response);
             userDevices = response;
         });
         setInterval(function(){
@@ -2742,13 +2791,10 @@
                 .done(function(response){
                     console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
                     console.log(response);
-                    console.log(response.created_at);
                     if(device_data_created_at != response.created_at){
                         device_data_created_at = response.created_at;
                         var recorded_date = new Date(response.created_at);
-                        // console.log(recorded_date);
                         recorded_date = recorded_date.toString();
-                        // console.log(recorded_date);
                         var status = "";
                         if(response.step == 0 ||response.step == 1 || response.step ==13)
                             status = "IDLE"
@@ -2988,12 +3034,10 @@
         var output_binary_string = (output >>> 0).toString(2);
 
         for(var i =7 ; i<output_binary_string.length; i++){
-            console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
             if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
                 $('#btn_relay_'+(i-6)).attr("checked",false).trigger("change");
             else
                 $('#btn_relay_'+(i-6)).attr("checked", true).trigger("change");
-
         }
 
         if($('#status-'+device_id).text() =="RUNNING"){
@@ -3027,7 +3071,6 @@
 
         })
         .done(function(response){
-            // console.log(response);
             response.forEach(addCommandRows)
 
             function addCommandRows(item, index, arr){
@@ -3065,9 +3108,6 @@
             url: "/getDeviceSetpoints/"+ device_id,
         })
         .done(function(response){
-            console.log("***** Setpoints from database")
-            console.log(response);
-            console.log("*****************************")
             pure_EC_target = response.pure_EC_target;
             pre_purify_time = response.prepurify_time;
             purify_time = response.purify_time;
@@ -3134,7 +3174,6 @@
             $('#input-bypass_pressure').val(bypass_pressure).change();
             $('#input-CIP_pressure').val(CIP_pressure).change();
             $('#input-wait_time_before_CIP').val(wait_time_before_CIP).change();
-
         });
     })
     $('.commands').on('click','.delete-command', function(){
@@ -3152,10 +3191,8 @@
                     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                     type: "Delete",
                     url: "/deleteCommand/"+ trid,
-
                 })
                 .done(function(response){
-                    // console.log(response);
                     $('.commands tr#'+trid).hide();
                     Swal.fire('Deleted!', '', 'success')
                     $('#command-'+trid).remove();
@@ -3183,10 +3220,6 @@
         $('#btn_save_setpoints').attr('hidden',true)
         $('#btn_cancel_setpoints').attr('hidden',true)
         $('.input-setpoints').attr('disabled',true);
-
-        console.log(" ' ' ' ' ' ' ' ' ' ' ' ' '' ");
-        console.log("Pure EC Target: "+ $('#input-pure_EC_target').val());
-        console.log(" ' ' ' ' ' ' ' ' ' ' ' ' '' ");
 
         //save new values in the database and send commands to device to change the setpoints to new value
         var formData ={
@@ -3231,8 +3264,6 @@
             data: formData
         })
         .done(function(response){
-            console.log("Saved Setpoints for device_id: "+device_id);
-            console.log(response);
             Swal.fire('Success','Set - Setpoints command sent to device.','success')
             // wait for response and notify if value error
 
@@ -3298,7 +3329,6 @@
                             url: "/command_status/Setpoints-get/" + device_id,
                     })
                     .done(function(response){
-                        console.log(response)
                         if(response.device_read_at != null){
                             is_response_received = true;
                             $.ajax({
@@ -3307,7 +3337,6 @@
                                     url: "/getDeviceSetpoints/" + device_id,
                             })
                             .done(function(response){
-                                console.log(response)
                                 $('#input-pure_EC_target').val(response.pure_EC_target)
                                 $('#input-pre_purify_time').val(response.prepurify_time)
                                 $('#input-purify_time').val(response.purify_time)
@@ -3351,10 +3380,6 @@
         })
     })
 
-    // $('#volume_chart').on('click', function(){
-    //     $('#modal-volume-chart').modal('show');
-    // })
-
     // starting and stopping the device
         var start_stop_command_sent;
         var command_sent = "";
@@ -3390,7 +3415,6 @@
                         url: "/command/start/"+ device_id,
                     })
                     .done(function(response){
-                        //console.log(response);
                         Swal.fire('Success','Command recorded.','success')
                         start_stop_command_sent = true;
                         $('#device_status').text('Pending')
@@ -3477,8 +3501,8 @@
             }
         })
     //
-    // graph
-        var graph_time_frame, graph_custom_from, graph_custom_to;
+    //chart
+    var graph_time_frame, graph_custom_from, graph_custom_to;
         var graph_title, graph_labels, graph_x_label, graph_y_label, graph_data;
         var graph_displayed = "none";
         var volumeChart;
@@ -3491,98 +3515,213 @@
             switch(graph_time_frame){
                 case 'custom':
                     $('.volume_custom_time').show();
-                    graph_title = "Water purified in "+ graph_custom_from + " to "+ graph_custom_to;
+                    $('#btn_reload_graph').prop('disabled', true);
                     break;
                 case 'last_hour':
                     $('.volume_custom_time').hide();
-                    graph_title = "Water purified in Last Hour";
                     break;
                 case 'last_24_hour':
-                    graph_title = "Water purified in Last 24 Hours";
                     $('.volume_custom_time').hide();
                     break;
+                default:$('#btn_reload_graph').prop('disabled', true);
             }
             // volumeChart.update();
             $('#btn_reload_graph').show();
         })
         $('#btn_reload_graph').on('click', function(){
-            //alert('reloading')
             var ctx_volume = document.getElementById('volumeChart').getContext('2d');
             switch(graph_time_frame){
                 case 'custom':
                     graph_custom_from = $('#inputFromDate_volume').val();
                     graph_custom_to = $('#inputToDate_volume').val();
+                    graph_title = "Water purified in "+ graph_custom_from + " to "+ graph_custom_to;
                     //fetch data from server
                     graph_labels = ['01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00'];
                     graph_data = [12,10,5,20,25,12,10,5,20,25,12,10,5,20,25];
                     graph_displayed = "custom";
+                        if(volumeChart){
+                            volumeChart.destroy();
+                        }
+                        volumeChart = new Chart(ctx_volume, {
+                            type: 'bar',
+                            data: {
+                                labels: graph_labels,
+                                datasets: [{
+                                    label: 'Volume purified',
+                                    position: 'right',
+                                    data: graph_data,
+                                    fill: true,
+                                    backgroundColor: 'cyan',
+                                    borderColor: 'blue',
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                interaction: {
+                                    // Overrides the global setting
+                                    mode: 'index'
+                                },
+                                title: {
+                                    display: true,
+                                    text: graph_title,
+                                    position: 'top',
+                                },
+                                scales: {
+                                    xAxes:[{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: "Time (HH::MM)"
+                                        }
+                                    }],
+                                    yAxes:[{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: "Value (in gallons)"
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                        $('#volumeChart').show();
+                        $('#btn_reload_graph').prop('disabled', true);
                     break;
                 case 'last_hour':
                     $('.volume_custom_time').hide();
-                    //fetch data from server
-                    graph_labels = ['01:00','02:00','03:00','04:00','05:00'];
-                    graph_data = [12,10,5,20,25];
                     graph_displayed = "last_hour";
+                    graph_title = "Water purified in Last Hour";
+                    //fetch data from server
+                    // graph_labels = ['01:00','02:00','03:00','04:00','05:00'];
+                    // graph_data = [12,10,5,20,25];
+                    //fetch data from server
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "get",
+                        url: "/getVolumeHour/"+ device_id,
+                    })
+                    .done(function(response){
+                        graph_labels = Object.assign([],response.graph_labels);
+                        graph_data = Object.assign([],response.graph_data);
+                        graph_displayed = "last_hour";
+                        if(volumeChart){
+                            volumeChart.destroy();
+                        }
+                        volumeChart = new Chart(ctx_volume, {
+                            type: 'bar',
+                            data: {
+                                labels: graph_labels,
+                                datasets: [{
+                                    label: 'Volume purified',
+                                    position: 'right',
+                                    data: graph_data,
+                                    fill: true,
+                                    backgroundColor: 'cyan',
+                                    borderColor: 'blue',
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                interaction: {
+                                    // Overrides the global setting
+                                    mode: 'index'
+                                },
+                                title: {
+                                    display: true,
+                                    text: graph_title,
+                                    position: 'top',
+                                },
+                                scales: {
+                                    xAxes:[{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: "Time (HH::MM)"
+                                        }
+                                    }],
+                                    yAxes:[{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: "Value (in gallons)"
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                        $('#volumeChart').show();
+                        $('#btn_reload_graph').prop('disabled', true);
+                    })
                     break;
                 case 'last_24_hour':
                     $('.volume_custom_time').hide();
+                    graph_title = "Water purified in Last 24 Hours";
                     //fetch data from server
-                    graph_labels = ['01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00'];
-                    graph_data = [12,10,5,20,25,12,10,5,20,25];
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "get",
+                        url: "/getVolume24Hour/"+ device_id,
+                    })
+                    .done(function(response){
+                        graph_labels = Object.assign([],response.graph_labels);
+                        graph_data = Object.assign([],response.graph_data);
+                        graph_displayed = "last_hour";
+                        if(volumeChart){
+                            volumeChart.destroy();
+                        }
+                        volumeChart = new Chart(ctx_volume, {
+                            type: 'bar',
+                            data: {
+                                labels: graph_labels,
+                                datasets: [{
+                                    label: 'Volume purified',
+                                    position: 'right',
+                                    data: graph_data,
+                                    fill: true,
+                                    backgroundColor: 'cyan',
+                                    borderColor: 'blue',
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                interaction: {
+                                    // Overrides the global setting
+                                    mode: 'index'
+                                },
+                                title: {
+                                    display: true,
+                                    text: graph_title,
+                                    position: 'top',
+                                },
+                                scales: {
+                                    xAxes:[{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: "Time (HH::MM)"
+                                        }
+                                    }],
+                                    yAxes:[{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: "Value (in gallons)"
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                        $('#volumeChart').show();
+                        $('#btn_reload_graph').prop('disabled', true);
+                    })
                     graph_displayed = "last_24_hr";
                     break;
             }
-            if(volumeChart){
-                volumeChart.destroy();
-            }
-            volumeChart = new Chart(ctx_volume, {
-                type: 'bar',
-                data: {
-                    labels: graph_labels,
-                    datasets: [{
-                        label: 'Volume purified',
-                        position: 'right',
-                        data: graph_data,
-                        fill: true,
-                        backgroundColor: 'cyan',
-                        borderColor: 'blue',
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    interaction: {
-                        // Overrides the global setting
-                        mode: 'index'
-                    },
-                    title: {
-                        display: true,
-                        text: graph_title,
-                        position: 'top',
-                        // padding: {
-                        //     top: 10,
-                        //     bottom: 30
-                        // }
-                    },
-                    scales: {
-                        xAxes:[{
-                            scaleLabel: {
-                                display: true,
-                                labelString: "Time (HH::MM)"
-                            }
-                        }],
-                        yAxes:[{
-                            scaleLabel: {
-                                display: true,
-                                labelString: "Value (in gallons)"
-                            }
-                        }]
-                    }
-                }
-            });
-            $('#volumeChart').show();
-            $('#btn_reload_graph').prop('disabled', true);
+        })
+        $('#inputFromDate_volume').on('change', function(){
+            var from = new Date($('#inputFromDate_volume').val())
 
+            from.setDate(from.getDate()+1)
+            var to = from.toLocaleDateString()
+            $('#inputToDate_volume').val(to).change()
+            $('#btn_reload_graph').prop('disabled', false);
         })
     //
     // Alarms
@@ -3615,14 +3754,12 @@
                         var read_database = true;
                         setInterval(function(){
                             if(read_database){
-
                                 $.ajax({
                                     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                                     type: "GET",
                                     url: "/command_status/Reset-all-alarms/"+ device_id,
                                 })
                                 .done(function(response){
-                                    console.log(response);
                                     if(response.device_read_at != null){
                                         read_database = false;
                                         Swal.close();
@@ -3644,7 +3781,6 @@
                                                     url: "/command/start/"+ device_id,
                                                 })
                                                 .done(function(response){
-                                                    console.log(response);
                                                     Swal.fire('Success','Command recorded.','success')
                                                     start_stop_command_sent = true;
                                                     $('#device_status').text('Pending')
@@ -3669,7 +3805,6 @@
         })
         // alarms history logs
         $('#info_device_alarms_table').on('click', function(){
-            console.log("Clicked alarm logs")
             $('#modal-alarms_history-title').text("Alarms' History : " + device_serial)
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -3677,12 +3812,9 @@
                 url: "/getDeviceAlarms/"+device_id,
             })
             .done(function(response){
-                console.log(device_id)
-                console.log(response)
                 for(var i=0 ;i< response.length; i++){
                     if(response[i].alarms != 0){
                         var alarm_names = calculateAlarm(response[i].alarms);
-                        // console.log(alarm_names)
                         $('#alarms_history_row').prepend('<li><div class="timeline-time"><span class="time">'+ new Date(response[i].start)+'</span></div>'+
                             '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
                             '<div class="timeline-body">'+
@@ -3696,9 +3828,7 @@
                         '</li>');
                     }
                 }
-
             })
-
             $('#modal-view_alarms_history').modal('show');
         })
         function calculateAlarm(alarm_code){
@@ -3735,7 +3865,6 @@
                         case 21:alarm_names.push('<h5 style="color:red">&nbsp;BYPASS ALARM</h5>');break;
                         case 22:alarm_names.push('<h5 style="color:red">&nbsp;LOW FLOW WASTE ALARM</h5>');break;
                         case 23:alarm_names.push('<h5 style="color:red">&nbsp;LOW FLOW PURE ALARM</h5>');break;
-
                     }
                 }
             }

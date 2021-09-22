@@ -30,7 +30,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Devices</h1>
-                </div><!-- /.col -->
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -39,12 +39,10 @@
                         @endif
                         <li class="breadcrumb-item active">Devices</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -104,9 +102,7 @@
                 </div>
             </div>
         </div>
-        <!-- /.container-fluid -->
 
-        <!-- /.modal -->
         <div class="modal fade" id="modal-assign-user">
             <form id="form_assign_user" class="form-horizontal" autocomplete="no">
                 {{ csrf_field() }}
@@ -163,7 +159,6 @@
                 <!-- /.modal-dialog -->"
             </form>
         </div>
-        <!-- /.modal -->
         <div class="modal fade" id="modal-add-user-device">
             <form id="form_addUserDevice" class="form-horizontal" autocomplete="no">
                 {{ csrf_field() }}
@@ -282,13 +277,6 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <!-- <div class="input-group form-group">
-                                                    <label for="inputUserMobile" class="control-label">User's Mobile # </label><br/>
-                                                    <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                                    </div>
-                                                    <input id="inputMobile" type="tel" class="form-control" data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']" data-mask="" inputmode="number">
-                                                </div> -->
                                                 <div class="form-group">
                                                     <label for="inputUserMobile" class="control-label">User's Mobile # </label>
                                                     <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
@@ -323,7 +311,6 @@
                                                     <option></option>
                                                 </select>
                                             </div>
-
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="input_city" class="control-label">City</label>
@@ -392,19 +379,15 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" id="btn_confirm_add_reseller_device" value="Add">Add</button>
                         </div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->"
             </form>
         </div>
-        <!-- /.modal -->
         <div class="modal fade" id="modal-edit-device">
             <form id="form_editDevice" class="form-horizontal" autocomplete="no">
                 {{ csrf_field() }}
@@ -513,12 +496,9 @@
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                     </div>
                 </div>
-                <!-- /.modal-content -->
             </div>
-            <!-- /.modal-dialog -->"
         </div>
     </div>
-    <!-- /.content -->
 
 @endsection
 
@@ -526,7 +506,6 @@
     <script src="{{asset('js/device.js')}}"></script>
     <script src="{{asset('js/countries.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"> -->
 
 <script type="text/javascript">
     let list_of_users;
@@ -541,23 +520,16 @@
         $(document).on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
         });
-        // $("#inputMobile").inputmask();
-        console.log(countries)
         for(var i =0; i<countries.length; i++)
             $('#select_country').append('<option id="option_country_'+i+'" value ="'+countries[i].country+'">'+countries[i].country+'</option>');
-
-
     })
     $('#btn_close_add_device_user').on('click', function(){
         $('#modal-add-user-device').modal('hide');
     })
     $('#select_country').on('change',function(){
         var id = $(this).children(":selected").attr("value");
-        // id = id.replace("option_country_","")
-        // console.log(id)
         var found = countries.filter(function(item) { return item.country === id; });
 
-        // console.log(found)
         $('#select_state').find('option').remove().end()
                 .append('<option></option>')
         for(var i =0;i<found[0]['states'].length;i++)
@@ -580,7 +552,6 @@
                 }
             })
             .done(function(response){
-                console.log(response)
                 if(!$.isEmptyObject(response)){
                     if(response.reseller_id != null){
                         Swal.fire("Error", "Device already registered to reseller!","error");
@@ -618,14 +589,12 @@
     $('#device_lists').on('click','.operation-edit_device', function(){
         var device_id = $(this).closest('tr').attr('id'); // table row ID
         edit_device_id = device_id;
-        //alert("check" + device_id)
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
             url: "/device_detail/"+device_id,
         })
         .done(function(response){
-            console.log(response)
             $('#edit_selectModel').val(response.model_id).trigger('change');
             $('#inputSN_edit').val(response.serial_number);
             $('#inputDN_edit').val(response.device_number);
@@ -672,7 +641,6 @@
             data: formData,
         })
         .done(function( msg ) {
-            console.log(msg)
             switch(msg['message']){
                 case 'Error':
                     Swal.fire({
@@ -695,9 +663,7 @@
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Something went wrong! ' + msg.desc,
-                        // footer: msg
                     })
-
             }
         });
     })
@@ -710,19 +676,18 @@
             url: "/viewDeviceUsers/"+device_id,
         })
         .done(function(response){
-            console.log(response)
             if($.trim(response)){
                 $('#modal-view-device-users').modal('toggle');
                 $('#user_device_table_body tr').remove();
                 for(var i=0 ; i<response.length ; i++){
-                $('#user_device_table_body').append('<tr id="'+response[i].id+'">'+
-                    "<td>"+(i+1)+"</td>"+
-                    "<td>"+response[i].user_details['name']+"</td>"+
-                    "<td>"+response[i].user_details.email+"</td>"+
-                    "<td>"+response[i].user_details.role+"</td>"+
-                    "<td>"+ new Date(response[i].user_details.created_at)+"</td>"+
-                    '<td id="action_delete_user_device-'+response[i].user_details['id']+'"><i class="fa fa-trash delete_user_from_device"></i>Delete</td>'+
-
+                    let user_role = response[i].user_details.role == 'U'?"User":'-';
+                    $('#user_device_table_body').append('<tr id="'+response[i].id+'">'+
+                        "<td>"+(i+1)+"</td>"+
+                        "<td>"+response[i].user_details['name']+"</td>"+
+                        "<td>"+response[i].user_details.email+"</td>"+
+                        "<td>"+user_role+"</td>"+
+                        "<td>"+ new Date(response[i].user_details.created_at)+"</td>"+
+                        '<td id="action_delete_user_device-'+response[i].user_details['id']+'"><i class="fa fa-trash delete_user_from_device"></i>Delete</td>'+
                     "</tr>")
                 }
             }else{
@@ -731,10 +696,7 @@
                     icon: 'error',
                     confirmButtonText: 'OK'})
             }
-
-
         })
-
     })
     $('#user_device_table_body').on('click','.delete_user_from_device', function(){
         var user_device_id = $(this).closest('tr').attr('id'); // table row ID
@@ -744,7 +706,6 @@
             url: "/deleteUserAccessFromDevice/"+user_device_id,
         })
         .done(function(response){
-            console.log(response)
             if(response[0] == "deleted"){
                 $('#user_device_table_body #'+user_device_id).remove();
                 var count = parseInt($('#count_userDevices-'+response[1]).text());
@@ -775,7 +736,6 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 var trid = $(this).closest('tr').attr('id'); // table row ID
-                console.log(trid)
                 deleteUserDevice(trid);
             }
         })
@@ -816,6 +776,18 @@
     }
     $('#btn_confirm_add_reseller_device').on('click', function(e){
         e.preventDefault();
+        let timerInterval
+        Swal.fire({
+            title: 'Please Wait!',
+            html: 'Adding device and users.',
+            didOpen: () => {
+                Swal.showLoading()
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+
+        })
         var formData = {
             // Device Info
             'serial_number': $('#inputSerialNumber').val(),
@@ -833,7 +805,6 @@
                                 'zip_code': $('#input_zip_code').val()
                             }
         }
-        console.log(formData)
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "POST",
@@ -841,7 +812,6 @@
             data: formData,
         })
         .done(function(response){
-            console.log(response)
             switch(response['message']){
             case 'Error':
                 Swal.fire({
@@ -861,21 +831,50 @@
                 break;
             case 'Success':
                 Swal.fire({
-                    title: 'Hurray! Device Added!!!',
-                    text: " Do you want to add another?",
-                    icon: 'success',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, I have more than one devices!',
-                    cancelButtonText: 'No'
+                    title: "Do you want to name this device?",
+                    text: "Name something informative!",
+                    input: 'text',
+                    showCancelButton: true
                 }).then((result) => {
-                    if (!result.isConfirmed) {
-                        // alert("thank you for adding")
-                        $('#modal-add-user-device').modal('hide')
+                    if (result.value) {
+                        let formData = {
+                            // Device Info
+                            'serial_number': $('#inputSerialNumber').val(),
+                            'device_name' : result.value
+                        }
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/nameResellerDevice",
+                            data: formData,
+                        })
+                        .done(function(response){
+                            Swal.fire({
+                                title: 'Done!',
+                                text: 'Device is added and named as '+ response.device_name,
+                                icon: 'success',
+                                confirmButtonText: 'Cool'
+                            })
+                        });
                     }
+                });
+                // Swal.fire({
+                //     title: 'Hurray! Device Added!!!',
+                //     text: " Do you want to add another?",
+                //     icon: 'success',
+                //     showCancelButton: true,
+                //     confirmButtonColor: '#3085d6',
+                //     cancelButtonColor: '#d33',
+                //     confirmButtonText: 'Yes, I have more than one devices!',
+                //     cancelButtonText: 'No'
+                // }).then((result) => {
+                //     if (!result.isConfirmed) {
+                //         // alert("thank you for adding")
+                //         $('#modal-add-user-device').modal('hide')
+                //     }
 
-                })
+                // })
+                $('#modal-add-user-device').modal('hide')
                 $('#device_lists .odd').remove();
                 $('#device_lists').append('<tr id="'+response.data.device.id+'"><td>'+response.data.device.serial_number +'</td>'
                                             +'<td>'+response.data.device.device_number +'</td>'
@@ -913,7 +912,6 @@
     })
     $('#select_existing_user').on('change',function(){
         let selected_user = list_of_users.find(el =>el.id == $('#select_existing_user').val())
-        console.log(selected_user);
         $('#inputUserName').val(selected_user.name)
         $('#inputUserEmail').val(selected_user.email)
         $('#inputUserMobile').val(selected_user.mobile)

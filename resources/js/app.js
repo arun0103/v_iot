@@ -5,15 +5,15 @@
  */
 
 const { default: axios } = require('axios');
-
-require('./bootstrap');
-
-
 //jQuery
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 import 'jquery-ui/ui/widgets/datepicker.js';
 import 'datatables.net/js/jquery.dataTables.js';
+
+require('./bootstrap');
+
+
 //var Inputmask = require('inputmask');
 //import Inputmask from "inputmask";
 
@@ -21,7 +21,6 @@ var dt = require( 'datatables.net' );
 require('select2');
 
 $('.datepicker').datepicker();
-//$('.datatable').DataTable({ renderer: { "header": "bootstrap" } });
 
 //jsPDF
 const { jsPDF } = require("jspdf"); // will automatically load the node version

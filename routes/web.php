@@ -68,13 +68,15 @@ Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showCha
     Route::post('/assignUserDevice',[App\Http\Controllers\SuperController::class,'assignUserDevice'])->middleware('auth');//not used i guess
     Route::post('/addUserDevice', [App\Http\Controllers\HomeController::class,'addUserDevice'])->middleware('auth');
 
-// });
+    // });
 
-Route::get('/resellerDevices',[App\Http\Controllers\SuperController::class,'resellerDevices'])->name('resellerDevices')->middleware('auth');
+    Route::get('/resellerDevices',[App\Http\Controllers\SuperController::class,'resellerDevices'])->name('resellerDevices')->middleware('auth');
 
-// Resellers
+    // Resellers
 
-Route::get('/searchRegisteredDevice',[App\Http\Controllers\ResellerController::class, 'searchRegisteredDevice'])->middleware('auth');
+    Route::get('/searchRegisteredDevice',[App\Http\Controllers\ResellerController::class, 'searchRegisteredDevice'])->middleware('auth');
+    Route::post('/nameResellerDevice', [App\Http\Controllers\ResellerController::class,'nameResellerDevice'])->middleware('auth');
+
 
 //device
 Route::get('/getMyDevicesSetpoints', [App\Http\Controllers\DeviceController::class, 'getMyDevicesSetpoints'])->middleware('auth');
@@ -156,3 +158,8 @@ Route::post('/resetCriticAcid/{device_id}/{volume}',[App\Http\Controllers\Device
 Route::post('/resetPreFilter/{device_id}/{volume}',[App\Http\Controllers\DeviceController::class, 'resetPreFilter'])->middleware('auth');
 Route::post('/resetPostFilter/{device_id}/{volume}',[App\Http\Controllers\DeviceController::class, 'resetPostFilter'])->middleware('auth');
 Route::post('/resetGeneralService/{device_id}/{volume}',[App\Http\Controllers\DeviceController::class, 'resetGeneralService'])->middleware('auth');
+
+// Volume Chart
+Route::get('/getVolumeHour/{id}',[App\Http\Controllers\DataController::class, 'getVolumeHour'])->middleware('auth');
+Route::get('/getVolume24Hour/{id}',[App\Http\Controllers\DataController::class, 'getVolume24Hour'])->middleware('auth');
+Route::get('/getVolumeCustom/{id}',[App\Http\Controllers\DataController::class, 'getVolumeCustom'])->middleware('auth');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Device_commands;
+use Auth;
 
 class CommandsController extends Controller
 {
@@ -19,6 +20,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $id;
         $command->command = "Flush";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -26,6 +28,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $id;
         $command->command = "Start_CIP";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -33,6 +36,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $id;
         $command->command = "Current_time";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -40,6 +44,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $id;
         $command->command = "Current_date";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -47,6 +52,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $id;
         $command->command = "Stop";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -54,6 +60,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $id;
         $command->command = "Start";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -61,6 +68,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $id;
         $command->command = "Setpoints-get";
+        $command->created_by = Auth::user()->id;
         $command->save();
     }
 
@@ -72,6 +80,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Reset-all-alarms";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -81,6 +90,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-1-on";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -88,6 +98,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-1-off";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -95,6 +106,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-2-on";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -102,6 +114,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-2-off";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -109,6 +122,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-3-on";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -116,6 +130,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-3-off";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -123,6 +138,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-4-on";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -130,6 +146,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-4-off";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -137,6 +154,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-5-on";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -144,6 +162,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-5-off";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -151,6 +170,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-6-on";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -158,6 +178,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-6-off";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -165,6 +186,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-7-on";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -172,6 +194,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-7-off";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -179,6 +202,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-8-on";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -186,6 +210,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-8-off";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -193,6 +218,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-9-on";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }
@@ -200,6 +226,7 @@ class CommandsController extends Controller
         $command = new Device_commands();
         $command->device_id = $device_id;
         $command->command = "Relay-9-off";
+        $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);
     }

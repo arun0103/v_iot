@@ -10,6 +10,8 @@ use App\Models\Device;
 use App\Models\UserDevices;
 use App\Models\Reseller;
 
+use App\Notifications\HelloNewUser;
+
 
 class ResellerController extends Controller
 {
@@ -128,18 +130,18 @@ class ResellerController extends Controller
                     $newUser->mobile = $req->user_mobile;
                     $newUser->created_by = $loggedInUser->id;
                     $newUser->reseller_id = $loggedInUser->reseller_id;
-                    // uncomment below five lines
-                        // $random_password = "";
-                        // $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
-                        // for($i = 0; $i < 8 ; $i++){
-                        //     $random_password .= substr($characters, (rand() % (strlen($characters))),1);
-                        // }
+                    // uncomment below five lines for production to generate random password
+                    $random_password = "";
+                    $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
+                    for($i = 0; $i < 8 ; $i++){
+                        $random_password .= substr($characters, (rand() % (strlen($characters))),1);
+                    }
 
-                    // Delete it in production to generate random
-                    $random_password = "123456789";
-                    //
                     $newUser->password = Hash::make($random_password);
                     $newUser->save();
+                    //notify user
+                    $newUser->notify(new HelloNewUser($newUser, $random_password));
+
                     // associate device to newly created user
                     $userDevice = new UserDevices();
                     $userDevice->user_id = $newUser->id;
@@ -183,5 +185,12 @@ class ResellerController extends Controller
             ];
         }
         return response($response);
+    }
+
+    public function nameResellerDevice(Request $req){
+        $device = Device::where('serial_number',$req->serial_number)->first();
+        $device->device_name = $req->device_name;
+        $device->save();
+        return response()->json($device);
     }
 }

@@ -9,6 +9,7 @@ use App\Models\UserDevices;
 use App\Models\Setpoints;
 use App\Models\RawLogs;
 use App\Models\Device_commands;
+use App\Models\DeviceSetpointsChangeLog;
 use Carbon\Carbon;
 use Auth;
 
@@ -265,6 +266,303 @@ class DataController extends Controller
         if($setpoints == null){
             return response()->json(['message'=>'No previous setpoints found',400]);
         }else{
+            if($setpoints->pure_EC_target != $req->pure_EC_target){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Pure EC Target";
+                $log->old_value = $setpoints->pure_EC_target;
+                $log->new_value = $req->pure_EC_target;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->prepurify_time != $req->prepurify_time){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Prepurify Time";
+                $log->old_value = $setpoints->prepurify_time;
+                $log->new_value = $req->prepurify_time;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->purify_time != $req->purify_time){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Purify Time";
+                $log->old_value = $setpoints->purify_time;
+                $log->new_value = $req->purify_time;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->waste_time != $req->waste_time){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Waste Time";
+                $log->old_value = $setpoints->waste_time;
+                $log->new_value = $req->waste_time;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->HF_waste_time != $req->HF_waste_time){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "HF Waste Time";
+                $log->old_value = $setpoints->HF_waste_time;
+                $log->new_value = $req->HF_waste_time;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->CIP_dose != $req->CIP_dose){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "CIP Dose";
+                $log->old_value = $setpoints->CIP_dose;
+                $log->new_value = $req->CIP_dose;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->CIP_dose_rec != $req->CIP_dose_rec){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "CIP Dose Rec";
+                $log->old_value = $setpoints->CIP_dose_rec;
+                $log->new_value = $req->CIP_dose_rec;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->CIP_dose_total != $req->CIP_dose_total){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "CIP Dose Total";
+                $log->old_value = $setpoints->CIP_dose_total;
+                $log->new_value = $req->CIP_dose_total;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->CIP_flow_total != $req->CIP_flow_total){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "CIP Flow Total";
+                $log->old_value = $setpoints->CIP_flow_total;
+                $log->new_value = $req->CIP_flow_total;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->CIP_flow_flush != $req->CIP_flow_flush){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "CIP Flow Flush";
+                $log->old_value = $setpoints->CIP_flow_flush;
+                $log->new_value = $req->CIP_flow_flush;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->CIP_flow_rec != $req->CIP_flow_rec){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "CIP Flow Rec";
+                $log->old_value = $setpoints->CIP_flow_rec;
+                $log->new_value = $req->CIP_flow_rec;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->CIP_flush_time != $req->CIP_flush_time){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "CIP Flush Time";
+                $log->old_value = $setpoints->CIP_flush_time;
+                $log->new_value = $req->CIP_flush_time;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->WV_check_time != $req->WV_check_time){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "WV Check Time";
+                $log->old_value = $setpoints->WV_check_time;
+                $log->new_value = $req->WV_check_time;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->wait_HT_time != $req->wait_HT_time){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Wait HT Time";
+                $log->old_value = $setpoints->wait_HT_time;
+                $log->new_value = $req->wait_HT_time;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->p_flow_target != $req->p_flow_target){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "P Flow Target";
+                $log->old_value = $setpoints->p_flow_target;
+                $log->new_value = $req->p_flow_target;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->low_flow_purify_alarm != $req->low_flow_purify_alarm){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Low Flow Purify Alarm";
+                $log->old_value = $setpoints->low_flow_purify_alarm;
+                $log->new_value = $req->low_flow_purify_alarm;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->low_flow_waste_alarm != $req->low_flow_waste_alarm){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Low Flow Waste Alarm";
+                $log->old_value = $setpoints->low_flow_waste_alarm;
+                $log->new_value = $req->low_flow_waste_alarm;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->CIP_cycles != $req->CIP_cycles){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "CIP Cycles";
+                $log->old_value = $setpoints->CIP_cycles;
+                $log->new_value = $req->CIP_cycles;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->temperature_alarm != $req->temperature_alarm){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Temperature Alarm";
+                $log->old_value = $setpoints->temperature_alarm;
+                $log->new_value = $req->temperature_alarm;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->max_CIP_prt != $req->max_CIP_prt){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Max CIP Prt";
+                $log->old_value = $setpoints->max_CIP_prt;
+                $log->new_value = $req->max_CIP_prt;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->pump_p_factor != $req->pump_p_factor){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Pump P Factor";
+                $log->old_value = $setpoints->pump_p_factor;
+                $log->new_value = $req->pump_p_factor;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->dynamic_p_factor != $req->dynamic_p_factor){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Dynamic P Factor";
+                $log->old_value = $setpoints->dynamic_p_factor;
+                $log->new_value = $req->dynamic_p_factor;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->p_max_volt != $req->p_max_volt){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "P Max Volt";
+                $log->old_value = $setpoints->p_max_volt;
+                $log->new_value = $req->p_max_volt;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->w_max_volt != $req->w_max_volt){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "W Max Volt";
+                $log->old_value = $setpoints->w_max_volt;
+                $log->new_value = $req->w_max_volt;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->w_value != $req->w_value){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "W Value";
+                $log->old_value = $setpoints->w_value;
+                $log->new_value = $req->w_value;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->flow_k_factor != $req->flow_k_factor){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Flow k Factor";
+                $log->old_value = $setpoints->flow_k_factor;
+                $log->new_value = $req->flow_k_factor;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->volume_unit != $req->volume_unit){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Volume Unit";
+                $log->old_value = $setpoints->volume_unit;
+                $log->new_value = $req->volume_unit;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->bypass_option != $req->bypass_option){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Bypass Option";
+                $log->old_value = $setpoints->bypass_option;
+                $log->new_value = $req->bypass_option;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->start_pressure != $req->start_pressure){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Start Pressure";
+                $log->old_value = $setpoints->start_pressure;
+                $log->new_value = $req->start_pressure;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->stop_pressure != $req->stop_pressure){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Stop Pressure";
+                $log->old_value = $setpoints->stop_pressure;
+                $log->new_value = $req->stop_pressure;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->bypass_pressure != $req->bypass_pressure){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Bypass Pressure";
+                $log->old_value = $setpoints->bypass_pressure;
+                $log->new_value = $req->bypass_pressure;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->CIP_pressure != $req->CIP_pressure){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "CIP Pressure";
+                $log->old_value = $setpoints->CIP_pressure;
+                $log->new_value = $req->CIP_pressure;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->wait_time_before_CIP != $req->wait_time_before_CIP){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $id;
+                $log->parameter = "Wait Time Before CIP";
+                $log->old_value = $setpoints->wait_time_before_CIP;
+                $log->new_value = $req->wait_time_before_CIP;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
             $setpoints->pure_EC_target = $req->pure_EC_target;
             $setpoints->prepurify_time = $req->prepurify_time;
             $setpoints->purify_time = $req->purify_time;
@@ -304,6 +602,7 @@ class DataController extends Controller
             $deviceCommand = new Device_commands();
             $deviceCommand->device_id = $id;
             $deviceCommand->command = "Setpoint";
+            $deviceCommand->created_by = Auth::user()->id;
             $deviceCommand->save();
 
             return response()->json($setpoints,200);
@@ -317,6 +616,57 @@ class DataController extends Controller
     }
 
     public function getVolumeHour($device_id){
-
+        $now = Carbon::now();
+        $oneHourEarlier = $now->subHours(1);
+        $timeFrom = $oneHourEarlier;
+        $from = $timeFrom;
+        $graph_labels = [];
+        $graph_data = [];
+        for($i = 0; $i<6;$i++){
+            $label = $from->hour . ":" . ($from->minute<10?("0".$from->minute):$from->minute );
+            $to = $timeFrom->addMinutes(10);
+            $dataFrom = RawLogs::where('log_dt','>=',$from)->first();
+            $dataTo = RawLogs::where('log_dt','<=',$to)->orderBy('log_dt','desc')->first();
+            $label .=  "-" . $to->hour . ":" .($to->minute<10?("0".$to->minute):$to->minute);
+            if($dataFrom!=null && $dataTo!=null)
+                $volume = $dataFrom->tpv - $dataTo->tpv;
+            else
+                $volume = 0;
+            array_push($graph_labels,$label);
+            array_push($graph_data, $volume);
+            $from = $to;
+        }
+        $data_to_send = [
+            'graph_labels'=>$graph_labels,
+            'graph_data'=>$graph_data
+        ];
+        return response()->json($data_to_send);
+    }
+    public function getVolume24Hour($device_id){
+        $now = Carbon::now();
+        $oneHourEarlier = $now->subHours(24);
+        $timeFrom = $oneHourEarlier;
+        $from = $timeFrom;
+        $graph_labels = [];
+        $graph_data = [];
+        for($i = 0; $i<6;$i++){
+            $label = $from->hour . ":" . ($from->minute<10?("0".$from->minute):$from->minute );
+            $to = $timeFrom->addHours(2);
+            $dataFrom = RawLogs::where('log_dt','>=',$from)->first();
+            $dataTo = RawLogs::where('log_dt','<=',$to)->orderBy('log_dt','desc')->first();
+            $label .=  "-" . $to->hour . ":" .($to->minute<10?("0".$to->minute):$to->minute);
+            if($dataFrom!=null && $dataTo!=null)
+                $volume = $dataFrom->tpv - $dataTo->tpv;
+            else
+                $volume = 0;
+            array_push($graph_labels,$label);
+            array_push($graph_data, $volume);
+            $from = $to;
+        }
+        $data_to_send = [
+            'graph_labels'=>$graph_labels,
+            'graph_data'=>$graph_data
+        ];
+        return response()->json($data_to_send);
     }
 }

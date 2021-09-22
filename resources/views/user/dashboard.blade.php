@@ -731,352 +731,390 @@
 @endsection
 @section('content')
     <div id="app">
-        <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                 <h1 class="m-0">Dashboard</h1>
-                </div><!-- /.col -->
+                </div>
                 <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
+                </div>
+            </div>
+            </div>
         </div>
-        <!-- /.content-header -->
-        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                <div class="col-12">
-                    <!-- Default box -->
-                    @if($userDevices->count()>0)
-                        @foreach($userDevices as $device)
-                            <section id="{{$device->deviceDetails->id}}">
-                                <div class="card">
-                                    <h2 class="card-header"> <span id="device_name-{{$device->deviceDetails->id}}">{{$device->deviceDetails->serial_number}} </span>
-                                        <!-- <button type="button" class="btn btn-primary btn_live_view" style="margin-left:10px">Live View</button> -->
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                        </div>
-                                    </h2>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-6 col-sm-6 box">
-                                                <div class="card card-outline card-success">
-                                                    <h5 class="card-header">Status
-                                                        <div class="card-tools">
-                                                            <i class="btn fas fa-sync-alt btn-refresh" id="device-sync-{{$device->deviceDetails->id}}"></i>
-                                                        </div>
-                                                        <!-- /.card-tools -->
-                                                    </h5>
-                                                    <div class="card-body">
-                                                        <div>
-                                                            <i id="device_status_pic-{{$device->deviceDetails->id}}" class="fas fa fa-certificate blink_me"></i>&nbsp;&nbsp;
-                                                            <span id="device_status-{{$device->deviceDetails->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</span>
-                                                            <i id="info_device_status-{{$device->deviceDetails->id}}" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
-                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                <a href="#" class="dropdown-item">
-                                                                    <div class="media">
-                                                                        <div class="media-body">
-                                                                            <p class="text-sm"><b><i id="info_device_status_text-{{$device->deviceDetails->id}}"></i></b></p>
-                                                                            <p class="text-sm" id="info_device_status_description-{{$device->deviceDetails->id}}"></p>
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
+                    <div class="col-12">
+                        @if($userDevices->count()>0)
+                            @foreach($userDevices as $device)
+                                <section id="{{$device->deviceDetails->id}}">
+                                    <div class="card">
+                                        <h2 class="card-header"> <span id="device_name-{{$device->deviceDetails->id}}">{{$device->deviceDetails->serial_number}} </span>
+                                            <!-- <button type="button" class="btn btn-primary btn_live_view" style="margin-left:10px">Live View</button> -->
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </h2>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                    <div class="card card-outline card-success">
+                                                        <h5 class="card-header">Status
+                                                            <div class="card-tools">
+                                                                <i class="btn fas fa-sync-alt btn-refresh" id="device-sync-{{$device->deviceDetails->id}}"></i>
                                                             </div>
-                                                        </div>
-                                                        <div><br>
-                                                            <span><b>Connection :</b></span>
-                                                            <i id="device_connection_status-{{$device->deviceDetails->id}}">
-                                                                @if($device->deviceDetails->latest_log != null)
-                                                                    @if(Carbon\Carbon::now()->diffInMinutes($device->deviceDetails->latest_log->created_at) < 1)
-                                                                        {{"Connected"}}
-                                                                    @else
-                                                                        {{"Disconnected"}}
-                                                                    @endif
-                                                                @endif
-                                                            </i>
-                                                            <i id="info_device_connection" class="fas fa-info-circle float-right info-device-connection" data-toggle="dropdown" ></i>
-                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                <a href="#" class="dropdown-item">
-                                                                    <div class="media">
-                                                                        <div class="media-body">
-                                                                            <p class="text-sm"><b><i><span id="info_device_connection_text-{{$device->deviceDetails->id}}"></span></i></b></p>
-                                                                            <p class="text-sm" id="info_device_connection_description-{{$device->deviceDetails->id}}"></p>
-                                                                            @if($device->deviceDetails->latest_log != null)
-                                                                                <p>Last Data Received: <span id="last_data_received-{{$device->deviceDetails->id}}">{{$device->deviceDetails->latest_log->created_at}}</span></p>
-                                                                            @endif
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <!-- @if(Auth::user()->role == 'S' || Auth::user()->role == 'A')
-                                                            </br>
+                                                        </h5>
+                                                        <div class="card-body">
                                                             <div>
-                                                                <b>Module Health :</b><i style="color:green; font-weight:bold" id="device_health_status-{{$device->id}}">Good</i>
-                                                                <i id="info_device_health-{{$device->id}}" class="fas fa-info-circle float-right info_device_health" data-toggle="dropdown" ></i>
+                                                                <i id="device_status_pic-{{$device->deviceDetails->id}}" class="fas fa fa-certificate blink_me"></i>&nbsp;&nbsp;
+                                                                <span id="device_status-{{$device->deviceDetails->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"Idle" : "RUNNING") : "No Data"}}</span>
+                                                                <i id="info_device_status-{{$device->deviceDetails->id}}" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
                                                                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                     <a href="#" class="dropdown-item">
                                                                         <div class="media">
                                                                             <div class="media-body">
-                                                                                <p class="text-sm"><b><i><span id="info_device_health_text-{{$device->id}}"></span></i></b></p>
-                                                                                <p class="text-sm" id="info_device_health_description-{{$device->id}}"></p>
+                                                                                <p class="text-sm"><b><i id="info_device_status_text-{{$device->deviceDetails->id}}"></i></b></p>
+                                                                                <p class="text-sm" id="info_device_status_description-{{$device->deviceDetails->id}}"></p>
                                                                             </div>
                                                                         </div>
                                                                     </a>
                                                                 </div>
                                                             </div>
-                                                        @endif -->
-                                                    </div>
-                                                    <!-- /.card-body -->
-                                                    <div class="card-footer">
-                                                        <div class="row flex">
-                                                            <button id="btn_device_start_stop-{{$device->deviceDetails->id}}" class="btn btn-danger center btn_device_start_stop" hidden>Stop</button>
+                                                            <div><br>
+                                                                <span><b>Connection :</b></span>
+                                                                <i id="device_connection_status-{{$device->deviceDetails->id}}">
+                                                                    @if($device->deviceDetails->latest_log != null)
+                                                                        @if(Carbon\Carbon::now()->diffInMinutes($device->deviceDetails->latest_log->created_at) < 1)
+                                                                            {{"Connected"}}
+                                                                        @else
+                                                                            {{"Disconnected"}}
+                                                                        @endif
+                                                                    @endif
+                                                                </i>
+                                                                <i id="info_device_connection" class="fas fa-info-circle float-right info-device-connection" data-toggle="dropdown" ></i>
+                                                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                    <a href="#" class="dropdown-item">
+                                                                        <div class="media">
+                                                                            <div class="media-body">
+                                                                                <p class="text-sm"><b><i><span id="info_device_connection_text-{{$device->deviceDetails->id}}"></span></i></b></p>
+                                                                                <p class="text-sm" id="info_device_connection_description-{{$device->deviceDetails->id}}"></p>
+                                                                                @if($device->deviceDetails->latest_log != null)
+                                                                                    <p>Last Data Received: <span id="last_data_received-{{$device->deviceDetails->id}}">{{$device->deviceDetails->latest_log->created_at}}</span></p>
+                                                                                @endif
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-footer">
+                                                            <div class="row flex">
+                                                                <button id="btn_device_start_stop-{{$device->deviceDetails->id}}" class="btn btn-danger center btn_device_start_stop" hidden>Stop</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6 col-sm-6 box ">
-                                                <div class="card card-outline card-success">
-                                                    <h5 class="card-header">Volume
-                                                        <div class="card-tools">
-                                                            <i id="volume_chart-{{$device->deviceDetails->id}}" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
-                                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> -->
-                                                        </div>
-                                                        <!-- /.card-tools -->
-                                                    </h5>
-                                                    <!-- /.card-header -->
-                                                    <div class="card-body">
-                                                    <span><b>Daily :</b> <i id="daily_volume-{{$device->deviceDetails->id}}">...</i>
-                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
-                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                            <a class="dropdown-item">
-                                                                <div class="media">
-                                                                    <div class="media-body">
-                                                                        <p class="text-sm"><b><i>Daily Volume</i></b></p>
-                                                                        <p class="text-sm">Volume produced during the last 24 hrs.</p>
-                                                                    </div>
+                                                <div class="col-lg-3 col-md-6 col-sm-6 box ">
+                                                    <div class="card card-outline card-success">
+                                                        <h5 class="card-header">Volume
+                                                            <div class="card-tools">
+                                                                <i id="volume_chart-{{$device->deviceDetails->id}}" class="btn fas fa-chart-bar volume-chart" data-toggle="modal" data-target="#modal-volume-chart"></i>
+                                                            </div>
+                                                        </h5>
+                                                        <div class="card-body">
+                                                            <span><b>Daily :</b> <i id="daily_volume-{{$device->deviceDetails->id}}">...</i>
+                                                                <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                    <a class="dropdown-item">
+                                                                        <div class="media">
+                                                                            <div class="media-body">
+                                                                                <p class="text-sm"><b><i>Daily Volume</i></b></p>
+                                                                                <p class="text-sm">Volume produced during the last 24 hrs.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
                                                                 </div>
-                                                            </a>
-                                                        </div>
-                                                    </span>
-                                                    <br/><br/>
-                                                    <span><b>Monthly :</b> <i id="monthly_volume-{{$device->deviceDetails->id}}">...</i>
-                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
-                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                            <a class="dropdown-item">
-                                                                <div class="media">
-                                                                    <div class="media-body">
-                                                                        <p class="text-sm"><b><i>Monthly Volume</i></b></p>
-                                                                        <p class="text-sm">Volume produced during the last 31 days.</p>
-                                                                    </div>
+                                                            </span>
+                                                            <br/><br/>
+                                                            <span><b>Monthly :</b> <i id="monthly_volume-{{$device->deviceDetails->id}}">...</i>
+                                                                <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                    <a class="dropdown-item">
+                                                                        <div class="media">
+                                                                            <div class="media-body">
+                                                                                <p class="text-sm"><b><i>Monthly Volume</i></b></p>
+                                                                                <p class="text-sm">Volume produced during the last 31 days.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
                                                                 </div>
-                                                            </a>
-                                                        </div>
-                                                    </span>
-                                                    <br/><br/>
-                                                    <!-- <p><b>Yearly :</b> <i>800 Gallons</i></p> -->
-                                                    <span><b>Total :</b> <i id="total_volume-{{$device->deviceDetails->id}}">...</i>
-                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
-                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                            <a class="dropdown-item">
-                                                                <div class="media">
-                                                                    <div class="media-body">
-                                                                        <p class="text-sm"><b><i>Total Volume</i></b></p>
-                                                                        <p class="text-sm">Volume produced during the last 6 months.</p>
-                                                                    </div>
+                                                            </span>
+                                                            <br/><br/>
+                                                            <span><b>Total :</b> <i id="total_volume-{{$device->deviceDetails->id}}">...</i>
+                                                                <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                    <a class="dropdown-item">
+                                                                        <div class="media">
+                                                                            <div class="media-body">
+                                                                                <p class="text-sm"><b><i>Total Volume</i></b></p>
+                                                                                <p class="text-sm">Volume produced during the last 6 months.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
                                                                 </div>
-                                                            </a>
+                                                            </span>
                                                         </div>
-                                                    </span>
                                                     </div>
-                                                    <!-- /.card-body -->
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6 col-sm-6 box">
-                                                <div class="card card-outline card-success">
-                                                    <h5 class="card-header">Water Quality
-                                                        <div class="card-tools">
-                                                            <i id="info_conductivity-{{$device->deviceDetails->id}}" class="btn fas fa-info-circle float-right" data-toggle="dropdown"></i>
-                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="info_displayed_conductivity-{{$device->deviceDetails->id}}">
+                                                <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                    <div class="card card-outline card-success">
+                                                        <h5 class="card-header">Water Quality
+                                                            <div class="card-tools">
+                                                                <i id="info_conductivity-{{$device->deviceDetails->id}}" class="btn fas fa-info-circle float-right" data-toggle="dropdown"></i>
+                                                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="info_displayed_conductivity-{{$device->deviceDetails->id}}">
+                                                                    <a href="#" class="dropdown-item">
+                                                                        <div class="media">
+                                                                            <div class="media-body">
+                                                                                <p class="text-sm"><b><i id="info_conductivity_text-{{$device->deviceDetails->id}}">Water Quality</i></b></p>
+                                                                                <p class="text-sm" id="info_conductivity_description-{{$device->deviceDetails->id}}">Conductivity is how we measure the amount of minerals content in the water.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.card-tools -->
+                                                        </h5>
+                                                        <!-- /.card-header -->
+                                                        <div class="card-body">
+                                                            <i class="fas fa fa-certificate" id="device_condutivity_icon-{{$device->deviceDetails->id}}" style="color:green">&nbsp;&nbsp;
+                                                            <span id="device_conductivity_value-{{$device->deviceDetails->id}}">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></i>
+                                                            <i id="info_device_conductivity-{{$device->deviceDetails->id}}" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
+                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                 <a href="#" class="dropdown-item">
                                                                     <div class="media">
                                                                         <div class="media-body">
-                                                                            <p class="text-sm"><b><i id="info_conductivity_text-{{$device->deviceDetails->id}}">Water Quality</i></b></p>
-                                                                            <p class="text-sm" id="info_conductivity_description-{{$device->deviceDetails->id}}">Conductivity is how we measure the amount of minerals content in the water.</p>
+                                                                            <p class="text-sm"><b><i><span id="info_device_conductivity_text-{{$device->deviceDetails->id}}"></span></i></b></p>
+                                                                            <p class="text-sm" id="info_device_conductivity_description-{{$device->deviceDetails->id}}"></p>
                                                                         </div>
                                                                     </div>
                                                                 </a>
                                                             </div>
                                                         </div>
-                                                        <!-- /.card-tools -->
-                                                    </h5>
-                                                    <!-- /.card-header -->
-                                                    <div class="card-body">
-                                                        <i class="fas fa fa-certificate" id="device_condutivity_icon-{{$device->deviceDetails->id}}" style="color:green">&nbsp;&nbsp;
-                                                        <span id="device_conductivity_value-{{$device->deviceDetails->id}}">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></i>
-                                                        <i id="info_device_conductivity-{{$device->deviceDetails->id}}" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
-                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                            <a href="#" class="dropdown-item">
-                                                                <div class="media">
-                                                                    <div class="media-body">
-                                                                        <p class="text-sm"><b><i><span id="info_device_conductivity_text-{{$device->deviceDetails->id}}"></span></i></b></p>
-                                                                        <p class="text-sm" id="info_device_conductivity_description-{{$device->deviceDetails->id}}"></p>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                        </div>
+                                                        <!-- /.card-body -->
                                                     </div>
-                                                    <!-- /.card-body -->
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6 col-sm-6 box">
-                                                <div class="card card-outline card-success">
-                                                    <h5 class="card-header">Alarms
-                                                        <div class="card-tools">
-                                                        <i class="btn fas fa-table info_device_alarms_table" id="info_device_alarms_table-{{$device->deviceDetails->id}}"></i>
+                                                <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                    <div class="card card-outline card-success">
+                                                        <h5 class="card-header">Alarms
+                                                            <div class="card-tools">
+                                                            <i class="btn fas fa-table info_device_alarms_table" id="info_device_alarms_table-{{$device->deviceDetails->id}}"></i>
 
+                                                            </div>
+                                                            <!-- /.card-tools -->
+                                                        </h5>
+                                                        <!-- /.card-header -->
+                                                        <div class="card-body">
+                                                        @if($device->deviceDetails->latest_log != null)
+                                                            <p hidden>Alarm Code: <span id="alarm_code_{{$device->deviceDetails->id}}">{{$device->deviceDetails->latest_log->alarm}}</span></p>
+                                                            <section class="alarms-list" id="alarmsList_{{$device->deviceDetails->id}}" style="color:red"></section>
+                                                        @endif
                                                         </div>
-                                                        <!-- /.card-tools -->
-                                                    </h5>
-                                                    <!-- /.card-header -->
-                                                    <div class="card-body">
-                                                    @if($device->deviceDetails->latest_log != null)
-                                                        <p hidden>Alarm Code: <span id="alarm_code_{{$device->deviceDetails->id}}">{{$device->deviceDetails->latest_log->alarm}}</span></p>
-                                                        <section class="alarms-list" id="alarmsList_{{$device->deviceDetails->id}}" style="color:red"></section>
-                                                    @endif
+                                                        <!-- /.card-body -->
+                                                        <div class="card-footer">
+                                                            <div class="row flex">
+                                                                <button id="btn_reset_alarms-{{$device->deviceDetails->id}}" class="btn btn-danger center btn_reset_alarms" hidden>Clear All Alarms</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <!-- /.card-body -->
-                                                    <div class="card-footer">
-                                                        <div class="row flex">
-                                                            <button id="btn_reset_alarms-{{$device->deviceDetails->id}}" class="btn btn-danger center btn_reset_alarms" hidden>Clear All Alarms</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <div class="row" id="maintenance_tab-{{$device->deviceDetails->id}}">
+                                                <div class="col-lg-12">
+                                                    <div class="card">
+                                                        <h5 class="card-header">Routine Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->deviceDetails->id}}">Edit</button></h5>
+                                                        <div class="card-body table-stripped table-responsive-md table-responsive-sm">
+                                                            <table class="table ">
+                                                                <tr>
+                                                                    <th><h3>Service</h3></th>
+                                                                    <th colspan="2" style="text-align:center"><h3>Setpoints</h3></th>
+                                                                    <th colspan="2" style="text-align:center"><h3>Actions</h3></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="line-height: 2.5em">Critic Acid</th>
+                                                                    <td style="line-height: 2.5em;text-align:right">
+                                                                        <span id="critic_acid_details-{{$device->deviceDetails->id}}">
+                                                                            <b><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
+                                                                        </span>
+                                                                        <p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error-{{$device->deviceDetails->id}}"></p>
+                                                                    </td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid-{{$device->deviceDetails->id}}" class="form-control input_critic_acid" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->critic_acid: ''}}" disabled><span class="text-muted"> gal</span></td>
+                                                                    <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid-{{$device->deviceDetails->id}}" hidden>Save</button></td>
+                                                                    <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid-{{$device->deviceDetails->id}}" disabled>Reset</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="line-height: 2.5em">Pre-filter</th>
+                                                                    <td style="line-height: 2.5em;text-align:right">
+                                                                        <span id="pre_filter_details-{{$device->deviceDetails->id}}">
+                                                                            <b><span id="pre_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
+                                                                        </span>
+                                                                        <p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter-{{$device->deviceDetails->id}}" class="form-control input_pre_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->pre_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
+                                                                    <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
+                                                                    <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter-{{$device->deviceDetails->id}}" disabled>Reset</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="line-height: 2.5em">Post-filter</th>
+                                                                    <td style="line-height: 2.5em;text-align:right">
+                                                                        <span id="post_filter_details-{{$device->deviceDetails->id}}">
+                                                                            <b><span id="post_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
+                                                                        </span>
+                                                                        <p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter-{{$device->deviceDetails->id}}" class="form-control input_post_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->post_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
+                                                                    <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
+                                                                    <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter-{{$device->deviceDetails->id}}" disabled>Reset</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="line-height: 2.5em">General</th>
+                                                                    <td style="line-height: 2.5em;text-align:right">
+                                                                        <span id="general_service_details-{{$device->deviceDetails->id}}">
+                                                                            <b><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
+                                                                        </span>
+                                                                        <p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error-{{$device->deviceDetails->id}}"></p></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_general_service-{{$device->deviceDetails->id}}" class="form-control input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled><span class="text-muted"> gal</span></td>
+                                                                    <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service-{{$device->deviceDetails->id}}" hidden>Save</button></td>
+                                                                    <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service-{{$device->deviceDetails->id}}" disabled>Reset</button></td>
+                                                                </tr>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /.card-body -->
-                                    <div class="card-footer">
-                                        <div class="row" id="maintenance_tab-{{$device->deviceDetails->id}}">
-                                            <div class="col-lg-12">
-                                                <div class="card">
-                                                    <h5 class="card-header" >Routine Maintenance <button class="btn btn-sm btn-primary btn_edit_maintenance" id="btn_edit_maintenance-{{$device->deviceDetails->id}}">Edit</button>
-                                                        <div class="card-tools">
-                                                            <!-- <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#{{$device->deviceDetails->id}}">
-                                                                <i class="fas fa-minus"></i>
-                                                            </button> -->
-                                                        </div>
-                                                    </h5>
-                                                    <div class="card-body table-stripped table-responsive-md table-responsive-sm">
-                                                        <table class="table ">
-                                                            <tr>
-                                                                <th><h3>Service</h3></th>
-                                                                <th colspan="2" style="text-align:center"><h3>Setpoints</h3></th>
-                                                                <th colspan="2" style="text-align:center"><h3>Actions</h3></th>
-                                                            </tr>
-                                                            <tr>
-                                                                <th style="line-height: 2.5em">Critic Acid</th>
-                                                                <td style="line-height: 2.5em;text-align:right">
-                                                                    <span id="critic_acid_details-{{$device->deviceDetails->id}}">
-                                                                        <b><span id="critic_acid_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
-                                                                    </span>
-                                                                    <p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error-{{$device->deviceDetails->id}}"></p>
-                                                                </td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid-{{$device->deviceDetails->id}}" class="form-control input_critic_acid" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->critic_acid: ''}}" disabled><span class="text-muted"> gal</span></td>
-                                                                <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid-{{$device->deviceDetails->id}}" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid-{{$device->deviceDetails->id}}">Reset</button></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th style="line-height: 2.5em">Pre-filter</th>
-                                                                <td style="line-height: 2.5em;text-align:right">
-                                                                    <span id="pre_filter_details-{{$device->deviceDetails->id}}">
-                                                                        <b><span id="pre_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
-                                                                    </span>
-                                                                    <p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error-{{$device->deviceDetails->id}}"></p></td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter-{{$device->deviceDetails->id}}" class="form-control input_pre_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->pre_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
-                                                                <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter-{{$device->deviceDetails->id}}">Reset</button></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th style="line-height: 2.5em">Post-filter</th>
-                                                                <td style="line-height: 2.5em;text-align:right">
-                                                                    <span id="post_filter_details-{{$device->deviceDetails->id}}">
-                                                                        <b><span id="post_filter_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
-                                                                    </span>
-                                                                    <p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error-{{$device->deviceDetails->id}}"></p></td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter-{{$device->deviceDetails->id}}" class="form-control input_post_filter" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->post_filter: ''}}" disabled><span class="text-muted"> gal</span></td>
-                                                                <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter-{{$device->deviceDetails->id}}" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter-{{$device->deviceDetails->id}}">Reset</button></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th style="line-height: 2.5em">General</th>
-                                                                <td style="line-height: 2.5em;text-align:right">
-                                                                    <span id="general_service_details-{{$device->deviceDetails->id}}">
-                                                                        <b><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
-                                                                    </span>
-                                                                    <p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error-{{$device->deviceDetails->id}}"></p></td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_general_service-{{$device->deviceDetails->id}}" class="form-control input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled><span class="text-muted"> gal</span></td>
-                                                                <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service-{{$device->deviceDetails->id}}" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service-{{$device->deviceDetails->id}}">Reset</button></td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </div>
+                                </section>
+                            @endforeach
+                        @endif
+                        @if($userDevices->count()<=0)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Welcome {{ Auth::user()->name }}</h3>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- /.card-footer-->
-                                </div>
-                            </section>
-                        @endforeach
-                    <!-- /.card -->
-                    @endif
-                    @if($userDevices->count()<=0)
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Welcome {{ Auth::user()->name }}</h3>
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
+                                        <div class="card-body">
+                                        <span>This is your dashboard. </br>
+                                            Your access to the device have been revoked by the reseller <br/>
+                                            Please contact your reseller
+                                            </span></br>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                    <span>This is your dashboard. </br>
-                                           Your access to the device have been revoked by the reseller <br/>
-                                           Please contact your reseller
-                                        </span></br>
-                                    </div>
-                                    <!-- /.card-body -->
-                                    <!-- <div class="card-footer">
-                                        @if(Auth::user()->role == 'U')
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new-device">Add New Device</button>
-                                        @endif
-                                        @if(Auth::user()->role == 'R')
-                                        <a href="{{route('devices')}}"><button class="btn btn-primary">Add New Device</button></a>
-                                        @endif
-                                    </div> -->
-                                    <!-- /.card-footer-->
                                 </div>
                             </div>
-                        </div>
-                    @endif
-                </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </section>
     </div>
+    <div class="modal fade" id="modal-volume-chart">
+        <form id="form_volume_chart" class="form-horizontal" method="post" action="" autocomplete="no">
+            {{ csrf_field() }}
+            <div class="modal-dialog modal-full" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">Volume Graph</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                        <label for="timeFrame_volume" class="control-label">Time Frame</label>
+                                            <select name="timeFrame_volume" id="timeframe_volume" class="form-control" title="Selct">
+                                                <option value="0">-- Select --</option>
+                                                <option value="last_hour">Last hour</option>
+                                                <option value="last_24_hour">Last 24 Hours</option>
+                                                <option value="custom">Custom</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 volume_custom_time">
+                                        <div class="form-group">
+                                        <label for="inputFromDate_volume" class="control-label">From</label>
+                                            <input class="form-control datepicker" id="inputFromDate_volume" name="from_date_volume" width="234" placeholder="MM/DD/YYYY"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 volume_custom_time">
+                                        <div class="form-group">
+                                        <label for="inputToDate_volume" class="control-label">To</label>
+                                            <input class="form-control datepicker" id="inputToDate_volume" disabled name="to_date_volume" width="234" placeholder="MM/DD/YYYY"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 d-grid gap-2">
+                                        <button id="btn_reload_graph"  class="btn btn-warning btn-lg btn-block" type="button">Load the Graph</button>
+                                    </div>
+                                </div>
+                                <p>
+                                    <div class="row" id="div_report">
+                                        <div class="col-md-12">
+                                            <canvas id="volumeChart" width="400vh" height="200vh"></canvas>
+                                        </div>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->"
+        </form>
+    </div>
+    <div class="modal fade" id="modal-view_alarms_history">
+        <div class="modal-dialog modal-full" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-alarms_history-title"></h4>
+                    <button type="button" class="close close_alarms_history btn btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 ">
+                            <!-- begin timeline -->
+                            <ul class="timeline" id="alarms_history_row">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left close_alarms_history"  data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+
     <div class="modal fade" id="modal-add-new-device">
         <form id="form_addUser" class="form-horizontal" autocomplete="no">
             {{ csrf_field() }}
@@ -1151,70 +1189,6 @@
             <!-- /.modal-dialog -->"
         </form>
     </div>
-
-    <div class="modal fade" id="modal-volume-chart">
-        <form id="form_volume_chart" class="form-horizontal" method="post" action="" autocomplete="no">
-            {{ csrf_field() }}
-            <div class="modal-dialog modal-lg" >
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="modal-title">Volume Graph</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row roundPadding20">
-                            <div class="col-sm-12">
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                        <label for="timeFrame_volume" class="control-label">Time Frame</label>
-                                            <select name="timeFrame_volume" id="timeframe_volume" class="form-control" title="Selct">
-                                                <option>-- Select --</option>
-                                                <option value="last_hour">Last hour</option>
-                                                <option value="last_24_hour">Last 24 Hours</option>
-                                                <option value="custom">Custom</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 volume_custom_time">
-                                        <div class="form-group">
-                                        <label for="inputFromDate_volume" class="control-label">From</label>
-                                            <input class="form-control datepicker" id="inputFromDate_volume" name="from_date_volume" width="234" placeholder="MM/DD/YYYY"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 volume_custom_time">
-                                        <div class="form-group">
-                                        <label for="inputToDate_volume" class="control-label">To</label>
-                                            <input class="form-control datepicker" id="inputToDate_volume" disabled name="to_date_volume" width="234" placeholder="MM/DD/YYYY"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 d-grid gap-2">
-                                        <button id="btn_reload_graph"  class="btn btn-warning btn-lg btn-block" type="button">Load the Graph</button>
-                                    </div>
-                                </div>
-
-                                <p>
-                                    <div class="row" id="div_report">
-                                        <div class="col-md-12">
-                                            <canvas id="volumeChart" width="400vh" height="200vh"></canvas>
-                                        </div>
-                                    </div>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <!-- <button type="button" class="btn btn-primary" id="btn_download_pdf_graph">Download PDF</button> -->
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <!-- <button type="submit" class="btn btn-primary" onClick="getChart()" id="btn_confirm_view" value="View">View</button> -->
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->"
-        </form>
-    </div>
-    <!-- /.modal -->
     <div class="modal fade" id="modal-live_view">
         <div class="modal-dialog modal-full" >
             <div class="modal-content">
@@ -1246,37 +1220,14 @@
             <!-- /.modal-content -->
         </div>
     </div>
-    <!-- /.modal -->
-    <div class="modal fade" id="modal-view_alarms_history">
-        <div class="modal-dialog modal-full" >
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-alarms_history-title"></h4>
-                    <button type="button" class="close close_alarms_history btn btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 ">
-                            <!-- begin timeline -->
-                            <ul class="timeline" id="alarms_history_row">
 
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left close_alarms_history"  data-dismiss="modal">Close</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <!-- <script type="module" src="{{asset('js/home.js')}}"></script> -->
 
 <script>
+    var device_id;
+
     $(document).ready(function () {
         $.ajaxSetup({
             headers: {
@@ -1293,7 +1244,6 @@
             url: "/getUserDevicesSetpointsForCalculation",
         })
         .done(function(response){
-            // console.log(response);
             userDevices = response;
         });
         $('.volume_custom_time').hide();
@@ -1317,7 +1267,6 @@
                         // console.log("% % % %  Refreshing Dashboad Data % % % % %")
                         // console.log(response);
                         // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
-                        // console.log("command sent time: "+ command_sent_time)
                         for(var i=0; i<response.length;i++){
                             if(response[i]['deviceDetails'].latest_log != null){
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
@@ -1368,7 +1317,6 @@
                                                         $('#device-info-'+response_command.device_id +' .status').text("Stopping"); // row status
                                                         break;
                                                 }
-
                                             }
                                         });
                                     }
@@ -1473,24 +1421,28 @@
                                     is_maintenance_needed = true;
                                     $('#critic_acid_details-'+response[i]['deviceDetails'].id).attr("hidden","true");
                                     $('#critic_acid_error-'+response[i]['deviceDetails'].id).text("Critic acid refill needed!").css("color","red");
+                                    $('#btn_reset_critic_acid-'+response[i]['deviceDetails'].id).attr('disabled',false);
                                 }
                                 if(volume_left_pre_filter < 0){
                                     volume_left_pre_filter = 0;
                                     is_maintenance_needed = true;
                                     $('#pre_filter_details-'+response[i]['deviceDetails'].id).attr("hidden","true");
                                     $('#pre_filter_error-'+response[i]['deviceDetails'].id).text("Pre-filter replacement needed!").css("color","red");
+                                    $('#btn_reset_pre_filter-'+response[i]['deviceDetails'].id).attr('disabled',false);
                                 }
                                 if(volume_left_post_filter < 0){
                                     volume_left_post_filter = 0;
                                     is_maintenance_needed = true;
                                     $('#post_filter_details-'+response[i]['deviceDetails'].id).attr("hidden","true");
                                     $('#post_filter_error-'+response[i]['deviceDetails'].id).text("Post-filter replacement needed!").css("color","red");
+                                    $('#btn_reset_post_filter-'+response[i]['deviceDetails'].id).attr('disabled',false);
                                 }
                                 if(volume_left_general_service < 0){
                                     volume_left_general_service = 0;
                                     is_maintenance_needed = true;
                                     $('#general_service_details-'+response[i]['deviceDetails'].id).attr("hidden","true");
                                     $('#general_service_error-'+response[i]['deviceDetails'].id).text("General service needed!").css("color","red");
+                                    $('#btn_reset_general_service-'+response[i]['deviceDetails'].id).attr('disabled',false);
                                 }
                                 if(is_maintenance_needed)
                                     $('section#alarmsList_'+response[i]['deviceDetails'].id).append('<a class="goto_maintenance" id="goto_maintenance-'+response[i]['deviceDetails'].id+'"><p><button class="btn btn-warning btn_goto_maintenance">Routine Maintenance Needed</button></p><a>');
@@ -1498,245 +1450,12 @@
                                 $('#pre_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_pre_filter.toFixed(2));
                                 $('#post_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_post_filter.toFixed(2));
                                 $('#general_service_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_general_service.toFixed(2));
-
                             }
                         }
                     });
                 }
             }, 5000);
-            //for live view
-            var device_data_created_at = null;
-            // setInterval(function(){
-            //     if(view_live_device != null){
-            //         console.log("view is not null")
-            //         $.ajax({
-            //             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            //             type: "GET",
-            //             url: "/deviceLiveData/"+ view_live_device,
-            //         })
-            //         .done(function(response){
-            //             console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
-            //             console.log(response);
-            //             if(device_data_created_at != response.created_at){
-            //                 device_data_created_at = response.created_at;
-            //                 var recorded_date = new Date(response.created_at);
-            //                 recorded_date = recorded_date.toString();
-            //                 var status = "";
-            //                 if(response.step == 0 ||response.step == 1 || response.step ==13)
-            //                     status = "IDLE"
-            //                 else
-            //                     status ="RUNNING"
 
-            //                 //calculating step
-            //                 var step_name = "";
-            //                 switch(response.step){
-            //                     case 255: step_name = " PCB restart";break;
-            //                     case 0: step_name = " Free Run";break;
-            //                     case 1: step_name = " Idle";break;
-            //                     case 2: step_name = " Prepurify";break;
-            //                     case 3: step_name = " Purify";break;
-            //                     case 4: step_name = " Waste";break;
-            //                     case 5: step_name = " High Flow Waste";break;
-            //                     case 6: step_name = " Wait";break;
-            //                     case 7: step_name = " CIP Dosing ON";break;
-            //                     case 8: step_name = " CIP Dosing OFF";break;
-            //                     case 9: step_name = " CIP Pulse ON";break;
-            //                     case 10: step_name = " CIP Pulse OFF";break;
-            //                     case 11: step_name = " CIP Flush";break;
-            //                     case 12: step_name = " High Temperature";break;
-            //                     case 13: step_name = " Wait High Temperature";break;
-            //                     case 14: step_name = " SHUNT";break;
-            //                     case 15: step_name = " Wait Before CIP Start";break;
-            //                 }
-            //                 // calculating input
-            //                 var input_binary_string = response.input.toString(2);
-            //                 if(input_binary_string.length < 5){
-            //                     for(var i = input_binary_string.length; i<5;i++){
-            //                         input_binary_string = "0".concat(input_binary_string);
-            //                     }
-            //                 }
-            //                 var input_names = [];
-            //                 for(var i =0 ; i<input_binary_string.length; i++){
-            //                     if(input_binary_string.charAt(i)=='1')
-            //                         input_names.push("HIGH");
-            //                     else
-            //                         input_names.push("LOW");
-            //                 }
-            //                 // calculating output
-            //                 var output_binary_string = response.output.toString(2);
-            //                 if(output_binary_string.length < 9){
-            //                     for(var i = output_binary_string.length; i<9; i++){
-            //                         output_binary_string = "0".concat(output_binary_string);
-            //                     }
-            //                 }
-            //                 console.log("Output : "+output_binary_string);
-            //                 var output_names = [];
-            //                 for(var i =0 ; i<output_binary_string.length; i++){
-            //                     if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
-            //                         output_names.push('<span style="color:red">OFF</span>');
-            //                     else
-            //                         output_names.push('<span style="color:green">ON</span>');
-            //                 }
-
-            //                 // calculating alarms
-            //                 var alarms = response.alarm;
-            //                 var bin_alarms = (alarms >>> 0).toString(2);
-            //                 for(var ii = bin_alarms.length; ii<24 ; ii++){
-            //                     bin_alarms = "0"+bin_alarms;
-            //                 }
-            //                 var alarm_names = [];
-            //                 for(var  j= 0 ; j < bin_alarms.length ; j++){
-            //                     if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
-            //                         switch(j){
-            //                             case 0: alarm_names.push('<div style="color:red">&nbsp;Reserved For future</div>');break;
-            //                             case 1: alarm_names.push('<div style="color:red">&nbsp;Reserved For future</div>');break;
-            //                             case 2: alarm_names.push('<div style="color:red">&nbsp;Reserved For future</div>');break;
-            //                             case 3: alarm_names.push('<div style="color:red">&nbsp;FLOWMETER COMM ERROR</div>');break;
-            //                             case 4: alarm_names.push('<div style="color:red">&nbsp;ATLAS TEMPERATURE ERROR</div>');break;
-            //                             case 5: alarm_names.push('<div style="color:red">&nbsp;ZERO EC ALARM</div>');break;
-            //                             case 6: alarm_names.push('<div style="color:red">&nbsp;ATLAS I2C COM ERROR</div>');break;
-            //                             case 7: alarm_names.push('<div style="color:red">&nbsp;LOW PRESSURE ALARM</div>');break;
-            //                             case 8: alarm_names.push('<div style="color:red">&nbsp;PAE AC INPUT FAIL</div>');break;
-            //                             case 9: alarm_names.push('<div style="color:red">&nbsp;PAE AC POWER DOWN</div>');break;
-            //                             case 10:alarm_names.push('<div style="color:red">&nbsp;PAE HIGH TEMPERATURE</div>');break;
-            //                             case 11:alarm_names.push('<div style="color:red">&nbsp;PAE AUX OR SMPS FAIL</div>');break;
-            //                             case 12:alarm_names.push('<div style="color:red">&nbsp;PAE FAN FAIL</div>');break;
-            //                             case 13:alarm_names.push('<div style="color:red">&nbsp;PAE OVER TEMP SHUTDOWN</div>');break;
-            //                             case 14:alarm_names.push('<div style="color:red">&nbsp;PAE OVER LOAD SHUTDOWN</div>');break;
-            //                             case 15:alarm_names.push('<div style="color:red">&nbsp;PAE OVER VOLT SHUTDOWN</div>');break;
-            //                             case 16:alarm_names.push('<div style="color:red">&nbsp;PAE COMMUNICATION ERROR</div>');break;
-            //                             case 17:alarm_names.push('<div style="color:red">&nbsp;CIP LOW LEVEL ALARM</div>');break;
-            //                             case 18:alarm_names.push('<div style="color:red">&nbsp;WASTE VALVE ALARM</div>');break;
-            //                             case 19:alarm_names.push('<div style="color:red">&nbsp;LEAKAGE ALARM</div>');break;
-            //                             case 20:alarm_names.push('<div style="color:red">&nbsp;CABINET TEMP ALARM</div>');break;
-            //                             case 21:alarm_names.push('<div style="color:red">&nbsp;BYPASS ALARM</div>');break;
-            //                             case 22:alarm_names.push('<div style="color:red">&nbsp;LOW FLOW WASTE ALARM</div>');break;
-            //                             case 23:alarm_names.push('<div style="color:red">&nbsp;LOW FLOW PURE ALARM</div>');break;
-            //                         }
-            //                     }
-            //                 }
-            //                 //calculate mode
-            //                 var mode_name ="";
-            //                 switch(response.mode){
-            //                     case "0" : mode_name="LOGOUT";break;
-            //                     case "1" : mode_name="AUTO";break;
-            //                     case "2" : mode_name="MANUAL FLUSH";break;
-            //                     case "3" : mode_name="MANUAL CIP";break;
-            //                 }
-
-            //                 //calculate volume and flow according to volume_unit setpoint
-            //                 var volume, volume_unit;
-            //                 var flow , flow_unit;
-            //                 var device_setpoint_volume_unit = userDevices.find(device_id =>device_id = view_live_device).volume_unit;
-            //                 switch(device_setpoint_volume_unit){
-            //                     case 0 :
-            //                             volume = response.tpv;
-            //                             volume_unit = "L";
-            //                             flow = response.c_flow.toFixed(2);
-            //                             flow_unit = "LPM";
-            //                         break;
-            //                     case 1 :
-            //                         volume = (response.tpv*0.2642007926).toFixed(2);
-            //                             volume_unit = "gal";
-            //                             flow = (response.c_flow*0.2642007926).toFixed(2);
-            //                             flow_unit = "GPM";
-            //                         break;
-            //                 }
-            //                 // calculate cycles left
-            //                 var device_setpoint_CIP_cycles = userDevices.find(device_id =>device_id = view_live_device).CIP_cycles;
-            //                 var cycles_left = device_setpoint_CIP_cycles - response.cycle;
-            //                 if(cycles_left < 0)
-            //                     cycles_left = 0;
-            //                 $('#live_data_rows').prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
-            //                         '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
-            //                         '<div class="timeline-body">'+
-            //                         '<div class="timeline-header">'+
-            //                                 '<span class="userimage"><img src="/images/running.gif"></span>'+
-            //                                 '<span class="username">'+status +'<small>'+step_name+'</small></span>'+
-            //                                 '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+'] </span>'+
-            //                                 '<span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span>'+
-            //                             '</div>'+
-            //                             '<div class="timeline-content">'+
-            //                                 '<div class="row">'+
-            //                                     '<div class="col-sm-6">'+
-            //                                         '<span>Cycles left before next CIP : '+cycles_left+' cycles</span><br/>'+
-            //                                         '<span>FLOW : '+flow+' '+flow_unit+'</span><br/>'+
-            //                                         '<span>PUMP SPEED : '+(response.aov/0.05).toFixed(2)+'%</span><br/>'+
-            //                                         '<span>CABINET TEMPERATURE : '+response.c_temp+' \xB0C</span><br/>'+
-            //                                         '<span>AVG. CONDUCTIVITY(EC) : '+response.ec+' \xB5s/cm</span><br/>'+
-            //                                         // '<span>MODE :'+mode_name+'</span>'+
-            //                                     '</div>'+
-            //                                     '<div class="col-sm-6">'+
-            //                                         // '<span>STEP :'+step_name+'</span><br/>'+
-            //                                         '<span>PRESSURE : '+response.pressure.toFixed(2)+' bar</span><br/>'+
-            //                                         '<span>PAE VOLTAGE : '+response.pae_volt+' V</span><br/>'+
-            //                                         '<span>RECOVERY : '+response.percentage_recovery+'%</span><br/>'+
-            //                                         '<span>WATER TEMPERATURE : '+response.w_temp+' \xB0C</span><br/>'+
-            //                                         '<span>TOTAL PURE VOLUME : '+volume+' '+volume_unit+'</span><br/>'+
-            //                                     '</div>'+
-            //                                 '</div>'+
-            //                                 '<div class="row">'+
-            //                                     '<div class="col-sm-12">'+
-            //                                         '<table class="table">'+
-            //                                             '<tr><th colspan="5" style="text-align:center;color:blue">DIGITAL INPUT</th></tr>'+
-            //                                             '<tr>'+
-            //                                                 '<th>LEVEL</th>'+
-            //                                                 '<th>BYPASS</th>'+
-            //                                                 '<th>LEAKAGE</th>'+
-            //                                                 '<th>SIGNAL</th>'+
-            //                                                 '<th>SPARE</th>'+
-            //                                             '</tr>'+
-            //                                             '<tr>'+
-            //                                                 '<td>'+input_names[4]+'</td>'+
-            //                                                 '<td>'+input_names[3]+'</td>'+
-            //                                                 '<td>'+input_names[2]+'</td>'+
-            //                                                 '<td>'+input_names[1]+'</td>'+
-            //                                                 '<td>'+input_names[0]+'</td>'+
-            //                                             '</tr>'+
-            //                                         '</table>'+
-            //                                     '</div>'+
-            //                                 '</div>'+
-            //                                 '<div class="row">'+
-            //                                     '<div class="col-sm-12">'+
-            //                                         '<table class="table">'+
-            //                                             '<tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>'+
-            //                                             '<tr>'+
-            //                                                 '<th>MIV</th>'+
-            //                                                 '<th>BYPASS</th>'+
-            //                                                 '<th>POV</th>'+
-            //                                                 '<th>WOV</th>'+
-            //                                                 '<th>CIP</th>'+
-            //                                                 '<th>SHUNT</th>'+
-            //                                                 '<th>POLARITY</th>'+
-            //                                                 '<th>PAE</th>'+
-            //                                                 '<th>SPARE</th>'+
-            //                                             '</tr>'+
-            //                                             '<tr>'+
-            //                                                 '<td>'+output_names[15]+'</td>'+
-            //                                                 '<td>'+output_names[14]+'</td>'+
-            //                                                 '<td>'+output_names[13]+'</td>'+
-            //                                                 '<td>'+output_names[12]+'</td>'+
-            //                                                 '<td>'+output_names[11]+'</td>'+
-            //                                                 '<td>'+output_names[10]+'</td>'+
-            //                                                 '<td>'+output_names[9]+'</td>'+
-            //                                                 '<td>'+output_names[8]+'</td>'+
-            //                                                 '<td>'+output_names[7]+'</td>'+
-            //                                             '</tr>'+
-            //                                         '</table>'+
-            //                                     '</div>'+
-            //                                 '</div>'+
-            //                                 '<div class="row" style="border:1px solid black; margin:5px">'+
-            //                                     '<div class="col-sm-12"><h4>ALARMS</h4></div>'+
-            //                                         alarm_names+
-            //                                 '</div>'+
-            //                             '</div>'+
-            //                         '</div>'+
-            //                     '</li>');
-            //                 highlight($('#live_data_rows:first .timeline-body:first'));
-            //             }
-            //         });
-            //     }
-            // }, 5000);
             function highlight(obj){
                 var orig = obj.css('background');
                 obj.css('background', '#87bde6');
@@ -1760,7 +1479,6 @@
                     url: "/getUserDevicesSetpointsForCalculation",
                 })
                 .done(function(response){
-                    console.log(response);
                     userDevices = response;
                 });
                 $("#modal-live-title").text($('#device_name-'+view_live_device).text() + " : Live View");
@@ -1769,18 +1487,14 @@
         // End of live view
         // Maintenance
             $('.alarms-list').on('click','.goto_maintenance', function(){
-                // alert('Hi')
                 var trid = $(this).closest('section').attr('id'); // table row ID
-                console.log(trid)
                 trid = trid.replace("alarmsList_","");
                 var element = document.getElementById("maintenance_tab-"+trid);
-                console.log(element)
                 element.scrollIntoView({behavior: "smooth", block: "end"})
             })
             var old_critic_value =[], old_pre_filter=[], old_post_filter=[], old_general_service=[];
             $('.btn_edit_maintenance').on('click',function(){
                 var trid = $(this).closest('section').attr('id'); // table row ID
-                console.log("maintenance clicked for "+trid)
                 old_critic_value[trid] = $('.input_critic_acid').val();
                 old_pre_filter[trid] = $('.input_pre_filter').val();
                 old_post_filter[trid] = $('.input_post_filter').val();
@@ -1818,7 +1532,6 @@
 
                     })
                     .done(function(response){
-                        // console.log(response)
                         Swal.fire('Success','Critic Acid Updated','success')
                         $('#btn_save_critic_acid-'+trid).attr("hidden", true);
                     });
@@ -1904,16 +1617,13 @@
                             url: "/resetCriticAcid/"+ device_id +"/"+volume,
                         })
                         .done(function(response){
-                            console.log(response);
                             $('#critic_acid_error-'+device_id).text("").trigger("change");
                             $('#critic_acid_details-'+device_id).removeAttr("hidden");
                             $('#critic_acid_volume_left-'+device_id).text(critic_acid_reset_value);
                             Swal.fire('Done!','Critic acid refilled.','success')
                         })
-
                     }
                 })
-
             })
             $('.btn_reset_pre_filter').on('click', function(){
                 Swal.fire({
@@ -1935,7 +1645,6 @@
                             url: "/resetPreFilter/"+ device_id +"/"+volume,
                         })
                         .done(function(response){
-                            console.log(response);
                             $('#pre_filter_error-'+device_id).text("").trigger("change");
                             $('#pre_filter_details-'+device_id).removeAttr("hidden");
                             $('#pre_filter_volume_left-'+device_id).text(pre_filter_reset_value).trigger("change");
@@ -1966,7 +1675,6 @@
                             url: "/resetPostFilter/"+ device_id +"/"+volume,
                         })
                         .done(function(response){
-                            console.log(response);
                             $('#post_filter_error-'+device_id).text("").trigger("change");
                             $('#post_filter_details-'+device_id).removeAttr("hidden");
                             $('#post_filter_volume_left-'+device_id).text(post_filter_reset_value).trigger("change");
@@ -1997,7 +1705,6 @@
                             url: "/resetGeneralService/"+ device_id +"/"+volume,
                         })
                         .done(function(response){
-                            console.log(response);
                             $('#general_service_error-'+device_id).text("").trigger("change");
                             $('#general_service_details-'+device_id).removeAttr("hidden");
                             $('#general_service_volume_left-'+device_id).text(general_service_reset_value).trigger("change");
@@ -2011,9 +1718,7 @@
         //end of maintenance
 
         $('.info-device-status').on('click', function(){
-            console.log("hi")
             var trid = $(this).closest('section').attr('id'); // table row ID
-            console.log(trid)
             switch($('#device_status-'+trid).text()){
                 case 'RUNNING':
                     $('#info_device_status_text-'+trid).text("Running")
@@ -2034,7 +1739,6 @@
         })
         $('.info-device-connection').on('click', function(){
             var trid = $(this).closest('section').attr('id'); // table row ID
-            console.log(trid)
             switch($('#device_connection_status-'+trid).text()){
                 case 'Connected':
                     $('#info_device_connection_text-'+trid).text('Connected')
@@ -2050,11 +1754,6 @@
 
             }
         })
-        // $('#info_conductivity').on('click', function(){
-        //     $('#info_conductivity_text').text("Conductivity")
-        //     $('#info_conductivity_description').text('')
-        //     $('#info_conductivity_description').append("Conductivity is how we measure the amount of minerals content in the water.")
-        // })
         $('.info_device_conductivity').on('click', function(){
             var trid = $(this).closest('section').attr('id'); // table row ID
             switch($('#device_conductivity_value-'+trid).text()){
@@ -2108,14 +1807,12 @@
                         var read_database = true;
                         setInterval(function(){
                             if(read_database){
-
                                 $.ajax({
                                     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                                     type: "GET",
                                     url: "/command_status/Reset-all-alarms/"+ trid,
                                 })
                                 .done(function(response){
-                                    console.log(response);
                                     if(response.device_read_at != null){
                                         read_database = false;
                                         Swal.close();
@@ -2137,7 +1834,6 @@
                                                     url: "/command/start/"+ trid,
                                                 })
                                                 .done(function(response){
-                                                    console.log(response);
                                                     Swal.fire('Success','Command recorded.','success')
                                                     start_stop_command_sent[trid] = true;
                                                     $('#device_status-'+trid).text('Pending')
@@ -2146,10 +1842,7 @@
                                                     $('#btn_device_start_stop-'+trid).text('Starting')
                                                     $('#btn_device_start_stop-'+trid).removeClass('btn-primary').addClass('btn-danger')
                                                     $('#btn_device_start_stop-'+trid).attr('disabled','true');
-                                                    // var date = new Date(response.created_at)
-                                                    // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                                                 });
-
                                             }
                                         })
                                     }
@@ -2171,7 +1864,6 @@
                         url: "/command/stop/"+ trid,
                     })
                     .done(function(response){
-                        console.log(response);
                         Swal.fire('Success','Command recorded.','success')
                         start_stop_command_sent[trid] = true;
                         $('#device_status-'+trid).text('Pending')
@@ -2180,8 +1872,6 @@
                         $('#btn_device_start_stop-'+trid).text('Stopping')
                         $('#btn_device_start_stop-'+trid).removeClass('btn-danger').addClass('btn-primary')
                         $('#btn_device_start_stop-'+trid).attr('disabled','true');
-                        // var date = new Date(response.created_at)
-                        // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                     break;
                 case "Start":
@@ -2192,7 +1882,6 @@
                         url: "/command/start/"+ trid,
                     })
                     .done(function(response){
-                        console.log(response);
                         Swal.fire('Success','Command recorded.','success')
                         start_stop_command_sent[trid] = true;
                         $('#device_status-'+trid).text('Pending')
@@ -2201,8 +1890,6 @@
                         $('#btn_device_start_stop-'+trid).text('Starting')
                         $('#btn_device_start_stop-'+trid).removeClass('btn-primary').addClass('btn-danger')
                         $('#btn_device_start_stop-'+trid).attr('disabled','true');
-                        // var date = new Date(response.created_at)
-                        // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
                     });
                     break;
             }
@@ -2217,11 +1904,9 @@
                 url: "/getDeviceAlarms/"+trid,
             })
             .done(function(response){
-                console.log(response)
                 for(var i=0 ;i< response.length; i++){
                     if(response[i].alarms != 0){
                         var alarm_names = calculateAlarm(response[i].alarms);
-                        // console.log(alarm_names)
                         $('#alarms_history_row').prepend('<li><div class="timeline-time"><span class="time">'+ new Date(response[i].start)+'</span></div>'+
                             '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
                             '<div class="timeline-body">'+
@@ -2235,9 +1920,7 @@
                         '</li>');
                     }
                 }
-
             })
-
             $('#modal-view_alarms_history').modal('show');
         })
 
@@ -2275,7 +1958,6 @@
                         case 21:alarm_names.push('<h5 style="color:red">&nbsp;BYPASS ALARM</h5>');break;
                         case 22:alarm_names.push('<h5 style="color:red">&nbsp;LOW FLOW WASTE ALARM</h5>');break;
                         case 23:alarm_names.push('<h5 style="color:red">&nbsp;LOW FLOW PURE ALARM</h5>');break;
-
                     }
                 }
             }
@@ -2284,117 +1966,238 @@
 
 
         //chart
-        var graph_time_frame, graph_custom_from, graph_custom_to;
-        var graph_title, graph_labels, graph_x_label, graph_y_label, graph_data;
-        var graph_displayed = "none";
-        var volumeChart;
-        $('#timeframe_volume').on('change', function(){
-            graph_time_frame = $('#timeframe_volume').val();
-            if(graph_time_frame != graph_displayed)
-                $('#btn_reload_graph').prop('disabled', false);
-            else
-                $('#btn_reload_graph').prop('disabled', true);
-            switch(graph_time_frame){
-                case 'custom':
-                    $('.volume_custom_time').show();
-                    graph_title = "Water purified in "+ graph_custom_from + " to "+ graph_custom_to;
-                    break;
-                case 'last_hour':
-                    $('.volume_custom_time').hide();
-                    graph_title = "Water purified in Last Hour";
-                    break;
-                case 'last_24_hour':
-                    graph_title = "Water purified in Last 24 Hours";
-                    $('.volume_custom_time').hide();
-
-                    break;
-            }
-            // volumeChart.update();
-            $('#btn_reload_graph').show();
-        })
-        $('#btn_reload_graph').on('click', function(){
-            //alert('reloading')
-            var ctx_volume = document.getElementById('volumeChart').getContext('2d');
-            switch(graph_time_frame){
-                case 'custom':
-                    graph_custom_from = $('#inputFromDate_volume').val();
-                    graph_custom_to = $('#inputToDate_volume').val();
-                    //fetch data from server
-                    graph_labels = ['01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00'];
-                    graph_data = [12,10,5,20,25,12,10,5,20,25,12,10,5,20,25];
-                    graph_displayed = "custom";
-                    break;
-                case 'last_hour':
-                    $('.volume_custom_time').hide();
-                    //fetch data from server
-                    graph_labels = ['01:00','02:00','03:00','04:00','05:00'];
-                    graph_data = [12,10,5,20,25];
-                    graph_displayed = "last_hour";
-                    break;
-                case 'last_24_hour':
-                    $('.volume_custom_time').hide();
-                    //fetch data from server
-                    graph_labels = ['01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00'];
-                    graph_data = [12,10,5,20,25,12,10,5,20,25];
-                    graph_displayed = "last_24_hr";
-                    break;
-            }
-            if(volumeChart){
-                volumeChart.destroy();
-            }
-            volumeChart = new Chart(ctx_volume, {
-                type: 'bar',
-                data: {
-                    labels: graph_labels,
-                    datasets: [{
-                        label: 'Volume purified',
-                        position: 'right',
-                        data: graph_data,
-                        fill: true,
-                        backgroundColor: 'cyan',
-                        borderColor: 'blue',
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    interaction: {
-                        // Overrides the global setting
-                        mode: 'index'
-                    },
-                    title: {
-                        display: true,
-                        text: graph_title,
-                        position: 'top',
-                        // padding: {
-                        //     top: 10,
-                        //     bottom: 30
-                        // }
-                    },
-                    scales: {
-                        xAxes:[{
-                            scaleLabel: {
-                                display: true,
-                                labelString: "Time (HH::MM)"
-                            }
-                        }],
-                        yAxes:[{
-                            scaleLabel: {
-                                display: true,
-                                labelString: "Value (in gallons)"
-                            }
-                        }]
-                    }
+            var graph_time_frame, graph_custom_from, graph_custom_to;
+            var graph_title, graph_labels, graph_x_label, graph_y_label, graph_data;
+            var graph_displayed = "none";
+            var volumeChart;
+            $('#timeframe_volume').on('change', function(){
+                graph_time_frame = $('#timeframe_volume').val();
+                if(graph_time_frame != graph_displayed)
+                    $('#btn_reload_graph').prop('disabled', false);
+                else
+                    $('#btn_reload_graph').prop('disabled', true);
+                switch(graph_time_frame){
+                    case 'custom':
+                        $('.volume_custom_time').show();
+                        $('#btn_reload_graph').prop('disabled', true);
+                        break;
+                    case 'last_hour':
+                        $('.volume_custom_time').hide();
+                        break;
+                    case 'last_24_hour':
+                        $('.volume_custom_time').hide();
+                        break;
+                    default:$('#btn_reload_graph').prop('disabled', true);
                 }
-            });
-            $('#volumeChart').show();
-            $('#btn_reload_graph').prop('disabled', true);
+                // volumeChart.update();
+                $('#btn_reload_graph').show();
+            })
+            $('#btn_reload_graph').on('click', function(){
+                var ctx_volume = document.getElementById('volumeChart').getContext('2d');
+                switch(graph_time_frame){
+                    case 'custom':
+                        graph_custom_from = $('#inputFromDate_volume').val();
+                        graph_custom_to = $('#inputToDate_volume').val();
+                        graph_title = "Water purified in "+ graph_custom_from + " to "+ graph_custom_to;
+                        //fetch data from server
+                        graph_labels = ['01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00'];
+                        graph_data = [12,10,5,20,25,12,10,5,20,25,12,10,5,20,25];
+                        graph_displayed = "custom";
+                            if(volumeChart){
+                                volumeChart.destroy();
+                            }
+                            volumeChart = new Chart(ctx_volume, {
+                                type: 'bar',
+                                data: {
+                                    labels: graph_labels,
+                                    datasets: [{
+                                        label: 'Volume purified',
+                                        position: 'right',
+                                        data: graph_data,
+                                        fill: true,
+                                        backgroundColor: 'cyan',
+                                        borderColor: 'blue',
+                                        tension: 0.1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    interaction: {
+                                        // Overrides the global setting
+                                        mode: 'index'
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: graph_title,
+                                        position: 'top',
+                                    },
+                                    scales: {
+                                        xAxes:[{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: "Time (HH::MM)"
+                                            }
+                                        }],
+                                        yAxes:[{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: "Value (in gallons)"
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            $('#volumeChart').show();
+                            $('#btn_reload_graph').prop('disabled', true);
+                        break;
+                    case 'last_hour':
+                        $('.volume_custom_time').hide();
+                        graph_displayed = "last_hour";
+                        graph_title = "Water purified in Last Hour";
+                        //fetch data from server
+                        // graph_labels = ['01:00','02:00','03:00','04:00','05:00'];
+                        // graph_data = [12,10,5,20,25];
+                        //fetch data from server
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "get",
+                            url: "/getVolumeHour/"+ device_id,
+                        })
+                        .done(function(response){
+                            graph_labels = Object.assign([],response.graph_labels);
+                            graph_data = Object.assign([],response.graph_data);
+                            graph_displayed = "last_hour";
+                            if(volumeChart){
+                                volumeChart.destroy();
+                            }
+                            volumeChart = new Chart(ctx_volume, {
+                                type: 'bar',
+                                data: {
+                                    labels: graph_labels,
+                                    datasets: [{
+                                        label: 'Volume purified',
+                                        position: 'right',
+                                        data: graph_data,
+                                        fill: true,
+                                        backgroundColor: 'cyan',
+                                        borderColor: 'blue',
+                                        tension: 0.1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    interaction: {
+                                        // Overrides the global setting
+                                        mode: 'index'
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: graph_title,
+                                        position: 'top',
+                                    },
+                                    scales: {
+                                        xAxes:[{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: "Time (HH::MM)"
+                                            }
+                                        }],
+                                        yAxes:[{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: "Value (in gallons)"
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            $('#volumeChart').show();
+                            $('#btn_reload_graph').prop('disabled', true);
+                        })
+                        break;
+                    case 'last_24_hour':
+                        $('.volume_custom_time').hide();
+                        graph_title = "Water purified in Last 24 Hours";
+                        //fetch data from server
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "get",
+                            url: "/getVolume24Hour/"+ device_id,
+                        })
+                        .done(function(response){
+                            graph_labels = Object.assign([],response.graph_labels);
+                            graph_data = Object.assign([],response.graph_data);
+                            graph_displayed = "last_hour";
+                            if(volumeChart){
+                                volumeChart.destroy();
+                            }
+                            volumeChart = new Chart(ctx_volume, {
+                                type: 'bar',
+                                data: {
+                                    labels: graph_labels,
+                                    datasets: [{
+                                        label: 'Volume purified',
+                                        position: 'right',
+                                        data: graph_data,
+                                        fill: true,
+                                        backgroundColor: 'cyan',
+                                        borderColor: 'blue',
+                                        tension: 0.1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    interaction: {
+                                        // Overrides the global setting
+                                        mode: 'index'
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: graph_title,
+                                        position: 'top',
+                                    },
+                                    scales: {
+                                        xAxes:[{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: "Time (HH::MM)"
+                                            }
+                                        }],
+                                        yAxes:[{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: "Value (in gallons)"
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            $('#volumeChart').show();
+                            $('#btn_reload_graph').prop('disabled', true);
+                        })
+                        graph_displayed = "last_24_hr";
+                        break;
+                }
+            })
+            $('#inputFromDate_volume').on('change', function(){
+                var from = new Date($('#inputFromDate_volume').val())
+                from.setDate(from.getDate()+1)
+                var to = from.toLocaleDateString()
+                $('#inputToDate_volume').val(to).change()
+                $('#btn_reload_graph').prop('disabled', false);
+            })
+            $('.volume-chart').on('click',function(){
+                // alert("hi")
+                device_id = $(this).closest('section').attr('id'); // table row ID
+                $('#timeframe_volume').val(0);
+                $('.volume_custom_time').hide();
+                graph_time_frame = null;
+                graph_displayed = "none"
+                $('#btn_reload_graph').hide();
+                $('#volumeChart').hide();
 
-        })
-        $('#inputFromDate_volume').on('change', function(){
-            // console.log('HI from date')
-            $('#inputToDate_volume').val($('#inputFromDate_volume').val()).change()
-        })
+            })
+        //
     });
 
 
@@ -2445,31 +2248,6 @@
             }
         });
     });
-
-
-    function searchDevice(){
-        var serial = $('#inputSerialNumber').val();
-        var device = $('#inputDeviceNumber').val();
-        var name = $('#inputDeviceName').val();
-        $data = {
-            "_token": "{{ csrf_token() }}",
-            "serial_number": serial,
-            "device_number": device
-        };
-        $.ajax({
-            type : 'get',
-            url : '{{URL::to('api/searchDevice')}}',
-            data: $data,
-            success:function(data){
-                // $('tbody').html(data);
-                console.log(data);
-                console.log("search");
-
-            }
-        });
-    }
-
-
 </script>
 
 @endsection

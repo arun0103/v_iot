@@ -11,6 +11,7 @@ use App\Models\RawLogs;
 use App\Models\Device_commands;
 use App\Models\Device_settings;
 use App\Models\DeviceSettingsLogs;
+use App\Models\DeviceSetpointsChangeLog;
 
 use App\Models\Maintenance_critic_acid;
 use App\Models\Maintenance_pre_filter;
@@ -108,7 +109,7 @@ class DeviceController extends Controller
         $test->save();
         $log = new DeviceSettingsLogs();
         $log->device_id = $id;
-        $log->parameter = "critic acid";
+        $log->parameter = "Critic acid";
         $log->old_value = $oldValue;
         $log->new_value = $test->critic_acid;
         $log->changed_by = Auth::user()->id;
@@ -130,7 +131,7 @@ class DeviceController extends Controller
         $test->save();
         $log = new DeviceSettingsLogs();
         $log->device_id = $id;
-        $log->parameter = "pre filter";
+        $log->parameter = "Pre filter";
         $log->old_value = $oldValue;
         $log->new_value = $test->pre_filter;
         $log->changed_by = Auth::user()->id;
@@ -152,7 +153,7 @@ class DeviceController extends Controller
         $test->save();
         $log = new DeviceSettingsLogs();
         $log->device_id = $id;
-        $log->parameter = "post filter";
+        $log->parameter = "Post filter";
         $log->old_value = $oldValue;
         $log->new_value = $test->post_filter;
         $log->changed_by = Auth::user()->id;
@@ -174,7 +175,7 @@ class DeviceController extends Controller
         $test->save();
         $log = new DeviceSettingsLogs();
         $log->device_id = $id;
-        $log->parameter = "general service";
+        $log->parameter = "General service";
         $log->old_value = $oldValue;
         $log->new_value = $test->general_service;
         $log->changed_by = Auth::user()->id;
@@ -248,7 +249,14 @@ class DeviceController extends Controller
     }
     // function to get device notifications
     public function getDeviceNotifications($device_id){
-        $notifications = DeviceSettingsLogs::where('device_id',$device_id)->with('changerDetails:id,name,role')->get();
+        $maintenance_logs = DeviceSettingsLogs::where('device_id',$device_id)->with('changerDetails:id,name,role')->get();
+        $control_logs = Device_commands::where('device_id',$device_id)->with('creatorDetails:id,name,role')->get();
+        $setpoints_logs = DeviceSetPointsChangeLog::where('device_id',$device_id)->with('changerDetails:id,name,role')->get();
+        $notifications = [
+            'maintenance'=>$maintenance_logs,
+            'controls'=>$control_logs,
+            'setpoints'=>$setpoints_logs
+        ];
         return response()->json($notifications);
     }
 }

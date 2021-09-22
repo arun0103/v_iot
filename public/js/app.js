@@ -1872,23 +1872,23 @@ __webpack_require__.r(__webpack_exports__);
  * building robust, powerful web applications using Vue and Laravel.
  */
 var _require = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"),
-    axios = _require["default"];
-
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); //jQuery
+    axios = _require["default"]; //jQuery
 
 
 
 window.$ = __webpack_provided_window_dot_jQuery = (jquery__WEBPACK_IMPORTED_MODULE_0___default());
 
- //var Inputmask = require('inputmask');
+
+
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); //var Inputmask = require('inputmask');
 //import Inputmask from "inputmask";
+
 
 var dt = __webpack_require__(/*! datatables.net */ "./node_modules/datatables.net/js/jquery.dataTables.js");
 
 __webpack_require__(/*! select2 */ "./node_modules/select2/dist/js/select2.js");
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker').datepicker(); //$('.datatable').DataTable({ renderer: { "header": "bootstrap" } });
-//jsPDF
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.datepicker').datepicker(); //jsPDF
 
 var _require2 = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js"),
     jsPDF = _require2.jsPDF; // will automatically load the node version

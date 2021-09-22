@@ -185,7 +185,6 @@
                     <i class="nav-icon fas fa-users"></i>
                     <p>
                         Resellers
-                        <!-- <span class="right badge badge-danger">New</span> -->
                     </p>
                 </a>
             </li>
@@ -196,7 +195,6 @@
                     <i class="nav-icon fas fa-user"></i>
                     <p>
                         Users
-                        <!-- <span class="right badge badge-danger">New</span> -->
                     </p>
                 </a>
             </li>
@@ -281,7 +279,7 @@
       Code By: Arun Amatya
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2021 <a href="https://adminlte.io">Voltea</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2021 <a href="https://www.voltea.com">Voltea</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
