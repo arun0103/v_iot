@@ -808,6 +808,7 @@
         </div>
         <section class="content">
             <div class="container-fluid">
+
                 @if(count($devices)>0)
                     <div class="row" id="table-total-devices">
                         <div class="col-lg-12 col-md-12">
