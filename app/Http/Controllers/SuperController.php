@@ -59,7 +59,7 @@ class SuperController extends Controller
                 'status'=>'failed',
                 'description'=>'Email already exists in database.'
             ];
-            return response()->json($data);
+            return response()->json($data,500);
         }
 
         $new_user = new User();
@@ -188,7 +188,7 @@ class SuperController extends Controller
             //dd($all);
             $users = User::all();
             $models = Models::all();
-            return view('user/devices')->with(['devices'=>$all])->with(['users'=>$users])->with(['models'=>$models]);
+            return view('super/devices')->with(['devices'=>$all])->with(['users'=>$users])->with(['models'=>$models]);
         }
         elseif($loggedInUser->role == 'R'){
             $users = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
@@ -222,7 +222,7 @@ class SuperController extends Controller
                 $device->model_id = $request->model;
                 $device->firmware = $request->firmware;
                 $device->manufactured_date= date('Y-m-d',strtotime($request->installation_date));
-                $device->reseller_id= $request->reseller_id ;
+                // $device->reseller_id= $request->reseller_id ;
                 $device->created_by = $loggedInUser->id ;
                 $device->save();
                 $message =[

@@ -11,6 +11,7 @@ use App\Models\UserDevices;
 use App\Models\Reseller;
 
 use App\Notifications\HelloNewUser;
+use App\Notifications\HelloNewReseller;
 
 
 class ResellerController extends Controller
@@ -48,16 +49,25 @@ class ResellerController extends Controller
         $reseller->phone = $req->phone;
         $reseller->created_by = $loggedInUser->id;
 
+        $user = new User();
         if($reseller->save()){
-            $user = new User();
+
             $user->name = $req->company_name;
             $user->email = $req->email;
             $user->role = 'R' ;
             $user->created_by = $loggedInUser->id ;
             $user->reseller_id = $reseller->id ;
-            $user->password = Hash::make('test123');
+            $random_password = "";
+            $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
+            for($i = 0; $i < 8 ; $i++){
+                $random_password .= substr($characters, (rand() % (strlen($characters))),1);
+            }
+            $user->password = Hash::make($random_password);
             $user->save();
         }
+        // notify email
+        $user->notify(new HelloNewReseller($user, $random_password));
+
         $resellerDevices = Device::where('reseller_id',$reseller->id)->get();
         $data = [
             'status' => 201,
@@ -70,6 +80,7 @@ class ResellerController extends Controller
 
     public function delete(Request $request){
         $reseller = Reseller::where('id',$request->id)->first();
+        $resellerUser = User::where([['reseller_id', $request->id],['role','R']])->delete();
         $data = [
             'status'=>200,
             'data'=>$reseller->delete(),

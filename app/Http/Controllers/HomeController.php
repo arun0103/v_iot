@@ -83,6 +83,7 @@ class HomeController extends Controller
                     $device->triggeredAlarms = $triggeredAlarms;
                 }
             }
+            // dd($devices);
             // return $devices;
             return view('super/dashboard')->with(['users'=>$users])
                                             ->with(['devices'=>$devices]);

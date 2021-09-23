@@ -259,6 +259,17 @@
         })
         $('#btn_confirm_add_reseller').on('click', function(e){
             e.preventDefault();
+            Swal.fire({
+                title: 'Please Wait!',
+                html: 'Creating Reseller\'s Profile.',
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+
+            })
             var address = {
                 'country': $('#countries').val(),
                 'state': $('#state-select').val(),
