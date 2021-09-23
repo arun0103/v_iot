@@ -11,6 +11,7 @@ use App\Models\UserDevices;
 use Auth;
 use Carbon\Carbon;
 use Session;
+use Hash;
 
 class HomeController extends Controller
 {
@@ -32,6 +33,10 @@ class HomeController extends Controller
     public function index(){
         //Get user info
         $loggedInUser = Auth::user();
+        // redirect new user to change password
+        if($loggedInUser->last_login == null){
+            return view('common/changePassword');
+        }
         $loggedInUser->last_login = Carbon::now();
         $loggedInUser->save();
         Session(['user_name', $loggedInUser->name]);
@@ -102,6 +107,13 @@ class HomeController extends Controller
         //dd($userDevices);
         return view('user/dashboard')->with(['users'=>$users])
                             ->with(['userDevices'=>$userDevices]);
+    }
+    public function changePassword(Request $req){
+        $loggedInUser = Auth::user();
+        $loggedInUser->password = Hash::make($req->password);
+        $loggedInUser->last_login = Carbon::now();
+        $loggedInUser->save();
+        return redirect()->route('home');
     }
 
     public function login(){

@@ -53,6 +53,7 @@ Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showCha
     // uses 'auth' middleware plus all middleware from $middlewareGroups['super']
     // Route::resource('blog','BlogController'); //Make a CRUD controller
 
+    Route::post('/changePassword',[App\Http\Controllers\HomeController::class,'changePassword'])->middleware('auth');
 
     Route::post('/addNewReseller',[App\Http\Controllers\ResellerController::class,'addNewReseller'])->middleware('auth');
     Route::put('/editReseller',[App\Http\Controllers\ResellerController::class,'editReseller'])->middleware('auth');
