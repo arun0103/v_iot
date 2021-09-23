@@ -1826,7 +1826,14 @@
             $('.view_device_details').on('click',function(){
                 var trid = $(this).closest('tr').attr('id'); // table row ID
                 device_id = trid.replace("device-info-",'') // device id  from table row
-                $('.nav_link-avg_data').click();
+                $('#btn_refresh_live_data').attr('hidden', true);
+                $('#tab_live_data').hide();
+                $('#tab_control').hide();
+                $('#tab_avg_data').show();
+                $('#btn_edit_setpoints').attr('hidden',true);
+                $('#btn_save_setpoints').attr('hidden',true)
+                $('#btn_cancel_setpoints').attr('hidden',true)
+                $('#footer_maintenance').attr('hidden',false)
                 // get the setpoints from the database and save for future calculations
                 // CIP_cycle, volume unit are two setpoints that is needed to calculate live view data
                 var userDevices;
