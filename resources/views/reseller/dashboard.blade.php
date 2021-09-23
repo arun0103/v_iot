@@ -1794,31 +1794,36 @@
             }).done(function(response){
                 for(let i= 0; i<response.length; i++){
                     let d_id = response[i].id;
-                    // change the water quality
-                    let water_quality ="";
-                    let setpoint_pure_EC_target = response[i].setpoints.pure_EC_target;
-                    let avg_EC_target = response[i].latest_log.ec;
-                    let difference_ec = setpoint_pure_EC_target - avg_EC_target;
-                    if(difference_ec<0){
-                        difference_ec = difference_ec * (-1);
-                    }
-                    var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
-                    if(percentage_EC_target <= 10){
-                        water_quality = "On Target";
-                    }else{
-                        water_quality = "Needs Attention";
-                    }
-                    $('#ec-'+response[i].id).text(water_quality);
-                    // change status
-                    if(response[i].latest_log.step == 0 || response[i].latest_log.step == 1 || response[i].latest_log.step == 13){
-                        status = "IDLE";
-                        color = "orange";
+                    if(response[i].latest_log != null){
+                        // change the water quality
+                        let water_quality ="";
+                        let color;
+                        let setpoint_pure_EC_target = response[i].setpoints.pure_EC_target;
+                        let avg_EC_target = response[i].latest_log.ec;
+                        let difference_ec = setpoint_pure_EC_target - avg_EC_target;
+                        if(difference_ec<0){
+                            difference_ec = difference_ec * (-1);
+                        }
+                        var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
+                        if(percentage_EC_target <= 10){
+                            water_quality = "On Target";
+                            color = "green";
+                        }else{
+                            water_quality = "Needs Attention";
+                            color = "red"
+                        }
+                        $('#ec-'+response[i].id).text(water_quality).css('color',color);
+                        // change status
+                        if(response[i].latest_log.step == 0 || response[i].latest_log.step == 1 || response[i].latest_log.step == 13){
+                            status = "IDLE";
+                            color = "orange";
 
-                    }else{
-                        status = "RUNNING";
-                        color = "green";
+                        }else{
+                            status = "RUNNING";
+                            color = "green";
+                        }
+                        $('#status-'+d_id).text(status).css("color", color); // row status
                     }
-                    $('#status-'+d_id).text(status); // row status
                 }
             })
         },5000);
