@@ -1832,6 +1832,7 @@
                 $('#tab_live_data').hide();
                 $('#tab_control').hide();
                 $('#tab_avg_data').show();
+                $('#tab_avg_data').addClass("active show");
                 $('#btn_edit_setpoints').attr('hidden',true);
                 $('#btn_save_setpoints').attr('hidden',true)
                 $('#btn_cancel_setpoints').attr('hidden',true)
