@@ -1832,6 +1832,8 @@
             $('.view_device_details').on('click',function(){
                 var trid = $(this).closest('tr').attr('id'); // table row ID
                 device_id = trid.replace("device-info-",'') // device id  from table row
+                view_mode = "average";
+                view_live_device = null; // we are not in live mode
                 $('#btn_refresh_live_data').attr('hidden', true);
                 $('#tab_live_data').hide();
                 $('#tab_control').hide();
