@@ -46,6 +46,7 @@
                                     <tr>
                                         <th>PCB Serial #</th>
                                         <th>Device Serial #</th>
+                                        <th>Device Name</th>
                                         <th>Model</th>
                                         <th># Assigned Users</th>
                                         <th>Last Data Received Time</th>
@@ -57,6 +58,7 @@
                                     <tr id="{{$device->id}}" class="device">
                                         <td>{{$device->serial_number}}</td>
                                         <td>{{$device->device_number}}</td>
+                                        <td>{{$device->device_name}}</td>
                                         <td>{{$device->model->name}}</td>
                                         <td id="count_userDevices-{{$device->id}}">{{count($device->userDevices)}}</td>
                                         <td>

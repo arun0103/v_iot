@@ -6,6 +6,7 @@
     .error{
         border: 1px solid red;
     }
+
 </style>
 <style>
     /* ---- ---- --- For hiding up down arrow from number inputs --- --- -----  */
@@ -48,10 +49,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header border-0 bg-top-logo-color">
-                            <h2 class="card-title">List of Devices</h2>
+                        <div class="card-header">
+                            <h4 class="card-title">List of Devices</h4>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-user-device">Add New</button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-add-user-device">Add New</button>
                             </div>
                         </div>
                         <div class="card-body table-responsive">
@@ -60,6 +61,7 @@
                                     <tr>
                                         <th>PCB Serial #</th>
                                         <th>Device Serial #</th>
+                                        <th>Device Name</th>
                                         <th>Model</th>
                                         <th>Firmware</th>
                                         <th>Last Data Received Time</th>
@@ -71,6 +73,7 @@
                                     <tr id="{{$device->id}}" class="device">
                                         <td>{{$device->serial_number}}</td>
                                         <td>{{$device->device_number}}</td>
+                                        <td>{{$device->device_name}}</td>
                                         <td>{{$device->model->name}}</td>
                                         <td>{{$device->firmware}}</td>
                                         <td>
@@ -86,6 +89,7 @@
                                                     <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
                                                 </a>-->
                                                 <a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Update Firmware</a>
+                                                <a class="dropdown-item operation-edit_device_name"><i class="fas fa-edit"></i> Edit Device Name</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item view-device-users" id="view_user_devices"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>
                                                 <div class="dropdown-divider"></div>
@@ -510,6 +514,7 @@
 <script type="text/javascript">
     let list_of_users;
     $(document).ready(function () {
+        $('.datatable').dataTable();
         var stepper = new Stepper($('.bs-stepper')[0])
         $('.select2').select2({
             placeholder: 'Select an option',

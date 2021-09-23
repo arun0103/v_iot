@@ -24,12 +24,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header border-0 bg-top-logo-color">
-                            <h2 class="card-title">List of Users</h2>
-                            <!-- <i class="btn fas fa-sync-alt"></i> -->
+                        <div class="card-header">
+                            <h4 class="card-title">List of Users</h4>
                             <div class="card-tools">
-                                <!-- <input class="form-control" type="filter" placeholder="Filter User" aria-label="Filter"> -->
-                                <button type="button" id="btn_add_user" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new-user">Add New</button>
+                                <button type="button" id="btn_add_user" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-add-new-user">Add New</button>
                             </div>
                         </div>
                         <div class="card-body table-responsive p-2">
@@ -238,74 +236,77 @@
     @section('scripts')
     <!-- <script src="{{asset('js/user.js')}}"> -->
     <script type="text/javascript">
-    var user_id = null;
-    $(document).on('click','a.option-view-user-devices',function(){
+        $(document).ready(function(){
+            $('.datatable').dataTable();
+        })
+        var user_id = null;
+        $(document).on('click','a.option-view-user-devices',function(){
 
-        alert('In progress')
-    })
-    function validateEditUser(){
-        //Remove previous validations
-        $('#error_user_name_edit p').remove();
-        $('#error_user_email_edit p').remove();
-        $('#error_user_role_edit p').remove();
-        $('#error_user_company_edit p').remove();
-        $('#error_user_position_edit p').remove();
-        var error_count = 0;
-        //check inputs one by one
-        if($('#inputName_edit').val() == ''){
-            $('#error_user_name_edit').append('<p style="color:red"> Name cannot be empty!</p>');
-            error_count++;
-        }if($('#inputEmail_edit').val() == ''){
-            $('#error_user_email_edit').append('<p style="color:red"> Email cannot be empty!</p>');
-            error_count++;
-        }else{
-            const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if(re.test($('#inputEmail_edit').val()))
-                $('#error_user_email_edit p').remove();
-            else{
-                $('#error_user_email_edit').append('<p style="color:red"> Email is invalid!</p>');
+            alert('In progress')
+        })
+        function validateEditUser(){
+            //Remove previous validations
+            $('#error_user_name_edit p').remove();
+            $('#error_user_email_edit p').remove();
+            $('#error_user_role_edit p').remove();
+            $('#error_user_company_edit p').remove();
+            $('#error_user_position_edit p').remove();
+            var error_count = 0;
+            //check inputs one by one
+            if($('#inputName_edit').val() == ''){
+                $('#error_user_name_edit').append('<p style="color:red"> Name cannot be empty!</p>');
                 error_count++;
+            }if($('#inputEmail_edit').val() == ''){
+                $('#error_user_email_edit').append('<p style="color:red"> Email cannot be empty!</p>');
+                error_count++;
+            }else{
+                const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if(re.test($('#inputEmail_edit').val()))
+                    $('#error_user_email_edit p').remove();
+                else{
+                    $('#error_user_email_edit').append('<p style="color:red"> Email is invalid!</p>');
+                    error_count++;
+                }
+            }
+            switch($('#selectRole_edit').val()){
+                case 'R':
+                    // validate company and position
+                    switch($('#selectResellerCompany_edit').val()){
+                        case '0': // user has not selected any value
+                            $('#error_user_company_edit').append('<p style="color:red"> Company cannot be empty!</p>');
+                            error_count++;
+                            break;
+                    }
+                    if($('#inputResellerPostition_edit').val() == ''){
+                        $('#error_user_position_edit').append('<p style="color:red"> Position cannot be empty!</p>');
+                        error_count++;
+                    }break;
+                case 'U':
+                case 'S':
+                    $('#error_user_role_edit p').remove();
+                    break;
+                default:
+                    $('#error_user_role_edit p').remove();
+                    $('#error_user_role_edit').append('<p style="color:red"> Role cannot be empty!</p>');
+                    error_count++;
+            }
+            if(error_count >0){
+                return false;
+            }
+            else{
+                return true;
+
             }
         }
-        switch($('#selectRole_edit').val()){
-            case 'R':
-                // validate company and position
-                switch($('#selectResellerCompany_edit').val()){
-                    case '0': // user has not selected any value
-                        $('#error_user_company_edit').append('<p style="color:red"> Company cannot be empty!</p>');
-                        error_count++;
-                        break;
-                }
-                if($('#inputResellerPostition_edit').val() == ''){
-                    $('#error_user_position_edit').append('<p style="color:red"> Position cannot be empty!</p>');
-                    error_count++;
-                }break;
-            case 'U':
-            case 'S':
-                $('#error_user_role_edit p').remove();
-                break;
-            default:
-                $('#error_user_role_edit p').remove();
-                $('#error_user_role_edit').append('<p style="color:red"> Role cannot be empty!</p>');
-                error_count++;
-        }
-        if(error_count >0){
-            return false;
-        }
-        else{
-            return true;
-
-        }
-    }
-    $(document).on('click','a.option-edit-user',function(){
-        $('.loader').show();
-        user_id = $(this).closest('tr').attr('id'); // table row ID
-        $('#inputName_edit').val($('tr#'+user_id+' td:eq(0) span.user_name').text())
-        $('#inputEmail_edit').val($('tr#'+user_id+' td:eq(1)').text())
-        $('#selectRole_edit').val($('tr#'+user_id+' td#'+user_id +'_role').text().charAt(0)).trigger('change')
-        $('#modal-edit-user').modal('show');
-        $('.loader').hide();
-    })
+        $(document).on('click','a.option-edit-user',function(){
+            $('.loader').show();
+            user_id = $(this).closest('tr').attr('id'); // table row ID
+            $('#inputName_edit').val($('tr#'+user_id+' td:eq(0) span.user_name').text())
+            $('#inputEmail_edit').val($('tr#'+user_id+' td:eq(1)').text())
+            $('#selectRole_edit').val($('tr#'+user_id+' td#'+user_id +'_role').text().charAt(0)).trigger('change')
+            $('#modal-edit-user').modal('show');
+            $('.loader').hide();
+        })
         $('#selectRole_edit').on('change', function(){
             switch($('#selectRole_edit').val()){
                 case 'R':

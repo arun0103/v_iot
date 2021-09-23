@@ -18,6 +18,10 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <style>
+        .card-title{
+            height:15px;
+            line-height:30px;
+        }
         html{
             -webkit-user-select: none; /* Safari */
             -moz-user-select: none; /* Firefox */

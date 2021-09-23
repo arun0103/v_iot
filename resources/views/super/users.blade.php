@@ -238,253 +238,58 @@
     @section('scripts')
     <!-- <script src="{{asset('js/user.js')}}"> -->
     <script type="text/javascript">
-    var user_id = null;
-    $(document).on('click','a.option-view-user-devices',function(){
-
-        alert('In progress')
-    })
-    function validateEditUser(){
-        //Remove previous validations
-        $('#error_user_name_edit p').remove();
-        $('#error_user_email_edit p').remove();
-        $('#error_user_role_edit p').remove();
-        $('#error_user_company_edit p').remove();
-        $('#error_user_position_edit p').remove();
-        var error_count = 0;
-        //check inputs one by one
-        if($('#inputName_edit').val() == ''){
-            $('#error_user_name_edit').append('<p style="color:red"> Name cannot be empty!</p>');
-            error_count++;
-        }if($('#inputEmail_edit').val() == ''){
-            $('#error_user_email_edit').append('<p style="color:red"> Email cannot be empty!</p>');
-            error_count++;
-        }else{
-            const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if(re.test($('#inputEmail_edit').val()))
-                $('#error_user_email_edit p').remove();
-            else{
-                $('#error_user_email_edit').append('<p style="color:red"> Email is invalid!</p>');
-                error_count++;
-            }
-        }
-        switch($('#selectRole_edit').val()){
-            case 'R':
-                // validate company and position
-                switch($('#selectResellerCompany_edit').val()){
-                    case '0': // user has not selected any value
-                        $('#error_user_company_edit').append('<p style="color:red"> Company cannot be empty!</p>');
-                        error_count++;
-                        break;
-                }
-                if($('#inputResellerPostition_edit').val() == ''){
-                    $('#error_user_position_edit').append('<p style="color:red"> Position cannot be empty!</p>');
-                    error_count++;
-                }break;
-            case 'U':
-            case 'S':
-                $('#error_user_role_edit p').remove();
-                break;
-            default:
-                $('#error_user_role_edit p').remove();
-                $('#error_user_role_edit').append('<p style="color:red"> Role cannot be empty!</p>');
-                error_count++;
-        }
-        if(error_count >0){
-            return false;
-        }
-        else{
-            return true;
-
-        }
-    }
-    $(document).on('click','a.option-edit-user',function(){
-        $('.loader').show();
-        user_id = $(this).closest('tr').attr('id'); // table row ID
-        $('#inputName_edit').val($('tr#'+user_id+' td:eq(0) span.user_name').text())
-        $('#inputEmail_edit').val($('tr#'+user_id+' td:eq(1)').text())
-        $('#selectRole_edit').val($('tr#'+user_id+' td#'+user_id +'_role').text().charAt(0)).trigger('change')
-        $('#modal-edit-user').modal('show');
-        $('.loader').hide();
-    })
-        $('#selectRole_edit').on('change', function(){
-            switch($('#selectRole_edit').val()){
-                case 'R':
-                    $('#div_reseller_edit').attr('hidden', false)
-                    $('#error_user_role p').remove();
-                    //popular list of resellers
-                    $.ajax({
-                        type: "GET",
-                        url: "/getResellersList",
-                    })
-                    .done(function( response ) {
-                        console.log(response)
-                        $('#selectResellerCompany_edit option').remove();
-                        $('#selectResellerCompany_edit').prepend('<option value="0" disabled selected>Select a company</option>')
-                        for(var i = 0; i < response.length ; i++){
-                            $('#selectResellerCompany_edit').append('<option value=\"'+response[i].id+'\">'+response[i].company_name+'</option>')
-                        }
-                    });
-                    break;
-                case 'U':
-                case 'S':
-                    $('#error_user_role p').remove();
-                    $('#div_reseller_edit').attr('hidden', true)
-                    break;
-                default:
-                    $('#div_reseller_edit').attr('hidden', true)
-
-            }
+        $(document).ready(function(){
+            $('.datatable').dataTable();
         })
-        $('#btn_confirm_editUser').on('click', function(e){
-            e.preventDefault();
-            if(validateEditUser()){ //validation succeded
-                $('#modal-edit-user').modal('hide');
-                $('.loader').show()
-                console.log($('#inputName_edit').val())
-                console.log($('#inputEmail_edit').val())
-                console.log($('#selectRole_edit').val())
-                console.log($('#selectResellerCompany_edit').val())
-                $.ajax({
-                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                    type: "PATCH",
-                    url: "/super/editUser/" + user_id,
-                    data: {
-                        "user_name":$('#inputName_edit').val(),
-                        "user_email":$('#inputEmail_edit').val(),
-                        "user_role":$('#selectRole_edit').val(),
-                        "user_reseller_id":$('#selectResellerCompany_edit').val(),
-                        "user_position":$('#inputResellerPostition_edit').val(),
-                    },
-                })
-                .done(function(response){
-                    console.log(response)
+        var user_id = null;
+        $(document).on('click','a.option-view-user-devices',function(){
 
-                    switch(response.status){
-                        case 'failed':
-                            Swal.fire(
-                                'Failed!',
-                                response.description,
-                                'error'
-                            )
-                            break;
-                        case 'halted':
-                            Swal.fire(
-                                'Skipped!',
-                                response.description,
-                                'question'
-                            )
-                            break;
-                        case 'success':
-                            $('tr#'+response.user.id+" td:eq(0)").text(response.user.name)
-                            $('tr#'+response.user.id+" td:eq(1)").text(response.user.email)
-                            $('tr#'+response.user.id+" td:eq(2)").text(response.user.role == 'U'?'User':(response.user.role == 'R'? 'Reseller':'Voltea'))
-                            $('tr#'+response.user.id+" td:eq(3)").text(response.user.user_devices_count)
-                            $('tr#'+response.user.id+" td:eq(4)").text(response.user.reseller!=null?response.user.reseller.company_name: '-')
-                            $('tr#'+response.user.id+" td:eq(5)").text(response.user.last_login!=null?response.user.last_login:'-')
-                            Swal.fire(
-                                'Saved!',
-                                'User modified! ',
-                                'success'
-                            )
-                    }
-                })
-            }else{
-                $('#modal-edit-user').modal('show');
-                Swal.fire(
-                    'Validation Failed!',
-                    'Please correct the errors first!',
-                    'error'
-                    )
-            }
-            $('.loader').hide();
+            alert('In progress')
         })
-
-        $(document).on('click','a.option-delete-user', function(){
-            var user_id = $(this).closest('tr').attr('id'); // table row ID
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    $.ajax({
-                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                        type:'delete',
-                        url:'/deleteUser/'+user_id,
-                    })
-                    .done(function(response){
-                        console.log(response)
-                        $('#'+user_id).remove();
-                        Swal.fire(
-                            response.status,
-                            response.desc,
-                            'info'
-                        )
-                    })
-                    .fail(function(response){
-                        console.log(response);
-                    })
-                }
-            })
-        })
-
-        $('#btn_add_user').on('click', function(){
-            $('#error_user_name p').remove();
-            $('#error_user_email p').remove();
-            $('#error_user_role p').remove();
-            $('#error_user_company p').remove();
-            $('#error_user_position p').remove();
-        })
-
-        function validateNewUser(){
-        //Remove previous validations
-            $('#error_user_name p').remove();
-            $('#error_user_email p').remove();
-            $('#error_user_role p').remove();
-            $('#error_user_company p').remove();
-            $('#error_user_position p').remove();
+        function validateEditUser(){
+            //Remove previous validations
+            $('#error_user_name_edit p').remove();
+            $('#error_user_email_edit p').remove();
+            $('#error_user_role_edit p').remove();
+            $('#error_user_company_edit p').remove();
+            $('#error_user_position_edit p').remove();
             var error_count = 0;
-        //check inputs one by one
-            if($('#inputName').val() == ''){
-                $('#error_user_name').append('<p style="color:red"> Name cannot be empty!</p>');
+            //check inputs one by one
+            if($('#inputName_edit').val() == ''){
+                $('#error_user_name_edit').append('<p style="color:red"> Name cannot be empty!</p>');
                 error_count++;
-            }if($('#inputEmail').val() == ''){
-                $('#error_user_email').append('<p style="color:red"> Email cannot be empty!</p>');
+            }if($('#inputEmail_edit').val() == ''){
+                $('#error_user_email_edit').append('<p style="color:red"> Email cannot be empty!</p>');
                 error_count++;
             }else{
                 const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                if(re.test($('#inputEmail').val()))
-                    $('#error_user_email p').remove();
+                if(re.test($('#inputEmail_edit').val()))
+                    $('#error_user_email_edit p').remove();
                 else{
-                    $('#error_user_email').append('<p style="color:red"> Email is invalid!</p>');
+                    $('#error_user_email_edit').append('<p style="color:red"> Email is invalid!</p>');
                     error_count++;
                 }
             }
-            switch($('#selectRole').val()){
+            switch($('#selectRole_edit').val()){
                 case 'R':
                     // validate company and position
-                    switch($('#selectResellerCompany').val()){
+                    switch($('#selectResellerCompany_edit').val()){
                         case '0': // user has not selected any value
-                            $('#error_user_company').append('<p style="color:red"> Company cannot be empty!</p>');
+                            $('#error_user_company_edit').append('<p style="color:red"> Company cannot be empty!</p>');
                             error_count++;
                             break;
                     }
-                    if($('#inputResellerPostition').val() == ''){
-                        $('#error_user_position').append('<p style="color:red"> Position cannot be empty!</p>');
+                    if($('#inputResellerPostition_edit').val() == ''){
+                        $('#error_user_position_edit').append('<p style="color:red"> Position cannot be empty!</p>');
                         error_count++;
                     }break;
                 case 'U':
                 case 'S':
-                    $('#error_user_role p').remove();
+                    $('#error_user_role_edit p').remove();
                     break;
                 default:
-                    $('#error_user_role p').remove();
-                    $('#error_user_role').append('<p style="color:red"> Role cannot be empty!</p>');
+                    $('#error_user_role_edit p').remove();
+                    $('#error_user_role_edit').append('<p style="color:red"> Role cannot be empty!</p>');
                     error_count++;
             }
             if(error_count >0){
@@ -495,194 +300,390 @@
 
             }
         }
-
-
-        $('#btn_confirm_addNewUser').on('click', function(e){
-            e.preventDefault();
-            if(validateNewUser()){ //validation succeded
-                $('#modal-add-new-user').modal('hide');
-                $('.loader').show()
-                console.log($('#selectResellerCompany').val())
-                $.ajax({
-                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                    type: "POST",
-                    url: "/super/addUser",
-                    data: {
-                        "name":$('#inputName').val(),
-                        "email":$('#inputEmail').val(),
-                        "role":$('#selectRole').val(),
-                        "reseller_id":$('#selectResellerCompany').val(),
-                        "position":$('#inputResellerPostition').val(),
-                    },
-                })
-                .done(function(response){
-                    console.log(response)
-                    $('.loader').hide()
-                    switch(response.status){
-                        case 'failed':
-                            Swal.fire(
-                                'Failed!',
-                                response.description,
-                                'error'
-                            )
-                            break;
-                        case 'success':
-                            switch( response.user.role){
-                                case 'R':
-                                    $('tbody').prepend('<tr id="'+response['user'].id+'"><td>'
-                                    +response['user'].name+'</td><td>'+response['user'].email+'</td><td>'
-                                    +'Reseller'+'</td><td>0</td><td>'
-                                    +response['user'].reseller.company_name +'</td><td>'
-                                    +response['user'].last_login+'</td><td><a class="nav-link" data-toggle="dropdown">'
-                                    +'<i class="fas fa-angle-down"></i>'
-                                    +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-                                    +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'
-                                    +'<a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>'
-                                    +'<div class="dropdown-divider"></div>'
-                                    +'<a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a></div></td></tr>')
-                                    break;
-                                case 'U':
-                                    $('tbody').prepend('<tr id="'+response['user'].id+'"><td>'
-                                    +response['user'].name+'</td><td>'+response['user'].email+'</td><td>'
-                                    +'User'+'</td><td>0</td><td>'
-                                    +'-' +'</td><td>'+response['user'].last_login+'</td><td><a class="nav-link" data-toggle="dropdown">'
-                                    +'<i class="fas fa-angle-down"></i>'
-                                    +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-                                    +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'
-                                    +'<a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>'
-                                    +'<div class="dropdown-divider"></div>'
-                                    +'<a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a></div></td></tr>')
-                                    break;
-                                case 'S':
-                                    $('tbody').prepend('<tr id="'+response['user'].id+'"><td>'
-                                    +response['user'].name+'</td><td>'+response['user'].email+'</td><td>'
-                                    +'Super'+'</td><td>0</td><td>'
-                                    +'-' +'</td><td>'+response['user'].last_login+'</td><td><a class="nav-link" data-toggle="dropdown">'
-                                    +'<i class="fas fa-angle-down"></i>'
-                                    +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-                                    +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'
-                                    +'<a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>'
-                                    +'<div class="dropdown-divider"></div>'
-                                    +'<a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a></div></td></tr>')
-                                    break;
-                            }
-
-                            Swal.fire(
-                                'Added!',
-                                'User added successful! ',
-                                'success'
-                            )
-                    }
-
-                    // switch(response['status']){
-                    //     case 200:
-                    //         Swal.fire(
-                    //             'Deleted!',
-                    //             'Reseller has been deleted.',
-                    //             'success'
-                    //         );
-                    //         $('tr#'+id).remove();
-                    //         break;
-                    //     default:
-                    //         Swal.fire({
-                    //             icon: 'error',
-                    //             title: 'Oops...',
-                    //             text: 'Something went wrong!',
-                    //             footer: '<a href="">Why do I have this issue?</a>'
-                    //         })
-                    // }
-                })
-
-
-
-            }else{
-                $('#modal-add-new-user').modal('show');
-                Swal.fire(
-                    'Validation Failed!',
-                    'Please correct the errors first!',
-                    'error'
-                    )
-            }
-            $('#div.loader').hide();
-        })
-        $('#inputName').on('change',function(){
-            if($('#inputName').val() != '')
-                $('#error_user_name p').remove();
-        })
-        $('#inputEmail').on('change',function(){
-            console.log($('#inputEmail').val())
-            if($('#inputEmail').val() != '')
-                $('#error_user_email p').remove();
-            const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if(re.test($('#inputEmail').val()))
-                $('#error_user_email p').remove();
-            else
-            $('#error_user_email').append('<p style="color:red"> Email is invalid!</p>');
-
-        })
-        $('#selectRole').on('change', function(){
-            switch($('#selectRole').val()){
-                case 'R':
-                    $('#div_reseller').attr('hidden', false)
-                    $('#error_user_role p').remove();
-                    //popular list of resellers
-                    $.ajax({
-                        type: "GET",
-                        url: "/getResellersList",
-                    })
-                    .done(function( response ) {
-                        console.log(response)
-                        $('#selectResellerCompany option').remove();
-                        $('#selectResellerCompany').prepend('<option value="0" disabled selected>Select a company</option>')
-                        for(var i = 0; i < response.length ; i++){
-                            $('#selectResellerCompany').append('<option value=\"'+response[i].id+'\">'+response[i].company_name+'</option>')
-                        }
-                    });
-                    break;
-                case 'U':
-                case 'S':
-                    $('#error_user_role p').remove();
-                    $('#div_reseller').attr('hidden', true)
-                    break;
-                default:
-                    $('#div_reseller').attr('hidden', true)
-
-            }
-        })
-        $('#selectResellerCompany').on('change', function(){
-            if($('#selectResellerCompany').val()=="0"){
-                $('#error_user_company').append('<p style="color:red"> Company cannot be empty!</p>');
-            }
-            else
-            $('#error_user_company p').remove()
-
-        })
-
-        $(function () {
-            // var test =json_encode(Session::get('role'))
-            // console.log(test)
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('#selectRole').select2({
-                placeholder: 'Select user role',
-                width: 'resolve',
-                theme: "classic"
-            });
-            $('#selectRole_edit').select2({
-                placeholder: 'Select user role',
-                width: 'resolve',
-                theme: "classic"
-            });
-            $('#selectResellerCompany').select2({
-                placeholder: 'Select a company',
-                width: 'resolve',
-                theme: "classic"
-            });
+        $(document).on('click','a.option-edit-user',function(){
+            $('.loader').show();
+            user_id = $(this).closest('tr').attr('id'); // table row ID
+            $('#inputName_edit').val($('tr#'+user_id+' td:eq(0) span.user_name').text())
+            $('#inputEmail_edit').val($('tr#'+user_id+' td:eq(1)').text())
+            $('#selectRole_edit').val($('tr#'+user_id+' td#'+user_id +'_role').text().charAt(0)).trigger('change')
+            $('#modal-edit-user').modal('show');
             $('.loader').hide();
-        });
+        })
+            $('#selectRole_edit').on('change', function(){
+                switch($('#selectRole_edit').val()){
+                    case 'R':
+                        $('#div_reseller_edit').attr('hidden', false)
+                        $('#error_user_role p').remove();
+                        //popular list of resellers
+                        $.ajax({
+                            type: "GET",
+                            url: "/getResellersList",
+                        })
+                        .done(function( response ) {
+                            console.log(response)
+                            $('#selectResellerCompany_edit option').remove();
+                            $('#selectResellerCompany_edit').prepend('<option value="0" disabled selected>Select a company</option>')
+                            for(var i = 0; i < response.length ; i++){
+                                $('#selectResellerCompany_edit').append('<option value=\"'+response[i].id+'\">'+response[i].company_name+'</option>')
+                            }
+                        });
+                        break;
+                    case 'U':
+                    case 'S':
+                        $('#error_user_role p').remove();
+                        $('#div_reseller_edit').attr('hidden', true)
+                        break;
+                    default:
+                        $('#div_reseller_edit').attr('hidden', true)
+
+                }
+            })
+            $('#btn_confirm_editUser').on('click', function(e){
+                e.preventDefault();
+                if(validateEditUser()){ //validation succeded
+                    $('#modal-edit-user').modal('hide');
+                    $('.loader').show()
+                    console.log($('#inputName_edit').val())
+                    console.log($('#inputEmail_edit').val())
+                    console.log($('#selectRole_edit').val())
+                    console.log($('#selectResellerCompany_edit').val())
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "PATCH",
+                        url: "/super/editUser/" + user_id,
+                        data: {
+                            "user_name":$('#inputName_edit').val(),
+                            "user_email":$('#inputEmail_edit').val(),
+                            "user_role":$('#selectRole_edit').val(),
+                            "user_reseller_id":$('#selectResellerCompany_edit').val(),
+                            "user_position":$('#inputResellerPostition_edit').val(),
+                        },
+                    })
+                    .done(function(response){
+                        switch(response.status){
+                            case 'failed':
+                                Swal.fire(
+                                    'Failed!',
+                                    response.description,
+                                    'error'
+                                )
+                                break;
+                            case 'halted':
+                                Swal.fire(
+                                    'Skipped!',
+                                    response.description,
+                                    'question'
+                                )
+                                break;
+                            case 'success':
+                                $('tr#'+response.user.id+" td:eq(0)").text(response.user.name)
+                                $('tr#'+response.user.id+" td:eq(1)").text(response.user.email)
+                                $('tr#'+response.user.id+" td:eq(2)").text(response.user.role == 'U'?'User':(response.user.role == 'R'? 'Reseller':'Voltea'))
+                                $('tr#'+response.user.id+" td:eq(3)").text(response.user.user_devices_count)
+                                $('tr#'+response.user.id+" td:eq(4)").text(response.user.reseller!=null?response.user.reseller.company_name: '-')
+                                $('tr#'+response.user.id+" td:eq(5)").text(response.user.last_login!=null?response.user.last_login:'-')
+                                Swal.fire(
+                                    'Saved!',
+                                    'User modified! ',
+                                    'success'
+                                )
+                        }
+                    })
+                }else{
+                    $('#modal-edit-user').modal('show');
+                    Swal.fire(
+                        'Validation Failed!',
+                        'Please correct the errors first!',
+                        'error'
+                        )
+                }
+                $('.loader').hide();
+            })
+
+            $(document).on('click','a.option-delete-user', function(){
+                var user_id = $(this).closest('tr').attr('id'); // table row ID
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type:'delete',
+                            url:'/deleteUser/'+user_id,
+                        })
+                        .done(function(response){
+                            console.log(response)
+                            $('#'+user_id).remove();
+                            Swal.fire(
+                                response.status,
+                                response.desc,
+                                'info'
+                            )
+                        })
+                        .fail(function(response){
+                            console.log(response);
+                        })
+                    }
+                })
+            })
+
+            $('#btn_add_user').on('click', function(){
+                $('#error_user_name p').remove();
+                $('#error_user_email p').remove();
+                $('#error_user_role p').remove();
+                $('#error_user_company p').remove();
+                $('#error_user_position p').remove();
+            })
+
+            function validateNewUser(){
+            //Remove previous validations
+                $('#error_user_name p').remove();
+                $('#error_user_email p').remove();
+                $('#error_user_role p').remove();
+                $('#error_user_company p').remove();
+                $('#error_user_position p').remove();
+                var error_count = 0;
+            //check inputs one by one
+                if($('#inputName').val() == ''){
+                    $('#error_user_name').append('<p style="color:red"> Name cannot be empty!</p>');
+                    error_count++;
+                }if($('#inputEmail').val() == ''){
+                    $('#error_user_email').append('<p style="color:red"> Email cannot be empty!</p>');
+                    error_count++;
+                }else{
+                    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    if(re.test($('#inputEmail').val()))
+                        $('#error_user_email p').remove();
+                    else{
+                        $('#error_user_email').append('<p style="color:red"> Email is invalid!</p>');
+                        error_count++;
+                    }
+                }
+                switch($('#selectRole').val()){
+                    case 'R':
+                        // validate company and position
+                        switch($('#selectResellerCompany').val()){
+                            case '0': // user has not selected any value
+                                $('#error_user_company').append('<p style="color:red"> Company cannot be empty!</p>');
+                                error_count++;
+                                break;
+                        }
+                        if($('#inputResellerPostition').val() == ''){
+                            $('#error_user_position').append('<p style="color:red"> Position cannot be empty!</p>');
+                            error_count++;
+                        }break;
+                    case 'U':
+                    case 'S':
+                        $('#error_user_role p').remove();
+                        break;
+                    default:
+                        $('#error_user_role p').remove();
+                        $('#error_user_role').append('<p style="color:red"> Role cannot be empty!</p>');
+                        error_count++;
+                }
+                if(error_count >0){
+                    return false;
+                }
+                else{
+                    return true;
+
+                }
+            }
+
+
+            $('#btn_confirm_addNewUser').on('click', function(e){
+                e.preventDefault();
+                if(validateNewUser()){ //validation succeded
+                    $('#modal-add-new-user').modal('hide');
+                    $('.loader').show()
+                    console.log($('#selectResellerCompany').val())
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/super/addUser",
+                        data: {
+                            "name":$('#inputName').val(),
+                            "email":$('#inputEmail').val(),
+                            "role":$('#selectRole').val(),
+                            "reseller_id":$('#selectResellerCompany').val(),
+                            "position":$('#inputResellerPostition').val(),
+                        },
+                    })
+                    .done(function(response){
+                        console.log(response)
+                        $('.loader').hide()
+                        switch(response.status){
+                            case 'failed':
+                                Swal.fire(
+                                    'Failed!',
+                                    response.description,
+                                    'error'
+                                )
+                                break;
+                            case 'success':
+                                switch( response.user.role){
+                                    case 'R':
+                                        $('tbody').prepend('<tr id="'+response['user'].id+'"><td>'
+                                        +response['user'].name+'</td><td>'+response['user'].email+'</td><td>'
+                                        +'Reseller'+'</td><td>0</td><td>'
+                                        +response['user'].reseller.company_name +'</td><td>'
+                                        +response['user'].last_login+'</td><td><a class="nav-link" data-toggle="dropdown">'
+                                        +'<i class="fas fa-angle-down"></i>'
+                                        +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+                                        +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'
+                                        +'<a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>'
+                                        +'<div class="dropdown-divider"></div>'
+                                        +'<a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a></div></td></tr>')
+                                        break;
+                                    case 'U':
+                                        $('tbody').prepend('<tr id="'+response['user'].id+'"><td>'
+                                        +response['user'].name+'</td><td>'+response['user'].email+'</td><td>'
+                                        +'User'+'</td><td>0</td><td>'
+                                        +'-' +'</td><td>'+response['user'].last_login+'</td><td><a class="nav-link" data-toggle="dropdown">'
+                                        +'<i class="fas fa-angle-down"></i>'
+                                        +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+                                        +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'
+                                        +'<a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>'
+                                        +'<div class="dropdown-divider"></div>'
+                                        +'<a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a></div></td></tr>')
+                                        break;
+                                    case 'S':
+                                        $('tbody').prepend('<tr id="'+response['user'].id+'"><td>'
+                                        +response['user'].name+'</td><td>'+response['user'].email+'</td><td>'
+                                        +'Super'+'</td><td>0</td><td>'
+                                        +'-' +'</td><td>'+response['user'].last_login+'</td><td><a class="nav-link" data-toggle="dropdown">'
+                                        +'<i class="fas fa-angle-down"></i>'
+                                        +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+                                        +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'
+                                        +'<a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>'
+                                        +'<div class="dropdown-divider"></div>'
+                                        +'<a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a></div></td></tr>')
+                                        break;
+                                }
+
+                                Swal.fire(
+                                    'Added!',
+                                    'User added successful! ',
+                                    'success'
+                                )
+                        }
+
+                        // switch(response['status']){
+                        //     case 200:
+                        //         Swal.fire(
+                        //             'Deleted!',
+                        //             'Reseller has been deleted.',
+                        //             'success'
+                        //         );
+                        //         $('tr#'+id).remove();
+                        //         break;
+                        //     default:
+                        //         Swal.fire({
+                        //             icon: 'error',
+                        //             title: 'Oops...',
+                        //             text: 'Something went wrong!',
+                        //             footer: '<a href="">Why do I have this issue?</a>'
+                        //         })
+                        // }
+                    })
+
+
+
+                }else{
+                    $('#modal-add-new-user').modal('show');
+                    Swal.fire(
+                        'Validation Failed!',
+                        'Please correct the errors first!',
+                        'error'
+                        )
+                }
+                $('#div.loader').hide();
+            })
+            $('#inputName').on('change',function(){
+                if($('#inputName').val() != '')
+                    $('#error_user_name p').remove();
+            })
+            $('#inputEmail').on('change',function(){
+                console.log($('#inputEmail').val())
+                if($('#inputEmail').val() != '')
+                    $('#error_user_email p').remove();
+                const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if(re.test($('#inputEmail').val()))
+                    $('#error_user_email p').remove();
+                else
+                $('#error_user_email').append('<p style="color:red"> Email is invalid!</p>');
+
+            })
+            $('#selectRole').on('change', function(){
+                switch($('#selectRole').val()){
+                    case 'R':
+                        $('#div_reseller').attr('hidden', false)
+                        $('#error_user_role p').remove();
+                        //popular list of resellers
+                        $.ajax({
+                            type: "GET",
+                            url: "/getResellersList",
+                        })
+                        .done(function( response ) {
+                            console.log(response)
+                            $('#selectResellerCompany option').remove();
+                            $('#selectResellerCompany').prepend('<option value="0" disabled selected>Select a company</option>')
+                            for(var i = 0; i < response.length ; i++){
+                                $('#selectResellerCompany').append('<option value=\"'+response[i].id+'\">'+response[i].company_name+'</option>')
+                            }
+                        });
+                        break;
+                    case 'U':
+                    case 'S':
+                        $('#error_user_role p').remove();
+                        $('#div_reseller').attr('hidden', true)
+                        break;
+                    default:
+                        $('#div_reseller').attr('hidden', true)
+
+                }
+            })
+            $('#selectResellerCompany').on('change', function(){
+                if($('#selectResellerCompany').val()=="0"){
+                    $('#error_user_company').append('<p style="color:red"> Company cannot be empty!</p>');
+                }
+                else
+                $('#error_user_company p').remove()
+
+            })
+
+            $(function () {
+                // var test =json_encode(Session::get('role'))
+                // console.log(test)
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $('#selectRole').select2({
+                    placeholder: 'Select user role',
+                    width: 'resolve',
+                    theme: "classic"
+                });
+                $('#selectRole_edit').select2({
+                    placeholder: 'Select user role',
+                    width: 'resolve',
+                    theme: "classic"
+                });
+                $('#selectResellerCompany').select2({
+                    placeholder: 'Select a company',
+                    width: 'resolve',
+                    theme: "classic"
+                });
+                $('.loader').hide();
+            });
     </script>
     @endsection
