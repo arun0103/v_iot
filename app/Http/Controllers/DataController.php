@@ -123,6 +123,16 @@ class DataController extends Controller
         ];
         return response()->json($deviceData);
     }
+    public function refreshDashboardRows(){
+        $loggedInUser = Auth::user();
+        if($loggedInUser->role == "S"){
+            $devices = Device::with('latest_log','setpoints')->get();
+        }else{
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log','setpoints')->get();
+        }
+        return response()->json($devices);
+
+    }
     //for user
     public function refreshUserDashboardData(){
         $userDevicesIDs = UserDevices::where('user_id',Auth::user()->id)->pluck('device_id');

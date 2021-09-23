@@ -1780,6 +1780,42 @@
     var btn_clicked = null;
     $(document).ready(function () {
         $('.datatable').dataTable();
+        setInterval(function(){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/refreshDashboardRows"
+            }).done(function(response){
+                for(let i= 0; i<response.length; i++){
+                    let d_id = response[i].id;
+                    // change the water quality
+                    let water_quality ="";
+                    let setpoint_pure_EC_target = response[i].setpoints.pure_EC_target;
+                    let avg_EC_target = response[i].latest_log.ec;
+                    let difference_ec = setpoint_pure_EC_target - avg_EC_target;
+                    if(difference_ec<0){
+                        difference_ec = difference_ec * (-1);
+                    }
+                    var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
+                    if(percentage_EC_target <= 10){
+                        water_quality = "On Target";
+                    }else{
+                        water_quality = "Needs Attention";
+                    }
+                    $('#ec-'+response[i].id).text(water_quality);
+                    // change status
+                    if(response[i].latest_log.step == 0 || response[i].latest_log.step == 1 || response[i].latest_log.step == 13){
+                        status = "IDLE";
+                        color = "orange";
+
+                    }else{
+                        status = "RUNNING";
+                        color = "green";
+                    }
+                    $('#status-'+d_id).text(status); // row status
+                }
+            })
+        },5000);
         let refresh_data;
         //when user clicks on the device row
             $('.view_device_details').on('click',function(){
@@ -1815,8 +1851,6 @@
                         // console.log(response);
                         if(response['deviceDetails'].latest_log != null){
                             $('#btn_device_start_stop').removeAttr("hidden");
-                            // console.log("Displaying response data");
-                            // console.log(response[i]['deviceDetails']);
 
                             //change the status if new data is available
                             if(start_stop_command_sent != true && +new Date(response['deviceDetails'].latest_log.created_at) >= command_sent_time){

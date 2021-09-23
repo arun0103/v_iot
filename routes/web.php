@@ -145,6 +145,7 @@ Route::get('/deviceLiveData/{id}',[App\Http\Controllers\DeviceController::class,
 Route::get('/refreshDashboardData',[App\Http\Controllers\DataController::class, 'refreshDashboardData'])->middleware('auth');
 Route::get('/refreshStatusData/{id}',[App\Http\Controllers\DataController::class, 'refreshStatusData'])->middleware('auth');
 Route::get('/refreshUserDashboardData',[App\Http\Controllers\DataController::class, 'refreshUserDashboardData'])->middleware('auth');
+Route::get('/refreshDashboardRows',[App\Http\Controllers\DataController::class, 'refreshDashboardRows'])->middleware('auth');
 
 //Setpoints
 Route::get('/getUserDevicesSetpointsForCalculation',[App\Http\Controllers\DataController::class, 'getUserDevicesSetpointsForCalculation'])->middleware('auth');
