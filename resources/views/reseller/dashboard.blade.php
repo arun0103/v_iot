@@ -1832,12 +1832,16 @@
             $('.view_device_details').on('click',function(){
                 var trid = $(this).closest('tr').attr('id'); // table row ID
                 device_id = trid.replace("device-info-",'') // device id  from table row
+                //show average tab only
                 view_mode = "average";
                 view_live_device = null; // we are not in live mode
+                $('#tab_avg_data').show();
+                $('a[href="#tab_avg_data"]').tab('show');
+                $('.card-header-tabs li a').removeClass('active');
+                $('.nav_link-avg_data a').addClass('active');
                 $('#btn_refresh_live_data').attr('hidden', true);
                 $('#tab_live_data').hide();
                 $('#tab_control').hide();
-                $('#tab_avg_data').show();
                 $('#btn_edit_setpoints').attr('hidden',true);
                 $('#btn_save_setpoints').attr('hidden',true)
                 $('#btn_cancel_setpoints').attr('hidden',true)

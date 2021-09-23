@@ -982,7 +982,7 @@
                                         </div>
                                         <ul class="nav nav-tabs card-header-tabs" role="tablist">
                                             <li class="nav-item nav_link-avg_data"  >
-                                                <a class="nav-link active" aria-current="page" href="#tab_avg_data" data-toggle="tab" >Status</a>
+                                                <a class="nav-link active" href="#tab_avg_data" data-toggle="tab" >Status</a>
                                             </li>
                                             <li class="nav-item nav_link-live_data" id="nav_link-live_data">
                                                 <a class="nav-link" href="#tab_live_data" data-toggle="tab">Live Data <i id="btn_refresh_live_data" class="btn fas fa-sync-alt" hidden></i></a>
@@ -1826,13 +1826,16 @@
             $('.view_device_details').on('click',function(){
                 var trid = $(this).closest('tr').attr('id'); // table row ID
                 device_id = trid.replace("device-info-",'') // device id  from table row
+                //show average tab only
                 view_mode = "average";
                 view_live_device = null; // we are not in live mode
+                $('#tab_avg_data').show();
+                $('a[href="#tab_avg_data"]').tab('show');
+                $('.card-header-tabs li a').removeClass('active');
+                $('.nav_link-avg_data a').addClass('active');
                 $('#btn_refresh_live_data').attr('hidden', true);
                 $('#tab_live_data').hide();
                 $('#tab_control').hide();
-                $('#tab_avg_data').show();
-                $('#tab_avg_data').addClass("active show");
                 $('#btn_edit_setpoints').attr('hidden',true);
                 $('#btn_save_setpoints').attr('hidden',true)
                 $('#btn_cancel_setpoints').attr('hidden',true)
@@ -1848,9 +1851,6 @@
                 .done(function(response){
                     userDevices = response;
                 });
-                $('#tab_avg_data').show();
-                $('#tab_live_data').hide();
-                $('#btn_refresh_live_data').attr('hidden', true);
                 $('#modal-detail-title').text($("#"+trid).find("td:first").html())
                 device_serial = $("#"+trid).find("td:first").html();
 
