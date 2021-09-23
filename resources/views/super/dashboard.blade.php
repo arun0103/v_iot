@@ -1938,7 +1938,7 @@
                                 document.getElementById('device_condutivity_icon').style.color = 'red';
                                 document.getElementById('device_conductivity_value').style.color = 'red';
                             }
-                            $('#ec-'+response[i]['deviceDetails'].id).text(water_quality);
+                            $('#ec-'+response['deviceDetails'].id).text(water_quality);
                             $('#device_conductivity_value').text(water_quality); // device info water quality
                             // change device connection status
                             var now = new Date();
