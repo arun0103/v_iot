@@ -2368,7 +2368,7 @@
                             $('#critic_acid_details').removeAttr("hidden");
                             $('#critic_acid_volume_left').text(critic_acid_reset_value);
                             Swal.fire('Done!','Critic acid refilled.','success')
-                            $('#btn_reset_critic_acid')attr('disabled',true);
+                            $('#btn_reset_critic_acid').attr('disabled',true);
                         })
                     }
                 })
@@ -2396,7 +2396,7 @@
                             $('#pre_filter_details').removeAttr("hidden");
                             $('#pre_filter_volume_left').text(pre_filter_reset_value).trigger("change");
                             Swal.fire('Done!','Pre-filter replaced.','success')
-                            $('#btn_reset_pre_filter')attr('disabled',true);
+                            $('#btn_reset_pre_filter').attr('disabled',true);
                         })
                     }
                 })
@@ -2424,7 +2424,7 @@
                             $('#post_filter_details').removeAttr("hidden");
                             $('#post_filter_volume_left').text(post_filter_reset_value).trigger("change");
                             Swal.fire('Done!','Post filter replaced.','success')
-                            $('#btn_reset_post_filter')attr('disabled',true);
+                            $('#btn_reset_post_filter').attr('disabled',true);
                         })
 
                     }
@@ -2454,7 +2454,7 @@
                             $('#general_service_details').removeAttr("hidden");
                             $('#general_service_volume_left').text(general_service_reset_value).trigger("change");
                             Swal.fire('Done!','General Service performed.','success')
-                            $('#btn_reset_general_service')attr('disabled',true);
+                            $('#btn_reset_general_service').attr('disabled',true);
                         })
 
                     }
