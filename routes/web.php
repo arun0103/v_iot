@@ -42,9 +42,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
+Route::get('/super-users',[App\Http\Controllers\SuperController::class,'getAllSuperUsers'])->middleware('auth')->name('superUsers');
 //Reseller
 Route::get('/reseller',[App\Http\Controllers\SuperController::class,'getAllResellers'])->middleware('auth')->name('resellers');
-Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->name('devices')->middleware('auth');
+Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->middleware('auth')->name('devices');
 
 //Charts
 Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showChart'])->name('line-chart');

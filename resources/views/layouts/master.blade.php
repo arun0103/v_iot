@@ -198,10 +198,20 @@
                 <a href="{{route('users')}}" class="nav-link">
                     <i class="nav-icon fas fa-user"></i>
                     <p>
-                        Users
+                        End Users
                     </p>
                 </a>
             </li>
+            @endif
+            <!-- @if(Auth::user()->role == 'S')
+            <li class="nav-item">
+                <a href="{{route('superUsers')}}" class="nav-link">
+                    <i class="nav-icon fas fa-user-lock"></i>
+                    <p>
+                        Super Users
+                    </p>
+                </a>
+            </li> -->
             @endif
 
             <!-- <li class="nav-item">

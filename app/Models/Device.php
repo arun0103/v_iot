@@ -24,6 +24,9 @@ class Device extends Model
     public function model(){
         return $this->belongsTo('App\Models\Models','model_id','id');
     }
+    public function reseller(){
+        return $this->belongsTo('App\Models\Reseller','reseller_id','id');
+    }
 
     public function userDevices(){
         return $this->hasMany(UserDevices::class, 'device_id','id');
