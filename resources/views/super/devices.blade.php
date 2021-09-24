@@ -492,7 +492,7 @@
                     type: "PATCH",
                     url: "/saveEditedDevice/" + edit_device_id,
                     data: {
-                        "model": $('#edit_selectModel').val(),
+                        "model_id": $('#edit_selectModel').val(),
                         "serial_number":$('#inputSN_edit').val(),
                         "device_number":$('#inputDN_edit').val(),
                         "firmware":$('#inputFirmwareVersion_edit').val(),
@@ -503,7 +503,7 @@
                     console.log(response)
                     $('tr#'+response.id+" td:eq(0)").text(response.serial_number)
                     $('tr#'+response.id+" td:eq(1)").text(response.device_number)
-                    $('tr#'+response.id+" td:eq(2)").text(response.model == 'U'?'DiUse':'DiEntry')
+                    $('tr#'+response.id+" td:eq(2)").text(response.model.name)
                     $('#modal-edit-device').modal('hide')
                     Swal.fire(
                         'Saved!',
