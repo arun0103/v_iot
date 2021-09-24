@@ -305,8 +305,9 @@
                                             <div class="form-group">
                                                 <label for="edit_selectModel" class="control-label">Model</label>
                                                 <select name="model" id="edit_selectModel" class="form-control" title="Select Model">
-                                                    <option value="U">DiUse</option>
-                                                    <option value="E">DiEntry</option>
+                                                    @foreach($models as $model)
+                                                        <option value="{{$model->id}}">{{$model->name}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
