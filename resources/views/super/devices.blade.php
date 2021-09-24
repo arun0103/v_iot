@@ -476,7 +476,7 @@
         })
         .done(function(response){
             console.log(response)
-            $('#edit_selectModel').val(response.model).trigger('change');
+            $('#edit_selectModel').val(response.model.id).trigger('change');
             $('#inputSN_edit').val(response.serial_number);
             $('#inputDN_edit').val(response.device_number);
             $('#inputFirmwareVersion_edit').val(response.firmware);
