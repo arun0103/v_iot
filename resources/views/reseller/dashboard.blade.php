@@ -834,7 +834,7 @@
                                                         {{"-"}}
                                                     @endif
                                                 </td>
-                                                <td>{{$device->model->name}}</td>
+                                                <td>{{$device->model != null ? $device->model->name : "-"}}</td>
                                                 <td>{{$device->userDevices->count()}}</td>
                                                 <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
                                                 <td><span class="ec" id="ec-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></td>
