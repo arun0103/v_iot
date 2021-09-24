@@ -827,7 +827,7 @@
                                         @foreach($devices as $device)
                                             <tr class="table-info device-row" id="device-info-{{$device->id}}" >
                                                 <td id="device-serial-number_{{$device->id}}">{{$device->serial_number}}</td>
-                                                <td>{{$device->device_name}}</td>
+                                                <td>{{$device->device_name !=null? $device->device_name:"-"}}</td>
                                                 <td>{{$device->model->name}}</td>
                                                 <td>{{$device->userDevices->count()}}</td>
                                                 <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
