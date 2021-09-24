@@ -34,7 +34,7 @@ class DeviceController extends Controller
         return response()->json($device);
     }
     public function saveEditedDevice($device_id, Request $req){
-        $device = Device::where('id',$device_id)->first();
+        $device = Device::where('id',$device_id)->with("model")->first();
         $device->model_id = $req->model_id;
         $device->serial_number = $req->serial_number;
         $device->device_number = $req->device_number;
