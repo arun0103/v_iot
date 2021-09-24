@@ -30,7 +30,7 @@ class DeviceController extends Controller
         return view('devices')->with(['devices'=>$devices]);
     }
     public function getDeviceDetails($id){
-        $device = Device::where('id',$id)->first();
+        $device = Device::where('id',$id)->with('model')->first();
         return response()->json($device);
     }
     public function saveEditedDevice($device_id, Request $req){
