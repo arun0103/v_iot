@@ -71,9 +71,9 @@
                                 <tbody id="device_lists">
                                 @foreach($devices as $device)
                                     <tr id="{{$device->id}}" class="device">
-                                        <td>{{$device->serial_number}}</td>
+                                        <td id="device_serial-{{$device->id}}">{{$device->serial_number}}</td>
                                         <td>{{$device->device_number}}</td>
-                                        <td>{{$device->device_name}}</td>
+                                        <td id="device_name-{{$device->id}}">{{$device->device_name}}</td>
                                         <td>{{$device->model != null ? $device->model->name : "-"}}</td>
                                         <td>{{$device->firmware}}</td>
                                         <td>
@@ -746,6 +746,49 @@
         })
 
     })
+    $('#device_lists').on('click','.operation-edit_device_name', function(){
+        var device_id = $(this).closest('tr').attr('id'); // table row ID
+        Swal.fire({
+            title: "Rename Device?",
+            text: "Name something informative!",
+            input: 'text',
+            inputValue: $('#device_name-'+device_id).text(),
+            showCancelButton: true
+        }).then((result) => {
+            if (result.value) {
+                let formData = {
+                    // Device Info
+                    'serial_number': $('#device_serial-'+device_id).text(),
+                    'device_name' : result.value
+                }
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "POST",
+                    url: "/nameResellerDevice",
+                    data: formData,
+                })
+                .done(function(response){
+                    $('#device_name-'+device_id).text(response.device_name)
+                    Swal.fire({
+                        title: 'Done!',
+                        text: 'Device is added and named as '+ response.device_name,
+                        icon: 'success',
+                        confirmButtonText: 'Cool'
+                    })
+                });
+            }else{
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Device name cannot be empty!',
+                    icon: 'error',
+                    confirmButtonText: 'Cool'
+                })
+            }
+        });
+
+
+    })
+
     function deleteUserDevice(id){
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},

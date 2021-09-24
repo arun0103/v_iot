@@ -754,7 +754,7 @@
                             @foreach($userDevices as $device)
                                 <section id="{{$device->deviceDetails->id}}">
                                     <div class="card">
-                                        <h2 class="card-header"> <span id="device_name-{{$device->deviceDetails->id}}">{{$device->deviceDetails->serial_number}} </span>
+                                        <h2 class="card-header"> <span id="device_name-{{$device->deviceDetails->id}}">{{$device->deviceDetails->serial_number}} {{$device->deviceDetails->device_name != null ? "[". $device->deviceDetails->device_name ."]" : ""}} </span>
                                             <!-- <button type="button" class="btn btn-primary btn_live_view" style="margin-left:10px">Live View</button> -->
                                             <div class="card-tools">
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
