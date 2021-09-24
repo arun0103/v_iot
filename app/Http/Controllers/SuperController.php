@@ -222,21 +222,21 @@ class SuperController extends Controller
                 $device->model_id = $request->model;
                 $device->firmware = $request->firmware;
                 $device->manufactured_date= date('Y-m-d',strtotime($request->installation_date));
-                // $device->reseller_id= $request->reseller_id ;
                 $device->created_by = $loggedInUser->id ;
                 $device->save();
+                $savedDevice = Device::where('id',$device->id)->with('model')->first();
                 $message =[
                     'message'=>'Success',
                     'description'=> 'Device Added',
-                    'data'=>$device
+                    'data'=>$savedDevice
                 ];
                 // add device's maintenance settings to default value
                 $device_setting = new Device_settings();
                 $device_setting->device_id = $device->id;
-                $device_setting->critic_acid = 10000;
-                $device_setting->pre_filter = 10000;
-                $device_setting->post_filter = 10000;
-                $device_setting->general_service = 10000;
+                $device_setting->critic_acid = 25000;
+                $device_setting->pre_filter = 25000;
+                $device_setting->post_filter = 25000;
+                $device_setting->general_service = 25000;
                 $device_setting->save();
                 // add device's default setpoints
                 $device_setpoints = new Setpoints();
@@ -275,11 +275,6 @@ class SuperController extends Controller
                 $device_setpoints->CIP_pressure = 0;
                 $device_setpoints->wait_time_before_CIP = 0;
                 $device_setpoints->save();
-
-
-                // link device with user and notify by email
-
-
             }else{
                 $message =[
                     'message'=>'Error',

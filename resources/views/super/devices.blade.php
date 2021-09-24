@@ -39,6 +39,7 @@
                                     <tr>
                                         <th>PCB Serial #</th>
                                         <th>Device Serial #</th>
+                                        <th>Device Name</th>
                                         <th>Model</th>
                                         <th># Assigned Users</th>
                                         <th>Last Data Received Time</th>
@@ -48,8 +49,9 @@
                                 <tbody id="device_lists">
                                 @foreach($devices as $device)
                                     <tr id="{{$device->id}}" class="device">
-                                        <td>{{$device->serial_number}}</td>
+                                        <td id="device_serial-{{$device->id}}">{{$device->serial_number}}</td>
                                         <td>{{$device->device_number}}</td>
+                                        <td id="device_name-{{$device->id}}">{{$device->device_name != null ?$device->device_name : "-"}}</td>
                                         <td>{{$device->model != null ? $device->model->name : "-"}}</td>
                                         <td id="count_userDevices-{{$device->id}}">{{count($device->userDevices)}}</td>
                                         <td>
@@ -58,12 +60,13 @@
                                         <td>
                                             <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                <a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Update Firmware</a>
                                                 <a href="#" class="dropdown-item operation-edit_device">
                                                     <i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>
                                                 </a>
-                                                <a href="#" class="dropdown-item operation-assign_user">
+                                                <!-- <a href="#" class="dropdown-item operation-assign_user">
                                                     <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                                </a>
+                                                </a> -->
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item view-device-users" id="view_user_devices"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>
                                                 <div class="dropdown-divider"></div>
@@ -432,16 +435,19 @@
                         });
                         break;
                     case 'Success':
-                        var model_name = response.data.model == 'U'? 'DiUse': 'DiEntry';
                         $('tbody').prepend('<tr id="'+response.data.id+'" class="device"><td>'+response.data.serial_number + '</td><td>'
-                            + response.data.device_number + '</td><td>'+ model_name +
+                            +'<td>-</td>'+ response.data.device_number + '</td><td>'+ response.data.model.name +
                             '</td><td>0</td>'+
                             '<td>-</td>'
                             +'<td><a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
                                             +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-                                                +'<a href="#" class="dropdown-item operation-assign_user">'
-                                                    +'<i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>'
+                                                +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Update Firmware</a>'
+                                                +'<a href="#" class="dropdown-item operation-edit_device">'
+                                                    +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
                                                 +'</a>'
+                                                // +'<a href="#" class="dropdown-item operation-assign_user">'
+                                                //     +'<i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>'
+                                                // +'</a>'
                                                 +'<div class="dropdown-divider"></div>'
                                                 +'<a href="#" class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
                                                 +'<div class="dropdown-divider"></div>'
@@ -475,12 +481,11 @@
             url: "/device_detail/"+device_id,
         })
         .done(function(response){
-            console.log(response)
             $('#edit_selectModel').val(response.model.id).trigger('change');
             $('#inputSN_edit').val(response.serial_number);
             $('#inputDN_edit').val(response.device_number);
             $('#inputFirmwareVersion_edit').val(response.firmware);
-            $('#inputManufacturedDate_edit').val(response.installation_date);
+            $('#inputManufacturedDate_edit').val(response.manufactured_date);
             $('#modal-edit-device').modal('show')
         })
 
@@ -496,14 +501,14 @@
                         "serial_number":$('#inputSN_edit').val(),
                         "device_number":$('#inputDN_edit').val(),
                         "firmware":$('#inputFirmwareVersion_edit').val(),
-                        "installation_date":$('#inputManufacturedDate_edit').val(),
+                        "manufactured_date":$('#inputManufacturedDate_edit').val(),
                     },
                 })
                 .done(function(response){
                     console.log(response)
                     $('tr#'+response.id+" td:eq(0)").text(response.serial_number)
                     $('tr#'+response.id+" td:eq(1)").text(response.device_number)
-                    $('tr#'+response.id+" td:eq(2)").text(response.model.name)
+                    $('tr#'+response.id+" td:eq(3)").text(response.model.name)
                     $('#modal-edit-device').modal('hide')
                     Swal.fire(
                         'Saved!',

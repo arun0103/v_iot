@@ -19,6 +19,7 @@ $(function () {
         width: 'resolve',
         theme: "classic"
     });
+    $('.datatable').dataTable();
 
     $('.loader').hide();
 
