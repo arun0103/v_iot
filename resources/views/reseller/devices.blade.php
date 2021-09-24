@@ -74,7 +74,7 @@
                                         <td>{{$device->serial_number}}</td>
                                         <td>{{$device->device_number}}</td>
                                         <td>{{$device->device_name}}</td>
-                                        <td>{{$device->model->name}}</td>
+                                        <td>{{$device->model != null ? $device->model->name : "-"}}</td>
                                         <td>{{$device->firmware}}</td>
                                         <td>
                                             {{$device->latest_log!=null?$device->latest_log->created_at:"-"}}

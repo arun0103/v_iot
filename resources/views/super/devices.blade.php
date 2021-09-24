@@ -50,7 +50,7 @@
                                     <tr id="{{$device->id}}" class="device">
                                         <td>{{$device->serial_number}}</td>
                                         <td>{{$device->device_number}}</td>
-                                        <td>{{$device->model->name}}</td>
+                                        <td>{{$device->model != null ? $device->model->name : "-"}}</td>
                                         <td id="count_userDevices-{{$device->id}}">{{count($device->userDevices)}}</td>
                                         <td>
                                             {{$device->latest_log!=null?$device->latest_log->created_at:"-"}}
