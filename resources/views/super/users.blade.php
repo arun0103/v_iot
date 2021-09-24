@@ -56,7 +56,7 @@
                                         <td>{{$user->email}}</td>
                                         <td id="{{$user->id}}_role">{{$user->role=='R'?'Reseller':($user->role=='U'?'User':($user->role=='S'?'Super Admin':'N/A'))}}</td>
                                         <td>{{$user->user_devices_count}}</td>
-                                        <td>{{$user->reseller_id != null ? $user->reseller->company_name: '-'}}</td>
+                                        <td>{{$user->reseller != null ? $user->reseller->company_name: '-'}}</td>
                                         <td>
                                         {{$user->last_login != null ? $user->last_login : '-'}}
                                         </td>
