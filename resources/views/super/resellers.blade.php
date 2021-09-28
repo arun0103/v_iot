@@ -205,48 +205,11 @@
 
     <!-- /.content -->
 
-    <!-- <script src="{{asset('js/user.js')}}">  -->
-    <!-- <script>
-        //Populate countries select on page load
-        $(document).ready(function(){
-            //Call restful countries country endpoint
-            $.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries){
-
-                //Loop through returned result and populate countries select
-                $.each(countries.data,function(key,value){
-                    $('#country-select')
-                        .append($("<option></option>")
-                            .attr("value", value.name)
-                            .text(value.name));
-                });
-            });
-        });
-
-        //Function to fetch states
-        function initStates(){
-            //Get selected country name
-            let country=$("#country-select").val();
-
-            //Remove previous loaded states
-            $('#state-select option:gt(0)').remove();
-            $('#district-select option:gt(0)').remove();
-
-            //Call restful countries states endpoint
-            $.get('https://restfulcountries.com/api/v1/countries/'+country+'/states?fetch_type=slim',function(states){
-
-                //Loop through returned result and populate states select
-                $.each(states.data,function(key,value){
-                    $('#state-select')
-                        .append($("<option></option>")
-                            .attr("value", value.name)
-                            .text(value.name));
-                });
-            });
-        }
-    </script> -->
-
     <!-- Document Script -->
     <script type="text/javascript">
+        $(document).ready(function(){
+            $('.datatable').dataTable();
+        })
         var edit_id;
         // var reseller_table = $('#resellersTable').DataTable();
         $(function(){

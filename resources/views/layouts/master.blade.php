@@ -203,7 +203,7 @@
                 </a>
             </li>
             @endif
-            <!-- @if(Auth::user()->role == 'S')
+            @if(Auth::user()->role == 'S')
             <li class="nav-item">
                 <a href="{{route('superUsers')}}" class="nav-link">
                     <i class="nav-icon fas fa-user-lock"></i>
@@ -211,7 +211,7 @@
                         Super Users
                     </p>
                 </a>
-            </li> -->
+            </li>
             @endif
 
             <!-- <li class="nav-item">

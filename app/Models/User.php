@@ -57,4 +57,10 @@ class User extends Authenticatable
     public function reseller(){
         return $this->belongsTo('App\Models\Reseller','reseller_id', 'id');
     }
+    public function created_devices(){
+        return $this->hasMany('App\Models\Device','created_by','id');
+    }
+    public function created_resellers(){
+        return $this->hasMany('App\Models\Reseller', 'created_by','id');
+    }
 }

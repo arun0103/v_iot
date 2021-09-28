@@ -49,6 +49,10 @@ class SuperController extends Controller
         }
         return view('home');
     }
+    public function getAllSuperUsers(){
+        $users = User::where('role','S')->with('created_devices','created_resellers')->get();
+        return view('super/super-users')->with(['users'=>$users]);
+    }
     public function create_user(Request $request){
         //return $request;
         $loggedInUser = Auth::user();
@@ -113,6 +117,55 @@ class SuperController extends Controller
         // $all = User::all();
         // return view('admin/users')->with(['users'=>$all],['message'=>$message]);
     }
+    public function create_superUser(Request $request){
+        $loggedInUser = Auth::user();
+
+        $checkEmail = User::where('email',$request->email)->get();
+        if($checkEmail->count() > 0){
+            $data = [
+                'status'=>'failed',
+                'description'=>'Email already exists in database.'
+            ];
+            return response()->json($data,500);
+        }
+
+        $new_user = new User();
+        $new_user->name = $request->name;
+        $new_user->email = $request->email ;
+        $new_user->role= $request->role ;
+        $new_user->created_by = $loggedInUser->id ;
+        // uncomment below five lines
+                // $random_password = "";
+                // $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
+                // for($i = 0; $i < 8 ; $i++){
+                //     $random_password .= substr($characters, (rand() % (strlen($characters))),1);
+                // }
+
+        // Delete it in production to generate random
+        $random_password = "123456789";
+        //
+        $new_user->password = Hash::make($random_password);
+        $new_user->save();
+
+        $userProfile = new UserProfile();
+        $userProfile->user_id = $new_user->id;
+        $userProfile->profession = "Super User";
+        $userProfile->institution = "Voltea";
+
+        $userProfile->save();
+
+        // notify new user by email
+        $new_user->notify(new HelloNewUser($new_user, $random_password));
+
+        $created_user = User::where('id',$new_user->id)->with('created_resellers','created_devices')->first();
+        $data = [
+            'status'=>'success',
+            'user'=>$created_user
+        ];
+
+        return response()->json($data,200);
+
+    }
     public function edit_user(Request $request, $id){
         $loggedInUser = Auth::user();
         $edit_user = User::where('id',$id)->first();
@@ -171,6 +224,53 @@ class SuperController extends Controller
         }
         $edit_user->save();
         $updated_user = User::where('id',$edit_user->id)->with('reseller')->withCount('userDevices')->first();
+        $data = [
+            'status'=>'success',
+            'user'=>$updated_user
+        ];
+        // notify new user by email if email is changed
+        if($old_email != null)
+            $edit_user->notify(new EmailUpdated($updated_user, $old_email));
+
+        return response()->json($data,200);
+    }
+    public function edit_superUser(Request $request, $id){
+        $loggedInUser = Auth::user();
+        $edit_user = User::where('id',$id)->first();
+        $old_email = null;
+        $changes = 0;
+        // check email
+        if($edit_user->email != $request->user_email){ // if user is editing email
+            $checkEmail = User::where('email',$request->user_email)->get();
+            if($checkEmail->count() > 0){ // if new email already exists with other user
+                $data = [
+                    'status'=>'failed',
+                    'description'=>'Email already exists in database.'
+                ];
+                return response()->json($data);
+            }else{ // change email to new one
+                $old_email = $edit_user->email;
+                $edit_user->email = $request->user_email;
+                $changes++;
+            }
+        }
+        if($edit_user->name != $request->user_name){
+            $changes++;
+            $edit_user->name = $request->user_name;
+        }
+        if($request->user_role != $edit_user->role){
+            $edit_user->role = $request->user_role;
+            $changes++;
+        }
+        if($changes == 0){
+            $data = [
+                'status'=>'halted',
+                'description'=>'No changes found'
+            ];
+            return response()->json($data,200);
+        }
+        $edit_user->save();
+        $updated_user = User::where('id',$edit_user->id)->withCount('created_resellers')->withCount('created_devices')->first();
         $data = [
             'status'=>'success',
             'user'=>$updated_user
@@ -412,6 +512,33 @@ class SuperController extends Controller
                         ];
                         return reponse()->json($data);
                 }
+
+
+        }
+
+    }
+    public function deleteSuperUserById($id){
+        $loggedInUser = Auth::user();
+
+        $user = User::where('id',$id)->first();
+        $data = [];
+        switch($loggedInUser->role){
+
+            case 'S':
+                $user->delete();
+                $data = [
+                    'status'=>'Deleted!',
+                    'desc'=>'Delete Successful',
+                    'user'=>$user
+                ];
+                return response()->json($data);
+            break;
+            default:
+                $data = [
+                    'status'=>'NA',
+                    'desc'=>"You are not authorized to delete!"
+                ];
+                return reponse()->json($data);
 
 
         }

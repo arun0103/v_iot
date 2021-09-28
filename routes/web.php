@@ -94,8 +94,11 @@ Route::get('/getDeviceNotifications/{id}', [App\Http\Controllers\DeviceControlle
 
 //user
 Route::delete('/deleteUser/{id}',[App\Http\Controllers\SuperController::class, 'deleteUserById'])->middleware('auth');
+Route::delete('/deleteSuperUser/{id}',[App\Http\Controllers\SuperController::class, 'deleteSuperUserById'])->middleware('auth');
 Route::post('/super/addUser',[App\Http\Controllers\SuperController::class,'create_user'])->middleware('auth');
+Route::post('/super/addSuperUser',[App\Http\Controllers\SuperController::class,'create_superUser'])->middleware('auth');
 Route::patch('/super/editUser/{id}',[App\Http\Controllers\SuperController::class,'edit_user'])->middleware('auth');
+Route::patch('/super/editSuperUser/{id}',[App\Http\Controllers\SuperController::class,'edit_superUser'])->middleware('auth');
 Route::get('/getResellersList',[App\Http\Controllers\SuperController::class, 'getResellersList'])->middleware('auth');
 
 //Dashboard routes
