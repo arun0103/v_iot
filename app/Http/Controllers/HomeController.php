@@ -46,7 +46,7 @@ class HomeController extends Controller
         // Session(['company', $company_name]);
         if($loggedInUser->role == 'S'){
             $users = User::all();
-            $devices = Device::with('userDevices','latest_log','device_settings','device_commands','setpoints')->get();
+            $devices = Device::with('latest_log','device_settings','device_commands','setpoints')->get();
             dd($devices);
             foreach($devices as $device){
                 if($device->latest_log != null){
