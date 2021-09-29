@@ -47,6 +47,7 @@ class HomeController extends Controller
         if($loggedInUser->role == 'S'){
             $users = User::all();
             $devices = Device::with('userDevices','latest_log','device_settings','device_commands','setpoints')->get();
+            dd($devices);
             foreach($devices as $device){
                 if($device->latest_log != null){
                     $triggeredAlarms = [];
