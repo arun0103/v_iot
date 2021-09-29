@@ -37,13 +37,13 @@ class HomeController extends Controller
         if($loggedInUser->last_login == null){
             return view('common/changePassword');
         }
-        $loggedInUser->last_login = Carbon::now();
+        $loggedInUser->last_login_at = Carbon::now();
         $loggedInUser->save();
-        Session(['user_name', $loggedInUser->name]);
-        Session(['user_id', $loggedInUser->id]);
-        Session(['role', $loggedInUser->role]);
-        $company_name = Reseller::where('id',$loggedInUser->reseller_id)->pluck('company_name');
-        Session(['company', $company_name]);
+        // Session(['user_name', $loggedInUser->name]);
+        // Session(['user_id', $loggedInUser->id]);
+        // Session(['role', $loggedInUser->role]);
+        // $company_name = Reseller::where('id',$loggedInUser->reseller_id)->pluck('company_name');
+        // Session(['company', $company_name]);
         if($loggedInUser->role == 'S'){
             $users = User::all();
             $devices = Device::with('userDevices','latest_log','device_settings','device_commands','setpoints')->get();
