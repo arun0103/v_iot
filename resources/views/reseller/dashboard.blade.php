@@ -1823,6 +1823,11 @@
                             color = "green";
                         }
                         $('#status-'+d_id).text(status).css("color", color); // row status
+                        // check if device is connected or not
+                        if(+new Date()- +new Date(response[i].latest_log.created_at) <30000  )
+                            $('#device-serial-number_'+response[i].id).css('color','green')
+                        else
+                            $('#device-serial-number_'+response[i].id).css('color','black')
                     }
                 }
             })
