@@ -98,13 +98,12 @@ class HomeController extends Controller
             return view('reseller/dashboard')->with(['users'=>$users])
                     ->with(['devices'=>$devices]);
         }
-        else{
+        else{ // logged in user is user
             $users = $loggedInUser;
             $userDevices = UserDevices::where('user_id',$loggedInUser->id)->with("deviceDetails")->get();
+            return view('user/dashboard')->with(['users'=>$users])
+                            ->with(['userDevices'=>$userDevices]);
         }
-        // //dd($userDevices);
-        // return view('user/dashboard')->with(['users'=>$users])
-        //                     ->with(['userDevices'=>$userDevices]);
     }
     public function changePassword(Request $req){
         $loggedInUser = Auth::user();

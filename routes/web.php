@@ -104,6 +104,7 @@ Route::get('/getResellersList',[App\Http\Controllers\SuperController::class, 'ge
 //Dashboard routes
 Route::get('/deviceDetail/{id}',[App\Http\Controllers\HomeController::class, 'getDeviceDetails'])->middleware('auth');
 Route::get('/getDeviceAlarms/{id}',[App\Http\Controllers\DataController::class, 'getDeviceAlarms'])->middleware('auth');
+Route::get('/deviceRelays/{id}',[App\Http\Controllers\DataController::class, 'getDeviceRelayStatus'])->middleware('auth');
 
 /////device settings
 Route::post('/saveCriticAcid/{id}',[App\Http\Controllers\DeviceController::class, 'saveCriticAcid'])->middleware('auth');

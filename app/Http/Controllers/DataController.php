@@ -231,8 +231,8 @@ class DataController extends Controller
         return response()->json($dataToSend);
     }
     public function getDeviceAlarms($device_id){
-        $device_serial = Device::where('id',$device_id)->first();
-        $allAlarms = RawLogs::where('serial_number',$device_serial->serial_number)
+        $device = Device::where('id',$device_id)->first();
+        $allAlarms = RawLogs::where('serial_number',$device->serial_number)
                         ->groupBy(['id','log_dt','alarm'])->orderBy('log_dt','desc')->get(['id','log_dt','alarm']);
         //return response()->json($allAlarms);
         $dataToSend =[];
@@ -632,11 +632,12 @@ class DataController extends Controller
         $from = $timeFrom;
         $graph_labels = [];
         $graph_data = [];
+        $device_detail = Device::where('id', $device_id)->first();
         for($i = 0; $i<6;$i++){
             $label = $from->hour . ":" . ($from->minute<10?("0".$from->minute):$from->minute );
             $to = $timeFrom->addMinutes(10);
-            $dataFrom = RawLogs::where('log_dt','>=',$from)->first();
-            $dataTo = RawLogs::where('log_dt','<=',$to)->orderBy('log_dt','desc')->first();
+            $dataFrom = RawLogs::where('serial_number',$device_detail->serial_number)->where('log_dt','>=',$from)->first();
+            $dataTo = RawLogs::where('serial_number',$device_detail->serial_number)->where('log_dt','<=',$to)->orderBy('log_dt','desc')->first();
             $label .=  "-" . $to->hour . ":" .($to->minute<10?("0".$to->minute):$to->minute);
             if($dataFrom!=null && $dataTo!=null)
                 $volume = $dataFrom->tpv - $dataTo->tpv;
@@ -659,11 +660,12 @@ class DataController extends Controller
         $from = $timeFrom;
         $graph_labels = [];
         $graph_data = [];
+        $device_detail = Device::where('id', $device_id)->first();
         for($i = 0; $i<6;$i++){
             $label = $from->hour . ":" . ($from->minute<10?("0".$from->minute):$from->minute );
             $to = $timeFrom->addHours(2);
-            $dataFrom = RawLogs::where('log_dt','>=',$from)->first();
-            $dataTo = RawLogs::where('log_dt','<=',$to)->orderBy('log_dt','desc')->first();
+            $dataFrom = RawLogs::where('serial_number',$device_detail->serial_number)->where('log_dt','>=',$from)->first();
+            $dataTo = RawLogs::where('serial_number',$device_detail->serial_number)->where('log_dt','<=',$to)->orderBy('log_dt','desc')->first();
             $label .=  "-" . $to->hour . ":" .($to->minute<10?("0".$to->minute):$to->minute);
             if($dataFrom!=null && $dataTo!=null)
                 $volume = $dataFrom->tpv - $dataTo->tpv;
@@ -678,5 +680,15 @@ class DataController extends Controller
             'graph_data'=>$graph_data
         ];
         return response()->json($data_to_send);
+    }
+    public function getDeviceRelayStatus($device_id){
+        $device_detail = Device::where('id', $device_id)->first();
+        $data = RawLogs::where('serial_number',$device_detail->serial_number)->orderBy('id','DESC')->first();
+        if($data != null)
+            return response()->json($data->output);
+        else
+            return response()->json(65535);
+
+
     }
 }
