@@ -37,7 +37,7 @@ class HomeController extends Controller
         if($loggedInUser->last_login == null){
             return view('common/changePassword');
         }
-        $loggedInUser->last_online_at = Carbon::now();
+        $loggedInUser->last_login = Carbon::now();
         $loggedInUser->save();
         // Session(['user_name', $loggedInUser->name]);
         // Session(['user_id', $loggedInUser->id]);
