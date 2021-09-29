@@ -1822,6 +1822,7 @@
             })
         },5000);
         let refresh_data;
+        let live_data;
         //when user clicks on the device row
             $('.view_device_details').on('click',function(){
                 var trid = $(this).closest('tr').attr('id'); // table row ID
@@ -2802,8 +2803,10 @@
         $('#btn_save_setpoints').attr('hidden',true)
         $('#btn_cancel_setpoints').attr('hidden',true)
         $('#footer_maintenance').attr('hidden',false)
+        clearInterval(refresh_data);
     })
     $('.nav_link-live_data').on('click', function(){
+        clearInterval(refresh_data);
         view_mode = "live";
         view_live_device = device_id; // we are on live mode of device id = trid
         $('#btn_refresh_live_data').attr('hidden', false);
@@ -2828,7 +2831,7 @@
         .done(function(response){
             userDevices = response;
         });
-        setInterval(function(){
+        live_data = setInterval(function(){
             if(view_live_device != null){
                 $.ajax({
                     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -3136,6 +3139,7 @@
         bypass_pressure,CIP_pressure,wait_time_before_CIP;
 
     $('.nav_link-setpoints').on('click', function(){
+        clearInterval(refresh_data);
         view_mode = "setpoints";
         view_live_device = null; // we are not in live mode
         $('#btn_refresh_live_data').attr('hidden', true);
