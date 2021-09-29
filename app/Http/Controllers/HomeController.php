@@ -39,15 +39,14 @@ class HomeController extends Controller
         }
         $loggedInUser->last_login = Carbon::now();
         $loggedInUser->save();
-        // Session(['user_name', $loggedInUser->name]);
-        // Session(['user_id', $loggedInUser->id]);
-        // Session(['role', $loggedInUser->role]);
-        // $company_name = Reseller::where('id',$loggedInUser->reseller_id)->pluck('company_name');
-        // Session(['company', $company_name]);
+        Session(['user_name', $loggedInUser->name]);
+        Session(['user_id', $loggedInUser->id]);
+        Session(['role', $loggedInUser->role]);
+        $company_name = Reseller::where('id',$loggedInUser->reseller_id)->pluck('company_name');
+        Session(['company', $company_name]);
         if($loggedInUser->role == 'S'){
             $users = User::all();
-            $devices = Device::with('latest_log','device_settings','device_commands','setpoints')->get();
-            dd($devices);
+            $devices = Device::with('userDevices')->with('latest_log','device_settings','device_commands','setpoints')->get();
             foreach($devices as $device){
                 if($device->latest_log != null){
                     $triggeredAlarms = [];
