@@ -58,8 +58,8 @@ class HelloNewReseller extends Notification implements ShouldQueue
                 ->line('Password    : '.$this->credential)
                 ->line('')
                 ->action('Let\'s Go', url('http://134.122.25.185/'))
-                ->line('')
-                ->line('Welcome to the Voltea neighbourhood.');
+                ->line('');
+                // ->line('Welcome to the Voltea neighbourhood.');
     }
 
     /**

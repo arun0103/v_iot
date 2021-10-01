@@ -38,7 +38,7 @@
                 <p>Thank You,</p>
                 <br>
                 <p>{$data->sender_name}}</p>
-                <p><b>Voltea IOT</b></p>
+                <p><b>Voltea Technical Support</b></p>
             </div>
         </div>
     </body>

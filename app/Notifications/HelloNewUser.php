@@ -58,7 +58,7 @@ class HelloNewUser extends Notification implements ShouldQueue
             return (new MailMessage)
                 ->subject('Voltea IOT welcomes you')
                 ->greeting('Hello! '.$this->user->name)
-                ->line('Welcome to the Voltea neighbourhood.')
+                // ->line('Welcome to the Voltea neighbourhood.')
                 ->line('We would like to thank you for choosing us for the purification of your water.')
                 ->line('We request you to add your purchased device information so that you can view and control your device status remotely.')
                 ->action('Let\'s Go', url('http://134.122.25.185/'))
@@ -74,8 +74,8 @@ class HelloNewUser extends Notification implements ShouldQueue
                 ->line('Password    : '.$this->credential)
                 ->line('')
                 ->action('Let\'s Go', url('http://134.122.25.185/'))
-                ->line('')
-                ->line('Welcome to the Voltea neighbourhood.');
+                ->line('');
+                // ->line('Welcome to the Voltea neighbourhood.');
         }
     }
 
