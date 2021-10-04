@@ -112,13 +112,8 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                             <label for="selectRole" class="control-label">Role</label>
-                                                <select name="role" id="selectRole" class="form-control"  style="width:100%; height:100%">
-                                                <option value="" selected disabled>Select item...</option>
-                                                <option value="R">Reseller</option>
-                                                    @if(Auth::user()->role == 'S')
-                                                        <option value="S">Super Admin</option>
-                                                    @endif
-                                                    <option value="U">User</option>
+                                                <select name="role" id="selectRole" class="form-control"  style="width:100%; height:100%" disabled>
+                                                    <option value="U" selected>User</option>
                                                 </select>
                                                 <div class="error" id ="error_user_role"></div>
                                             </div>
@@ -343,10 +338,6 @@
                 if(validateEditUser()){ //validation succeded
                     $('#modal-edit-user').modal('hide');
                     $('.loader').show()
-                    console.log($('#inputName_edit').val())
-                    console.log($('#inputEmail_edit').val())
-                    console.log($('#selectRole_edit').val())
-                    console.log($('#selectResellerCompany_edit').val())
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "PATCH",
@@ -534,7 +525,7 @@
                                         +response['user'].name+'</td><td>'+response['user'].email+'</td><td>'
                                         +'Reseller'+'</td><td>0</td><td>'
                                         +response['user'].reseller.company_name +'</td><td>'
-                                        +response['user'].last_login+'</td><td><a class="nav-link" data-toggle="dropdown">'
+                                        +'-'+'</td><td><a class="nav-link" data-toggle="dropdown">'
                                         +'<i class="fas fa-angle-down"></i>'
                                         +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
                                         +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'

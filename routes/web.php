@@ -46,9 +46,17 @@ Route::get('/super-users',[App\Http\Controllers\SuperController::class,'getAllSu
 //Reseller
 Route::get('/reseller',[App\Http\Controllers\SuperController::class,'getAllResellers'])->middleware('auth')->name('resellers');
 Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->middleware('auth')->name('devices');
+Route::get('/firmwares',[App\Http\Controllers\SuperController::class,'firmwares'])->middleware('auth')->name('firmwares');
 
 //Charts
 Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showChart'])->name('line-chart');
+
+
+//Firmware
+Route::post('/addNewFirmware', [App\Http\Controllers\FirmwareController::class,'addNewFirmware'])->middleware('auth');
+Route::get('/checkFirmware/{fileName}', [App\Http\Controllers\FirmwareController::class,'checkFirmware'])->middleware('auth');
+Route::get('/firmware_detail/{id}', [App\Http\Controllers\FirmwareController::class,'firmware_detail'])->middleware('auth');
+Route::delete('/deleteFirmwware/{id}', [App\Http\Controllers\FirmwareController::class,'deleteFirmwware'])->middleware('auth');
 
 // Route::group(['middleware' => 'auth'], function() {
     // uses 'auth' middleware plus all middleware from $middlewareGroups['super']
@@ -100,6 +108,8 @@ Route::post('/super/addSuperUser',[App\Http\Controllers\SuperController::class,'
 Route::patch('/super/editUser/{id}',[App\Http\Controllers\SuperController::class,'edit_user'])->middleware('auth');
 Route::patch('/super/editSuperUser/{id}',[App\Http\Controllers\SuperController::class,'edit_superUser'])->middleware('auth');
 Route::get('/getResellersList',[App\Http\Controllers\SuperController::class, 'getResellersList'])->middleware('auth');
+
+Route::get('/changeUserPasswordOld',[App\Http\Controllers\UserProfileController::class, 'verifyOldPassword'])->middleware('auth');
 
 //Dashboard routes
 Route::get('/deviceDetail/{id}',[App\Http\Controllers\HomeController::class, 'getDeviceDetails'])->middleware('auth');

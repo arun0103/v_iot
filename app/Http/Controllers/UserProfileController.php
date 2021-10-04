@@ -116,4 +116,14 @@ class UserProfileController extends Controller
     {
         //
     }
+
+    public function verifyOldPassword(Request $req){
+        $loggedInUser = Auth::user();
+        $authentication ="";
+        if($req->old_password == $loggedInUser->password){
+            $authentication = "pass";
+            return response()->json($authentication,200);
+        }else
+            return response()->json("error",404);
+    }
 }

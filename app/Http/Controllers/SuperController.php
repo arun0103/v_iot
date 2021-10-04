@@ -15,6 +15,7 @@ use App\Models\UserProfile;
 use App\Models\UserDevices;
 use App\Models\Setpoints;
 use App\Models\Device_settings;
+use App\Models\Firmware;
 use App\Notifications\HelloNewUser;
 use App\Notifications\EmailUpdated;
 use Auth;
@@ -284,11 +285,10 @@ class SuperController extends Controller
     public function devices(){
         $loggedInUser = Auth::user();
         if($loggedInUser->role == 'S'){
-            $all = Device::with('latest_log', 'model', 'reseller')->get();
-
-            $users = User::all();
+            $devices = Device::with('latest_log:id,created_at', 'model:id,name', 'reseller:id,company_name')->get();
+            $users = User::where('role','U')->get();
             $models = Models::all();
-            return view('super/devices')->with(['devices'=>$all])->with(['users'=>$users])->with(['models'=>$models]);
+            return view('super/devices')->with(['devices'=>$devices])->with(['users'=>$users])->with(['models'=>$models]);
         }
         elseif($loggedInUser->role == 'R'){
             $users = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
@@ -392,7 +392,11 @@ class SuperController extends Controller
         // $users = User::all();
         //return view('user/devices')->with(['devices'=>$all])->with(['message'=>$message])->with(['users'=>$users]);
     }
-
+    public function firmwares(){
+        $firmwares = Firmware::with('model','uploader')->get();
+        $models = Models::all();
+        return view('super/firmwares')->with(['firmwares'=>$firmwares])->with(['models'=>$models]);
+    }
 
     public function assignUserDevice(Request $request){
         $loggedInUser = Auth::user();

@@ -212,6 +212,14 @@
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{route('firmwares')}}" class="nav-link">
+                    &nbsp;<i class="fas fa-microchip"></i>
+                    <p>
+                    &nbsp;Firmwares
+                    </p>
+                </a>
+            </li>
             @endif
 
             <!-- <li class="nav-item">

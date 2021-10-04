@@ -134,17 +134,6 @@
                                                 <input type="text" class="form-control" id="inputFirmwareVersion" name="firmware" width="234" placeholder="e.g. P1.B1.H1.F1.D1.0"/>
                                             </div>
                                         </div>
-                                        <!-- <div class="col-sm-4">
-                                            <div class="form-group">
-                                            <label for="select_user_id" class="control-label">User</label><br>
-                                                <select name="user_id" id="select_user_id" class="form-control" style="width:100%; height:100%">
-                                                    <option></option>
-                                                    @foreach($users as $user)
-                                                        <option value="{{$user->id}}">{{$user->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div> -->
                                     </div>
                                 </div>
                             </div>

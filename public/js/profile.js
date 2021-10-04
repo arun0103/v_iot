@@ -3,7 +3,7 @@ var profession, institution;
 $('#btn_edit_user_profile').on('click',function(){
     if($('#btn_edit_user_profile').text()=='Edit'){
         $('#info_member_since_edit').removeAttr('hidden');
-        $('#info_member_since_edit').text('You cannot go back to future!')
+        // $('#info_member_since_edit').text('You cannot go back to future!')
         $('#btn_change_avatar').removeAttr('hidden');
         $('#btn_cancel_edit_user_profile').removeAttr('hidden');
         $('#btn_edit_user_profile').text('Save');
@@ -216,8 +216,6 @@ $('#btn_edit_user_info').on('click',function(){
             'phone':user_phone,
             'mobile':user_mobile ,
             'address':user_address ,
-
-
         };
 
         if(changed.length >0){

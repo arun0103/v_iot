@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Hash;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456789'),
             'role'  => 'S',
             'created_by' => 1,
+            'created_at' => Carbon::now()
 
         ]);
         \DB::table('models')->insert([
