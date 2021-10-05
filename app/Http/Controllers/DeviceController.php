@@ -99,6 +99,7 @@ class DeviceController extends Controller
                 $device_setpoints->bypass_pressure = 1;
                 $device_setpoints->CIP_pressure = 1;
                 $device_setpoints->wait_time_before_CIP = 1;
+                $device_setpoints->bypass_time = 1;
                 $device_setpoints->save();
             }else{
                 $message =[

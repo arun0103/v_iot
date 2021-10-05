@@ -3258,7 +3258,7 @@
             $('#input-bypass_pressure').val(bypass_pressure).change();
             $('#input-CIP_pressure').val(CIP_pressure).change();
             $('#input-wait_time_before_CIP').val(wait_time_before_CIP).change();
-            $('#input-wait_bypass_time').val(wait_bypass_time).change();
+            $('#input-bypass_time').val(bypass_time).change();
         });
     })
     $('.commands').on('click','.delete-command', function(){
