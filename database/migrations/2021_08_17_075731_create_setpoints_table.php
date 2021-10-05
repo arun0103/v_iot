@@ -49,6 +49,7 @@ class CreateSetpointsTable extends Migration
             $table->float('bypass_pressure')->nullable();
             $table->float('CIP_pressure')->nullable();
             $table->integer('wait_time_before_CIP')->nullable();
+            $table->integer('bypass_time')->nullable();
             $table->timestamps();
         });
     }

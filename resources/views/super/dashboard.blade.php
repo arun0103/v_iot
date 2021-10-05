@@ -2,7 +2,7 @@
 
 @section('head')
 <!-- <script src="{{asset('js/require.js')}}"></script> -->
-<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiNdCuOv2SfFYbx2Bl0PhUGtvOgwAC762wyq7NZtQ8ISA98uAlaHJa5X3vLeNp6r' async defer></script>
+<!-- <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiNdCuOv2SfFYbx2Bl0PhUGtvOgwAC762wyq7NZtQ8ISA98uAlaHJa5X3vLeNp6r' async defer></script> -->
 <style>
     .modal-body {
         max-height: calc(100vh - 60px);
@@ -794,7 +794,8 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard <button type="button" class="btn btn-info" id="btn_map_view">Map View</button></h1>
+                        <h1 class="m-0">Dashboard </h1>
+                        <!-- <button type="button" class="btn btn-info" id="btn_map_view">Map View</button> -->
                     </div>
                     <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -1544,6 +1545,14 @@
                                                         <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-wait_time_before_CIP" value=""/>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-bypass_time">34. Bypass Time</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-bypass_time" value=""/>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1758,7 +1767,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- //Bing map -->
-    <script type='text/javascript'>
+    <!-- <script type='text/javascript'>
         function GetMap(){
             var map = new Microsoft.Maps.Map('#myMap', {
                 center: new Microsoft.Maps.Location(51.50632, -0.12714),
@@ -1767,7 +1776,7 @@
             });
             //Add your post map load code here.
         }
-    </script>
+    </script> -->
 <!-- // -->
 <script>
     var device_id = 0;
@@ -2093,8 +2102,8 @@
                 url: "/deviceLiveData/"+ view_live_device,
             })
             .done(function(response){
-                console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
-                console.log(response);
+                // console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
+                // console.log(response);
                 if(device_data_created_at != response.created_at){
                     device_data_created_at = response.created_at;
                     var recorded_date = new Date(response.created_at);
@@ -2311,6 +2320,14 @@
                 }
             });
         }
+
+    }
+    function highlight(obj){
+        var orig = obj.css('background');
+        obj.css('background', '#87bde6');
+        setTimeout(function(){
+                obj.css('background',orig);
+        }, 2000);
     }
     function pull_relay_data(){
         // get the device relay values
@@ -3149,7 +3166,7 @@
         WV_check_time,wait_HT_time,p_flow_target,low_flow_purify_alarm,low_flow_waste_alarm,
         CIP_cycles,temperature_alarm,max_CIP_prt,pump_p_factor,dynamic_p_factor,p_max_volt,
         w_max_volt,w_value,flow_k_factor,volume_unit,bypass_option,start_pressure,stop_pressure,
-        bypass_pressure,CIP_pressure,wait_time_before_CIP;
+        bypass_pressure,CIP_pressure,wait_time_before_CIP,bypass_time;
 
     $('.nav_link-setpoints').on('click', function(){
         clearInterval(avg_data);
@@ -3207,6 +3224,7 @@
             bypass_pressure =response.bypass_pressure
             CIP_pressure =response.CIP_pressure
             wait_time_before_CIP =response.wait_time_before_CIP
+            bypass_time = response.bypass_time
             $('#input-pure_EC_target').val(pure_EC_target).change();
             $('#input-pre_purify_time').val(pre_purify_time).change();
             $('#input-purify_time').val(purify_time).change();
@@ -3240,6 +3258,7 @@
             $('#input-bypass_pressure').val(bypass_pressure).change();
             $('#input-CIP_pressure').val(CIP_pressure).change();
             $('#input-wait_time_before_CIP').val(wait_time_before_CIP).change();
+            $('#input-wait_bypass_time').val(wait_bypass_time).change();
         });
     })
     $('.commands').on('click','.delete-command', function(){

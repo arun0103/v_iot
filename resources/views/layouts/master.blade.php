@@ -313,13 +313,17 @@
 <script src="{{asset('js/app.js')}}"></script>
 <script>
     $(".content-wrapper").click(function() {
-        if ($("#control_sidebar_main").hasClass("control-sidebar-open")) {
+        if($("#control_sidebar_main").hasClass("control-sidebar-open")) {
             $("#control_sidebar_main").removeClass("control-sidebar-open");
         }
         $('#control_sidebar_main').css('display','none')
     });
     $('#control_sidebar_btn').on('click', function(){
-        $('#control_sidebar_main').addClass("control-sidebar-open")
+        $('#control_sidebar_main').addClass("control-sidebar-open");
+        $('#control_sidebar_main').show();
+    })
+    $('nav').on('click',function(){
+        $('.loader').show();
     })
 </script>
 @yield('scripts')

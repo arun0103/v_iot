@@ -57,6 +57,8 @@ Route::post('/addNewFirmware', [App\Http\Controllers\FirmwareController::class,'
 Route::get('/checkFirmware/{fileName}', [App\Http\Controllers\FirmwareController::class,'checkFirmware'])->middleware('auth');
 Route::get('/firmware_detail/{id}', [App\Http\Controllers\FirmwareController::class,'firmware_detail'])->middleware('auth');
 Route::delete('/deleteFirmwware/{id}', [App\Http\Controllers\FirmwareController::class,'deleteFirmwware'])->middleware('auth');
+Route::patch('/edit_firmware', [App\Http\Controllers\FirmwareController::class,'edit_firmware'])->middleware('auth');
+Route::get('/getFirmwares/{id}', [App\Http\Controllers\FirmwareController::class,'getFirmwares'])->middleware('auth');
 
 // Route::group(['middleware' => 'auth'], function() {
     // uses 'auth' middleware plus all middleware from $middlewareGroups['super']
@@ -74,7 +76,6 @@ Route::delete('/deleteFirmwware/{id}', [App\Http\Controllers\FirmwareController:
 
     Route::get('/users',[App\Http\Controllers\SuperController::class,'usersOnly'])->name('users')->middleware('auth');
 
-    Route::post('/addNewDevice',[App\Http\Controllers\SuperController::class,'create_device'])->middleware('auth');
     Route::post('/assignUserDevice',[App\Http\Controllers\SuperController::class,'assignUserDevice'])->middleware('auth');//not used i guess
     Route::post('/addUserDevice', [App\Http\Controllers\HomeController::class,'addUserDevice'])->middleware('auth');
 
@@ -89,6 +90,7 @@ Route::delete('/deleteFirmwware/{id}', [App\Http\Controllers\FirmwareController:
 
 
 //device
+Route::post('/addNewDevice',[App\Http\Controllers\DeviceController::class,'create_device'])->middleware('auth');
 Route::get('/getMyDevicesSetpoints', [App\Http\Controllers\DeviceController::class, 'getMyDevicesSetpoints'])->middleware('auth');
 Route::get('/device_detail/{id}', [App\Http\Controllers\DeviceController::class, 'getDeviceDetails'])->middleware('auth');
 Route::delete('/deleteUserDevice/{id}', [App\Http\Controllers\DeviceController::class, 'deleteUserDevice'])->middleware('auth');

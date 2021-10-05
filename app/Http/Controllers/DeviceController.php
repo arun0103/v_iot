@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Device;
 use App\Models\UserDevices;
 use App\Models\RawLogs;
+use App\Models\Setpoints;
 use App\Models\Device_commands;
 use App\Models\Device_settings;
 use App\Models\DeviceSettingsLogs;
@@ -33,12 +34,95 @@ class DeviceController extends Controller
         $device = Device::where('id',$id)->with('model')->first();
         return response()->json($device);
     }
+    //Registering new devices
+    public function create_device(Request $request){
+        $loggedInUser = Auth::user();
+        $message = null;
+        $deviceCount = Device::where('serial_number',$request->serial_number)->orWhere('device_number',$request->device_number)->count();
+        if($deviceCount == 0){ // if the serial number and device number are unique
+            if($loggedInUser->role == 'S'){ // if user is super admin
+                $device = new Device();
+                $device->serial_number = $request->serial_number ;
+                $device->device_number = $request->device_number ;
+                $device->model_id = $request->model;
+                $device->firmware = $request->firmware;
+                $device->manufactured_date= date('Y-m-d',strtotime($request->manufactured_date));
+                $device->created_by = $loggedInUser->id ;
+                $device->save();
+                $savedDevice = Device::where('id',$device->id)->with('model')->first();
+                $message =[
+                    'message'=>'Success',
+                    'description'=> 'Device Added',
+                    'data'=>$savedDevice
+                ];
+                // add device's maintenance settings to default value
+                $device_setting = new Device_settings();
+                $device_setting->device_id = $device->id;
+                $device_setting->critic_acid = 25000;
+                $device_setting->pre_filter = 25000;
+                $device_setting->post_filter = 25000;
+                $device_setting->general_service = 25000;
+                $device_setting->save();
+                // add device's default setpoints
+                $device_setpoints = new Setpoints();
+                $device_setpoints->device_id = $device->id;
+                $device_setpoints->pure_EC_target = 0;
+                $device_setpoints->prepurify_time = 0;
+                $device_setpoints->purify_time = 0;
+                $device_setpoints->waste_time = 0;
+                $device_setpoints->HF_waste_time = 0;
+                $device_setpoints->CIP_dose = 0;
+                $device_setpoints->CIP_dose_rec = 0;
+                $device_setpoints->CIP_dose_total = 0;
+                $device_setpoints->CIP_flow_total = 0;
+                $device_setpoints->CIP_flow_flush = 0;
+                $device_setpoints->CIP_flow_rec = 0;
+                $device_setpoints->CIP_flush_time = 0;
+                $device_setpoints->WV_check_time = 0;
+                $device_setpoints->wait_HT_time = 0;
+                $device_setpoints->p_flow_target = 0;
+                $device_setpoints->low_flow_purify_alarm = 0;
+                $device_setpoints->low_flow_waste_alarm = 0;
+                $device_setpoints->CIP_cycles = 0;
+                $device_setpoints->temperature_alarm = 0;
+                $device_setpoints->max_CIP_prt = 0;
+                $device_setpoints->pump_p_factor = 0;
+                $device_setpoints->dynamic_p_factor = 0;
+                $device_setpoints->p_max_volt = 0;
+                $device_setpoints->w_max_volt = 0;
+                $device_setpoints->w_value = 0;
+                $device_setpoints->flow_k_factor = 0;
+                $device_setpoints->volume_unit = 0;
+                $device_setpoints->bypass_option = 0;
+                $device_setpoints->start_pressure = 0;
+                $device_setpoints->stop_pressure = 0;
+                $device_setpoints->bypass_pressure = 0;
+                $device_setpoints->CIP_pressure = 0;
+                $device_setpoints->wait_time_before_CIP = 0;
+                $device_setpoints->save();
+            }else{
+                $message =[
+                    'message'=>'Error',
+                    'description'=> 'Unauthorized access!',
+                ];
+            }
+        }else{
+            $message =[
+                'message'=>'Error',
+                'description'=> 'Duplicate device found!',
+            ];
+        }
+        return $message;
+        // $all = Device::all();
+        // $users = User::all();
+        //return view('user/devices')->with(['devices'=>$all])->with(['message'=>$message])->with(['users'=>$users]);
+    }
     public function saveEditedDevice($device_id, Request $req){
         $device = Device::where('id',$device_id)->with("model")->first();
         $device->model_id = $req->model_id;
         $device->serial_number = $req->serial_number;
         $device->device_number = $req->device_number;
-        $device->manufactured_date = $req->manufactured_date;
+        $device->manufactured_date = date('Y-m-d',strtotime($req->manufactured_date));
         $device->firmware = $req->firmware;
         $device->save();
         return response()->json($device);

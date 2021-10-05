@@ -15,7 +15,7 @@ class Setpoints extends Model
         ,'WV_check_time','wait_HT_time','p_flow_target','low_flow_purify_alarm','low_flow_waste_alarm',
         'CIP_cycles','temperature_alarm','max_CIP_prt','pump_p_factor','dynamic_p_factor','p_max_volt',
         'w_max_volt','w_value','flow_k_factor','volume_unit','bypass_option','start_pressure','stop_pressure',
-        'bypass_pressure','CIP_pressure','wait_time_before_CIP',
+        'bypass_pressure','CIP_pressure','wait_time_before_CIP','bypass_time',
         'created_at','updated_at'
     ];
 

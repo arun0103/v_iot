@@ -30,7 +30,7 @@
                         <div class="card-header border-0 bg-top-logo-color">
                             <h2 class="card-title">List of Devices</h2>
                             <div class="card-tools">
-                                <button type="button" id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new-device">Add New</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new-device">Add New</button>
                             </div>
                         </div>
                         <div class="card-body table-responsive">
@@ -42,8 +42,8 @@
                                         <th>Device Name</th>
                                         <th>Model</th>
                                         <th>Reseller</th>
-                                        <th># Assigned Users</th>
-                                        <th>Last Data Received Time</th>
+                                        <th># Users</th>
+                                        <th>Last Data @</th>
                                         <th>More</th>
                                     </tr>
                                 </thead>
@@ -60,19 +60,17 @@
                                             {{$device->latest_log!=null?$device->latest_log->created_at:"-"}}
                                         </td>
                                         <td>
-                                            <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
+                                            <a class="nav-link" data-toggle="dropdown"><i class="fas fa-angle-down"></i></a>
                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                 <a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Update Firmware</a>
-                                                <a href="#" class="dropdown-item operation-edit_device">
-                                                    <i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>
-                                                </a>
+                                                <a class="dropdown-item operation-edit_device"><i class="fas fa-edit" aria-hidden="true"> Edit Device</i></a>
                                                 <!-- <a href="#" class="dropdown-item operation-assign_user">
                                                     <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
                                                 </a> -->
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item view-device-users" id="view_user_devices"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>
+                                                <a class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>
                                                 <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-{{$device->id}}"><i class="far fa-trash-alt"></i> Delete Device</a>
+                                                <a class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>
                                             </div>
                                             <!-- </div> -->
                                         </td>
@@ -86,320 +84,363 @@
             </div>
         </div>
         <!-- /.container-fluid -->
-        <div class="modal fade" id="modal-add-new-device">
-            <form id="form_addDevice" class="form-horizontal" autocomplete="no">
-                {{ csrf_field() }}
-                <div class="modal-dialog modal-lg" >
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="modal-title_newDevice">Add New Device</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row roundPadding20" id="addNewDevice">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="selectModel" class="control-label">Model</label>
-                                                <select name="model" id="selectModel" class="form-control" title="Select Model">
-                                                    @foreach($models as $model)
-                                                        <option value="{{$model->id}}">{{$model->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="inputSN" class="control-label">PCB Serial Number</label>
-                                                <input type="number" class="form-control" id="inputSN" placeholder="Serial Number" name="serial_number" autocomplete="no">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="inputDN" class="control-label">Device Serial Number</label>
-                                                <input type="text" class="form-control" id="inputDN" placeholder="Device Number" name="device_number" autocomplete="no">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                            <label for="inputManufacturedDate" class="control-label">Manufactured Date</label>
-                                                <input class="form-control datepicker" id="inputManufacturedDate" name="manufactured_date" width="234" placeholder="MM / DD / YYYY" autocomplete="off"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <div class="form-group">
-                                            <label for="inputFirmwareVersion" class="control-label">Firmware Version</label>
-                                                <input type="text" class="form-control" id="inputFirmwareVersion" name="firmware" width="234" placeholder="e.g. P1.B1.H1.F1.D1.0"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="btn_confirm_add_new_device" value="Add">Add</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->"
-            </form>
-        </div>
-        <!-- /.modal -->
-        <div class="modal fade" id="modal-assign-user">
-            <form id="form_assign_user" class="form-horizontal" autocomplete="no">
-                {{ csrf_field() }}
-                <div class="modal-dialog modal-lg" >
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="modal-title_assign_user">Assign User Device</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row roundPadding20">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="user_type" class="control-label">User Type</label>
-                                                <select name="user_type" id="select_user_type" class="form-control">
-                                                    <option> --  Select  -- </option>
-                                                    <option value="U">User</option>
-                                                    <option value="R">Reseller</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="user_type" class="control-label">User's Name</label>
-                                                <select name="user_type" id="select_user" class="form-control">
-                                                    <option value="null"> --  Select  -- </option>
-                                                    @foreach($users as $user)
-                                                        <option value="{{$user->id}}" class="{{$user->role}}">{{$user->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="inputSN_verify" class="control-label">PCB Serial Number</label>
-                                                <input type="number" class="form-control" id="inputSN_verify" placeholder="PCB Serial Number" name="serial_number" autocomplete="no">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="btn_confirm_assign_user" value="Add">Add</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->"
-            </form>
-        </div>
-        <!-- /.modal -->
-        <div class="modal fade" id="modal-add-user-device">
-            <form id="form_addUserDevice" class="form-horizontal" autocomplete="no">
-                {{ csrf_field() }}
-                <div class="modal-dialog modal-lg" >
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="modal-title-user_device">Add New Device</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row roundPadding20">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="inputSerialNumber" class="control-label">PCB Serial Number </label>
-                                        <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
-                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                            <a href="#" class="dropdown-item">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <p class="text-sm"><b><i>Power on your device!</i></b></p>
-                                                        <p class="text-sm">You can find it in the screen of the device for serial number</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <input type="number" min="1" class="form-control" id="inputSerialNumber" placeholder="Serial Number" name="serialNumber" autocomplete="no">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="inputDeviceNumber" class="control-label">Device Number </label>
-                                        <i id="info_device" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
-                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                            <a href="#" class="dropdown-item">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <p class="text-sm"><b><i>Switch off your device</i></b></p>
-                                                        <p class="text-sm">Open the panel and look into the board for device number</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <input type="number" min="1" class="form-control" id="inputDeviceNumber" placeholder="Device Number" name="deviceNumber" autocomplete="no">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="inputDeviceName" class="control-label">Device Name </label>
-                                        <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
-                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
-                                            <a href="#" class="dropdown-item">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <p class="text-sm"><b><i>Give your device a name</i></b></p>
-                                                        <p class="text-sm">Give a unique name to each device so that you won't get confused later</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <input type="text" class="form-control" id="inputDeviceName" placeholder="Name of your device" name="deviceName" autocomplete="no">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="btn_confirm_add_reseller_device" value="Add">Add</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->"
-            </form>
-        </div>
-        <!-- /.modal -->
-        <div class="modal fade" id="modal-edit-device">
-            <form id="form_editDevice" class="form-horizontal" autocomplete="no">
-                {{ csrf_field() }}
-                <div class="modal-dialog modal-lg" >
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="modal-title_newDevice">Edit Device</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row roundPadding20" id="editDevice">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="edit_selectModel" class="control-label">Model</label>
-                                                <select name="model" id="edit_selectModel" class="form-control" title="Select Model">
-                                                    @foreach($models as $model)
-                                                        <option value="{{$model->id}}">{{$model->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="inputSN_edit" class="control-label">PCB Serial Number</label>
-                                                <input type="number" class="form-control" id="inputSN_edit" placeholder="Serial Number" name="serial_number" autocomplete="no">
-                                                <span id="error_edit_sn"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="inputDN_edit" class="control-label">Device Serial Number</label>
-                                                <input type="text" class="form-control" id="inputDN_edit" placeholder="Device Number" name="device_number" autocomplete="no">
-                                                <span id="error_edit_dn"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                            <label for="inputManufacturedDate_edit" class="control-label">Manufactured Date</label>
-                                                <input class="form-control datepicker" id="inputManufacturedDate_edit" name="manufactured_date" width="234" placeholder="MM / DD / YYYY" autocomplete="off"/>
-                                                <span id="error_edit_manufactured_date"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <div class="form-group">
-                                            <label for="inputFirmwareVersion_edit" class="control-label">Firmware Version</label>
-                                                <input type="text" class="form-control" id="inputFirmwareVersion_edit" name="firmware" width="234" placeholder="E.G. P1.B1.H1.F1.D1.0"/>
-                                                <span id="error_edit_firmware"></span>
-                                            </div>
-                                        </div>
-                                        <!-- <div class="col-sm-4">
-                                            <div class="form-group">
-                                            <label for="select_user_id_edit" class="control-label">User</label><br>
-                                                <select name="user_id" id="select_user_id_edit" class="form-control" style="width:100%; height:100%">
-                                                    <option></option>
-                                                    @foreach($users as $user)
-                                                        <option value="{{$user->id}}">{{$user->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="btn_confirm_save_edit_device" value="Add">Save</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->"
-            </form>
-        </div>
-
-        <div class="modal fade" id="modal-view-device-users">
+    </div>
+    <!-- /.content -->
+    <div class="modal fade" id="modal-add-new-device">
+        <form id="form_addDevice" class="form-horizontal" autocomplete="no">
+            {{ csrf_field() }}
             <div class="modal-dialog modal-lg" >
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="modal-title-user_device_list">Device users' List</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modal-title_newDevice">Add New Device</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row roundPadding20">
-                            <div class="col-lg-12">
-                                <table class="table table-stripped ">
-                                    <thead>
-                                        <th>#</th>
-                                        <th>User Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Used Since</th>
-                                        <th>Actions</th>
-                                    </thead>
-                                    <tbody id="user_device_table_body">
-                                    </tbody>
-                                </table>
+                        <div class="row roundPadding20" id="addNewDevice">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="selectModel" class="control-label">Model</label>
+                                            <select name="model" id="selectModel" class="form-control" title="Select Model">
+                                                @foreach($models as $model)
+                                                    <option value="{{$model->id}}">{{$model->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputSN" class="control-label">PCB Serial Number</label>
+                                            <input type="number" class="form-control" id="inputSN" placeholder="Serial Number" name="serial_number" autocomplete="no">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputDN" class="control-label">Device Serial Number</label>
+                                            <input type="text" class="form-control" id="inputDN" placeholder="Device Number" name="device_number" autocomplete="no">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                        <label for="inputManufacturedDate" class="control-label">Manufactured Date</label>
+                                            <input class="form-control datepicker" id="inputManufacturedDate" name="manufactured_date" width="234" placeholder="MM / DD / YYYY" autocomplete="off"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                        <label for="inputFirmwareVersion" class="control-label">Firmware Version</label>
+                                            <input type="text" class="form-control" id="inputFirmwareVersion" name="firmware" width="234" placeholder="e.g. P1.B1.H1.F1.D1.0"/>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="btn_confirm_add_new_device" value="Add">Add</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->"
-        </div>
+        </form>
     </div>
-    <!-- /.content -->
+    <!-- /.modal -->
+    <div class="modal fade" id="modal-assign-user">
+        <form id="form_assign_user" class="form-horizontal" autocomplete="no">
+            {{ csrf_field() }}
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title_assign_user">Assign User Device</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="user_type" class="control-label">User Type</label>
+                                            <select name="user_type" id="select_user_type" class="form-control">
+                                                <option> --  Select  -- </option>
+                                                <option value="U">User</option>
+                                                <option value="R">Reseller</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="user_type" class="control-label">User's Name</label>
+                                            <select name="user_type" id="select_user" class="form-control">
+                                                <option value="null"> --  Select  -- </option>
+                                                @foreach($users as $user)
+                                                    <option value="{{$user->id}}" class="{{$user->role}}">{{$user->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputSN_verify" class="control-label">PCB Serial Number</label>
+                                            <input type="number" class="form-control" id="inputSN_verify" placeholder="PCB Serial Number" name="serial_number" autocomplete="no">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="btn_confirm_assign_user" value="Add">Add</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->"
+        </form>
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="modal-add-user-device">
+        <form id="form_addUserDevice" class="form-horizontal" autocomplete="no">
+            {{ csrf_field() }}
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title-user_device">Add New Device</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="inputSerialNumber" class="control-label">PCB Serial Number </label>
+                                    <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                        <a href="#" class="dropdown-item">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <p class="text-sm"><b><i>Power on your device!</i></b></p>
+                                                    <p class="text-sm">You can find it in the screen of the device for serial number</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <input type="number" min="1" class="form-control" id="inputSerialNumber" placeholder="Serial Number" name="serialNumber" autocomplete="no">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="inputDeviceNumber" class="control-label">Device Number </label>
+                                    <i id="info_device" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                        <a href="#" class="dropdown-item">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <p class="text-sm"><b><i>Switch off your device</i></b></p>
+                                                    <p class="text-sm">Open the panel and look into the board for device number</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <input type="number" min="1" class="form-control" id="inputDeviceNumber" placeholder="Device Number" name="deviceNumber" autocomplete="no">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="inputDeviceName" class="control-label">Device Name </label>
+                                    <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
+                                        <a href="#" class="dropdown-item">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <p class="text-sm"><b><i>Give your device a name</i></b></p>
+                                                    <p class="text-sm">Give a unique name to each device so that you won't get confused later</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <input type="text" class="form-control" id="inputDeviceName" placeholder="Name of your device" name="deviceName" autocomplete="no">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="btn_confirm_add_reseller_device" value="Add">Add</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->"
+        </form>
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="modal-edit-device">
+        <form id="form_editDevice" class="form-horizontal" autocomplete="no">
+            {{ csrf_field() }}
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title_newDevice">Edit Device</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20" id="editDevice">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="edit_selectModel" class="control-label">Model</label>
+                                            <select name="model" id="edit_selectModel" class="form-control" title="Select Model">
+                                                @foreach($models as $model)
+                                                    <option value="{{$model->id}}">{{$model->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputSN_edit" class="control-label">PCB Serial Number</label>
+                                            <input type="number" class="form-control" id="inputSN_edit" placeholder="Serial Number" name="serial_number" autocomplete="no">
+                                            <span id="error_edit_sn"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputDN_edit" class="control-label">Device Serial Number</label>
+                                            <input type="text" class="form-control" id="inputDN_edit" placeholder="Device Number" name="device_number" autocomplete="no">
+                                            <span id="error_edit_dn"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                        <label for="inputManufacturedDate_edit" class="control-label">Manufactured Date</label>
+                                            <input class="form-control datepicker" id="inputManufacturedDate_edit" name="manufactured_date" width="234" placeholder="MM / DD / YYYY" autocomplete="off"/>
+                                            <span id="error_edit_manufactured_date"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                        <label for="inputFirmwareVersion_edit" class="control-label">Firmware Version</label>
+                                            <input type="text" class="form-control" id="inputFirmwareVersion_edit" name="firmware" width="234" placeholder="E.G. P1.B1.H1.F1.D1.0"/>
+                                            <span id="error_edit_firmware"></span>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-sm-4">
+                                        <div class="form-group">
+                                        <label for="select_user_id_edit" class="control-label">User</label><br>
+                                            <select name="user_id" id="select_user_id_edit" class="form-control" style="width:100%; height:100%">
+                                                <option></option>
+                                                @foreach($users as $user)
+                                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="btn_confirm_save_edit_device" value="Add">Save</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->"
+        </form>
+    </div>
+
+    <div class="modal fade" id="modal-view-device-users">
+        <div class="modal-dialog modal-lg" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-title-user_device_list">Device users' List</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row roundPadding20">
+                        <div class="col-lg-12">
+                            <table class="table table-stripped ">
+                                <thead>
+                                    <th>#</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Used Since</th>
+                                    <th>Actions</th>
+                                </thead>
+                                <tbody id="user_device_table_body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->"
+    </div>
+
+    <div class="modal fade" id="modal-view-firmwares">
+        <div class="modal-dialog modal-lg" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-title-firmwares_list">Firmwares' List</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row roundPadding20">
+                        <div class="col-lg-12">
+                            <label for="firmware_select">Select Firmware</label>
+                            <select name="firmware_select" id="firmware_select" class="form-control select2">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->"
+    </div>
+
 
 @endsection
 
 @section('scripts')
-    <script src="{{asset('js/device.js')}}"></script>
+    <!-- <script src="{{asset('js/device.js')}}"></script> -->
     <script type="text/javascript">
+    $(document).ready(function(){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('#select_user_id').select2({
+            placeholder: 'Select an option',
+            width: 'resolve',
+            theme: "classic"
+        });
+        $('.datatable').dataTable();
+
+        $('.loader').hide();
+    })
+    //Add
     $('#btn_confirm_add_new_device').on('click', function(e){
         e.preventDefault();
         var formData = {
@@ -408,10 +449,9 @@
             'device_number':$('#inputDN').val(),
             'manufactured_date':$('#inputManufacturedDate').val(),
             'firmware':$('#inputFirmwareVersion').val(),
-            'reseller_id':$('#select_user_id').val(),
         }
         $.ajax({
-            method: "post",
+            method: "POST",
             url: "/addNewDevice",
             data: formData,
             })
@@ -426,30 +466,30 @@
                         });
                         break;
                     case 'Success':
-                        $('tbody').prepend('<tr id="'+response.data.id+'" class="device"><td>'+response.data.serial_number + '</td><td>'
-                            +'<td>-</td>'+ response.data.device_number + '</td><td>'+ response.data.model.name +
-                            '</td><td>0</td>'+
-                            '<td>-</td>'
-                            +'<td><a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
-                                            +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-                                                +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Update Firmware</a>'
-                                                +'<a href="#" class="dropdown-item operation-edit_device">'
-                                                    +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
-                                                +'</a>'
-                                                // +'<a href="#" class="dropdown-item operation-assign_user">'
-                                                //     +'<i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>'
-                                                // +'</a>'
-                                                +'<div class="dropdown-divider"></div>'
-                                                +'<a href="#" class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
-                                                +'<div class="dropdown-divider"></div>'
-                                                +'<a href="#" class="dropdown-item dropdown-footer operation-delete" id="operation-delete-device-'+response['data'].id+'"><i class="far fa-trash-alt"></i> Delete Device</a>'
-                                            +'</div></td></tr>')
-
+                        $('tbody').prepend('<tr id="'+response.data.id+'" class="device"><td>'+response.data.serial_number + '</td>'
+                            +'<td>'+ response.data.device_number
+                            + '</td><td>-</td><td>'
+                            + response.data.model.name +
+                            '</td><td>-</td>'+
+                            '<td>0</td><td>-</td>'
+                            +'<td><a class="nav-link" data-toggle="dropdown"><i class="fas fa-angle-down"></i></a>'
+                                +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+                                    +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Update Firmware</a>'
+                                    +'<a class="dropdown-item operation-edit_device">'
+                                        +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
+                                    +'</a>'
+                                    +'<div class="dropdown-divider"></div>'
+                                    +'<a class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
+                                    +'<div class="dropdown-divider"></div>'
+                                    +'<a class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>'
+                                +'</div></td></tr>')
+                        $('#modal-add-new-device').modal('hide')
                         Swal.fire(
                             'Added!',
                             'Device has been added',
                             'success'
                         );
+
                         break;
                     default:
                         Swal.fire({
@@ -461,15 +501,14 @@
                 }
         });
     })
+    //Edit
     var edit_device_id = null;
     $('#device_lists').on('click','.operation-edit_device', function(){
-        var device_id = $(this).closest('tr').attr('id'); // table row ID
-        edit_device_id = device_id;
-        //alert("check" + device_id)
+        edit_device_id = $(this).closest('tr').attr('id'); // table row ID
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
-            url: "/device_detail/"+device_id,
+            url: "/device_detail/"+edit_device_id,
         })
         .done(function(response){
             $('#edit_selectModel').val(response.model.id).trigger('change');
@@ -499,7 +538,7 @@
                     console.log(response)
                     $('tr#'+response.id+" td:eq(0)").text(response.serial_number)
                     $('tr#'+response.id+" td:eq(1)").text(response.device_number)
-                    $('tr#'+response.id+" td:eq(3)").text(response.model.name)
+                    $('tr#'+response.id+" td:eq(3)").text(response.model.name).change()
                     $('#modal-edit-device').modal('hide')
                     Swal.fire(
                         'Saved!',
@@ -532,6 +571,8 @@
         return is_valid;
 
     }
+
+
     $('#btn_confirm_assign_user').on('click',function(e){
         e.preventDefault();
         var formData = {
@@ -800,5 +841,34 @@
             }
         })
     })
+    $('#device_lists').on('click', '.operation-update_firmware',function(){
+        var device_id = $(this).closest('tr').attr('id'); // table row ID
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "get",
+            url: "/getFirmwares/"+device_id,
+        })
+        .done(function(response){
+
+            if(response.length > 0){
+                response.forEach(function(data){
+                    $('#firmware_select').append('<option value="'+data.file_name+'">'+data.file_name+'</option>');
+                })
+                $('#modal-view-firmwares').modal('show');
+            }else{
+                Swal.fire('Alert','No new firmware is available for this device','info')
+            }
+        })
+
+
+
+
+            // Swal.fire({
+            //     text: 'Select Firmware',
+            //     input: 'select',
+            //     inputOptions: inputOptionsPromise
+            // })
+
+    });
 </script>
 @endsection

@@ -138,6 +138,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Edit Firmware</h4>
+                            <span id="edit_firmware_id" hidden></span>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
@@ -147,50 +148,34 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label for="edit_selectModel" class="control-label">Model</label>
-                                                <select name="model" id="edit_selectModel" class="form-control" title="Select Model">
+                                                <label for="input_fileName_edit" class="control-label">File Name</label>
+                                                <input name="file_name" type="text" class="form-control" id="input_fileName_edit" placeholder="File name" autocomplete="no" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="selectModel_edit" class="control-label">Model</label>
+                                                <select name="model_id" id="selectModel_edit" class="form-control" title="Select Model" placeholder="Select Model" required>
+                                                    <option value="" disabled selected hidden>Select Model</option>
                                                     @foreach($models as $model)
                                                         <option value="{{$model->id}}">{{$model->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label for="inputSN_edit" class="control-label">PCB Serial Number</label>
-                                                <input type="number" class="form-control" id="inputSN_edit" placeholder="Serial Number" name="serial_number" autocomplete="no">
-                                                <span id="error_edit_sn"></span>
+                                                <label for="firmware_description_edit">Description</label>
+                                                <textarea name="description" class="form-control" id="firmware_description_edit" rows="3" placeholder="Specify the bug fixes included in the firmware, or special purpose of the firmware"></textarea>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="inputDN_edit" class="control-label">Device Serial Number</label>
-                                                <input type="text" class="form-control" id="inputDN_edit" placeholder="Device Number" name="device_number" autocomplete="no">
-                                                <span id="error_edit_dn"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                            <label for="inputManufacturedDate_edit" class="control-label">Manufactured Date</label>
-                                                <input class="form-control datepicker" id="inputManufacturedDate_edit" name="manufactured_date" width="234" placeholder="MM / DD / YYYY" autocomplete="off"/>
-                                                <span id="error_edit_manufactured_date"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <div class="form-group">
-                                            <label for="inputFirmwareVersion_edit" class="control-label">Firmware Version</label>
-                                                <input type="text" class="form-control" id="inputFirmwareVersion_edit" name="firmware" width="234" placeholder="E.G. P1.B1.H1.F1.D1.0"/>
-                                                <span id="error_edit_firmware"></span>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="btn_confirm_save_edit_device" value="Add">Save</button>
+                            <button type="button" class="btn btn-primary" id="btn_confirm_save_edit_firmware" value="Add">Save</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -217,7 +202,7 @@
                     var file_name = input.files[0].name
                     // console.log(file_name);
                     var file_extension = file_name.split('.')[2]
-                    console.log(file_extension)
+                    // console.log(file_extension)
                     if(file_extension.toLowerCase() != "srec"){
                         Swal.fire('Error', "File is invalid. Please select file having extension .srec","error")
                         $('#file_upload_box').val('');
@@ -228,7 +213,7 @@
                             method: "get",
                             url: "/checkFirmware/"+file_name,
                             success: (response) => {
-                                console.log(response)
+                                // console.log(response)
                                 if(response.msg == 'ok')
                                     $('#input_fileName').val(file_name);
                                 else{
@@ -246,7 +231,7 @@
             //// firmware upload
             $('#btn_confirm_add_new_firmware').on('click',function(e){
                 e.preventDefault();
-                console.log("Add button clicked")
+                // console.log("Add button clicked")
                 var form = document.querySelector('form');
                 let formData = new FormData(form);
                 // for (var [key, value] of formData.entries()) {
@@ -264,7 +249,7 @@
                     processData: false,
                     success: (response) => {
                         Swal.fire("Success", "Firmware uploaded!","success");
-                        $('#firmwares_lists').append('<tr id="'+response.data.id+'"><td>'+response.data.file_name+'</td>'
+                        $('#firmwares_lists').prepend('<tr id="'+response.data.id+'"><td>'+response.data.file_name+'</td>'
                             +'<td>'+response.data.model.name+'</td>'
                             +'<td>'+response.data.description+'</td>'
                             +'<td>'+response.data.created_at+'</td>'
@@ -285,8 +270,9 @@
                             // $('.datatable').DataTable().ajax.reload();
                     },
                     error: function(response){
-                        console.log("error")
-                        console.log(response);
+                        // console.log("error")
+                        // console.log(response);
+                        Swal.fire("Error","Something's wrong while uploading firmware","error")
                     }
                 });
             });
@@ -300,11 +286,11 @@
             url: "/firmware_detail/"+firmware_id,
         })
         .done(function(response){
-            $('#edit_selectModel').val(response.model.id).trigger('change');
-            $('#inputSN_edit').val(response.serial_number);
-            $('#inputDN_edit').val(response.device_number);
-            $('#inputFirmwareVersion_edit').val(response.firmware);
-            $('#inputManufacturedDate_edit').val(response.manufactured_date);
+            // console.log(response)
+            $('#input_fileName_edit').val(response.file_name);
+            $('#selectModel_edit').val(response.model_id).change();
+            $('#firmware_description_edit').val(response.description);
+            $('#edit_firmware_id').text(firmware_id);
             $('#modal-edit-firmware').modal('show')
         })
 
@@ -364,5 +350,26 @@
             // }
         })
     }
+    $('#btn_confirm_save_edit_firmware').on('click',function(){
+        let formData = {
+            'model_id' : $('#selectModel_edit').val(),
+            'description' : $('#firmware_description_edit').val(),
+            'firmware_id' : $('#edit_firmware_id').text()
+        };
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "PATCH",
+            url: "/edit_firmware",
+            data: formData
+        })
+        .done(function(response){
+            // console.log(response)
+            $('tr#'+response.id).find("td:eq(1)").text(response.model.name);
+            $('tr#'+response.id).find("td:eq(2)").text(response.description);
+            Swal.fire("Succes","Firmware edited!", 'success');
+            $('#modal-edit-firmware').modal('hide')
+        })
+
+    })
 </script>
 @endsection
