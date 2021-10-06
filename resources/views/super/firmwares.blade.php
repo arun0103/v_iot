@@ -201,8 +201,9 @@
                 if (input.files && input.files[0]) {
                     var file_name = input.files[0].name
                     // console.log(file_name);
-                    var file_extension = file_name.split('.')[2]
-                    // console.log(file_extension)
+                    var splitted_file_name = file_name.split('.')
+                    var file_extension = splitted_file_name[splitted_file_name.length -1]
+                     console.log(file_extension)
                     if(file_extension.toLowerCase() != "srec"){
                         Swal.fire('Error', "File is invalid. Please select file having extension .srec","error")
                         $('#file_upload_box').val('');

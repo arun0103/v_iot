@@ -230,4 +230,13 @@ class CommandsController extends Controller
         $command->save();
         return response()->json($command);
     }
+    //firmware upgrade
+    public function upgradeFirmware($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Firmware-upgrade";
+        $command->created_by = Auth::user()->id;
+        $command->save();
+        return response()->json($command);
+    }
 }
