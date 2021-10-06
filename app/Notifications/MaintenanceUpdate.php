@@ -11,15 +11,17 @@ class MaintenanceUpdate extends Notification implements ShouldQueue
 {
     use Queueable;
     public $maintenance_type;
+    public $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($maintenance_type)
+    public function __construct($maintenance_type, $user)
     {
         $this->maintenance_type = $maintenance_type;
+        $this->user = $user;
     }
 
     /**
@@ -42,9 +44,10 @@ class MaintenanceUpdate extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('Voltea IOT Maintenance Alert')
+                    ->greeting('Hello! '.$this->user->name)
+                    ->line('You have reset the maintenance: '.$this->maintenance_type)
+                    ->line('Thank you');
     }
 
     /**

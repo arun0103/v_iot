@@ -300,6 +300,16 @@ class DeviceController extends Controller
         $maintenance->volume_value = $volume;
         $maintenance->maintained_by = Auth::user()->id;
         $maintenance->save();
+        // notify reseller and customer
+        //getting device reseller
+        $device_detail = Device::where('id', $device_id)->with('reseller','userDevices');
+        $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
+        $DeviceUser = User::where([['reseller_id',$device_detail->reseller_id],['role','U']])->get();
+        // send email
+        $reseller->notify(new MaintenanceUpdate("Critic Acid",$reseller));
+        foreach($DeviceUser as $user){
+            $user->notify(new MaintenanceUpdate('Critic Acid',$user));
+        }
         return response()->json($maintenance);
     }
     public function resetPreFilter($device_id, $volume){
