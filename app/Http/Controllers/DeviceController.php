@@ -301,7 +301,7 @@ class DeviceController extends Controller
         $maintenance->maintained_by = Auth::user()->id;
         $maintenance->save();
         // notify reseller and customer of device
-        $device_detail = Device::where('id', $device_id)->with('userDevices');
+        $device_detail = Device::where('id', $device_id)->with('userDevices')->get();
         return response()->json($device_detail);
         if($device_detail->reseller_id != null){
             //getting device reseller detail
