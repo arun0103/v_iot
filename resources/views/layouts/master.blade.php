@@ -144,7 +144,7 @@
     <div class="sidebar" style="margin-top:55px">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-1 mb-3 d-flex">
-          <div class="row">
+          <div class="row nav-item-routes">
               <div class="col-md-12">
                 <a href="{{route('userProfile')}}" class="d-block">
                       <div class="image">
@@ -173,7 +173,7 @@
                 </a>
             </li>
             @if(Auth::user()->role == 'S' || Auth::user()->role == 'R')
-                <li class="nav-item">
+                <li class="nav-item nav-item-routes">
                     <a href="{{route('devices')}}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -184,7 +184,7 @@
                 </li>
             @endif
             @if(Auth::user()->role == 'S')
-            <li class="nav-item">
+            <li class="nav-item nav-item-routes">
                 <a href="{{route('resellers')}}" class="nav-link">
                     <i class="nav-icon fas fa-users"></i>
                     <p>
@@ -194,7 +194,7 @@
             </li>
             @endif
             @if(Auth::user()->role == 'S' || Auth::user()->role == 'R')
-            <li class="nav-item">
+            <li class="nav-item nav-item-routes">
                 <a href="{{route('users')}}" class="nav-link">
                     <i class="nav-icon fas fa-user"></i>
                     <p>
@@ -204,7 +204,7 @@
             </li>
             @endif
             @if(Auth::user()->role == 'S')
-            <li class="nav-item">
+            <li class="nav-item nav-item-routes">
                 <a href="{{route('superUsers')}}" class="nav-link">
                     <i class="nav-icon fas fa-user-lock"></i>
                     <p>
@@ -212,7 +212,7 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item nav-item-routes">
                 <a href="{{route('firmwares')}}" class="nav-link">
                     &nbsp;<i class="fas fa-microchip"></i>
                     <p>
