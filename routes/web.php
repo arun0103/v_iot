@@ -59,6 +59,7 @@ Route::get('/firmware_detail/{id}', [App\Http\Controllers\FirmwareController::cl
 Route::delete('/deleteFirmwware/{id}', [App\Http\Controllers\FirmwareController::class,'deleteFirmwware'])->middleware('auth');
 Route::patch('/edit_firmware', [App\Http\Controllers\FirmwareController::class,'edit_firmware'])->middleware('auth');
 Route::get('/getFirmwares/{id}', [App\Http\Controllers\FirmwareController::class,'getFirmwares'])->middleware('auth');
+Route::get('/getFirmwareDescription/{id}', [App\Http\Controllers\FirmwareController::class,'getFirmwareDescription'])->middleware('auth');
 
 // Route::group(['middleware' => 'auth'], function() {
     // uses 'auth' middleware plus all middleware from $middlewareGroups['super']

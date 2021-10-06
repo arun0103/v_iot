@@ -66,8 +66,12 @@ class FirmwareController extends Controller
         $model_id = $device_detail->model_id;
 
         // get the firmwares made for the model
-        $firmwares = Firmware::where('model_id',$model_id)->orderBy('id','DESC')->get('file_name');
+        $firmwares = Firmware::where('model_id',$model_id)->orderBy('id','DESC')->get(['id','file_name']);
 
         return response()->json($firmwares);
+    }
+    public function getFirmwareDescription($firmware_id){
+        $firmware_description = Firmware::where('id',$firmware_id)->get('description');
+        return response()->json($firmware_description);
     }
 }

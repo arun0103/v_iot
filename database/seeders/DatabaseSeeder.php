@@ -37,7 +37,6 @@ class DatabaseSeeder extends Seeder
         \DB::table('resellers')->insert([
             'company_name' =>"Voltea Reseller",
             'email' =>"support@voltea.com",
-            'address'=>"123",
             'phone'=>123,
             'created_by'=>1,
             'created_at' =>Carbon::now()

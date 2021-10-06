@@ -398,6 +398,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="modal-title-firmwares_list">Firmwares' List</h4>
+                    <span id="selected_firmware_id" hidden></span>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
@@ -405,12 +406,18 @@
                         <div class="col-lg-12">
                             <label for="firmware_select">Select Firmware</label>
                             <select name="firmware_select" id="firmware_select" class="form-control select2">
-
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-lg-12" id="description_col" hidden>
+                            <label for="firmware_description">Firmware Description</label>
+                            <textarea class="form-control" name="firmware_description" id="firmware_description" cols="30" rows="10"></textarea>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn_update_firmware" disabled>Update</button>
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -431,7 +438,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        $('#select_user_id').select2({
+        $('.select2').select2({
             placeholder: 'Select an option',
             width: 'resolve',
             theme: "classic"
@@ -843,32 +850,54 @@
     })
     $('#device_lists').on('click', '.operation-update_firmware',function(){
         var device_id = $(this).closest('tr').attr('id'); // table row ID
+        $('#firmware_select').html('<option></option>');
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "get",
             url: "/getFirmwares/"+device_id,
         })
         .done(function(response){
-
+            $('#firmware_select').html('<option></option>');
             if(response.length > 0){
                 response.forEach(function(data){
-                    $('#firmware_select').append('<option value="'+data.file_name+'">'+data.file_name+'</option>');
+                    $('#firmware_select').append('<option value="'+data.id+'">'+data.file_name+'</option>');
                 })
                 $('#modal-view-firmwares').modal('show');
             }else{
                 Swal.fire('Alert','No new firmware is available for this device','info')
             }
         })
-
-
-
-
-            // Swal.fire({
-            //     text: 'Select Firmware',
-            //     input: 'select',
-            //     inputOptions: inputOptionsPromise
-            // })
-
     });
+    $('#firmware_select').on('change',function(){
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "get",
+            url: "/getFirmwareDescription/"+ $('#firmware_select option:selected').attr("value"),
+        })
+        .done(function(response){
+            $('#firmware_description').val(response[0].description);
+            $('#description_col').attr('hidden',false)
+            $('#btn_update_firmware').attr('disabled',false)
+        })
+    })
+    $('#btn_update_firmware').on('click', function(){
+        Swal.fire({
+        title: 'Update Firmware?',
+        text: "Device will stop during firmware upgrade! See LCD for status and maintain power during crucial step as mentioned in LCD",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Upgrade it!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+            'Success!',
+            'Command Sent. Firmware upgrade in progress. Maintain power and check LCD for status!',
+            'success'
+            )
+        }
+        })
+    })
 </script>
 @endsection

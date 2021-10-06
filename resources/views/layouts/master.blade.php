@@ -322,7 +322,7 @@
         $('#control_sidebar_main').addClass("control-sidebar-open");
         $('#control_sidebar_main').show();
     })
-    $('nav').on('click',function(){
+    $('.nav-item').on('click',function(){
         $('.loader').show();
     })
 </script>
