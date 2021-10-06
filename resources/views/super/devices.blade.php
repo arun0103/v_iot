@@ -897,7 +897,7 @@
             if (result.isConfirmed) {
                 $.ajax({
                     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                    type: "get",
+                    type: "post",
                     url: "/upgradeFirmware/"+ device_id+'/'+ firmware_id,
                 })
                 .done(function(response){
