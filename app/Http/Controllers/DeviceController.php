@@ -18,6 +18,8 @@ use App\Models\Maintenance_critic_acid;
 use App\Models\Maintenance_pre_filter;
 use App\Models\Maintenance_post_filter;
 use App\Models\Maintenance_general_service;
+
+use App\Notifications\MaintenanceUpdate;
 use Auth;
 
 class DeviceController extends Controller
