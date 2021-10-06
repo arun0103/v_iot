@@ -300,18 +300,20 @@ class DeviceController extends Controller
         $maintenance->volume_value = $volume;
         $maintenance->maintained_by = Auth::user()->id;
         $maintenance->save();
-        // notify reseller and customer
-        //getting device reseller
-        $device_detail = Device::where('id', $device_id)->with('reseller','userDevices');
+        // notify reseller and customer of device
+        $device_detail = Device::where('id', $device_id)->with('userDevices');
         return response()->json($device_detail);
         if($device_detail->reseller_id != null){
+            //getting device reseller detail
             $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
             // send email
             $reseller->notify(new MaintenanceUpdate("Critic Acid",$reseller));
         }
         if($device_detail->userDevices != null){
             $DeviceUsers = UserDevices::where('device_id',$device_id)->with('userDetails')->get();
-            foreach($DeviceUsers as $user){
+            foreach($DeviceUsers as $deviceUser){
+                //getting device user detail
+                $user = User::where('id',$deviceUser->user_id)->first();
                 $user->notify(new MaintenanceUpdate('Critic Acid',$user));
             }
         }
