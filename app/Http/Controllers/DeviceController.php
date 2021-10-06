@@ -294,6 +294,23 @@ class DeviceController extends Controller
         $maintenance->volume_value = $volume;
         $maintenance->maintained_by = Auth::user()->id;
         $maintenance->save();
+        // notify reseller and customer of device
+        $device_detail = Device::where('id', $device_id)->with('userDevices')->first();
+        // return response()->json($device_detail);
+        if($device_detail->reseller_id != null){
+            //getting device reseller detail
+            $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
+            // send email
+            $reseller->notify(new MaintenanceUpdate("General Service",$reseller));
+        }
+        if($device_detail->userDevices != null){
+            $DeviceUsers = UserDevices::where('device_id',$device_id)->with('userDetails')->get();
+            foreach($DeviceUsers as $deviceUser){
+                //getting device user detail
+                $user = User::where('id',$deviceUser->user_id)->first();
+                $user->notify(new MaintenanceUpdate('General Service',$user));
+            }
+        }
         return response()->json($maintenance);
     }
     public function resetCriticAcid($device_id, $volume){
@@ -327,6 +344,23 @@ class DeviceController extends Controller
         $maintenance->volume_value = $volume;
         $maintenance->maintained_by = Auth::user()->id;
         $maintenance->save();
+        // notify reseller and customer of device
+        $device_detail = Device::where('id', $device_id)->with('userDevices')->first();
+        // return response()->json($device_detail);
+        if($device_detail->reseller_id != null){
+            //getting device reseller detail
+            $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
+            // send email
+            $reseller->notify(new MaintenanceUpdate("Pre-filter",$reseller));
+        }
+        if($device_detail->userDevices != null){
+            $DeviceUsers = UserDevices::where('device_id',$device_id)->with('userDetails')->get();
+            foreach($DeviceUsers as $deviceUser){
+                //getting device user detail
+                $user = User::where('id',$deviceUser->user_id)->first();
+                $user->notify(new MaintenanceUpdate('Pre-filter',$user));
+            }
+        }
         return response()->json($maintenance);
     }
     public function resetPostFilter($device_id, $volume){
@@ -335,6 +369,23 @@ class DeviceController extends Controller
         $maintenance->volume_value = $volume;
         $maintenance->maintained_by = Auth::user()->id;
         $maintenance->save();
+        // notify reseller and customer of device
+        $device_detail = Device::where('id', $device_id)->with('userDevices')->first();
+        // return response()->json($device_detail);
+        if($device_detail->reseller_id != null){
+            //getting device reseller detail
+            $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
+            // send email
+            $reseller->notify(new MaintenanceUpdate("Post-filter",$reseller));
+        }
+        if($device_detail->userDevices != null){
+            $DeviceUsers = UserDevices::where('device_id',$device_id)->with('userDetails')->get();
+            foreach($DeviceUsers as $deviceUser){
+                //getting device user detail
+                $user = User::where('id',$deviceUser->user_id)->first();
+                $user->notify(new MaintenanceUpdate('Post-filter',$user));
+            }
+        }
         return response()->json($maintenance);
     }
     // function to send get setpoints commands to all the users devices
