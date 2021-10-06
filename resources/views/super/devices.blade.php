@@ -62,7 +62,7 @@
                                         <td>
                                             <a class="nav-link" data-toggle="dropdown"><i class="fas fa-angle-down"></i></a>
                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                <a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Update Firmware</a>
+                                                <a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Upgrade Firmware</a>
                                                 <a class="dropdown-item operation-edit_device"><i class="fas fa-edit" aria-hidden="true"> Edit Device</i></a>
                                                 <!-- <a href="#" class="dropdown-item operation-assign_user">
                                                     <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
@@ -418,7 +418,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btn_update_firmware" disabled>Update</button>
+                    <button type="button" class="btn btn-primary" id="btn_update_firmware" disabled>Upgrade</button>
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -482,7 +482,7 @@
                             '<td>0</td><td>-</td>'
                             +'<td><a class="nav-link" data-toggle="dropdown"><i class="fas fa-angle-down"></i></a>'
                                 +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-                                    +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Update Firmware</a>'
+                                    +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Upgrade Firmware</a>'
                                     +'<a class="dropdown-item operation-edit_device">'
                                         +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
                                     +'</a>'
