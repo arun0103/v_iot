@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Device_commands;
+use App\Models\Firmware;
 use Auth;
 
 class CommandsController extends Controller
