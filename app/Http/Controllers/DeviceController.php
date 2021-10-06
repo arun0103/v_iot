@@ -303,12 +303,17 @@ class DeviceController extends Controller
         // notify reseller and customer
         //getting device reseller
         $device_detail = Device::where('id', $device_id)->with('reseller','userDevices');
-        $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
-        $DeviceUser = User::where([['reseller_id',$device_detail->reseller_id],['role','U']])->get();
-        // send email
-        $reseller->notify(new MaintenanceUpdate("Critic Acid",$reseller));
-        foreach($DeviceUser as $user){
-            $user->notify(new MaintenanceUpdate('Critic Acid',$user));
+        return response()->json($device_detail);
+        if($device_detail->reseller_id != null){
+            $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
+            // send email
+            $reseller->notify(new MaintenanceUpdate("Critic Acid",$reseller));
+        }
+        if($device_detail->userDevices != null){
+            $DeviceUsers = UserDevices::where('device_id',$device_id)->with('userDetails')->get();
+            foreach($DeviceUsers as $user){
+                $user->notify(new MaintenanceUpdate('Critic Acid',$user));
+            }
         }
         return response()->json($maintenance);
     }

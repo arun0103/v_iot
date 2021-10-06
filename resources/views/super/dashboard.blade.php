@@ -2643,6 +2643,7 @@
                             url: "/resetCriticAcid/"+ device_id +"/"+volume,
                         })
                         .done(function(response){
+                            console.log(response)
                             $('#critic_acid_error').text("").trigger("change");
                             $('#critic_acid_details').removeAttr("hidden");
                             $('#critic_acid_volume_left').text(critic_acid_reset_value);
