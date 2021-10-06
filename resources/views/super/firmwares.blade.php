@@ -30,7 +30,7 @@
                         <div class="card-header border-0 bg-top-logo-color">
                             <h2 class="card-title">List of Firmwares</h2>
                             <div class="card-tools">
-                                <button type="button" id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new-firmware">Add New</button>
+                                <button type="button" id="btn_add_new_firmware" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new-firmware">Add New</button>
                             </div>
                         </div>
                         <div class="card-body table-responsive">
@@ -372,5 +372,8 @@
         })
 
     })
+    // $('#btn_add_new_firmware').on('click', function(){
+    //     $('#selectModel').
+    // })
 </script>
 @endsection
