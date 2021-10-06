@@ -398,6 +398,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="modal-title-firmwares_list">Firmwares' List</h4>
+                    <span id="selected_device_id" hidden></span>
                     <span id="selected_firmware_id" hidden></span>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
@@ -850,6 +851,7 @@
     })
     $('#device_lists').on('click', '.operation-update_firmware',function(){
         var device_id = $(this).closest('tr').attr('id'); // table row ID
+        $('#selected_device_id').text(device_id);
         $('#firmware_select').html('<option></option>');
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -881,8 +883,10 @@
         })
     })
     $('#btn_update_firmware').on('click', function(){
+        let device_id = $('#selected_device_id').text();
+        let firmware_id = $('#firmware_select option:selected').attr("value");
         Swal.fire({
-        title: 'Update Firmware?',
+        title: 'Upgrade Firmware?',
         text: "Device will stop during firmware upgrade! See LCD for status and maintain power during crucial step as mentioned in LCD",
         icon: 'warning',
         showCancelButton: true,
@@ -890,13 +894,20 @@
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, Upgrade it!'
         }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire(
-            'Success!',
-            'Command Sent. Firmware upgrade in progress. Maintain power and check LCD for status!',
-            'success'
-            )
-        }
+            if (result.isConfirmed) {
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "get",
+                    url: "/upgradeFirmware/"+ device_id+'/'+ firmware_id,
+                })
+                .done(function(response){
+                    Swal.fire(
+                    'Success!',
+                    'Command Sent. Firmware upgrade in progress. Maintain power and check LCD for status!',
+                    'success'
+                    )
+                })
+            }
         })
     })
 </script>
