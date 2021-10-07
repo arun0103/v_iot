@@ -781,6 +781,7 @@
         var formData = {
             'serial_number':$('#inputSerialNumber').val(),
             'device_number':$('#inputDeviceNumber').val(),
+            "_token": "{{ csrf_token() }}"
         }
         $.ajax({
             method: "post",
