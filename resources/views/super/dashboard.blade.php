@@ -1672,7 +1672,7 @@
     </div>
     <div class="modal fade" id="modal-device_notifications">
         <div class="modal-dialog modal-full" >
-            <div class="modal-header" style="background-color: #87bde6">
+            <div class="modal-header" style="background-color: #87bde6 ; min-width:99vw">
                 <div class="row">
                     <div class="col-lg-12">
                         <h5 class="modal-title" id="notifications_heading">Notifications</h5>
@@ -1680,7 +1680,7 @@
                 </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-content" style="background-color: #3979a9">
+            <div class="modal-content" style="background-color: #3979a9; min-width:99vw">
                 <div class="card">
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs" role="tablist">
@@ -2501,7 +2501,7 @@
                     // update setpoints logs table
                     $('#setpoints_logs_body').html('');
                     for(let i = 0; i<response.setpoints.length; i++){
-                        let changer_details = response.setpoints[i].changer_details!=null?response.setpoints[i].changer_details.name:"-";
+                        let changer_details = response.setpoints[i].changer_details!=null?response.setpoints[i].changer_details.name:"Device";
                         $('#setpoints_logs_body').append('<tr id="'+response.setpoints[i].id +'"><td>'+response.setpoints[i].parameter+'</td>'
                             +'<td>'+response.setpoints[i].old_value +'</td>'
                             +'<td>'+response.setpoints[i].new_value +'</td>'
