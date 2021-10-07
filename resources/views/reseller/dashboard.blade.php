@@ -796,7 +796,6 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0">Dashboard &nbsp;<button type="button" class="btn btn-info" id="btn_map_view">Map View</button></h1>
-
                     </div>
                     <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -1673,7 +1672,7 @@
     </div>
     <div class="modal fade" id="modal-device_notifications">
         <div class="modal-dialog modal-full" >
-            <div class="modal-header" style="background-color: #87bde6">
+            <div class="modal-header" style="background-color: #87bde6; min-width:99vw">
                 <div class="row">
                     <div class="col-lg-12">
                         <h5 class="modal-title" id="notifications_heading">Notifications</h5>
@@ -1681,7 +1680,7 @@
                 </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-content" style="background-color: #3979a9">
+            <div class="modal-content" style="background-color: #3979a9; min-width:99vw">
                 <div class="card">
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs" role="tablist">
