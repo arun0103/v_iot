@@ -2196,11 +2196,11 @@
                     }
                     // update maintenance logs table
                     $('#maintenance_logs_body').html('');
-                    if(response.maintenance.length == 0){
-                        $('#maintenance_logs_table').attr('hidden', true);
-                    }else{
-                        $('#maintenance_logs_table').attr('hidden', false);
-                    }
+                    // if(response.maintenance.length == 0){
+                    //     $('#maintenance_logs_table').attr('hidden', true);
+                    // }else{
+                    //     $('#maintenance_logs_table').attr('hidden', false);
+                    // }
                     for(let i = 0; i<response.maintenance.length; i++){
                         $('#maintenance_logs_body').append('<tr id="'+response.maintenance[i].id +'"><td>'+response.maintenance[i].parameter+'</td>'
                             +'<td>'+response.maintenance[i].old_value +'</td>'
