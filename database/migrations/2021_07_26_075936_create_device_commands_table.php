@@ -20,7 +20,7 @@ class CreateDeviceCommandsTable extends Migration
             $table->bigInteger('created_by');
             $table->timestamp('device_read_at')->nullable();
             $table->timestamp('device_executed_at')->nullable();
-            $table->string('device_response_data',20)->nullable();
+            $table->string('device_response_data')->nullable();
             $table->timestamps();
         });
     }

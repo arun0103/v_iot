@@ -115,7 +115,7 @@ class ResellerController extends Controller
         $resellersUser = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
         return response()->json($resellersUser);
     }
-
+    // adds new device and user as well
     public function addResellerDevice(Request $req){
         $loggedInUser = Auth::user();
         $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->with('model')->first();
@@ -196,6 +196,98 @@ class ResellerController extends Controller
             ];
         }
         return response($response);
+    }
+
+    // adds only device to reseller for testing purpose
+    public function addNewResellerDevice(Request $req){
+        $loggedInUser = Auth::user();
+        $searchDevice = Device::where([['serial_number',$req->serial_number],['device_number', $req->device_number]])->with('model')->first();
+        if($searchDevice == null){ //if the device is not registered in database by Super Admin
+            $response =[
+                'message' => 'Error',
+                'description' =>'Device Not Found In Database. Please Call Voltea Office'
+            ];
+            return response($response);
+        }
+        if($searchDevice->count() >0){ // if device is registered in database by Super Admin
+            if($searchDevice->reseller_id == null){ // if searched device has not been assigned to reseller before
+                $searchDevice->reseller_id = $loggedInUser->reseller->id;
+                $searchDevice->save();
+                $response =[
+                    'message' => 'Success',
+                    'data'=> $searchDevice,
+                ];
+            }else{
+                $response =[
+                    'message' => 'Already registered',
+                    'description' =>'Device is already registered to a reseller',
+                    'device'=>$searchDevice
+                ];
+            }
+        }else{
+            $response =[
+                'message' => 'Error',
+                'description' =>'Device Not Found In Database. Please Call Voltea Office'
+            ];
+        }
+        return response($response);
+    }
+    // assign user to device by reseller
+    public function assignUserDeviceByReseller(Request $req){
+        $loggedInUser = Auth::user();
+        $data =[];
+        $searchDevice = Device::where('serial_number',$req->serial_number)->first();
+        // return response($searchDevice);
+        //search user
+        $user = User::where('email',$req->user_email)->first();
+        if($user == null){
+            // create new user
+            $newUser = new User();
+            $newUser->name = $req->user_name;
+            $newUser->email = $req->user_email;
+            $newUser->role = "U";
+            $newUser->address = json_encode($req->user_address);
+            $newUser->mobile = $req->user_mobile;
+            $newUser->created_by = $loggedInUser->id;
+            $newUser->reseller_id = $loggedInUser->reseller_id;
+            // uncomment below five lines for production to generate random password
+            $random_password = "";
+            $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
+            for($i = 0; $i < 8 ; $i++){
+                $random_password .= substr($characters, (rand() % (strlen($characters))),1);
+            }
+
+            $newUser->password = Hash::make($random_password);
+            $newUser->save();
+            //notify user
+            $newUser->notify(new HelloNewUser($newUser, $random_password));
+
+            // associate device to newly created user
+            $userDevice = new UserDevices();
+            $userDevice->user_id = $newUser->id;
+            $userDevice->device_id = $searchDevice->id;
+            $userDevice->save();
+            $response =[
+                'message' => 'Success',
+                'data'=>[
+                    'device'=>$searchDevice,
+                    'user'=>$newUser
+                ]
+            ];
+        }else{
+            $userDevice = new UserDevices();
+            $userDevice->user_id = $user->id;
+            $userDevice->device_id = $searchDevice->id;
+            $userDevice->save();
+            $response =[
+                'message' => 'Success',
+                'data'=>[
+                    'device'=>$searchDevice,
+                    'user'=>$user
+                ]
+            ];
+        }
+        return response()->json($response);
     }
 
     public function nameResellerDevice(Request $req){

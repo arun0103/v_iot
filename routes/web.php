@@ -73,12 +73,16 @@ Route::post('/upgradeFirmware/{device_id}/{firmware_id}', [App\Http\Controllers\
     Route::get('/reseller/{id}',[App\Http\Controllers\ResellerController::class,'getResellerById'])->middleware('auth');
     Route::delete('/deleteReseller',[App\Http\Controllers\ResellerController::class, 'delete'])->middleware('auth');
     Route::get('/resellerDevices/{id}',[App\Http\Controllers\ResellerController::class, 'getResellerDevices'])->middleware('auth');
+    // adding device and user to reseller
     Route::post('/addResellerDevice',[App\Http\Controllers\ResellerController::class, 'addResellerDevice'])->middleware('auth');
+    // adding device to reseller only
+    Route::post('/addNewResellerDevice',[App\Http\Controllers\ResellerController::class, 'addNewResellerDevice'])->middleware('auth');
     Route::get('/getAllResellersUser',[App\Http\Controllers\ResellerController::class, 'getAllResellersUser'])->middleware('auth');
 
     Route::get('/users',[App\Http\Controllers\SuperController::class,'usersOnly'])->name('users')->middleware('auth');
 
     Route::post('/assignUserDevice',[App\Http\Controllers\SuperController::class,'assignUserDevice'])->middleware('auth');//not used i guess
+    Route::post('/assignUserDeviceByReseller',[App\Http\Controllers\ResellerController::class,'assignUserDeviceByReseller'])->middleware('auth');//not used i guess
     Route::post('/addUserDevice', [App\Http\Controllers\HomeController::class,'addUserDevice'])->middleware('auth');
 
     // });
