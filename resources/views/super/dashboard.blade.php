@@ -2447,6 +2447,7 @@
                     url: "/getDeviceNotifications/"+device_id,
                 })
                 .done(function(response){
+                    console.log(response)
                     // If table is initialized
                     if ($.fn.DataTable.isDataTable('#maintenance_logs_table')){
                         // Destroy existing table

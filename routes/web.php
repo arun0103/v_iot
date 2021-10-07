@@ -48,6 +48,10 @@ Route::get('/reseller',[App\Http\Controllers\SuperController::class,'getAllResel
 Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->middleware('auth')->name('devices');
 Route::get('/firmwares',[App\Http\Controllers\SuperController::class,'firmwares'])->middleware('auth')->name('firmwares');
 
+//Contact us
+Route::get('/contact',[App\Http\Controllers\SuperController::class,'contactPage'])->middleware('auth')->name('contactPage');
+
+
 //Charts
 Route::get('/line-chart', [App\Http\Controllers\ChartController::class, 'showChart'])->name('line-chart');
 

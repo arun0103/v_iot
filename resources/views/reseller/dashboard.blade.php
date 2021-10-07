@@ -2,7 +2,7 @@
 
 @section('head')
 <!-- <script src="{{asset('js/require.js')}}"></script> -->
-<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiNdCuOv2SfFYbx2Bl0PhUGtvOgwAC762wyq7NZtQ8ISA98uAlaHJa5X3vLeNp6r' async defer></script>
+<!-- <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiNdCuOv2SfFYbx2Bl0PhUGtvOgwAC762wyq7NZtQ8ISA98uAlaHJa5X3vLeNp6r' async defer></script> -->
 <style>
 
     .modal-body {
@@ -795,8 +795,8 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
-                        <button type="button" class="btn btn-info" id="btn_map_view">Map View</button>
+                        <h1 class="m-0">Dashboard &nbsp;<button type="button" class="btn btn-info" id="btn_map_view">Map View</button></h1>
+
                     </div>
                     <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -831,7 +831,7 @@
                                                     @if($device->device_name != null)
                                                         {{$device->device_name}}
                                                     @else
-                                                        {{"-"}}
+                                                        -
                                                     @endif
                                                 </td>
                                                 <td>{{$device->model != null ? $device->model->name : "-"}}</td>
@@ -1768,7 +1768,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- //Bing map -->
-    <script type='text/javascript'>
+    <!-- <script type='text/javascript'>
         function GetMap(){
             var map = new Microsoft.Maps.Map('#myMap', {
                 center: new Microsoft.Maps.Location(51.50632, -0.12714),
@@ -1777,7 +1777,7 @@
             });
             //Add your post map load code here.
         }
-    </script>
+    </script> -->
 <!-- // -->
 <script>
     var device_id = 0;
@@ -1865,8 +1865,13 @@
                 $('#tab_avg_data').show();
                 $('#tab_live_data').hide();
                 $('#btn_refresh_live_data').attr('hidden', true);
-                $('#modal-detail-title').text($("#"+trid).find("td:first").html())
                 device_serial = $("#"+trid).find("td:first").html();
+                let device_name = $("#"+trid).find("td:eq(1)").text();
+                if(!device_name.includes("-")){
+                    $('#modal-detail-title').text(device_serial + " ["+device_name+"]")
+                }else{
+                    $('#modal-detail-title').text(device_serial)
+                }
 
                 //get data from database every 5 seconds
                 refresh_data = setInterval(function(){
@@ -2144,8 +2149,9 @@
 
         $('.loader').hide();
         $('#btn_map_view').on('click', function(){
-            $('#modal-map_view').modal("show")
-            GetMap();
+            alert("Still in development. Sorry!")
+            // $('#modal-map_view').modal("show")
+            // GetMap();
         })
         // to show modal inside a modal
             $(document).on('show.bs.modal', '.modal', function (event) {

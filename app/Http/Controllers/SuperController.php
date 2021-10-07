@@ -468,7 +468,14 @@ class SuperController extends Controller
 
     }
 
+    //contact us page
+    public function contactPage(){
+        $loggedInUser = Auth::user();
+        if($loggedInUser->role == "R"){
 
+            return view('reseller/contact');
+        }
+    }
 
     //API calls
     public function getAllUsers(){
