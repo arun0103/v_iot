@@ -2461,10 +2461,11 @@
                         $('#maintenance_logs_table').attr('hidden', false);
                     }
                     for(let i = 0; i<response.maintenance.length; i++){
+                        let changer_details = response.maintenance[i].changer_details!= null?response.maintenance[i].changer_details.name:"-";
                         $('#maintenance_logs_body').append('<tr id="'+response.maintenance[i].id +'"><td>'+response.maintenance[i].parameter+'</td>'
                             +'<td>'+response.maintenance[i].old_value +'</td>'
                             +'<td>'+response.maintenance[i].new_value +'</td>'
-                            +'<td>'+response.maintenance[i].changer_details.name +'</td>'
+                            +'<td>'+ changer_details+'</td>'
                             +'<td>'+ new Date(response.maintenance[i].created_at) +'</td>'
                             +'</tr>'
                         )
@@ -2481,10 +2482,11 @@
                     for(let i = 0; i<response.controls.length; i++){
                         let device_read_at = response.controls[i].device_read_at == null ? '-' : new Date(response.controls[i].device_read_at)
                         let device_response_data = response.controls[i].device_response_data == null ? '-': response.controls[i].device_response_data
+                        let creator_details = response.controls[i].creator_details != null?response.controls[i].creator_details.name:"-";
                         $('#controls_logs_body').append('<tr id="'+response.controls[i].id +'"><td>'+response.controls[i].command+'</td>'
                             +'<td>'+device_read_at +'</td>'
                             +'<td>'+device_response_data+'</td>'
-                            +'<td>'+response.controls[i].creator_details.name +'</td>'
+                            +'<td>'+creator_details +'</td>'
                             +'<td>'+ new Date(response.controls[i].created_at) +'</td>'
                             +'</tr>'
                         )
@@ -2499,10 +2501,11 @@
                     // update setpoints logs table
                     $('#setpoints_logs_body').html('');
                     for(let i = 0; i<response.setpoints.length; i++){
+                        let changer_details = response.setpoints[i].changer_details!=null?response.setpoints[i].changer_details.name:"-";
                         $('#setpoints_logs_body').append('<tr id="'+response.setpoints[i].id +'"><td>'+response.setpoints[i].parameter+'</td>'
                             +'<td>'+response.setpoints[i].old_value +'</td>'
                             +'<td>'+response.setpoints[i].new_value +'</td>'
-                            +'<td>'+response.setpoints[i].changer_details.name +'</td>'
+                            +'<td>'+changer_details +'</td>'
                             +'<td>'+ new Date(response.setpoints[i].created_at) +'</td>'
                             +'</tr>'
                         )
