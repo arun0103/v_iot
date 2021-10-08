@@ -32,7 +32,7 @@ const { jsPDF } = require("jspdf"); // will automatically load the node version
 // const {default:Swal} = require('sweetalert2')   // CommonJS
 
 
-window.Vue = require('vue').default;
+// window.Vue = require('vue').default;
 
 /**
  * The following block of code may be used to automatically register your
@@ -54,9 +54,9 @@ window.Vue = require('vue').default;
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
- const app = new Vue({
-    el: '#app'
-});
+//  const app = new Vue({
+//     el: '#app'
+// });
 
 // const app_user = new Vue({
 //     el: '#app_users',
@@ -79,15 +79,15 @@ window.Vue = require('vue').default;
 //     }
 // });
 // var Chart = require('chart.js');
-import {Chart,ArcElement,LineElement,BarElement,PointElement,
-        BarController,BubbleController,DoughnutController,LineController,PieController,PolarAreaController,RadarController,ScatterController,
-        CategoryScale,LinearScale,LogarithmicScale,RadialLinearScale,TimeScale,TimeSeriesScale,
-        Decimation,Filler,Legend,Title,Tooltip } from 'chart.js';
+// import {Chart,ArcElement,LineElement,BarElement,PointElement,
+//         BarController,BubbleController,DoughnutController,LineController,PieController,PolarAreaController,RadarController,ScatterController,
+//         CategoryScale,LinearScale,LogarithmicScale,RadialLinearScale,TimeScale,TimeSeriesScale,
+//         Decimation,Filler,Legend,Title,Tooltip } from 'chart.js';
 
-Chart.register(ArcElement,LineElement,BarElement,PointElement,
-        BarController,BubbleController,DoughnutController,LineController,PieController,PolarAreaController,RadarController,ScatterController,
-        CategoryScale,LinearScale,LogarithmicScale,RadialLinearScale,TimeScale,TimeSeriesScale,
-        Decimation,Filler,Legend,Title,Tooltip  );
+// Chart.register(ArcElement,LineElement,BarElement,PointElement,
+//         BarController,BubbleController,DoughnutController,LineController,PieController,PolarAreaController,RadarController,ScatterController,
+//         CategoryScale,LinearScale,LogarithmicScale,RadialLinearScale,TimeScale,TimeSeriesScale,
+//         Decimation,Filler,Legend,Title,Tooltip  );
 
 // jQuery(document).ready(function($){
 //     var ctx = document.getElementById('volumeChart').getContext('2d');
