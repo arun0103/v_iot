@@ -1012,40 +1012,42 @@
                                                                     <i class="btn fas fa-sync-alt btn-refresh" id="device-sync"></i>
                                                                 </div>
                                                             </div>
-                                                            <div class="card-body">
-                                                                <div>
-                                                                    <i id="device_status_pic" class="fas fa fa-certificate"></i>&nbsp;&nbsp;
-                                                                    <span id="device_status"></span>
-                                                                    <i id="info_device_status" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
-                                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                        <a href="#" class="dropdown-item">
-                                                                            <div class="media">
-                                                                                <div class="media-body">
-                                                                                    <p class="text-sm"><b><i id="info_device_status_text"></i></b></p>
-                                                                                    <p class="text-sm" id="info_device_status_description"></p>
+                                                            <div class="card-body" class="message_from_database">
+                                                                <div class="display_body">
+                                                                    <div>
+                                                                        <i id="device_status_pic" class="fas fa fa-certificate"></i>&nbsp;&nbsp;
+                                                                        <span id="device_status"></span>
+                                                                        <i id="info_device_status" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
+                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                            <a href="#" class="dropdown-item">
+                                                                                <div class="media">
+                                                                                    <div class="media-body">
+                                                                                        <p class="text-sm"><b><i id="info_device_status_text"></i></b></p>
+                                                                                        <p class="text-sm" id="info_device_status_description"></p>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </a>
+                                                                            </a>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div><br>
-                                                                    <span><b>Connection :</b></span>
-                                                                    <i id="device_connection_status" >
-                                                                    </i>
-                                                                    <i id="device_output" hidden></i>
-                                                                    <i id="info_device_connection" class="fas fa-info-circle float-right info-device-connection" data-toggle="dropdown" ></i>
-                                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                        <a href="#" class="dropdown-item">
-                                                                            <div class="media">
-                                                                                <div class="media-body">
-                                                                                    <p class="text-sm"><b><i><span id="info_device_connection_text"></span></i></b></p>
-                                                                                    <p class="text-sm" id="info_device_connection_description"></p>
+                                                                    <div><br>
+                                                                        <span><b>Connection :</b></span>
+                                                                        <i id="device_connection_status" >
+                                                                        </i>
+                                                                        <i id="device_output" hidden></i>
+                                                                        <i id="info_device_connection" class="fas fa-info-circle float-right info-device-connection" data-toggle="dropdown" ></i>
+                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                            <a href="#" class="dropdown-item">
+                                                                                <div class="media">
+                                                                                    <div class="media-body">
+                                                                                        <p class="text-sm"><b><i><span id="info_device_connection_text"></span></i></b></p>
+                                                                                        <p class="text-sm" id="info_device_connection_description"></p>
 
-                                                                                        <p>Last Data Received: <span id="last_data_received"></span></p>
+                                                                                            <p>Last Data Received: <span id="last_data_received"></span></p>
 
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </a>
+                                                                            </a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1064,57 +1066,59 @@
                                                                     <i id="volume_chart" class="btn fas fa-chart-bar" data-toggle="modal" data-target="#modal-volume-chart"></i>
                                                                 </div>
                                                             </div>
-                                                            <div class="card-body">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <label for="select_view_volume_by">View in</label>
-                                                                        <select id="select_view_volume_by">
-                                                                            <option value="gallons">Gallons</option>
-                                                                            <option value="litres">Litres</option>
-                                                                        </select>
+                                                            <div class="card-body message_from_database">
+                                                                <div class="display_body">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <label for="select_view_volume_by">View in</label>
+                                                                            <select id="select_view_volume_by">
+                                                                                <option value="gallons">Gallons</option>
+                                                                                <option value="litres">Litres</option>
+                                                                            </select>
+                                                                        </div>
                                                                     </div>
+                                                                    <span><b>Daily :</b> <i id="daily_volume">...</i>
+                                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                            <a class="dropdown-item">
+                                                                                <div class="media">
+                                                                                    <div class="media-body">
+                                                                                        <p class="text-sm"><b><i>Daily Volume</i></b></p>
+                                                                                        <p class="text-sm">Volume produced during the last 24 hrs.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </a>
+                                                                        </div>
+                                                                    </span>
+                                                                    <br/><br/>
+                                                                    <span><b>Monthly :</b> <i id="monthly_volume">...</i>
+                                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                            <a class="dropdown-item">
+                                                                                <div class="media">
+                                                                                    <div class="media-body">
+                                                                                        <p class="text-sm"><b><i>Monthly Volume</i></b></p>
+                                                                                        <p class="text-sm">Volume produced during the last 31 days.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </a>
+                                                                        </div>
+                                                                    </span>
+                                                                    <br/><br/>
+                                                                    <span><b>Total :</b> <i id="total_volume">...</i>
+                                                                        <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
+                                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                            <a class="dropdown-item">
+                                                                                <div class="media">
+                                                                                    <div class="media-body">
+                                                                                        <p class="text-sm"><b><i>Total Volume</i></b></p>
+                                                                                        <p class="text-sm">Volume produced during the last 6 months.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </a>
+                                                                        </div>
+                                                                    </span>
                                                                 </div>
-                                                                <span><b>Daily :</b> <i id="daily_volume">...</i>
-                                                                    <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
-                                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                        <a class="dropdown-item">
-                                                                            <div class="media">
-                                                                                <div class="media-body">
-                                                                                    <p class="text-sm"><b><i>Daily Volume</i></b></p>
-                                                                                    <p class="text-sm">Volume produced during the last 24 hrs.</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </a>
-                                                                    </div>
-                                                                </span>
-                                                                <br/><br/>
-                                                                <span><b>Monthly :</b> <i id="monthly_volume">...</i>
-                                                                    <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
-                                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                        <a class="dropdown-item">
-                                                                            <div class="media">
-                                                                                <div class="media-body">
-                                                                                    <p class="text-sm"><b><i>Monthly Volume</i></b></p>
-                                                                                    <p class="text-sm">Volume produced during the last 31 days.</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </a>
-                                                                    </div>
-                                                                </span>
-                                                                <br/><br/>
-                                                                <span><b>Total :</b> <i id="total_volume">...</i>
-                                                                    <i class="fas fa-info-circle float-right" data-toggle="dropdown" ></i>
-                                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                        <a class="dropdown-item">
-                                                                            <div class="media">
-                                                                                <div class="media-body">
-                                                                                    <p class="text-sm"><b><i>Total Volume</i></b></p>
-                                                                                    <p class="text-sm">Volume produced during the last 6 months.</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </a>
-                                                                    </div>
-                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1136,19 +1140,21 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="card-body">
-                                                                <i class="fas fa fa-certificate" id="device_condutivity_icon" style="color:green">&nbsp;&nbsp;
-                                                                <span id="device_conductivity_value"></span></i>
-                                                                <i id="info_device_conductivity" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
-                                                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                    <a href="#" class="dropdown-item">
-                                                                        <div class="media">
-                                                                            <div class="media-body">
-                                                                                <p class="text-sm"><b><i><span id="info_device_conductivity_text"></span></i></b></p>
-                                                                                <p class="text-sm" id="info_device_conductivity_description"></p>
+                                                            <div class="card-body message_from_database">
+                                                                <div class="display_body">
+                                                                    <i class="fas fa fa-certificate" id="device_condutivity_icon" style="color:green">&nbsp;&nbsp;
+                                                                    <span id="device_conductivity_value"></span></i>
+                                                                    <i id="info_device_conductivity" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
+                                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                        <a href="#" class="dropdown-item">
+                                                                            <div class="media">
+                                                                                <div class="media-body">
+                                                                                    <p class="text-sm"><b><i><span id="info_device_conductivity_text"></span></i></b></p>
+                                                                                    <p class="text-sm" id="info_device_conductivity_description"></p>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    </a>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <!-- /.card-body -->
@@ -1162,9 +1168,11 @@
                                                                     <i id="info_device_alarms_table" class="btn fas fa-table" data-toggle="modal" data-target="#modal-view_alarms_history" href="#modal-view_alarms_history"></i>
                                                                 </div>
                                                             </div>
-                                                            <div class="card-body">
-                                                                <p hidden>Alarm Code: <span id="alarm_code"></span></p>
-                                                                <section class="alarms-list" id="alarmsList"></section>
+                                                            <div class="card-body message_from_database">
+                                                                <div class="display_body">
+                                                                    <p hidden>Alarm Code: <span id="alarm_code"></span></p>
+                                                                    <section class="alarms-list" id="alarmsList"></section>
+                                                                </div>
                                                             </div>
                                                             <div class="card-footer">
                                                                 <div class="row flex">
@@ -1572,51 +1580,53 @@
                                                                 <th colspan="2" style="text-align:center"><h3>Setpoints</h3></th>
                                                                 <th colspan="2" style="text-align:center"><h3>Actions</h3></th>
                                                             </tr>
-                                                            <tr>
-                                                                <th style="line-height: 2.5em">Critic Acid</th>
-                                                                <td style="line-height: 2.5em;text-align:right">
-                                                                    <span id="critic_acid_details">
-                                                                        <b><span id="critic_acid_volume_left"></span></b> gal left before next service
-                                                                    </span>
-                                                                    <p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error"></p>
-                                                                </td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid" class="form-control input_critic_acid" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
-                                                                <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid" disabled>Reset</button></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th style="line-height: 2.5em">Pre-filter</th>
-                                                                <td style="line-height: 2.5em;text-align:right">
-                                                                    <span id="pre_filter_details">
-                                                                        <b><span id="pre_filter_volume_left"></span></b> gal left before next service
-                                                                    </span>
-                                                                    <p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error"></p></td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter" class="form-control input_pre_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
-                                                                <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter" disabled>Reset</button></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th style="line-height: 2.5em">Post-filter</th>
-                                                                <td style="line-height: 2.5em;text-align:right">
-                                                                    <span id="post_filter_details">
-                                                                        <b><span id="post_filter_volume_left"></span></b> gal left before next service
-                                                                    </span>
-                                                                    <p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error"></p></td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter" class="form-control input_post_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
-                                                                <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter" disabled>Reset</button></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th style="line-height: 2.5em">General</th>
-                                                                <td style="line-height: 2.5em;text-align:right">
-                                                                    <span id="general_service_details">
-                                                                        <b><span id="general_service_volume_left"></span></b> gal left before next service
-                                                                    </span>
-                                                                    <p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error"></p></td>
-                                                                <td class="form-inline"><input style="width:100px" type="number" id="input_general_service" class="form-control input_general_service" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
-                                                                <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service" hidden>Save</button></td>
-                                                                <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service" disabled>Reset</button></td>
-                                                            </tr>
+                                                            <tbody class="message_from_database">
+                                                                <tr>
+                                                                    <th style="line-height: 2.5em">Critic Acid</th>
+                                                                    <td style="line-height: 2.5em;text-align:right">
+                                                                        <span id="critic_acid_details">
+                                                                            <b><span id="critic_acid_volume_left"></span></b> gal left before next service
+                                                                        </span>
+                                                                        <p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error"></p>
+                                                                    </td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid" class="form-control input_critic_acid" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
+                                                                    <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid" hidden>Save</button></td>
+                                                                    <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid" disabled>Reset</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="line-height: 2.5em">Pre-filter</th>
+                                                                    <td style="line-height: 2.5em;text-align:right">
+                                                                        <span id="pre_filter_details">
+                                                                            <b><span id="pre_filter_volume_left"></span></b> gal left before next service
+                                                                        </span>
+                                                                        <p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error"></p></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter" class="form-control input_pre_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
+                                                                    <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter" hidden>Save</button></td>
+                                                                    <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter" disabled>Reset</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="line-height: 2.5em">Post-filter</th>
+                                                                    <td style="line-height: 2.5em;text-align:right">
+                                                                        <span id="post_filter_details">
+                                                                            <b><span id="post_filter_volume_left"></span></b> gal left before next service
+                                                                        </span>
+                                                                        <p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error"></p></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter" class="form-control input_post_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
+                                                                    <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter" hidden>Save</button></td>
+                                                                    <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter" disabled>Reset</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th style="line-height: 2.5em">General</th>
+                                                                    <td style="line-height: 2.5em;text-align:right">
+                                                                        <span id="general_service_details">
+                                                                            <b><span id="general_service_volume_left"></span></b> gal left before next service
+                                                                        </span>
+                                                                        <p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error"></p></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_general_service" class="form-control input_general_service" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
+                                                                    <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service" hidden>Save</button></td>
+                                                                    <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service" disabled>Reset</button></td>
+                                                                </tr>
+                                                            </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
@@ -1834,6 +1844,8 @@
         let refresh_data;
         //when user clicks on the device row
             $('.view_device_details').on('click',function(){
+                $('.message_from_database').addClass('linear-background');
+                $('.display_body').css('visibility','hidden');
                 var trid = $(this).closest('tr').attr('id'); // table row ID
                 device_id = trid.replace("device-info-",'') // device id  from table row
                 //show average tab only
@@ -1880,6 +1892,8 @@
                         url: "/refreshStatusData/"+device_id,
                     })
                     .done(function(response){
+                        $('.message_from_database').removeClass("linear-background");
+                        $('.display_body').css('visibility','visible')
                         // console.log("% % % %  Refreshing Dashboad Data :"+device_id + " % % % % %")
                         // console.log(response);
                         if(response['deviceDetails'].latest_log != null){
