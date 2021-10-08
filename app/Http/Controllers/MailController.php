@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use App\Models\User;
+use App\Notifications\Contact;
+
 use Illuminate\Http\Request;
 
 class MailController extends Controller
@@ -16,5 +20,14 @@ class MailController extends Controller
         $data->sender_email = "noreply@viot.com";
 
         return Mail::to($user_email)->send(new WelcomeUser($data));
+    }
+
+    public function sendQueryToSuperAdmins(Request $req){
+        $loggedInUser = Auth::user();
+        $superAdmins = User::where('role','S')->get();
+        foreach($superAdmins as $user){
+            $user->notify(new Contact($user, $req->subject, $req->message, $loggedInUser));
+        }
+        return response()->json(['message'=>'sent']);
     }
 }

@@ -111,6 +111,8 @@ Route::patch('/saveEditedDevice/{id}',[App\Http\Controllers\DeviceController::cl
 //Device notifications
 Route::get('/getDeviceNotifications/{id}', [App\Http\Controllers\DeviceController::class, 'getDeviceNotifications'])->middleware('auth');
 
+//Mails
+Route::post('/sendQueryToSuperAdmins',[App\Http\Controllers\MailController::class, 'sendQueryToSuperAdmins'])->middleware('auth');
 
 //user
 Route::delete('/deleteUser/{id}',[App\Http\Controllers\SuperController::class, 'deleteUserById'])->middleware('auth');

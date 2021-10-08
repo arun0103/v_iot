@@ -472,8 +472,11 @@ class SuperController extends Controller
     public function contactPage(){
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "R"){
-
             return view('reseller/contact');
+        }else if($loggedInUser->role == "U"){
+            $reseller_details = Reseller::where('id',$loggedInUser->reseller_id)->first();
+            // dd($reseller_details);
+            return view('user/contact')->with(['reseller'=>$reseller_details]);
         }
     }
 

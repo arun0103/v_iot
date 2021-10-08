@@ -3085,6 +3085,7 @@
         $('#btn_save_setpoints').attr('hidden',true)
         $('#btn_cancel_setpoints').attr('hidden',true)
         $('#footer_maintenance').attr('hidden',false)
+        pull_average_data();
         avg_data = setInterval(pull_average_data,5000);
         clearInterval(live_data);
         clearInterval(relay_data);
