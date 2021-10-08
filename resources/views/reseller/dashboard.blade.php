@@ -1036,7 +1036,7 @@
                                                                     <i class="btn fas fa-sync-alt btn-refresh" id="device-sync"></i>
                                                                 </div>
                                                             </div>
-                                                            <div class="card-body" class="message_from_database">
+                                                            <div class="card-body message_from_database">
                                                                 <div class="display_body">
                                                                     <div>
                                                                         <i id="device_status_pic" class="fas fa fa-certificate"></i>&nbsp;&nbsp;
