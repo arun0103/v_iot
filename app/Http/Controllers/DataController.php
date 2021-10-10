@@ -126,9 +126,9 @@ class DataController extends Controller
     public function refreshDashboardRows(){
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
-            $devices = Device::with('latest_log:serial_number,log_dt,pure_EC_target','setpoints:device_id,pure_EC_target')->get();
+            $devices = Device::with('latest_log:serial_number,log_dt,ec','setpoints:device_id,pure_EC_target')->get();
         }else{
-            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log','setpoints')->get();
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log:serial_number,log_dt,ec','setpoints:device_id,pure_EC_target')->get();
         }
         return response()->json($devices);
 
