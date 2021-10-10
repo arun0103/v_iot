@@ -126,9 +126,9 @@ class DataController extends Controller
     public function refreshDashboardRows(){
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
-            $devices = Device::with('latest_log:serial_number,log_dt,ec,created_at','setpoints:device_id,pure_EC_target')->get();
+            $devices = Device::with('latest_log:serial_number,log_dt,ec,step,created_at','setpoints:device_id,pure_EC_target')->get();
         }else{
-            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log:serial_number,log_dt,ec,created_at','setpoints:device_id,pure_EC_target')->get();
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log:serial_number,log_dt,ec,step,created_at','setpoints:device_id,pure_EC_target')->get();
         }
         return response()->json($devices);
 
@@ -137,7 +137,7 @@ class DataController extends Controller
     public function refreshUserDashboardData(){
         $userDevicesIDs = UserDevices::where('user_id',Auth::user()->id)->pluck('device_id');
         //return response()->json($userDevicesIDs);
-        $devices = Device::whereIn('id',$userDevicesIDs)->with('latest_log:serial_number,log_dt,created_at,ec,tpv,alarm','setpoints:device_id,pure_EC_target,volume_unit','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->get();
+        $devices = Device::whereIn('id',$userDevicesIDs)->with('latest_log:serial_number,log_dt,created_at,ec,tpv,alarm,step','setpoints:device_id,pure_EC_target,volume_unit','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->get();
         // return response()->json($devices);
         $today = date(Carbon::now());
         $thirtyOnedays = date(Carbon::now()->subDays(31));
