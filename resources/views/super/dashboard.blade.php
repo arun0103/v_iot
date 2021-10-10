@@ -2090,6 +2090,7 @@
                 type: "GET",
                 url: "/refreshDashboardRows"
             }).done(function(response){
+                console.log(response)
                 for(let i= 0; i<response.length; i++){
                     let d_id = response[i].id;
                     if(response[i].latest_log != null){
