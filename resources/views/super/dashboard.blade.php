@@ -2090,7 +2090,7 @@
                 type: "GET",
                 url: "/refreshDashboardRows"
             }).done(function(response){
-                console.log(response)
+                // console.log(response)
                 for(let i= 0; i<response.length; i++){
                     let d_id = response[i].id;
                     if(response[i].latest_log != null){
@@ -2393,57 +2393,6 @@
         $('.datatable').dataTable();
         dashboard_data = setInterval(pull_dashboard_data,5000);
 
-        //when user clicks on the device row
-            $('.view_device_details').on('click',function(){
-                // alert('hi')
-                $('.message_from_database').addClass('linear-background');
-                $('.display_body').css('visibility','hidden');
-                clearInterval(dashboard_data);
-                clearInterval(live_data);
-                var trid = $(this).closest('tr').attr('id'); // table row ID
-                device_id = trid.replace("device-info-",'') // device id  from table row
-                //show average tab only
-                view_mode = "average";
-                view_live_device = null; // we are not in live mode
-                $('#tab_avg_data').show();
-                $('a[href="#tab_avg_data"]').tab('show');
-                $('.card-header-tabs li a').removeClass('active');
-                $('.nav_link-avg_data a').addClass('active');
-                $('#btn_refresh_live_data').attr('hidden', true);
-                $('#tab_live_data').hide();
-                $('#tab_control').hide();
-                $('#btn_edit_setpoints').attr('hidden',true);
-                $('#btn_save_setpoints').attr('hidden',true)
-                $('#btn_cancel_setpoints').attr('hidden',true)
-                $('#footer_maintenance').attr('hidden',false)
-                // get the setpoints from the database and save for future calculations
-                // CIP_cycle, volume unit are two setpoints that is needed to calculate live view data
-                var userDevices;
-                $.ajax({
-                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                    type: "GET",
-                    url: "/getDeviceSetpointsForCalculation/"+device_id,
-                })
-                .done(function(response){
-                    userDevices = response;
-                });
-                $('#modal-detail-title').text($("#"+trid).find("td:first").html())
-                device_serial = $("#"+trid).find("td:first").html();
-
-                //get data from database every 5 seconds
-                avg_data = setInterval(pull_average_data,5000);
-                $('#modal-device-detail').modal('show');
-            })
-
-            $('.alarms-list').on('click','.goto_maintenance', function(){
-                var element = document.getElementById("maintenance_tab");
-                element.scrollIntoView({behavior: "smooth", block: "end"})
-            })
-            $('.btn_close_modal').on('click', function(){
-                clearInterval(avg_data);
-                dashboard_data = setInterval(pull_dashboard_data,5000);
-            })
-        // check status
 
         $('.loader').hide();
         $('#btn_map_view').on('click', function(){
@@ -2572,6 +2521,57 @@
             })
         //
     });
+    //when user clicks on the device row
+    $('.view_device_details').on('click',function(){
+        $('.message_from_database').addClass('linear-background');
+        $('.display_body').css('visibility','hidden');
+        clearInterval(dashboard_data);
+        clearInterval(live_data);
+        var trid = $(this).closest('tr').attr('id'); // table row ID
+        device_id = trid.replace("device-info-",'') // device id  from table row
+        //show average tab only
+        view_mode = "average";
+        view_live_device = null; // we are not in live mode
+        $('#tab_avg_data').show();
+        $('a[href="#tab_avg_data"]').tab('show');
+        $('.card-header-tabs li a').removeClass('active');
+        $('.nav_link-avg_data a').addClass('active');
+        $('#btn_refresh_live_data').attr('hidden', true);
+        $('#tab_live_data').hide();
+        $('#tab_control').hide();
+        $('#btn_edit_setpoints').attr('hidden',true);
+        $('#btn_save_setpoints').attr('hidden',true)
+        $('#btn_cancel_setpoints').attr('hidden',true)
+        $('#footer_maintenance').attr('hidden',false)
+        // get the setpoints from the database and save for future calculations
+        // CIP_cycle, volume unit are two setpoints that is needed to calculate live view data
+        var userDevices;
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getDeviceSetpointsForCalculation/"+device_id,
+        })
+        .done(function(response){
+            userDevices = response;
+        });
+        $('#modal-detail-title').text($("#"+trid).find("td:first").html())
+        device_serial = $("#"+trid).find("td:first").html();
+
+        //get data from database every 5 seconds
+        avg_data = setInterval(pull_average_data,5000);
+        $('#modal-device-detail').modal('show');
+    })
+
+    $('.alarms-list').on('click','.goto_maintenance', function(){
+        var element = document.getElementById("maintenance_tab");
+        element.scrollIntoView({behavior: "smooth", block: "end"})
+    })
+    $('.btn_close_modal').on('click', function(){
+        clearInterval(avg_data);
+        dashboard_data = setInterval(pull_dashboard_data,5000);
+    })
+// check status
+
     // Maintenance
         var old_critic_value, old_pre_filter, old_post_filter, old_general_service;
         $('.btn_edit_maintenance').on('click',function(){
