@@ -51,6 +51,8 @@ class CreateSetpointsTable extends Migration
             $table->integer('wait_time_before_CIP')->nullable();
             $table->integer('bypass_time')->nullable();
             $table->timestamps();
+
+            $table->foreign('device_id')->references('id')->on('devices');
         });
     }
 
