@@ -1264,9 +1264,9 @@
                         url: "/refreshUserDashboardData",
                     })
                     .done(function(response){
-                        // console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                        // console.log(response);
-                        // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                        console.log("% % % %  Refreshing Dashboad Data % % % % %")
+                        console.log(response);
+                        console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                         for(var i=0; i<response.length;i++){
                             if(response[i]['deviceDetails'].latest_log != null){
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");

@@ -30,7 +30,7 @@
                         <div class="card-header border-0 bg-top-logo-color">
                             <h2 class="card-title">List of Devices</h2>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new-device">Add New</button>
+                                <button type="button" class="btn btn-primary" id="btn_add_new_device" data-toggle="modal" data-target="#modal-add-new-device">Add New</button>
                             </div>
                         </div>
                         <div class="card-body table-responsive">
@@ -104,34 +104,40 @@
                                         <div class="form-group">
                                             <label for="selectModel" class="control-label">Model</label>
                                             <select name="model" id="selectModel" class="form-control" title="Select Model">
+                                                <option value="-1" selected hidden>-- Select --</option>
                                                 @foreach($models as $model)
                                                     <option value="{{$model->id}}">{{$model->name}}</option>
                                                 @endforeach
                                             </select>
+                                            <span id="error_model"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="inputSN" class="control-label">PCB Serial Number</label>
                                             <input type="number" class="form-control" id="inputSN" placeholder="Serial Number" name="serial_number" autocomplete="no">
+                                            <span id="error_serial_number"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="inputDN" class="control-label">Device Serial Number</label>
                                             <input type="text" class="form-control" id="inputDN" placeholder="Device Number" name="device_number" autocomplete="no">
+                                            <span id="error_device_number"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                         <label for="inputManufacturedDate" class="control-label">Manufactured Date</label>
                                             <input class="form-control datepicker" id="inputManufacturedDate" name="manufactured_date" width="234" placeholder="MM / DD / YYYY" autocomplete="off"/>
+                                            <span id="error_manufactured_date"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                        <label for="inputFirmwareVersion" class="control-label">Firmware Version</label>
+                                            <label for="inputFirmwareVersion" class="control-label">Firmware Version</label>
                                             <input type="text" class="form-control" id="inputFirmwareVersion" name="firmware" width="234" placeholder="e.g. P1.B1.H1.F1.D1.0"/>
+                                            <span id="error_firmware_version"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -449,6 +455,66 @@
         $('.loader').hide();
     })
     //Add
+    $('#btn_add_new_device').on('click', function(){
+        alert('hi')
+        $('#selectModel').val(-1).change();
+        $('#inputSN').val("");
+        $('#inputDN').val("");
+        $('#inputManufacturedDate').val("");
+        $('#inputFirmwareVersion').val("");
+
+    })
+    function validateAddNewDevice(){
+        let model = $('#selectModel').val()
+        let serial_number = $('#inputSN').val()
+        let device_number = $('#inputDN').val()
+        let manufactured_date = $('#inputManufacturedDate').val()
+        let firmware = $('#inputFirmwareVersion').val()
+
+        console.log(model)
+        console.log(serial_number)
+        console.log(device_number)
+        console.log(manufactured_date)
+        console.log(firmware)
+        let validated = true;
+        if(model == -1){
+            validated = false;
+            $('#error_model').text("Please select one of the model").css('color','red')
+        }else{
+            $('#error_model').text("");
+        }if(serial_number == "" || serial_number.length != 9){
+            validated = false;
+            $('#error_serial_number').text("Please enter 9 digit serial number").css('color','red')
+        }else{
+            $('#error_serial_number').text("");
+        }if(device_number == ""){
+            validated = false;
+            $('#error_device_number').text("Please enter device number").css('color','red')
+        }else{
+            $('#error_device_number').text("");
+        }
+        if(manufactured_date == ""){
+            validated = false;
+            $('#error_manufactured_date').text("Please select the Date of Manufacture").css('color','red')
+        }else{
+            let splitted_date = manufactured_date.split("/");
+            if(splitted_date.length !=3){
+                $('#error_manufactured_date').text("Invalid date selecte").css('color','red')
+            }else{
+                if(splitted_date[0] >12){ //month
+                    $('#error_manufactured_date').text("Invalid month").css('color','red')
+                }
+                if(splitted_date[1] >31){ //day
+                    $('#error_manufactured_date').text("Invalid day").css('color','red')
+                }
+                if(splitted_date[2] <2020){//year
+                    $('#error_manufactured_date').text("Invalid year").css('color','red')
+                }
+            }
+
+            $('#error_manufactured_date').text("");
+        }
+    }
     $('#btn_confirm_add_new_device').on('click', function(e){
         e.preventDefault();
         var formData = {
@@ -458,56 +524,57 @@
             'manufactured_date':$('#inputManufacturedDate').val(),
             'firmware':$('#inputFirmwareVersion').val(),
         }
-        $.ajax({
-            method: "POST",
-            url: "/addNewDevice",
-            data: formData,
-            })
-            .done(function( response ) {
-                switch(response['message']){
-                    case 'Error':
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text:  response.description,
-                            //footer: '<a href="../login">Login as Adminstrator?</a>'
-                        });
-                        break;
-                    case 'Success':
-                        $('tbody').prepend('<tr id="'+response.data.id+'" class="device"><td>'+response.data.serial_number + '</td>'
-                            +'<td>'+ response.data.device_number
-                            + '</td><td>-</td><td>'
-                            + response.data.model.name +
-                            '</td><td>-</td>'+
-                            '<td>0</td><td>-</td>'
-                            +'<td><a class="nav-link" data-toggle="dropdown"><i class="fas fa-angle-down"></i></a>'
-                                +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-                                    +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Upgrade Firmware</a>'
-                                    +'<a class="dropdown-item operation-edit_device">'
-                                        +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
-                                    +'</a>'
-                                    +'<div class="dropdown-divider"></div>'
-                                    +'<a class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
-                                    +'<div class="dropdown-divider"></div>'
-                                    +'<a class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>'
-                                +'</div></td></tr>')
-                        $('#modal-add-new-device').modal('hide')
-                        Swal.fire(
-                            'Added!',
-                            'Device has been added',
-                            'success'
-                        );
+        validateAddNewDevice()
+        // $.ajax({
+        //     method: "POST",
+        //     url: "/addNewDevice",
+        //     data: formData,
+        //     })
+        //     .done(function( response ) {
+        //         switch(response['message']){
+        //             case 'Error':
+        //                 Swal.fire({
+        //                     icon: 'error',
+        //                     title: 'Oops...',
+        //                     text:  response.description,
+        //                     //footer: '<a href="../login">Login as Adminstrator?</a>'
+        //                 });
+        //                 break;
+        //             case 'Success':
+        //                 $('tbody').prepend('<tr id="'+response.data.id+'" class="device"><td>'+response.data.serial_number + '</td>'
+        //                     +'<td>'+ response.data.device_number
+        //                     + '</td><td>-</td><td>'
+        //                     + response.data.model.name +
+        //                     '</td><td>-</td>'+
+        //                     '<td>0</td><td>-</td>'
+        //                     +'<td><a class="nav-link" data-toggle="dropdown"><i class="fas fa-angle-down"></i></a>'
+        //                         +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+        //                             +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Upgrade Firmware</a>'
+        //                             +'<a class="dropdown-item operation-edit_device">'
+        //                                 +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
+        //                             +'</a>'
+        //                             +'<div class="dropdown-divider"></div>'
+        //                             +'<a class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
+        //                             +'<div class="dropdown-divider"></div>'
+        //                             +'<a class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>'
+        //                         +'</div></td></tr>')
+        //                 $('#modal-add-new-device').modal('hide')
+        //                 Swal.fire(
+        //                     'Added!',
+        //                     'Device has been added',
+        //                     'success'
+        //                 );
 
-                        break;
-                    default:
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!' + response.description,
-                            footer: response
-                        })
-                }
-        });
+        //                 break;
+        //             default:
+        //                 Swal.fire({
+        //                     icon: 'error',
+        //                     title: 'Oops...',
+        //                     text: 'Something went wrong!' + response.description,
+        //                     footer: response
+        //                 })
+        //         }
+        // });
     })
     //Edit
     var edit_device_id = null;
