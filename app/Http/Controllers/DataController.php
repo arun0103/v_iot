@@ -75,7 +75,7 @@ class DataController extends Controller
         return response()->json($dataToSend);
     }
     public function refreshStatusData($id){
-        $device = Device::where('id',$id)->with('latest_log:serial_number, log_dt, step, ec, tpv, created_at','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->first();
+        $device = Device::where('id',$id)->with('latest_log:serial_number,log_dt,step,ec,tpv,created_at','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->first();
         $today = date(Carbon::now());
         $thirtyOnedays = date(Carbon::now()->subDays(31));
         $previousDay = date(Carbon::now()->subDays(1));
@@ -126,7 +126,7 @@ class DataController extends Controller
     public function refreshDashboardRows(){
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
-            $devices = Device::with('latest_log:serial_number,`log_dt`,ec,step,alarm,created_at','setpoints:device_id,pure_EC_target')->get();
+            $devices = Device::with('latest_log:serial_number,log_dt,ec,step,alarm,created_at','setpoints:device_id,pure_EC_target')->get();
         }else{
             $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log:serial_number,log_dt,ec,step,alarm,created_at','setpoints:device_id,pure_EC_target')->get();
         }
