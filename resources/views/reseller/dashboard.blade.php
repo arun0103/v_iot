@@ -2833,6 +2833,18 @@
                 $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
             });
         })
+        $('.btn_start_CIP').on('click', function(){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/start_CIP/"+ device_id,
+            })
+            .done(function(response){
+                Swal.fire('Success','Command recorded.','success')
+                var date = new Date(response.created_at)
+                $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+            });
+        })
         //relays
         $('.btn_relay_1').on('click', function(){
             if(!$('#btn_relay_1').is('[disabled=disabled]')){
