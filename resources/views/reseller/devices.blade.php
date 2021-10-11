@@ -824,6 +824,7 @@
                             'success'
                         );
                         $('#modal-add-new-device').modal('hide');
+                        location.reload();
                         break;
                     default:
                         Swal.fire({
