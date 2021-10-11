@@ -1817,52 +1817,12 @@
     var btn_clicked = null;
     $(document).ready(function () {
         $('.datatable').dataTable();
-        setInterval(function(){
-            $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "GET",
-                url: "/refreshDashboardRows"
-            }).done(function(response){
-                for(let i= 0; i<response.length; i++){
-                    let d_id = response[i].id;
-                    if(response[i].latest_log != null){
-                        // change the water quality
-                        let water_quality ="";
-                        let color;
-                        let setpoint_pure_EC_target = response[i].setpoints.pure_EC_target;
-                        let avg_EC_target = response[i].latest_log.ec;
-                        let difference_ec = setpoint_pure_EC_target - avg_EC_target;
-                        if(difference_ec<0){
-                            difference_ec = difference_ec * (-1);
-                        }
-                        var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
-                        if(percentage_EC_target <= 10){
-                            water_quality = "On Target";
-                            color = "green";
-                        }else{
-                            water_quality = "Needs Attention";
-                            color = "red"
-                        }
-                        $('#ec-'+response[i].id).text(water_quality).css('color',color);
-                        // change status
-                        if(response[i].latest_log.step == 0 || response[i].latest_log.step == 1 || response[i].latest_log.step == 13){
-                            status = "IDLE";
-                            color = "orange";
-
-                        }else{
-                            status = "RUNNING";
-                            color = "green";
-                        }
-                        $('#status-'+d_id).text(status).css("color", color); // row status
-                        // check if device is connected or not
-                        if(+new Date()- +new Date(response[i].latest_log.created_at) <30000  )
-                            $('#device-serial-number_'+response[i].id).css('color','green')
-                        else
-                            $('#device-serial-number_'+response[i].id).css('color','black')
-                    }
-                }
-            })
-        },5000);
+        dashboard_data = setInterval(pull_dashboard_data,5000);
+        $('.loader').hide();
+        // $('#btn_map_view').on('click', function(){
+        //     $('#modal-map_view').modal("show")
+        //     GetMap();
+        // })
         let refresh_data;
         //when user clicks on the device row
             $('.view_device_details').on('click',function(){
@@ -2328,6 +2288,543 @@
                 }
             }
         });
+    }
+    function pull_average_data(){
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/refreshStatusData/"+device_id,
+        })
+        .done(function(response){
+            $('.message_from_database').removeClass("linear-background");
+            $('.display_body').css('visibility','visible')
+            // console.log("% % % %  Refreshing Dashboad Data :"+device_id + " % % % % %")
+            // console.log(response);
+            if(response['deviceDetails'].latest_log != null){
+                $('#btn_device_start_stop').removeAttr("hidden");
+
+                //change the status if new data is available
+                if(start_stop_command_sent != true && +new Date(response['deviceDetails'].latest_log.created_at) >= command_sent_time){
+                    var status = "";
+                    var color = "";
+                    if(response['deviceDetails'].latest_log.step == 0 || response['deviceDetails'].latest_log.step == 1 || response['deviceDetails'].latest_log.step == 13){
+                        status = "IDLE";
+                        color = "orange";
+                        //enable all relay commands
+                            $('#btn_relay_1').removeAttr("disabled");
+                            $('#btn_relay_2').removeAttr("disabled");
+                            $('#btn_relay_3').removeAttr("disabled");
+                            $('#btn_relay_4').removeAttr("disabled");
+                            $('#btn_relay_5').removeAttr("disabled");
+                            $('#btn_relay_6').removeAttr("disabled");
+                            $('#btn_relay_7').removeAttr("disabled");
+                            $('#btn_relay_8').removeAttr("disabled");
+                            $('#btn_relay_9').removeAttr("disabled");
+                        //
+                        if($('#device_status_pic').hasClass("running"))
+                            $('#device_status_pic').removeClass("running")
+                        if(!$('#device_status_pic').hasClass("idle"))
+                            $('#device_status_pic').addClass("idle")
+                        $('#btn_device_start_stop').text("Start");
+                        $('#btn_device_start_stop').removeClass('btn-danger').addClass('btn-primary')
+                    }else{
+                        status = "RUNNING";
+                        color = "green";
+                        // disable all the relay commands
+                            $('#btn_relay_1').attr("disabled","true");
+                            $('#btn_relay_2').attr("disabled","true");
+                            $('#btn_relay_3').attr("disabled","true");
+                            $('#btn_relay_4').attr("disabled","true");
+                            $('#btn_relay_5').attr("disabled","true");
+                            $('#btn_relay_6').attr("disabled","true");
+                            $('#btn_relay_7').attr("disabled","true");
+                            $('#btn_relay_8').attr("disabled","true");
+                            $('#btn_relay_9').attr("disabled","true");
+                        //
+                        if($('#device_status_pic').hasClass("idle"))
+                            $('#device_status_pic').removeClass("idle")
+                        if(!$('#device_status_pic').hasClass("running"))
+                            $('#device_status_pic').addClass("running")
+                        $('#btn_device_start_stop').text("Stop");
+                        $('#btn_device_start_stop').removeClass('btn-primary').addClass('btn-danger')
+                    }
+                    $('#device-info' +' .status').text(status); // row status
+                    $('#device_status').text(status);   // device info status
+                    document.getElementById('device_status').style.color = color;
+                    document.getElementById('device_status_pic').style.color = color;
+                }else{
+                    $('#device-info'+' .status').text("Pending"); // row status
+                    $('#device_status').text("Pending");   // device info status
+                    document.getElementById('device_status').style.color = "black";
+                    document.getElementById('device_status_pic').style.color = "black";
+                    // get the command status
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "GET",
+                        url: "/command_status/"+command_sent+"/"+ response['deviceDetails'].id,
+                    })
+                    .done(function(response_command){
+                        // console.log("*************** Response of command ****************");
+                        // console.log(response_command);
+                        if(response_command.device_read_at != null){
+                            start_stop_command_sent = false;
+                            command_sent_time = +new Date(response_command.device_read_at);
+                            console.log("Changed Command sent time : "+ command_sent_time)
+                            $('#btn_device_start_stop').attr('disabled',false).change();
+                            switch(response.command){
+                                case "Start":
+                                    $('#device-info'+' .status').text("Starting"); // row status
+                                    break;
+                                case "Stop":
+                                    $('#device-info'+' .status').text("Stopping"); // row status
+                                    break;
+                            }
+                        }else{
+                            command_sent_time = +new Date(response_command.created_at)
+                            console.log("Command sent time : "+ command_sent_time)
+                        }
+                    });
+                }
+                // change output value
+                $('#device_output').text(response['deviceDetails'].latest_log.output)
+                // calculating output
+                var output = response['deviceDetails'].latest_log.output
+                var output_binary_string = (output >>> 0).toString(2);
+
+                for(var index =1; index<10; index++ ){
+                    // console.log("i = "+i+ " value = "+output_binary_string.charAt(i))
+                    if(output_binary_string.charAt(16-index)=='1') // 1 = OFF, 0 = ON
+                        $('#btn_relay_'+index).attr("checked",false).trigger("change");
+                    else
+                        $('#btn_relay_'+index).attr("checked", true).trigger("change");
+                }
+                // change the water quality
+                var water_quality ="";
+                var setpoint_pure_EC_target = response['deviceDetails']['setpoints'].pure_EC_target;
+                var avg_EC_target = response['deviceDetails'].latest_log.ec;
+                var difference_ec = setpoint_pure_EC_target - avg_EC_target;
+                if(difference_ec<0){
+                    difference_ec = difference_ec * (-1);
+                }
+                var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
+                if(percentage_EC_target <= 10){
+                    water_quality = "On Target";
+                    $('#info_device_conductivity_text').text("On Target").css("color","green")
+                    $('#info_device_conductivity_description').text("The unit is removing the right amount of minerals.")
+
+                    // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'green';
+                    document.getElementById('device_condutivity_icon').style.color = 'green';
+                    document.getElementById('device_conductivity_value').style.color = 'green';
+                }else{
+                    water_quality = "Needs Attention";
+                    $('#info_device_conductivity_text').text("Needs Attention").css("color","red")
+                    $('#info_device_conductivity_description').text("The unit is removing most of the minerals. ")
+                    // document.getElementById('device-info-'+response[i]['deviceDetails'].id +' .ec').style.color = 'red';
+                    document.getElementById('device_condutivity_icon').style.color = 'red';
+                    document.getElementById('device_conductivity_value').style.color = 'red';
+                }
+                $('#ec-'+response['deviceDetails'].id).text(water_quality);
+                $('#device_conductivity_value').text(water_quality); // device info water quality
+                // change device connection status
+                var now = new Date();
+                var created_at = new Date(response['deviceDetails'].latest_log.created_at);
+                var dd = now - created_at;
+                if(dd < 60*1000){ // 60 seconds
+                    $('#device_connection_status' ).text("Connected").css("color","green")
+                    $('#device-info').css("color","green")
+                }else{
+                    $('#device-info' ).css("color","black")
+                    $('#device_connection_status').text("Disconnected").css("color","red")
+                }$('#last_data_received').text(new Date(response['deviceDetails']['latest_log'].created_at))
+                // change volume
+                switch(select_view_volume_by){
+                    case "gallons":
+                            $('#daily_volume').text(response['deviceVolume']!=null?response['deviceVolume'].daily +" gal" : "");
+                            $('#monthly_volume').text(response['deviceVolume']!=null?response['deviceVolume'].monthly +" gal" : "");
+                            $('#total_volume').text(response['deviceVolume']!=null?response['deviceVolume'].total +" gal" : "");
+                        break;
+                    case "litres":
+                            $('#daily_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].daily/0.2642007926).toFixed(2) + " L" : "");
+                            $('#monthly_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].monthly/0.2642007926).toFixed(2) +" L" : "");
+                            $('#total_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].total/0.2642007926).toFixed(2) +" L" : "");
+                        break;
+                }
+                // change alarm
+                var alarms = response['deviceDetails'].latest_log.alarm;
+                if(alarms >0){
+                    $('#btn_reset_alarms').removeAttr("hidden");
+                }else{
+                    $('#btn_reset_alarms').attr("hidden","true");
+                }
+                var bin_alarms = (alarms >>> 0).toString(2);
+                for(var ii = bin_alarms.length; ii<24 ; ii++){
+                    bin_alarms = "0"+bin_alarms;
+                }
+                $('section#alarmsList').empty();
+                for(var  j= 0 ; j < bin_alarms.length ; j++){
+                    if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
+                        switch(j){
+                            case 0: $('section#alarmsList').append("<p>Reserved For future</p>");break;
+                            case 1: $('section#alarmsList').append("<p>Reserved For future</p>");break;
+                            case 2: $('section#alarmsList').append("<p>Reserved For future</p>");break;
+                            case 3: $('section#alarmsList').append("<p>FLOWMETER COMM ERROR</p>");break;
+                            case 4: $('section#alarmsList').append("<p>ATLAS TEMPERATURE ERROR</p>");break;
+                            case 5: $('section#alarmsList').append("<p>ZERO EC ALARM</p>");break;
+                            case 6: $('section#alarmsList').append("<p>ATLAS I2C COM ERROR</p>");break;
+                            case 7: $('section#alarmsList').append("<p>LOW PRESSURE ALARM</p>");break;
+                            case 8: $('section#alarmsList').append("<p>PAE AC INPUT FAIL</p>");break;
+                            case 9: $('section#alarmsList').append("<p>PAE AC POWER DOWN</p>");break;
+                            case 10:$('section#alarmsList').append("<p>PAE HIGH TEMPERATURE</p>");break;
+                            case 11:$('section#alarmsList').append("<p>PAE AUX OR SMPS FAIL</p>");break;
+                            case 12:$('section#alarmsList').append("<p>PAE FAN FAIL</p>");break;
+                            case 13:$('section#alarmsList').append("<p>PAE OVER TEMP SHUTDOWN</p>");break;
+                            case 14:$('section#alarmsList').append("<p>PAE OVER LOAD SHUTDOWN</p>");break;
+                            case 15:$('section#alarmsList').append("<p>PAE OVER VOLT SHUTDOWN</p>");break;
+                            case 16:$('section#alarmsList').append("<p>PAE COMMUNICATION ERROR</p>");break;
+                            case 17:$('section#alarmsList').append("<p>CIP LOW LEVEL ALARM</p>");break;
+                            case 18:$('section#alarmsList').append("<p>WASTE VALVE ALARM</p>");break;
+                            case 19:$('section#alarmsList').append("<p>LEAKAGE ALARM</p>");break;
+                            case 20:$('section#alarmsList').append("<p>CABINET TEMP ALARM</p>");break;
+                            case 21:$('section#alarmsList').append("<p>BYPASS ALARM</p>");break;
+                            case 22:$('section#alarmsList').append("<p>LOW FLOW WASTE ALARM</p>");break;
+                            case 23:$('section#alarmsList').append("<p>LOW FLOW PURE ALARM</p>");break;
+                        }
+                    }
+                }
+                // maintenance
+                //get past reset values
+                critic_acid_reset_value = response['deviceDetails']['latest_maintenance_critic_acid']!=null?response['deviceDetails']['latest_maintenance_critic_acid'].volume_value:0;
+                pre_filter_reset_value = response['deviceDetails']['latest_maintenance_pre_filter']!=null?response['deviceDetails']['latest_maintenance_pre_filter'].volume_value:0;
+                post_filter_reset_value = response['deviceDetails']['latest_maintenance_post_filter']!=null?response['deviceDetails']['latest_maintenance_post_filter'].volume_value:0;
+                general_service_reset_value = response['deviceDetails']['latest_maintenance_general_service']!=null?response['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
+                //maintenance setpoints
+                $('#input_critic_acid').val(response['deviceDetails']['device_settings'].critic_acid);
+                $('#input_pre_filter').val(response['deviceDetails']['device_settings'].pre_filter);
+                $('#input_post_filter').val(response['deviceDetails']['device_settings'].post_filter);
+                $('#input_general_service').val(response['deviceDetails']['device_settings'].general_service);
+                // calculate volume left
+                var volume_left_critic_acid = response['deviceDetails']['device_settings'].critic_acid - response['deviceVolume'].total + critic_acid_reset_value ;
+                $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
+                var volume_left_pre_filter = response['deviceDetails']['device_settings'].pre_filter - response['deviceVolume'].total + pre_filter_reset_value ;
+                $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
+                var volume_left_post_filter = response['deviceDetails']['device_settings'].post_filter - response['deviceVolume'].total + post_filter_reset_value ;
+                $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
+                var volume_left_general_service = response['deviceDetails']['device_settings'].general_service - response['deviceVolume'].total + general_service_reset_value ;
+                $('#general_service_volume_left').text(volume_left_general_service.toFixed(2));
+                //check if maintenance needed
+                var is_maintenance_needed = false;
+                if(volume_left_critic_acid < 0){
+                    volume_left_critic_acid = 0;
+                    is_maintenance_needed = true;
+                    $('#critic_acid_details').attr("hidden","true");
+                    $('#critic_acid_error').text("Critic acid refill needed!").css("color","red");
+                    $('#btn_reset_critic_acid').attr('disabled',false);
+                }
+                if(volume_left_pre_filter < 0){
+                    volume_left_pre_filter = 0;
+                    is_maintenance_needed = true;
+                    $('#pre_filter_details').attr("hidden","true");
+                    $('#pre_filter_error').text("Pre-filter replacement needed!").css("color","red");
+                    $('#btn_reset_pre_filter').attr('disabled',false);
+                }
+                if(volume_left_post_filter < 0){
+                    volume_left_post_filter = 0;
+                    is_maintenance_needed = true;
+                    $('#post_filter_details').attr("hidden","true");
+                    $('#post_filter_error').text("Post-filter replacement needed!").css("color","red");
+                    $('#btn_reset_post_filter').attr('disabled',false);
+                }
+                if(volume_left_general_service < 0){
+                    volume_left_general_service = 0;
+                    is_maintenance_needed = true;
+                    $('#general_service_details').attr("hidden","true");
+                    $('#general_service_error').text("General service needed!").css("color","red");
+                    $('#btn_reset_general_service').attr('disabled',false);
+                }
+                if(is_maintenance_needed)
+                    $('section#alarmsList').append('<a class="goto_maintenance" id="goto_maintenance"><p><button class="btn btn-warning btn_goto_maintenance">Routine Maintenance Needed</button></p><a>');
+                //Show volumes left
+                $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
+                $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
+                $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
+                $('#general_service_volume_left').text(volume_left_general_service.toFixed(2));
+            }
+        });
+    }
+    function pull_dashboard_data(){
+        $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/refreshDashboardRows"
+            }).done(function(response){
+                // console.log(response)
+                for(let i= 0; i<response.length; i++){
+                    let d_id = response[i].id;
+                    if(response[i].latest_log != null){
+                        // change the water quality
+                        let water_quality ="";
+                        let color;
+                        let setpoint_pure_EC_target = response[i].setpoints.pure_EC_target;
+                        let avg_EC_target = response[i].latest_log.ec;
+                        let difference_ec = setpoint_pure_EC_target - avg_EC_target;
+                        if(difference_ec<0){
+                            difference_ec = difference_ec * (-1);
+                        }
+                        var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
+                        if(percentage_EC_target <= 10){
+                            water_quality = "On Target";
+                            color = "green";
+                        }else{
+                            water_quality = "Needs Attention";
+                            color = "red"
+                        }
+                        $('#ec-'+response[i].id).text(water_quality).css('color',color);
+                        // change status
+                        if(response[i].latest_log.step == 0 || response[i].latest_log.step == 1 || response[i].latest_log.step == 13){
+                            status = "IDLE";
+                            color = "orange";
+
+                        }else{
+                            status = "RUNNING";
+                            color = "green";
+                        }
+                        $('#status-'+d_id).text(status).css("color", color); // row status
+                        // check if device is connected or not
+                        if(+new Date()- +new Date(response[i].latest_log.created_at) <30000  )
+                            $('#device-serial-number_'+response[i].id).css('color','green')
+                        else
+                            $('#device-serial-number_'+response[i].id).css('color','black')
+                    }
+                }
+            })
+    }
+    function pull_live_data(){
+        if(view_live_device != null){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/deviceLiveData/"+ view_live_device,
+            })
+            .done(function(response){
+                // console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
+                // console.log(response);
+                if(device_data_created_at != response.created_at){
+                    device_data_created_at = response.created_at;
+                    var recorded_date = new Date(response.created_at);
+                    recorded_date = recorded_date.toString();
+                    var status = "";
+                    if(response.step == 0 ||response.step == 1 || response.step ==13)
+                        status = "IDLE"
+                    else
+                        status ="RUNNING"
+
+                    //calculating step
+                    var step_name = "";
+                    switch(response.step){
+                        case 255: step_name = " PCB restart";break;
+                        case 0: step_name = " Free Run";break;
+                        case 1: step_name = " Idle";break;
+                        case 2: step_name = " Prepurify";break;
+                        case 3: step_name = " Purify";break;
+                        case 4: step_name = " Waste";break;
+                        case 5: step_name = " High Flow Waste";break;
+                        case 6: step_name = " Wait";break;
+                        case 7: step_name = " CIP Dosing ON";break;
+                        case 8: step_name = " CIP Dosing OFF";break;
+                        case 9: step_name = " CIP Pulse ON";break;
+                        case 10: step_name = " CIP Pulse OFF";break;
+                        case 11: step_name = " CIP Flush";break;
+                        case 12: step_name = " High Temperature";break;
+                        case 13: step_name = " Wait High Temperature";break;
+                        case 14: step_name = " SHUNT";break;
+                        case 15: step_name = " Wait Before CIP Start";break;
+                    }
+                    // calculating input
+                    var input_binary_string = response.input.toString(2);
+                    if(input_binary_string.length < 5){
+                        for(var i = input_binary_string.length; i<5;i++){
+                            input_binary_string = "0".concat(input_binary_string);
+                        }
+                    }
+                    var input_names = [];
+                    for(var i =0 ; i<input_binary_string.length; i++){
+                        if(input_binary_string.charAt(i)=='1')
+                            input_names.push("HIGH");
+                        else
+                            input_names.push("LOW");
+                    }
+                    // calculating output
+                    var output_binary_string = (response.output >>> 0).toString(2);
+                    if(output_binary_string.length < 16){
+                        for(var i = output_binary_string.length; i<9; i++){
+                            output_binary_string = "0".concat(output_binary_string);
+                        }
+                    }
+                    var output_names = [];
+                    for(var i =0 ; i<output_binary_string.length; i++){
+                        if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
+                            output_names.push('<span style="color:red">OFF</span>');
+                        else
+                            output_names.push('<span style="color:green">ON</span>');
+                    }
+
+                    // calculating alarms
+                    var alarms = response.alarm;
+                    var bin_alarms = (alarms >>> 0).toString(2);
+                    for(var ii = bin_alarms.length; ii<24 ; ii++){
+                        bin_alarms = "0"+bin_alarms;
+                    }
+                    var alarm_names = [];
+                    for(var  j= 0 ; j < bin_alarms.length ; j++){
+                        if(bin_alarms[j] == "1"){ // 1 states that there is alarm so find the location of alarm and display
+                            switch(j){
+                                case 0: alarm_names.push('<div style="color:red">&nbsp; Reserved For future</div>');break;
+                                case 1: alarm_names.push('<div style="color:red">&nbsp; Reserved For future</div>');break;
+                                case 2: alarm_names.push('<div style="color:red">&nbsp; Reserved For future</div>');break;
+                                case 3: alarm_names.push('<div style="color:red">&nbsp; FLOWMETER COMM ERROR</div>');break;
+                                case 4: alarm_names.push('<div style="color:red">&nbsp; ATLAS TEMPERATURE ERROR</div>');break;
+                                case 5: alarm_names.push('<div style="color:red">&nbsp; ZERO EC ALARM</div>');break;
+                                case 6: alarm_names.push('<div style="color:red">&nbsp; ATLAS I2C COM ERROR</div>');break;
+                                case 7: alarm_names.push('<div style="color:red">&nbsp; LOW PRESSURE ALARM</div>');break;
+                                case 8: alarm_names.push('<div style="color:red">&nbsp; PAE AC INPUT FAIL</div>');break;
+                                case 9: alarm_names.push('<div style="color:red">&nbsp; PAE AC POWER DOWN</div>');break;
+                                case 10:alarm_names.push('<div style="color:red">&nbsp; PAE HIGH TEMPERATURE</div>');break;
+                                case 11:alarm_names.push('<div style="color:red">&nbsp; PAE AUX OR SMPS FAIL</div>');break;
+                                case 12:alarm_names.push('<div style="color:red">&nbsp; PAE FAN FAIL</div>');break;
+                                case 13:alarm_names.push('<div style="color:red">&nbsp; PAE OVER TEMP SHUTDOWN</div>');break;
+                                case 14:alarm_names.push('<div style="color:red">&nbsp; PAE OVER LOAD SHUTDOWN</div>');break;
+                                case 15:alarm_names.push('<div style="color:red">&nbsp; PAE OVER VOLT SHUTDOWN</div>');break;
+                                case 16:alarm_names.push('<div style="color:red">&nbsp; PAE COMMUNICATION ERROR</div>');break;
+                                case 17:alarm_names.push('<div style="color:red">&nbsp; CIP LOW LEVEL ALARM</div>');break;
+                                case 18:alarm_names.push('<div style="color:red">&nbsp; WASTE VALVE ALARM</div>');break;
+                                case 19:alarm_names.push('<div style="color:red">&nbsp; LEAKAGE ALARM</div>');break;
+                                case 20:alarm_names.push('<div style="color:red">&nbsp; CABINET TEMP ALARM</div>');break;
+                                case 21:alarm_names.push('<div style="color:red">&nbsp; BYPASS ALARM</div>');break;
+                                case 22:alarm_names.push('<div style="color:red">&nbsp; LOW FLOW WASTE ALARM</div>');break;
+                                case 23:alarm_names.push('<div style="color:red">&nbsp; LOW FLOW PURE ALARM</div>');break;
+                            }
+                        }
+                    }
+                    //calculate mode
+                    var mode_name ="";
+                    switch(response.mode){
+                        case "0" : mode_name="LOGOUT";break;
+                        case "1" : mode_name="AUTO";break;
+                        case "2" : mode_name="MANUAL FLUSH";break;
+                        case "3" : mode_name="MANUAL CIP";break;
+                    }
+                    //calculate volume and flow according to volume_unit setpoint
+                    var volume, volume_unit;
+                    var flow , flow_unit;
+                    var device_setpoint_volume_unit = userDevices.volume_unit;
+                    switch(device_setpoint_volume_unit){
+                        case 0 :
+                                volume = response.tpv;
+                                volume_unit = "L";
+                                flow = response.c_flow.toFixed(2);
+                                flow_unit = "LPM";
+                            break;
+                        case 1 :
+                            volume = (response.tpv*0.2642007926).toFixed(2);
+                                volume_unit = "gal";
+                                flow = (response.c_flow*0.2642007926).toFixed(2);
+                                flow_unit = "GPM";
+                            break;
+                    }
+                    // calculate cycles left
+                    var device_setpoint_CIP_cycles = userDevices.CIP_cycles;
+                    var cycles_left = device_setpoint_CIP_cycles - response.cycle;
+                    if(cycles_left < 0)
+                        cycles_left = 0;
+                    $('#live_data_rows').prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
+                            '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
+                            '<div class="timeline-body">'+
+                                '<div class="timeline-header">'+
+                                    '<span class="userimage"><img src="/images/running.gif"></span>'+
+                                    '<span class="username">'+status +'<small>'+step_name+'</small></span>'+
+                                    '<span class="pull-right text-muted">&nbsp;[Run Sec:'+response.step_run_sec+'] </span>'+
+                                    '<span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span>'+
+                                '</div>'+
+                                '<div class="timeline-content">'+
+                                    '<div class="row">'+
+                                        '<div class="col-sm-6">'+
+                                            '<span>Cycles left before next CIP : '+cycles_left+' cycles</span><br/>'+
+                                            '<span>FLOW : '+flow+' '+flow_unit+'</span><br/>'+
+                                            '<span>PUMP SPEED : '+(response.aov/0.05).toFixed(2)+'%</span><br/>'+
+                                            '<span>CABINET TEMPERATURE : '+response.c_temp+' \xB0C</span><br/>'+
+                                            '<span>AVG. CONDUCTIVITY(EC) : '+response.ec+' \xB5s/cm</span><br/>'+
+                                        '</div>'+
+                                        '<div class="col-sm-6">'+
+                                            // '<span>STEP :'+step_name+'</span><br/>'+
+                                            '<span>PRESSURE : '+response.pressure.toFixed(2)+' bar</span><br/>'+
+                                                '<span>PAE VOLTAGE : '+response.pae_volt+' V</span><br/>'+
+                                                '<span>RECOVERY : '+response.percentage_recovery+'%</span><br/>'+
+                                                '<span>WATER TEMPERATURE : '+response.w_temp+' \xB0C</span><br/>'+
+                                                '<span>TOTAL PURE VOLUME : '+volume+' '+volume_unit+'</span><br/>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '<div class="row">'+
+                                        '<div class="col-sm-12">'+
+                                            '<table class="table" style="overflow-x:auto;">'+
+                                                '<tr><th colspan="5" style="text-align:center;color:blue">INPUT</th></tr>'+
+                                                '<tr>'+
+                                                    '<th>LEVEL</th>'+
+                                                    '<th>BYPASS</th>'+
+                                                    '<th>LEAKAGE</th>'+
+                                                    '<th>SIGNAL</th>'+
+                                                    '<th>SPARE</th>'+
+                                                '</tr>'+
+                                                '<tr>'+
+                                                    '<td>'+input_names[4]+'</td>'+
+                                                    '<td>'+input_names[3]+'</td>'+
+                                                    '<td>'+input_names[2]+'</td>'+
+                                                    '<td>'+input_names[1]+'</td>'+
+                                                    '<td>'+input_names[0]+'</td>'+
+                                                '</tr>'+
+                                            '</table>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '<div class="row">'+
+                                        '<div class="col-sm-12">'+
+                                            '<table class="table" style="overflow-x:auto;">'+
+                                                '<tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>'+
+                                                '<tr>'+
+                                                    '<th>MIV</th>'+
+                                                    '<th>BYPASS</th>'+
+                                                    '<th>POV</th>'+
+                                                    '<th>WOV</th>'+
+                                                    '<th>CIP</th>'+
+                                                    '<th>SHUNT</th>'+
+                                                    '<th>POLARITY</th>'+
+                                                    '<th>PAE</th>'+
+                                                    '<th>SPARE</th>'+
+                                                '</tr>'+
+                                                '<tr>'+
+                                                    '<td>'+output_names[15]+'</td>'+
+                                                    '<td>'+output_names[14]+'</td>'+
+                                                    '<td>'+output_names[13]+'</td>'+
+                                                    '<td>'+output_names[12]+'</td>'+
+                                                    '<td>'+output_names[11]+'</td>'+
+                                                    '<td>'+output_names[10]+'</td>'+
+                                                    '<td>'+output_names[9]+'</td>'+
+                                                    '<td>'+output_names[8]+'</td>'+
+                                                    '<td>'+output_names[7]+'</td>'+
+                                                '</tr>'+
+                                            '</table>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '<div class="row" style="border:1px solid black; margin:5px">'+
+                                        '<div class="col-sm-12"><h4>ALARMS</h4></div>'+
+                                            alarm_names+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                        '</li>');
+                    highlight($('#live_data_rows:first .timeline-body:first'));
+                }
+            });
+        }
+
     }
     // Maintenance
         var old_critic_value, old_pre_filter, old_post_filter, old_general_service;
