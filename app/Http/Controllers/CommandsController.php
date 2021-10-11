@@ -25,10 +25,10 @@ class CommandsController extends Controller
         $command->save();
         return response()->json($command);
     }
-    public function start_cip($id){
+    public function start_CIP($id){
         $command = new Device_commands();
         $command->device_id = $id;
-        $command->command = "Start_CIP";
+        $command->command = "Start CIP";
         $command->created_by = Auth::user()->id;
         $command->save();
         return response()->json($command);

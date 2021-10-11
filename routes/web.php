@@ -140,7 +140,7 @@ Route::post('/saveGeneralService/{id}',[App\Http\Controllers\DeviceController::c
 Route::get('/deviceCommands/{id}',[App\Http\Controllers\CommandsController::class, 'getDeviceCommands'])->middleware('auth');
 Route::delete('/deleteCommand/{id}',[App\Http\controllers\CommandsController::class, 'deleteCommand'])->middleware('auth');
 Route::post('/flush_module/{id}',[App\Http\Controllers\CommandsController::class, 'flush_module'])->middleware('auth');
-Route::post('/start_cip/{id}',[App\Http\Controllers\CommandsController::class, 'start_cip'])->middleware('auth');
+Route::post('/start_CIP/{id}',[App\Http\Controllers\CommandsController::class, 'start_CIP'])->middleware('auth');
 Route::post('/current_date/{id}',[App\Http\Controllers\CommandsController::class, 'current_date'])->middleware('auth');
 Route::post('/current_time/{id}',[App\Http\Controllers\CommandsController::class, 'current_time'])->middleware('auth');
 Route::post('/command/stop/{id}',[App\Http\Controllers\CommandsController::class, 'stopDevice'])->middleware('auth');

@@ -1220,7 +1220,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_flush_module" id="btn_flush_module">Flush Module</button></div>
-                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_start_cip" id="btn_start_cip">Start CIP</button></div>
+                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_start_CIP" id="btn_start_cip">Start CIP</button></div>
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_time" id="btn_current_time">Current Time</button></div>
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_date" id="btn_current_date">Current Date</button></div>
                                                     </div>
@@ -2825,6 +2825,18 @@
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "POST",
                 url: "/flush_module/"+ device_id,
+            })
+            .done(function(response){
+                Swal.fire('Success','Command recorded.','success')
+                var date = new Date(response.created_at)
+                $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+            });
+        })
+        $('.btn_start_CIP').on('click', function(){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/start_CIP/"+ device_id,
             })
             .done(function(response){
                 Swal.fire('Success','Command recorded.','success')
