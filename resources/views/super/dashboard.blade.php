@@ -3907,23 +3907,24 @@
                                             cancelButtonText: 'No'
                                             }).then((result) => {
                                             if (result.isConfirmed) {
-                                                $.ajax({
-                                                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                                                    type: "POST",
-                                                    url: "/command/start/"+ device_id,
-                                                })
-                                                .done(function(response){
-                                                    Swal.fire('Success','Command recorded.','success')
-                                                    start_stop_command_sent = true;
-                                                    $('#device_status').text('Pending')
-                                                    document.getElementById('device_status').style.color = 'black'
-                                                    document.getElementById('device_status_pic').style.color = 'black'
-                                                    $('#btn_device_start_stop').text('Starting')
-                                                    $('#btn_device_start_stop').removeClass('btn-primary').addClass('btn-danger')
-                                                    $('#btn_device_start_stop').attr('disabled','true');
-                                                    // var date = new Date(response.created_at)
-                                                    // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
-                                                });
+                                                $('.btn_device_start_stop').click();
+                                                // $.ajax({
+                                                //     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                                                //     type: "POST",
+                                                //     url: "/command/start/"+ device_id,
+                                                // })
+                                                // .done(function(response){
+                                                //     Swal.fire('Success','Command recorded.','success')
+                                                //     start_stop_command_sent = true;
+                                                //     $('#device_status').text('Pending')
+                                                //     document.getElementById('device_status').style.color = 'black'
+                                                //     document.getElementById('device_status_pic').style.color = 'black'
+                                                //     $('#btn_device_start_stop').text('Starting')
+                                                //     $('#btn_device_start_stop').removeClass('btn-primary').addClass('btn-danger')
+                                                //     $('#btn_device_start_stop').attr('disabled','true');
+                                                //     // var date = new Date(response.created_at)
+                                                //     // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                                                // });
 
                                             }
                                         })
