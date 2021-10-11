@@ -2463,7 +2463,7 @@
                         )
                     }
                     // Initialize the table
-                    $('#maintenance_logs_table').DataTable();
+                    $('#maintenance_logs_table').DataTable({"order": [[ 4, "desc" ]]});
                     // If table is initialized
                     if ($.fn.DataTable.isDataTable('#control_logs_table')){
                         // Destroy existing table
@@ -2484,7 +2484,7 @@
                         )
                     }
                     // Initialize the table
-                    $('#control_logs_table').DataTable();
+                    $('#control_logs_table').DataTable({"order": [[ 4, "desc" ]]});
                     // If table is initialized
                     if ($.fn.DataTable.isDataTable('#setpoints_logs_table')){
                         // Destroy existing table
@@ -2503,7 +2503,7 @@
                         )
                     }
                     // Initialize the table
-                    $('#setpoints_logs_table').DataTable();
+                    $('#setpoints_logs_table').DataTable({"order": [[ 4, "desc" ]]});
                     $('#modal-device_notifications').modal('show');
                 });
             })
