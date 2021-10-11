@@ -404,9 +404,9 @@ class DeviceController extends Controller
     }
     // function to get device notifications
     public function getDeviceNotifications($device_id){
-        $maintenance_logs = DeviceSettingsLogs::where('device_id',$device_id)->with('changerDetails:id,name,role')->get();
-        $control_logs = Device_commands::where('device_id',$device_id)->with('creatorDetails:id,name,role')->get();
-        $setpoints_logs = DeviceSetPointsChangeLog::where('device_id',$device_id)->with('changerDetails:id,name,role')->get();
+        $maintenance_logs = DeviceSettingsLogs::where('device_id',$device_id)->with('changerDetails:id,name,role')->orderBy('id','DESC')->get();
+        $control_logs = Device_commands::where('device_id',$device_id)->with('creatorDetails:id,name,role')->orderBy('id','DESC')->get();
+        $setpoints_logs = DeviceSetPointsChangeLog::where('device_id',$device_id)->with('changerDetails:id,name,role')->orderBy('id','DESC')->get();
         $notifications = [
             'maintenance'=>$maintenance_logs,
             'controls'=>$control_logs,
