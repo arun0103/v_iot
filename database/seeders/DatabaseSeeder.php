@@ -34,12 +34,12 @@ class DatabaseSeeder extends Seeder
             'created_by' => 1
         ]);
 
-        \DB::table('resellers')->insert([
-            'company_name' =>"Voltea Reseller",
-            'email' =>"support@voltea.com",
-            'phone'=>123,
-            'created_by'=>1,
-            'created_at' =>Carbon::now()
-        ]);
+        // \DB::table('resellers')->insert([
+        //     'company_name' =>"Voltea Reseller",
+        //     'email' =>"support@voltea.com",
+        //     'phone'=>123,
+        //     'created_by'=>1,
+        //     'created_at' =>Carbon::now()
+        // ]);
     }
 }

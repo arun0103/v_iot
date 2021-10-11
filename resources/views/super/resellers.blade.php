@@ -30,7 +30,7 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-            <div class="row" id="add_edit_reseller">
+            <div class="row" id="add_edit_reseller" hidden>
                 <div class="col-lg-12">
                     <form id="form_Reseller" class="form-horizontal" autocomplete="nope">
                         {{ csrf_field() }}
@@ -164,46 +164,44 @@
 
         </div>
         <!-- /.container-fluid -->
-        <div class="modal fade" id="modal-view_reseller_device">
-            <div class="modal-dialog modal-lg" >
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="modal-title-reseller_device_list">Resellers' Device List</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row roundPadding20">
-                            <div class="col-lg-12">
-                                <table class="table table-stripped ">
-                                    <thead>
-                                        <tr>
-                                            <th>PCB Serial #</th>
-                                            <th>Device Serial #</th>
-                                            <th>Model</th>
-                                            <th># Users</th>
-                                            <th>Last Data</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="reseller_device_table_body">
-                                    </tbody>
-                                </table>
-                            </div>
+    </div>
+    <!-- /.content -->
+    <div class="modal fade" id="modal-view_reseller_device">
+        <div class="modal-dialog modal-lg" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-title-reseller_device_list">Resellers' Device List</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row roundPadding20">
+                        <div class="col-lg-12">
+                            <table class="table table-stripped ">
+                                <thead>
+                                    <tr>
+                                        <th>PCB Serial #</th>
+                                        <th>Device Serial #</th>
+                                        <th>Model</th>
+                                        <th># Users</th>
+                                        <th>Last Data</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reseller_device_table_body">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <!-- <button type="button" class="btn btn-primary" id="btn_confirm_add_reseller_device" value="Add">Add</button> -->
-                    </div>
                 </div>
-                <!-- /.modal-content -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn btn-primary" id="btn_confirm_add_reseller_device" value="Add">Add</button> -->
+                </div>
             </div>
-            <!-- /.modal-dialog -->"
+            <!-- /.modal-content -->
         </div>
-
+        <!-- /.modal-dialog -->"
     </div>
-
-    <!-- /.content -->
 
     <!-- Document Script -->
     <script type="text/javascript">
@@ -213,7 +211,6 @@
         var edit_id;
         // var reseller_table = $('#resellersTable').DataTable();
         $(function(){
-            $('#add_edit_reseller').hide();
             var d_height = $(document).height();
             var d_width = $(document).width();
 
@@ -228,10 +225,9 @@
                 didOpen: () => {
                     Swal.showLoading()
                 },
-                willClose: () => {
-                    clearInterval(timerInterval)
-                }
-
+                // willClose: () => {
+                //     clearInterval(timerInterval)
+                // }
             })
             var address = {
                 'country': $('#countries').val(),
@@ -281,10 +277,10 @@
                         })
 
                     default:
-                        console.log(msg);
+                        // console.log(msg);
 
                 }
-                console.log( msg );
+                // console.log( msg );
             });
 
         })
@@ -307,15 +303,14 @@
         })
 
         $('#btn_add').on('click', function(){
-            console.log("Add Reseller clicked")
             $('#inputCompanyName').val('');
             $('#inputCompanyEmail').val('');
             $('#inputCompanyPhone').val('');
             $('#countries').val('');
             $('#state-select').val('');
             $('#city-input').val('');
-            $('#add_edit_reseller').show();
-            $('#resellers-table').hide();
+            $('#add_edit_reseller').attr('hidden',false);
+            $('#resellers-table').attr('hidden',true);
 
             $('#add_edit_title').text('Add Reseller');
             $('#btn_edit_save_reseller').hide();
@@ -323,9 +318,10 @@
 
         })
         $('#view_table').on('click', function(){
-            $('#add_edit_reseller').hide();
+            $('#add_edit_reseller').attr('hidden',true);
+            $('#resellers-table').attr('hidden',false);
             $('#resellers-table').show();
-            console.log("View Table Reseller")
+            // console.log("View Table Reseller")
         })
 
         function deleteReseller(id){
@@ -359,7 +355,7 @@
 
         $('.btn-edit-reseller').on('click',function(){
             $('.loader').show();
-            $('#add_edit_reseller').show();
+            $('#add_edit_reseller').attr('hidden',false);
             $('#btn_edit_save_reseller').show();
             $('#btn_confirm_add_reseller').hide();
             $('#resellers-table').hide();
@@ -407,7 +403,6 @@
                 data: formData,
             })
             .done(function( response ) {
-
                 Swal.fire(
                     'Saved!',
                     response.company_name +'\'s details saved',
@@ -432,7 +427,7 @@
                 url: "/resellerDevices/"+trid,
             })
             .done(function(data) {
-                console.log(data)
+                // console.log(data)
                 if(data.length == 0){
                     Swal.fire(
                         'Skipped!',

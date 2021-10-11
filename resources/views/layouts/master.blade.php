@@ -124,9 +124,18 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" href="#" role="button">
-          <h4><i class="fas fa-th-large" id="control_sidebar_btn"></i></h4>
+        <a class="nav-link" role="button" id="control_sidebar_btn"  data-toggle="dropdown" >
+          <h4><i class="fas fa-th-large"></i></h4>
         </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <a href="{{route('logout')}}" class="dropdown-item">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;Logout
+                    </div>
+                </div>
+                </a>
+            </div>
       </li>
     </ul>
   </nav>
@@ -289,7 +298,14 @@
   <aside id="control_sidebar_main" class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3 flex justify-content-center">
-      <a href="{{route('logout')}}">Logout</a>
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;Logout</a>
+            </div>
+        </div>
+
+
+
     </div>
   </aside>
   <!-- /.control-sidebar -->
@@ -318,13 +334,15 @@
         }
         $('#control_sidebar_main').css('display','none')
     });
-    $('#control_sidebar_btn').on('click', function(){
-        $('#control_sidebar_main').addClass("control-sidebar-open");
-        $('#control_sidebar_main').show();
-    })
+    // $('#control_sidebar_btn').on('click', function(e){
+    //     e.preventDefault();
+    //     $('#control_sidebar_main').show();
+    //     $("#control_sidebar_btn").ControlSidebar('toggle');
+    // })
     $('.nav-item-routes').on('click',function(){
         $('.loader').show();
     })
+
 </script>
 @yield('scripts')
 </body>

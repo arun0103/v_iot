@@ -496,6 +496,7 @@
     .timeline {
         list-style-type: none;
         margin: 0;
+        margin-top:-25px;
         padding: 0;
         position: relative
     }
@@ -514,7 +515,7 @@
     .timeline>li {
         position: relative;
         min-height: 50px;
-        padding: 20px 0
+        padding: 15px 0
     }
 
     .timeline .timeline-time {
@@ -522,7 +523,7 @@
         left: 0;
         width: 18%;
         text-align: right;
-        top: 30px
+        top: 10px
     }
 
     .timeline .timeline-time .date,
@@ -547,7 +548,7 @@
         position: absolute;
         width: 10%;
         text-align: center;
-        top: 40px
+        top: 35px
     }
 
     .timeline .timeline-icon a {
@@ -594,9 +595,9 @@
     }
 
     .timeline-header {
-        padding-bottom: 10px;
+
         border-bottom: 1px solid #e2e7eb;
-        line-height: 30px
+        line-height: 20px
     }
 
     .timeline-header .userimage {
@@ -1205,7 +1206,7 @@
                                                         <ul class="timeline live_data_rows" id="live_data_rows">
                                                             <li>
                                                                 <div class="timeline-time"><span class="time" id="live_start_time"></span></div>
-                                                                <div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>
+                                                                <div class="timeline-icon"></div>
                                                                 <div class="timeline-body">
                                                                     <div class="timeline-header">Live View Started</div>
                                                                     <div class="timeline-content">Waiting data from device</div>
@@ -2275,7 +2276,7 @@
                                 '<div class="timeline-header">'+
                                     '<span class="userimage"><img src="/images/running.gif"></span>'+
                                     '<span class="username">'+status +'<small>'+step_name+'</small></span>'+
-                                    '<span class="pull-right text-muted">[Run Sec:'+response.step_run_sec+'] </span>'+
+                                    '<span class="pull-right text-muted">&nbsp;[Run Sec:'+response.step_run_sec+'] </span>'+
                                     '<span style="float:right;"><i>[LOGGED AT:'+response.log_dt+'] UTC </i></span>'+
                                 '</div>'+
                                 '<div class="timeline-content">'+

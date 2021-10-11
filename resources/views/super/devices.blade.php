@@ -456,7 +456,7 @@
     })
     //Add
     $('#btn_add_new_device').on('click', function(){
-        alert('hi')
+        // alert('hi')
         $('#selectModel').val(-1).change();
         $('#inputSN').val("");
         $('#inputDN').val("");
@@ -471,11 +471,6 @@
         let manufactured_date = $('#inputManufacturedDate').val()
         let firmware = $('#inputFirmwareVersion').val()
 
-        console.log(model)
-        console.log(serial_number)
-        console.log(device_number)
-        console.log(manufactured_date)
-        console.log(firmware)
         let validated = true;
         if(model == -1){
             validated = false;
@@ -500,20 +495,25 @@
             let splitted_date = manufactured_date.split("/");
             if(splitted_date.length !=3){
                 $('#error_manufactured_date').text("Invalid date selecte").css('color','red')
+                validated = false;
             }else{
                 if(splitted_date[0] >12){ //month
                     $('#error_manufactured_date').text("Invalid month").css('color','red')
+                    validated = false;
                 }
                 if(splitted_date[1] >31){ //day
                     $('#error_manufactured_date').text("Invalid day").css('color','red')
+                    validated = false;
                 }
                 if(splitted_date[2] <2020){//year
                     $('#error_manufactured_date').text("Invalid year").css('color','red')
+                    validated = false;
                 }
             }
 
             $('#error_manufactured_date').text("");
         }
+        return validated;
     }
     $('#btn_confirm_add_new_device').on('click', function(e){
         e.preventDefault();
@@ -524,57 +524,58 @@
             'manufactured_date':$('#inputManufacturedDate').val(),
             'firmware':$('#inputFirmwareVersion').val(),
         }
-        validateAddNewDevice()
-        // $.ajax({
-        //     method: "POST",
-        //     url: "/addNewDevice",
-        //     data: formData,
-        //     })
-        //     .done(function( response ) {
-        //         switch(response['message']){
-        //             case 'Error':
-        //                 Swal.fire({
-        //                     icon: 'error',
-        //                     title: 'Oops...',
-        //                     text:  response.description,
-        //                     //footer: '<a href="../login">Login as Adminstrator?</a>'
-        //                 });
-        //                 break;
-        //             case 'Success':
-        //                 $('tbody').prepend('<tr id="'+response.data.id+'" class="device"><td>'+response.data.serial_number + '</td>'
-        //                     +'<td>'+ response.data.device_number
-        //                     + '</td><td>-</td><td>'
-        //                     + response.data.model.name +
-        //                     '</td><td>-</td>'+
-        //                     '<td>0</td><td>-</td>'
-        //                     +'<td><a class="nav-link" data-toggle="dropdown"><i class="fas fa-angle-down"></i></a>'
-        //                         +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
-        //                             +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Upgrade Firmware</a>'
-        //                             +'<a class="dropdown-item operation-edit_device">'
-        //                                 +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
-        //                             +'</a>'
-        //                             +'<div class="dropdown-divider"></div>'
-        //                             +'<a class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
-        //                             +'<div class="dropdown-divider"></div>'
-        //                             +'<a class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>'
-        //                         +'</div></td></tr>')
-        //                 $('#modal-add-new-device').modal('hide')
-        //                 Swal.fire(
-        //                     'Added!',
-        //                     'Device has been added',
-        //                     'success'
-        //                 );
+        if(validateAddNewDevice()){
+            $.ajax({
+                method: "POST",
+                url: "/addNewDevice",
+                data: formData,
+                })
+                .done(function( response ) {
+                    switch(response['message']){
+                        case 'Error':
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text:  response.description,
+                                //footer: '<a href="../login">Login as Adminstrator?</a>'
+                            });
+                            break;
+                        case 'Success':
+                            $('tbody').prepend('<tr id="'+response.data.id+'" class="device"><td>'+response.data.serial_number + '</td>'
+                                +'<td>'+ response.data.device_number
+                                + '</td><td>-</td><td>'
+                                + response.data.model.name +
+                                '</td><td>-</td>'+
+                                '<td>0</td><td>-</td>'
+                                +'<td><a class="nav-link" data-toggle="dropdown"><i class="fas fa-angle-down"></i></a>'
+                                    +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
+                                        +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Upgrade Firmware</a>'
+                                        +'<a class="dropdown-item operation-edit_device">'
+                                            +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
+                                        +'</a>'
+                                        +'<div class="dropdown-divider"></div>'
+                                        +'<a class="dropdown-item view-device-users"><i class="fa fa-eye" aria-hidden="true" data-toggle="modal" data-target="#modal-view-device-users"></i> View Users</a>'
+                                        +'<div class="dropdown-divider"></div>'
+                                        +'<a class="dropdown-item dropdown-footer operation-delete"><i class="far fa-trash-alt"></i> Delete Device</a>'
+                                    +'</div></td></tr>')
+                            $('#modal-add-new-device').modal('hide')
+                            Swal.fire(
+                                'Added!',
+                                'Device has been added',
+                                'success'
+                            );
 
-        //                 break;
-        //             default:
-        //                 Swal.fire({
-        //                     icon: 'error',
-        //                     title: 'Oops...',
-        //                     text: 'Something went wrong!' + response.description,
-        //                     footer: response
-        //                 })
-        //         }
-        // });
+                            break;
+                        default:
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!' + response.description,
+                                footer: response
+                            })
+                    }
+            });
+        }
     })
     //Edit
     var edit_device_id = null;
