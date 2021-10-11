@@ -3943,6 +3943,7 @@
                 url: "/getDeviceAlarms/"+device_id,
             })
             .done(function(response){
+                $('#alarms_history_row').html('');
                 for(var i=0 ;i< response.length; i++){
                     if(response[i].alarms != 0){
                         var alarm_names = calculateAlarm(response[i].alarms);
