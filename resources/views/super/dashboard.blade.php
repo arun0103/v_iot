@@ -566,7 +566,7 @@
 
     .timeline .timeline-body {
         margin-left: 23%;
-        margin-right: 5%;
+        margin-right: 0%;
         background: #fff;
         position: relative;
         /* padding: 20px 15px; */
@@ -2298,7 +2298,7 @@
                                     '</div>'+
                                     '<div class="row">'+
                                         '<div class="col-sm-12">'+
-                                            '<table class="table">'+
+                                            '<table class="table" style="overflow-x:auto;">'+
                                                 '<tr><th colspan="5" style="text-align:center;color:blue">INPUT</th></tr>'+
                                                 '<tr>'+
                                                     '<th>LEVEL</th>'+
@@ -2319,7 +2319,7 @@
                                     '</div>'+
                                     '<div class="row">'+
                                         '<div class="col-sm-12">'+
-                                            '<table class="table">'+
+                                            '<table class="table" style="overflow-x:auto;">'+
                                                 '<tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>'+
                                                 '<tr>'+
                                                     '<th>MIV</th>'+
