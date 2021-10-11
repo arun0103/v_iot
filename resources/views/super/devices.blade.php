@@ -64,6 +64,8 @@
                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                 <a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Upgrade Firmware</a>
                                                 <a class="dropdown-item operation-edit_device"><i class="fas fa-edit" aria-hidden="true"> Edit Device</i></a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item operation-edit_device_name"><i class="fas fa-edit"></i> Edit Device Name</a>
                                                 <!-- <a href="#" class="dropdown-item operation-assign_user">
                                                     <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
                                                 </a> -->
@@ -551,6 +553,8 @@
                                     +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
                                         +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Upgrade Firmware</a>'
                                         +'<a class="dropdown-item operation-edit_device">'
+                                        +'<a class="dropdown-item operation-edit_device_name"><i class="fas fa-edit"></i> Edit Device Name</a>'
+                                            +'<div class="dropdown-divider"></div>'
                                             +'<i class="fas fa-edit" id="edit_device" aria-hidden="true"> Edit Device</i>'
                                         +'</a>'
                                         +'<div class="dropdown-divider"></div>'
@@ -594,6 +598,49 @@
             $('#inputManufacturedDate_edit').val(response.manufactured_date);
             $('#modal-edit-device').modal('show')
         })
+
+    })
+    $('#device_lists').on('click','.operation-edit_device_name', function(){
+        var device_id = $(this).closest('tr').attr('id'); // table row ID
+        Swal.fire({
+            title: "Rename Device?",
+            text: "Name something informative!",
+            input: 'text',
+            inputValue: $('#device_name-'+device_id).text(),
+            showCancelButton: true
+        }).then((result) => {
+            if (result.value) {
+                let formData = {
+                    // Device Info
+                    'serial_number': $('#device_serial-'+device_id).text(),
+                    'device_name' : result.value
+                }
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "POST",
+                    url: "/nameResellerDevice",
+                    data: formData,
+                })
+                .done(function(response){
+                    $('#device_name-'+device_id).text(response.device_name)
+                    Swal.fire({
+                        title: 'Done!',
+                        text: 'Device is added and named as '+ response.device_name,
+                        icon: 'success',
+                        confirmButtonText: 'Cool'
+                    })
+                });
+            }
+            // else{
+            //     Swal.fire({
+            //         title: 'Error!',
+            //         text: 'Device name cannot be empty!',
+            //         icon: 'error',
+            //         confirmButtonText: 'Cool'
+            //     })
+            // }
+        });
+
 
     })
     $('#btn_confirm_save_edit_device').on('click',function(){
