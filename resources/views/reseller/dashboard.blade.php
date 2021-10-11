@@ -2360,14 +2360,9 @@
         }
 
     }
-    function highlight(obj){
-        var orig = obj.css('background');
-        obj.css('background', '#87bde6');
-        setTimeout(function(){
-                obj.css('background',orig);
-        }, 2000);
-    }
+
     function pull_relay_data(){
+        clearInterval(dashboard_data);
         // get the device relay values
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -2389,6 +2384,13 @@
                 }
             }
         });
+    }
+    function highlight(obj){
+        var orig = obj.css('background');
+        obj.css('background', '#87bde6');
+        setTimeout(function(){
+                obj.css('background',orig);
+        }, 2000);
     }
     $(document).ready(function () {
         $('.datatable').dataTable();
