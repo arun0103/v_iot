@@ -933,10 +933,10 @@
             </div>
         </div>
     </div>
-    <div class="modal fade modal-volume-chart" id="modal-volume-chart">
+    <div class="modal fade modal-volume-chart " id="modal-volume-chart">
         <form id="form_volume_chart" class="form-horizontal" method="post" action="" autocomplete="no">
             {{ csrf_field() }}
-            <div class="modal-dialog modal-lg" >
+            <div class="modal-dialog modal-full" >
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="modal-title">Volume Graph</h4>
@@ -950,7 +950,7 @@
                                         <div class="form-group">
                                         <label for="timeFrame_volume" class="control-label">Time Frame</label>
                                             <select name="timeFrame_volume" id="timeframe_volume" class="form-control" title="Selct">
-                                                <option>-- Select --</option>
+                                                <option selected hidden>-- Select --</option>
                                                 <option value="last_hour">Last hour</option>
                                                 <option value="last_24_hour">Last 24 Hours</option>
                                                 <option value="custom">Custom</option>
@@ -1065,9 +1065,7 @@
                                                                                     <div class="media-body">
                                                                                         <p class="text-sm"><b><i><span id="info_device_connection_text"></span></i></b></p>
                                                                                         <p class="text-sm" id="info_device_connection_description"></p>
-
-                                                                                            <p>Last Data Received: <span id="last_data_received"></span></p>
-
+                                                                                        <p>Last Data Received: <span id="last_data_received"></span></p>
                                                                                     </div>
                                                                                 </div>
                                                                             </a>
@@ -2308,6 +2306,29 @@
             })
         //
     });
+    function pull_relay_data(){
+        // get the device relay values
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/deviceRelays/"+ device_id,
+        })
+        .done(function(response){
+            // console.log(response)
+            // calculating output
+            if(response != null){
+                var output = response;
+                var output_binary_string = (output >>> 0).toString(2);
+
+                for(var index =1; index<10; index++ ){
+                    if(output_binary_string.charAt(16-index)=='1') // 1 = OFF, 0 = ON
+                        $('#btn_relay_'+index).attr("checked",false).trigger("change");
+                    else
+                        $('#btn_relay_'+index).attr("checked", true).trigger("change");
+                }
+            }
+        });
+    }
     // Maintenance
         var old_critic_value, old_pre_filter, old_post_filter, old_general_service;
         $('.btn_edit_maintenance').on('click',function(){
@@ -3134,17 +3155,6 @@
         $('#btn_save_setpoints').attr('hidden',true)
         $('#btn_cancel_setpoints').attr('hidden',true)
         $('#footer_maintenance').attr('hidden',true)
-        // check the relays status and device step
-        var output = $('#device_output').text();
-        // calculating output
-        var output_binary_string = (output >>> 0).toString(2);
-
-        for(var i =7 ; i<output_binary_string.length; i++){
-            if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
-                $('#btn_relay_'+(i-6)).attr("checked",false).trigger("change");
-            else
-                $('#btn_relay_'+(i-6)).attr("checked", true).trigger("change");
-        }
 
         if($('#status-'+device_id).text() =="RUNNING"){
             // disable all the relay commands
@@ -3168,24 +3178,72 @@
             $('#btn_relay_8').removeAttr("disabled");
             $('#btn_relay_9').removeAttr("disabled");
         }
-
-        // get the commands list
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "GET",
-            url: "/deviceCommands/"+ device_id,
-
-        })
-        .done(function(response){
-            response.forEach(addCommandRows)
-
-            function addCommandRows(item, index, arr){
-                var date = new Date(arr[index].created_at)
-                var status = arr[index].device_read_at == null ?'Sent':(arr[index].device_executed_at == null ?'Executing':(arr[index].device_response_data == null ? 'Executed':arr[index].device_response_data))
-                $('#command').append('<tr id="'+arr[index].id+'"><td>'+date+'</td><td>'+arr[index].command+'</td><td>'+status+'</td><td><i class="fas fa-trash delete-command" ></i></td></tr>');
-            }
-        });
+        relay_data = setInterval(pull_relay_data,10000);
     })
+    // $('.nav_link-control').on('click', function(){
+    //     view_mode = "control";
+    //     view_live_device = null; // we are not in live mode
+    //     $('#btn_refresh_live_data').attr('hidden', true);
+    //     $('#tab_avg_data').hide();
+    //     $('#tab_live_data').hide();
+    //     $('#tab_control').attr('hidden',false);
+    //     $('#tab_control').show();
+    //     $('#btn_edit_setpoints').attr('hidden',true);
+    //     $('#btn_save_setpoints').attr('hidden',true)
+    //     $('#btn_cancel_setpoints').attr('hidden',true)
+    //     $('#footer_maintenance').attr('hidden',true)
+    //     // check the relays status and device step
+    //     var output = $('#device_output').text();
+    //     // calculating output
+    //     var output_binary_string = (output >>> 0).toString(2);
+
+    //     for(var i =7 ; i<output_binary_string.length; i++){
+    //         if(output_binary_string.charAt(i)=='1') // 1 = OFF, 0 = ON
+    //             $('#btn_relay_'+(i-6)).attr("checked",false).trigger("change");
+    //         else
+    //             $('#btn_relay_'+(i-6)).attr("checked", true).trigger("change");
+    //     }
+
+    //     if($('#status-'+device_id).text() =="RUNNING"){
+    //         // disable all the relay commands
+    //         $('#btn_relay_1').attr("disabled","true");
+    //         $('#btn_relay_2').attr("disabled","true");
+    //         $('#btn_relay_3').attr("disabled","true");
+    //         $('#btn_relay_4').attr("disabled","true");
+    //         $('#btn_relay_5').attr("disabled","true");
+    //         $('#btn_relay_6').attr("disabled","true");
+    //         $('#btn_relay_7').attr("disabled","true");
+    //         $('#btn_relay_8').attr("disabled","true");
+    //         $('#btn_relay_9').attr("disabled","true");
+    //     }else{
+    //         $('#btn_relay_1').removeAttr("disabled");
+    //         $('#btn_relay_2').removeAttr("disabled");
+    //         $('#btn_relay_3').removeAttr("disabled");
+    //         $('#btn_relay_4').removeAttr("disabled");
+    //         $('#btn_relay_5').removeAttr("disabled");
+    //         $('#btn_relay_6').removeAttr("disabled");
+    //         $('#btn_relay_7').removeAttr("disabled");
+    //         $('#btn_relay_8').removeAttr("disabled");
+    //         $('#btn_relay_9').removeAttr("disabled");
+    //     }
+
+    //     // get the commands list
+    //     $.ajax({
+    //         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+    //         type: "GET",
+    //         url: "/deviceCommands/"+ device_id,
+
+    //     })
+    //     .done(function(response){
+    //         response.forEach(addCommandRows)
+
+    //         function addCommandRows(item, index, arr){
+    //             var date = new Date(arr[index].created_at)
+    //             var status = arr[index].device_read_at == null ?'Sent':(arr[index].device_executed_at == null ?'Executing':(arr[index].device_response_data == null ? 'Executed':arr[index].device_response_data))
+    //             $('#command').append('<tr id="'+arr[index].id+'"><td>'+date+'</td><td>'+arr[index].command+'</td><td>'+status+'</td><td><i class="fas fa-trash delete-command" ></i></td></tr>');
+    //         }
+    //     });
+    // })
     // variables needed for setpoints tab
     var pure_EC_target,pre_purify_time,purify_time,waste_time,HF_waste_time,
         CIP_dose,CIP_dose_rec,CIP_dose_total,CIP_flow_total,CIP_flow_flush,CIP_flow_rec,CIP_flush_time,
@@ -3612,8 +3670,21 @@
         var graph_title, graph_labels, graph_x_label, graph_y_label, graph_data;
         var graph_displayed = "none";
         var volumeChart;
+        $('#volume_chart').on('click',function(){
+            // alert("hi")
+            $('#form_volume_chart').trigger('reset');
+            // device_id = $(this).closest('section').attr('id'); // table row ID
+            $('#timeframe_volume').val(0);
+            $('.volume_custom_time').hide();
+            graph_time_frame = null;
+            graph_displayed = "none"
+            $('#btn_reload_graph').hide();
+            $('#volumeChart').hide();
+        })
         $('#timeframe_volume').on('change', function(){
             graph_time_frame = $('#timeframe_volume').val();
+            console.log(graph_time_frame)
+            console.log(graph_displayed)
             if(graph_time_frame != graph_displayed)
                 $('#btn_reload_graph').prop('disabled', false);
             else
@@ -3633,6 +3704,14 @@
             }
             // volumeChart.update();
             $('#btn_reload_graph').show();
+        })
+        $('#inputFromDate_volume').on('change', function(){
+            var from = new Date($('#inputFromDate_volume').val())
+
+            from.setDate(from.getDate()+1)
+            var to = from.toLocaleDateString()
+            $('#inputToDate_volume').val(to).change()
+            $('#btn_reload_graph').prop('disabled', false);
         })
         $('#btn_reload_graph').on('click', function(){
             var ctx_volume = document.getElementById('volumeChart').getContext('2d');
@@ -3759,6 +3838,7 @@
                     break;
                 case 'last_24_hour':
                     $('.volume_custom_time').hide();
+                    graph_displayed = "last_24_hour";
                     graph_title = "Water purified in Last 24 Hours";
                     //fetch data from server
                     $.ajax({
@@ -3769,7 +3849,6 @@
                     .done(function(response){
                         graph_labels = Object.assign([],response.graph_labels);
                         graph_data = Object.assign([],response.graph_data);
-                        graph_displayed = "last_hour";
                         if(volumeChart){
                             volumeChart.destroy();
                         }
@@ -3821,14 +3900,7 @@
                     break;
             }
         })
-        $('#inputFromDate_volume').on('change', function(){
-            var from = new Date($('#inputFromDate_volume').val())
 
-            from.setDate(from.getDate()+1)
-            var to = from.toLocaleDateString()
-            $('#inputToDate_volume').val(to).change()
-            $('#btn_reload_graph').prop('disabled', false);
-        })
     //
     // Alarms
         $('.btn_reset_alarms').on('click', function(){
@@ -3881,23 +3953,24 @@
                                             cancelButtonText: 'No'
                                             }).then((result) => {
                                             if (result.isConfirmed) {
-                                                $.ajax({
-                                                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                                                    type: "POST",
-                                                    url: "/command/start/"+ device_id,
-                                                })
-                                                .done(function(response){
-                                                    Swal.fire('Success','Command recorded.','success')
-                                                    start_stop_command_sent = true;
-                                                    $('#device_status').text('Pending')
-                                                    document.getElementById('device_status').style.color = 'black'
-                                                    document.getElementById('device_status_pic').style.color = 'black'
-                                                    $('#btn_device_start_stop').text('Starting')
-                                                    $('#btn_device_start_stop').removeClass('btn-primary').addClass('btn-danger')
-                                                    $('#btn_device_start_stop').attr('disabled','true');
-                                                    // var date = new Date(response.created_at)
-                                                    // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
-                                                });
+                                                $('.btn_device_start_stop').click();
+                                                // $.ajax({
+                                                //     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                                                //     type: "POST",
+                                                //     url: "/command/start/"+ device_id,
+                                                // })
+                                                // .done(function(response){
+                                                //     Swal.fire('Success','Command recorded.','success')
+                                                //     start_stop_command_sent = true;
+                                                //     $('#device_status').text('Pending')
+                                                //     document.getElementById('device_status').style.color = 'black'
+                                                //     document.getElementById('device_status_pic').style.color = 'black'
+                                                //     $('#btn_device_start_stop').text('Starting')
+                                                //     $('#btn_device_start_stop').removeClass('btn-primary').addClass('btn-danger')
+                                                //     $('#btn_device_start_stop').attr('disabled','true');
+                                                //     // var date = new Date(response.created_at)
+                                                //     // $('#command-'+trid).append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+                                                // });
 
                                             }
                                         })

@@ -945,7 +945,7 @@
                                         <div class="form-group">
                                         <label for="timeFrame_volume" class="control-label">Time Frame</label>
                                             <select name="timeFrame_volume" id="timeframe_volume" class="form-control" title="Selct">
-                                                <option>-- Select --</option>
+                                                <option selected hidden>-- Select --</option>
                                                 <option value="last_hour">Last hour</option>
                                                 <option value="last_24_hour">Last 24 Hours</option>
                                                 <option value="custom">Custom</option>
@@ -3638,6 +3638,17 @@
         var graph_title, graph_labels, graph_x_label, graph_y_label, graph_data;
         var graph_displayed = "none";
         var volumeChart;
+        $('#volume_chart').on('click',function(){
+            // alert("hi")
+            $('#form_volume_chart').trigger('reset');
+            // device_id = $(this).closest('section').attr('id'); // table row ID
+            $('#timeframe_volume').val(0);
+            $('.volume_custom_time').hide();
+            graph_time_frame = null;
+            graph_displayed = "none"
+            $('#btn_reload_graph').hide();
+            $('#volumeChart').hide();
+        })
         $('#timeframe_volume').on('change', function(){
             graph_time_frame = $('#timeframe_volume').val();
             if(graph_time_frame != graph_displayed)
@@ -3660,17 +3671,25 @@
             // volumeChart.update();
             $('#btn_reload_graph').show();
         })
+        $('#inputFromDate_volume').on('change', function(){
+            var from = new Date($('#inputFromDate_volume').val())
+
+            from.setDate(from.getDate()+1)
+            var to = from.toLocaleDateString()
+            $('#inputToDate_volume').val(to).change()
+            $('#btn_reload_graph').prop('disabled', false);
+        })
         $('#btn_reload_graph').on('click', function(){
             var ctx_volume = document.getElementById('volumeChart').getContext('2d');
             switch(graph_time_frame){
                 case 'custom':
+                    graph_displayed = "custom";
                     graph_custom_from = $('#inputFromDate_volume').val();
                     graph_custom_to = $('#inputToDate_volume').val();
                     graph_title = "Water purified in "+ graph_custom_from + " to "+ graph_custom_to;
                     //fetch data from server
                     graph_labels = ['01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00','01:00','02:00','03:00','04:00','05:00'];
                     graph_data = [12,10,5,20,25,12,10,5,20,25,12,10,5,20,25];
-                    graph_displayed = "custom";
                         if(volumeChart){
                             volumeChart.destroy();
                         }
@@ -3734,7 +3753,6 @@
                     .done(function(response){
                         graph_labels = Object.assign([],response.graph_labels);
                         graph_data = Object.assign([],response.graph_data);
-                        graph_displayed = "last_hour";
                         if(volumeChart){
                             volumeChart.destroy();
                         }
@@ -3786,6 +3804,8 @@
                 case 'last_24_hour':
                     $('.volume_custom_time').hide();
                     graph_title = "Water purified in Last 24 Hours";
+                    graph_displayed = "last_24_hour";
+
                     //fetch data from server
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -3795,7 +3815,6 @@
                     .done(function(response){
                         graph_labels = Object.assign([],response.graph_labels);
                         graph_data = Object.assign([],response.graph_data);
-                        graph_displayed = "last_hour";
                         if(volumeChart){
                             volumeChart.destroy();
                         }
@@ -3847,14 +3866,7 @@
                     break;
             }
         })
-        $('#inputFromDate_volume').on('change', function(){
-            var from = new Date($('#inputFromDate_volume').val())
 
-            from.setDate(from.getDate()+1)
-            var to = from.toLocaleDateString()
-            $('#inputToDate_volume').val(to).change()
-            $('#btn_reload_graph').prop('disabled', false);
-        })
     //
     // Alarms
         $('.btn_reset_alarms').on('click', function(){

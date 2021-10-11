@@ -1047,8 +1047,8 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                         <label for="timeFrame_volume" class="control-label">Time Frame</label>
-                                            <select name="timeFrame_volume" id="timeframe_volume" class="form-control" title="Selct">
-                                                <option value="0">-- Select --</option>
+                                            <select name="timeFrame_volume" id="timeframe_volume" name="timeframe_volume" class="form-control" title="Selct">
+                                                <option value="0" selected hidden>-- Select --</option>
                                                 <option value="last_hour">Last hour</option>
                                                 <option value="last_24_hour">Last 24 Hours</option>
                                                 <option value="custom">Custom</option>
@@ -1064,7 +1064,7 @@
                                     <div class="col-sm-3 volume_custom_time">
                                         <div class="form-group">
                                         <label for="inputToDate_volume" class="control-label">To</label>
-                                            <input class="form-control datepicker" id="inputToDate_volume" disabled name="to_date_volume" width="234" placeholder="MM/DD/YYYY"/>
+                                            <input class="form-control datepicker" id="inputToDate_volume" name="to_date_volume" width="234" placeholder="MM/DD/YYYY" disabled/>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 d-grid gap-2">
@@ -1264,9 +1264,9 @@
                         url: "/refreshUserDashboardData",
                     })
                     .done(function(response){
-                        console.log("% % % %  Refreshing Dashboad Data % % % % %")
-                        console.log(response);
-                        console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
+                        // console.log("% % % %  Refreshing Dashboad Data % % % % %")
+                        // console.log(response);
+                        // console.log("% % % % % % % % % % % % % % %  % % % % % % % ")
                         for(var i=0; i<response.length;i++){
                             if(response[i]['deviceDetails'].latest_log != null){
                                 $('#btn_device_start_stop-'+response[i]['deviceDetails'].id).removeAttr("hidden");
@@ -1828,21 +1828,22 @@
                                             cancelButtonText: 'No'
                                             }).then((result) => {
                                             if (result.isConfirmed) {
-                                                $.ajax({
-                                                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                                                    type: "POST",
-                                                    url: "/command/start/"+ trid,
-                                                })
-                                                .done(function(response){
-                                                    Swal.fire('Success','Command recorded.','success')
-                                                    start_stop_command_sent[trid] = true;
-                                                    $('#device_status-'+trid).text('Pending')
-                                                    document.getElementById('device_status-'+trid).style.color = 'black'
-                                                    document.getElementById('device_status_pic-'+trid).style.color = 'black'
-                                                    $('#btn_device_start_stop-'+trid).text('Starting')
-                                                    $('#btn_device_start_stop-'+trid).removeClass('btn-primary').addClass('btn-danger')
-                                                    $('#btn_device_start_stop-'+trid).attr('disabled','true');
-                                                });
+                                                $('.btn_device_start_stop').click();
+                                                // $.ajax({
+                                                //     headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                                                //     type: "POST",
+                                                //     url: "/command/start/"+ trid,
+                                                // })
+                                                // .done(function(response){
+                                                //     Swal.fire('Success','Command recorded.','success')
+                                                //     start_stop_command_sent[trid] = true;
+                                                //     $('#device_status-'+trid).text('Pending')
+                                                //     document.getElementById('device_status-'+trid).style.color = 'black'
+                                                //     document.getElementById('device_status_pic-'+trid).style.color = 'black'
+                                                //     $('#btn_device_start_stop-'+trid).text('Starting')
+                                                //     $('#btn_device_start_stop-'+trid).removeClass('btn-primary').addClass('btn-danger')
+                                                //     $('#btn_device_start_stop-'+trid).attr('disabled','true');
+                                                // });
                                             }
                                         })
                                     }
@@ -1970,8 +1971,22 @@
             var graph_title, graph_labels, graph_x_label, graph_y_label, graph_data;
             var graph_displayed = "none";
             var volumeChart;
+            $('.volume-chart').on('click',function(){
+                // alert("hi")
+                $('#form_volume_chart').trigger('reset');
+                device_id = $(this).closest('section').attr('id'); // table row ID
+                $('#timeframe_volume').val(0);
+                $('.volume_custom_time').hide();
+                graph_time_frame = null;
+                graph_displayed = "none"
+                $('#btn_reload_graph').hide();
+                $('#volumeChart').hide();
+
+            })
             $('#timeframe_volume').on('change', function(){
                 graph_time_frame = $('#timeframe_volume').val();
+                console.log(graph_time_frame)
+                console.log(graph_displayed)
                 if(graph_time_frame != graph_displayed)
                     $('#btn_reload_graph').prop('disabled', false);
                 else
@@ -1991,6 +2006,13 @@
                 }
                 // volumeChart.update();
                 $('#btn_reload_graph').show();
+            })
+            $('#inputFromDate_volume').on('change', function(){
+                var from = new Date($('#inputFromDate_volume').val())
+                from.setDate(from.getDate()+1)
+                var to = from.toLocaleDateString()
+                $('#inputToDate_volume').val(to).change()
+                $('#btn_reload_graph').prop('disabled', false);
             })
             $('#btn_reload_graph').on('click', function(){
                 var ctx_volume = document.getElementById('volumeChart').getContext('2d');
@@ -2117,6 +2139,7 @@
                         break;
                     case 'last_24_hour':
                         $('.volume_custom_time').hide();
+                        graph_displayed= "last_24_hour";
                         graph_title = "Water purified in Last 24 Hours";
                         //fetch data from server
                         $.ajax({
@@ -2127,7 +2150,6 @@
                         .done(function(response){
                             graph_labels = Object.assign([],response.graph_labels);
                             graph_data = Object.assign([],response.graph_data);
-                            graph_displayed = "last_hour";
                             if(volumeChart){
                                 volumeChart.destroy();
                             }
@@ -2179,24 +2201,7 @@
                         break;
                 }
             })
-            $('#inputFromDate_volume').on('change', function(){
-                var from = new Date($('#inputFromDate_volume').val())
-                from.setDate(from.getDate()+1)
-                var to = from.toLocaleDateString()
-                $('#inputToDate_volume').val(to).change()
-                $('#btn_reload_graph').prop('disabled', false);
-            })
-            $('.volume-chart').on('click',function(){
-                // alert("hi")
-                device_id = $(this).closest('section').attr('id'); // table row ID
-                $('#timeframe_volume').val(0);
-                $('.volume_custom_time').hide();
-                graph_time_frame = null;
-                graph_displayed = "none"
-                $('#btn_reload_graph').hide();
-                $('#volumeChart').hide();
 
-            })
         //
     });
 
