@@ -1814,6 +1814,14 @@
     </script> -->
 <!-- // -->
 <script>
+    // back button click checker
+    // var perfEntries = performance.getEntriesByType("navigation");
+    // for (var i = 0; i < perfEntries.length; i++) {
+    //     console.log(perfEntries[i].type);
+    // }
+    // if (window.performance && window.performance.navigation.type == window.performance.navigation.TYPE_BACK_FORWARD) {
+    //     alert('hello world');
+    //     }
     var device_id = 0;
     let device_serial = null;
     var critic_acid_reset_value, pre_filter_reset_value, post_filter_reset_value, general_service_reset_value;
