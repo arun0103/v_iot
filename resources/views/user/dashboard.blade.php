@@ -894,7 +894,7 @@
                                                         <!-- /.card-header -->
                                                         <div class="card-body">
                                                             <i class="fas fa fa-certificate" id="device_condutivity_icon-{{$device->deviceDetails->id}}" style="color:green">&nbsp;&nbsp;
-                                                            <span id="device_conductivity_value-{{$device->deviceDetails->id}}">{{$device->latest_log != null ? ($device->latest_log->ec >=0 && $device->latest_log->ec < 200 ? "On Target" : "Needs Attention") : "No Data"}}</span></i>
+                                                            <span id="device_conductivity_value-{{$device->deviceDetails->id}}">- -</span></i>
                                                             <i id="info_device_conductivity-{{$device->deviceDetails->id}}" class="fas fa-info-circle float-right info_device_conductivity" data-toggle="dropdown" ></i>
                                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                                 <a href="#" class="dropdown-item">
