@@ -1221,8 +1221,8 @@
                                                     <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_flush_module" id="btn_flush_module">Flush Module</button></div>
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_start_CIP" id="btn_start_CIP">Start CIP</button></div>
-                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_time" id="btn_current_time">Current Time</button></div>
-                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_date" id="btn_current_date">Current Date</button></div>
+                                                        <!-- <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_time" id="btn_current_time">Current Time</button></div>
+                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_date" id="btn_current_date">Current Date</button></div> -->
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -2170,7 +2170,7 @@
                         case 3: step_name = " Purify";break;
                         case 4: step_name = " Waste";break;
                         case 5: step_name = " High Flow Waste";break;
-                        case 6: step_name = " Wait";break;
+                        case 6: step_name = " Standy";break;
                         case 7: step_name = " CIP Dosing ON";break;
                         case 8: step_name = " CIP Dosing OFF";break;
                         case 9: step_name = " CIP Pulse ON";break;
@@ -2565,7 +2565,7 @@
         .done(function(response){
             userDevices = response;
         });
-        $('#modal-detail-title').text($("#"+trid).find("td:first").html())
+        $('#modal-detail-title').text($("#"+trid).find("td:eq(2)").html())
         device_serial = $("#"+trid).find("td:first").html();
 
         //get data from database every 5 seconds
