@@ -1824,7 +1824,7 @@
     var view_live_device = null; // to track whether user wants to view live data of particular device
     var view_mode = "average";
     function pull_average_data(){
-        let data_pulled_number = 0;
+        var data_pulled_number = 0;
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
