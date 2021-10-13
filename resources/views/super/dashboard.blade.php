@@ -855,7 +855,7 @@
                                                 <td>{{$device->model != null?$device->model->name: "-"}}</td>
                                                 <td>{{$device->userDevices->count()}}</td>
                                                 <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
-                                                <td><span class="ec" id="ec-{{$device->id}}"> - -</span></td>
+                                                <td><span class="ec" id="ec-{{$device->id}}">- - </span></td>
                                                 <td>
                                                     <button class="btn btn-primary view_device_details">View</button>
                                                     <i class="btn fas fa-bell btn_notifications"></i>
@@ -1221,8 +1221,8 @@
                                                     <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_flush_module" id="btn_flush_module">Flush Module</button></div>
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_start_CIP" id="btn_start_CIP">Start CIP</button></div>
-                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_time" id="btn_current_time">Current Time</button></div>
-                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_date" id="btn_current_date">Current Date</button></div>
+                                                        <!-- <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_time" id="btn_current_time">Current Time</button></div>
+                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_date" id="btn_current_date">Current Date</button></div> -->
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -1814,14 +1814,6 @@
     </script> -->
 <!-- // -->
 <script>
-    // back button click checker
-    // var perfEntries = performance.getEntriesByType("navigation");
-    // for (var i = 0; i < perfEntries.length; i++) {
-    //     console.log(perfEntries[i].type);
-    // }
-    // if (window.performance && window.performance.navigation.type == window.performance.navigation.TYPE_BACK_FORWARD) {
-    //     alert('hello world');
-    //     }
     var device_id = 0;
     let device_serial = null;
     var critic_acid_reset_value, pre_filter_reset_value, post_filter_reset_value, general_service_reset_value;
@@ -2170,7 +2162,7 @@
                         case 3: step_name = " Purify";break;
                         case 4: step_name = " Waste";break;
                         case 5: step_name = " High Flow Waste";break;
-                        case 6: step_name = " Wait";break;
+                        case 6: step_name = " Standby";break;
                         case 7: step_name = " CIP Dosing ON";break;
                         case 8: step_name = " CIP Dosing OFF";break;
                         case 9: step_name = " CIP Pulse ON";break;
@@ -2368,13 +2360,7 @@
         }
 
     }
-    function highlight(obj){
-        var orig = obj.css('background');
-        obj.css('background', '#87bde6');
-        setTimeout(function(){
-                obj.css('background',orig);
-        }, 2000);
-    }
+
     function pull_relay_data(){
         clearInterval(avg_data);
         clearInterval(dashboard_data);
@@ -2399,6 +2385,13 @@
                 }
             }
         });
+    }
+    function highlight(obj){
+        var orig = obj.css('background');
+        obj.css('background', '#87bde6');
+        setTimeout(function(){
+                obj.css('background',orig);
+        }, 2000);
     }
     $(document).ready(function () {
         $('.datatable').dataTable();
@@ -2471,7 +2464,7 @@
                         )
                     }
                     // Initialize the table
-                    $('#maintenance_logs_table').DataTable({"order": [[ 4, "desc" ]]});
+                    $('#maintenance_logs_table').DataTable();
                     // If table is initialized
                     if ($.fn.DataTable.isDataTable('#control_logs_table')){
                         // Destroy existing table
@@ -2492,7 +2485,7 @@
                         )
                     }
                     // Initialize the table
-                    $('#control_logs_table').DataTable({"order": [[ 4, "desc" ]]});
+                    $('#control_logs_table').DataTable();
                     // If table is initialized
                     if ($.fn.DataTable.isDataTable('#setpoints_logs_table')){
                         // Destroy existing table
@@ -2511,7 +2504,7 @@
                         )
                     }
                     // Initialize the table
-                    $('#setpoints_logs_table').DataTable({"order": [[ 4, "desc" ]]});
+                    $('#setpoints_logs_table').DataTable();
                     $('#modal-device_notifications').modal('show');
                 });
             })
