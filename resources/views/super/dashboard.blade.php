@@ -1832,6 +1832,7 @@
     var view_live_device = null; // to track whether user wants to view live data of particular device
     var view_mode = "average";
     function pull_average_data(){
+        let data_pulled_number = 0;
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
@@ -2040,10 +2041,12 @@
                 post_filter_reset_value = response['deviceDetails']['latest_maintenance_post_filter']!=null?response['deviceDetails']['latest_maintenance_post_filter'].volume_value:0;
                 general_service_reset_value = response['deviceDetails']['latest_maintenance_general_service']!=null?response['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
                 //maintenance setpoints
-                $('#input_critic_acid').val(response['deviceDetails']['device_settings'].critic_acid);
-                $('#input_pre_filter').val(response['deviceDetails']['device_settings'].pre_filter);
-                $('#input_post_filter').val(response['deviceDetails']['device_settings'].post_filter);
-                $('#input_general_service').val(response['deviceDetails']['device_settings'].general_service);
+                if(data_pulled_number <1){
+                    $('#input_critic_acid').val(response['deviceDetails']['device_settings'].critic_acid);
+                    $('#input_pre_filter').val(response['deviceDetails']['device_settings'].pre_filter);
+                    $('#input_post_filter').val(response['deviceDetails']['device_settings'].post_filter);
+                    $('#input_general_service').val(response['deviceDetails']['device_settings'].general_service);
+                }
                 // calculate volume left
                 var volume_left_critic_acid = response['deviceDetails']['device_settings'].critic_acid - response['deviceVolume'].total + critic_acid_reset_value ;
                 $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
@@ -2090,6 +2093,7 @@
                 $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
                 $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
                 $('#general_service_volume_left').text(volume_left_general_service.toFixed(2));
+                data_pulled_number++;
             }
         });
     }
