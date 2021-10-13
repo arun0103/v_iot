@@ -2565,7 +2565,7 @@
         .done(function(response){
             userDevices = response;
         });
-        $('#modal-detail-title').text($("#"+trid).find("td:eq(2)").html())
+        $('#modal-detail-title').text($("#"+trid).find("td:eq(1)").html())
         device_serial = $("#"+trid).find("td:first").html();
 
         //get data from database every 5 seconds
