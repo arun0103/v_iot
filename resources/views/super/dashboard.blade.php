@@ -1823,8 +1823,8 @@
     var userDevices;
     var view_live_device = null; // to track whether user wants to view live data of particular device
     var view_mode = "average";
+    var data_pulled_number = 0;
     function pull_average_data(){
-        var data_pulled_number = 0;
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
@@ -2566,6 +2566,7 @@
         device_serial = $("#"+trid).find("td:first").html();
 
         //get data from database every 5 seconds
+        data_pulled_number = 0;
         avg_data = setInterval(pull_average_data,5000);
         $('#modal-device-detail').modal('show');
     })
