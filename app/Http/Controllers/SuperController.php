@@ -292,7 +292,7 @@ class SuperController extends Controller
         }
         elseif($loggedInUser->role == 'R'){
             $users = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
-            $devices = Device::where('reseller_id',$loggedInUser->reseller->id)->with('latest_log')->get();
+            $devices = Device::where('reseller_id',$loggedInUser->reseller->id)->get();
             $models = Models::all();
 
             return view('reseller/devices')->with(['devices'=>$devices])->with(['users'=>$users])->with(['models'=>$models]);

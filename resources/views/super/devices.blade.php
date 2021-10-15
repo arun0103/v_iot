@@ -548,7 +548,7 @@
                                 + '</td><td>-</td><td>'
                                 + response.data.model.name +
                                 '</td><td>-</td>'+
-                                '<td>0</td><td>-</td>'
+                                '<td>0</td>'
                                 +'<td><a class="nav-link" data-toggle="dropdown"><i class="fas fa-angle-down"></i></a>'
                                     +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
                                         +'<a class="dropdown-item operation-update_firmware"><i class="fas fa-wrench"></i> Upgrade Firmware</a>'

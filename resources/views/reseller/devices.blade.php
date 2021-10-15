@@ -64,7 +64,7 @@
                                         <th>Device Name</th>
                                         <th>Model</th>
                                         <th>Firmware</th>
-                                        <th>Last Data Received @</th>
+                                        <!-- <th>Last Data Received @</th> -->
                                         <th>More</th>
                                     </tr>
                                 </thead>
@@ -76,9 +76,9 @@
                                         <td id="device_name-{{$device->id}}">{{$device->device_name}}</td>
                                         <td>{{$device->model != null ? $device->model->name : "-"}}</td>
                                         <td>{{$device->firmware}}</td>
-                                        <td>
+                                        <!-- <td>
                                             {{$device->latest_log!=null?$device->latest_log->created_at:"-"}}
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -805,8 +805,7 @@
                                 + '</td><td>'+ response.data.device_number
                                 + '</td><td>-</td><td>'
                                 + response.data.model.name
-                                + '</td><td>'+response.data.firmware
-                                + '</td><td>0</td>'
+                                + '</td><td>'+response.data.firmware + '</td>'
                                 + '<td><a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>'
                                         +'<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
                                             +'<a href="#" class="dropdown-item operation-assign_user"><i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i></a>'
