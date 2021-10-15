@@ -43,7 +43,7 @@
                                         <th>Model</th>
                                         <th>Reseller</th>
                                         <th># Users</th>
-                                        <th>Last Data @</th>
+                                        <!-- <th>Last Data @</th> -->
                                         <th>More</th>
                                     </tr>
                                 </thead>
@@ -56,9 +56,9 @@
                                         <td>{{$device->model != null ? $device->model->name : "-"}}</td>
                                         <td>{{$device->reseller != null ? $device->reseller->company_name : "-"}}</td>
                                         <td id="count_userDevices-{{$device->id}}">{{count($device->userDevices)}}</td>
-                                        <td>
+                                        <!-- <td>
                                             {{$device->latest_log!=null?$device->latest_log->created_at:"-"}}
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <a class="nav-link" data-toggle="dropdown"><i class="fas fa-angle-down"></i></a>
                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
