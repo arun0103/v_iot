@@ -857,7 +857,7 @@
                                                 <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
                                                 <td><span class="ec" id="ec-{{$device->id}}">- - </span></td>
                                                 <td>
-                                                    <button class="btn btn-primary view_device_details">View</button>
+                                                    <button class="btn btn-primary view_device_details" href="/{{$device->serial_number}}/status">View</button>
                                                     <i class="btn fas fa-bell btn_notifications"></i>
                                                     <!-- <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -1238,63 +1238,63 @@
                                                             </h4>
                                                             <div class="card-body">
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>1. MIV &nbsp;&nbsp; </h4>
+                                                                    <h4>1. Main Inlet Valve &nbsp;&nbsp; </h4>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_1">
                                                                         <span class="slider round btn_relay_1"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>2. Bypass &nbsp;&nbsp; </h4>
+                                                                    <h4>2. Bypass Valve &nbsp;&nbsp; </h4>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_2">
                                                                         <span class="slider round btn_relay_2"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>3. POV  &nbsp;&nbsp;</h4>
+                                                                    <h4>3. Pure Valve  &nbsp;&nbsp;</h4>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_3">
                                                                         <span class="slider round btn_relay_3"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>4. WOV &nbsp;&nbsp; </h4>
+                                                                    <h4>4. Waste Valve &nbsp;&nbsp; </h4>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_4">
                                                                         <span class="slider round btn_relay_4"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>5. CIP  &nbsp;&nbsp;</h4>
+                                                                    <h4>5. CIP Pump  &nbsp;&nbsp;</h4>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_5">
                                                                         <span class="slider round btn_relay_5"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>6. SHUNT &nbsp;&nbsp; </h4>
+                                                                    <h4>6. Contactor Coil 2 &nbsp;&nbsp; </h4>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_6">
                                                                         <span class="slider round btn_relay_6"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>7. POLARITY &nbsp;&nbsp; </h4>
+                                                                    <h4>7. Contactor Coil 1 &nbsp;&nbsp; </h4>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_7">
                                                                         <span class="slider round btn_relay_7"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>8. PAE &nbsp;&nbsp; </h4>
+                                                                    <h4>8. Spare Relay &nbsp;&nbsp; </h4>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_8">
                                                                         <span class="slider round btn_relay_8"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>9. BUZZER &nbsp;&nbsp;</h4>
+                                                                    <h4>9. Buzzer &nbsp;&nbsp;</h4>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_9">
                                                                         <span class="slider round btn_relay_9"></span>
