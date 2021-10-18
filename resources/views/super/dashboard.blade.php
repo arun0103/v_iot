@@ -2437,15 +2437,15 @@
                                             '<table class="table" style="overflow-x:auto;">'+
                                                 '<tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>'+
                                                 '<tr>'+
-                                                    '<th>MIV</th>'+
-                                                    '<th>BYPASS</th>'+
-                                                    '<th>POV</th>'+
-                                                    '<th>WOV</th>'+
-                                                    '<th>CIP</th>'+
-                                                    '<th>SHUNT</th>'+
-                                                    '<th>POLARITY</th>'+
-                                                    '<th>PAE</th>'+
-                                                    '<th>SPARE</th>'+
+                                                    '<th>Main Inlet Valve</th>'+
+                                                    '<th>Bypass Valve</th>'+
+                                                    '<th>Pure Valve</th>'+
+                                                    '<th>Waste Valve</th>'+
+                                                    '<th>CIP Pump</th>'+
+                                                    '<th>Contractor Coil 2</th>'+
+                                                    '<th>Contractor Coil 1</th>'+
+                                                    '<th>Spare Relay</th>'+
+                                                    '<th>Buzzer</th>'+
                                                 '</tr>'+
                                                 '<tr>'+
                                                     '<td>'+output_names[15]+'</td>'+
