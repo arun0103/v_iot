@@ -1304,78 +1304,84 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <div class="timeline-content">
-                                                            <div class="row">
-                                                                <div class="col-sm-4">
-                                                                    <span>Cycles left before next CIP : <b id="cycles"></b> cycles</span><br/>
-                                                                    <span>FLOW : <b id="flow"></b> <i id="flow_unit"></i> </span><br/>
-                                                                    <span>PUMP SPEED : <b id="pump_speed"></b>%</span><br/>
-                                                                    <span>CABINET TEMPERATURE : <b id="cabinet_temp"></b> &deg;C</span><br/>
-                                                                    <span>AVG. CONDUCTIVITY(EC) : <b id="avg_ec"></b> &micro;s/cm</span><br/>
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    <span>PRESSURE : <b id="pressure"></b> bar</span><br/>
-                                                                    <span>PAE VOLTAGE : <b id="pae_volt"></b> V</span><br/>
-                                                                    <span>RECOVERY : <b id="recovery"></b>%</span><br/>
-                                                                    <span>WATER TEMPERATURE : <b id="water_temp"></b> &deg;C</span><br/>
-                                                                    <span>TOTAL PURE VOLUME : <b id="volume"></b> <i id="volume_unit"></i></span><br/>
-                                                                </div>
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h3 id="card-title">Live Data</h3>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-sm-4">
+                                                                        <span>Cycles left before next CIP : <b id="cycles"></b> cycles</span><br/>
+                                                                        <span>FLOW : <b id="flow"></b> <i id="flow_unit"></i> </span><br/>
+                                                                        <span>PUMP SPEED : <b id="pump_speed"></b>%</span><br/>
+                                                                        <span>CABINET TEMPERATURE : <b id="cabinet_temp"></b> &deg;C</span><br/>
+                                                                        <span>AVG. CONDUCTIVITY(EC) : <b id="avg_ec"></b> &micro;s/cm</span><br/>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <span>PRESSURE : <b id="pressure"></b> bar</span><br/>
+                                                                        <span>PAE VOLTAGE : <b id="pae_volt"></b> V</span><br/>
+                                                                        <span>RECOVERY : <b id="recovery"></b>%</span><br/>
+                                                                        <span>WATER TEMPERATURE : <b id="water_temp"></b> &deg;C</span><br/>
+                                                                        <span>TOTAL PURE VOLUME : <b id="volume"></b> <i id="volume_unit"></i></span><br/>
+                                                                    </div>
 
-                                                            </div>
-                                                            <!-- <div class="row">
-                                                                <div class="col-sm-4">
-                                                                    <table class="table" style="overflow-x:auto;">
-                                                                        <tr><th colspan="5" style="text-align:center;color:blue">INPUT</th></tr>
-                                                                        <tr>
-                                                                            <th>LEVEL</th>
-                                                                            <th>BYPASS</th>
-                                                                            <th>LEAKAGE</th>
-                                                                            <th>SIGNAL</th>
-                                                                            <th>SPARE</th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>input_names[4]</td>
-                                                                            <td>input_names[3]</td>
-                                                                            <td>input_names[2]</td>
-                                                                            <td>input_names[1]</td>
-                                                                            <td>input_names[0]</td>
-                                                                        </tr>
-                                                                    </table>
                                                                 </div>
-                                                            </div> -->
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <table class="table" style="overflow-x:auto;text-align:center">
-                                                                        <tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>
-                                                                        <tr>
-                                                                            <th>Main Inlet Valve</th>
-                                                                            <th>Bypass Valve</th>
-                                                                            <th>Pure Valve</th>
-                                                                            <th>Waste Valve</th>
-                                                                            <th>CIP Pump</th>
-                                                                            <th>Contactor Coil 2</th>
-                                                                            <th>Contactor Coil 1</th>
-                                                                            <th>Spare Relay</th>
-                                                                            <th>Buzzer</th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td id="main_inlet_valve"></td>
-                                                                            <td id="bypass_valve"></td>
-                                                                            <td id="pure_valve"></td>
-                                                                            <td id="waste_valve"></td>
-                                                                            <td id="CIP_pump"></td>
-                                                                            <td id="contactor_coil_2"></td>
-                                                                            <td id="contactor_coil_1"></td>
-                                                                            <td id="spare_relay"></td>
-                                                                            <td id="buzzer"></td>
-                                                                        </tr>
-                                                                    </table>
+                                                                <!-- <div class="row">
+                                                                    <div class="col-sm-4">
+                                                                        <table class="table" style="overflow-x:auto;">
+                                                                            <tr><th colspan="5" style="text-align:center;color:blue">INPUT</th></tr>
+                                                                            <tr>
+                                                                                <th>LEVEL</th>
+                                                                                <th>BYPASS</th>
+                                                                                <th>LEAKAGE</th>
+                                                                                <th>SIGNAL</th>
+                                                                                <th>SPARE</th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>input_names[4]</td>
+                                                                                <td>input_names[3]</td>
+                                                                                <td>input_names[2]</td>
+                                                                                <td>input_names[1]</td>
+                                                                                <td>input_names[0]</td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div> -->
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <table class="table" style="overflow-x:auto;text-align:center">
+                                                                            <tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>
+                                                                            <tr>
+                                                                                <th>Main Inlet Valve</th>
+                                                                                <th>Bypass Valve</th>
+                                                                                <th>Pure Valve</th>
+                                                                                <th>Waste Valve</th>
+                                                                                <th>CIP Pump</th>
+                                                                                <th>Contactor Coil 2</th>
+                                                                                <th>Contactor Coil 1</th>
+                                                                                <th>Spare Relay</th>
+                                                                                <th>Buzzer</th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td id="main_inlet_valve"></td>
+                                                                                <td id="bypass_valve"></td>
+                                                                                <td id="pure_valve"></td>
+                                                                                <td id="waste_valve"></td>
+                                                                                <td id="CIP_pump"></td>
+                                                                                <td id="contactor_coil_2"></td>
+                                                                                <td id="contactor_coil_1"></td>
+                                                                                <td id="spare_relay"></td>
+                                                                                <td id="buzzer"></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="border:1px solid black; margin:5px">
+                                                                    <div class="col-sm-12"><h4>ALARMS</h4></div>
+                                                                        <!-- alarm_names+ -->
                                                                 </div>
                                                             </div>
-                                                            <div class="row" style="border:1px solid black; margin:5px">
-                                                                <div class="col-sm-12"><h4>ALARMS</h4></div>
-                                                                    <!-- alarm_names+ -->
-                                                            </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
