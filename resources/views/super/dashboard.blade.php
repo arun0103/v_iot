@@ -3308,6 +3308,7 @@
 
     $('.nav_link-control').on('click', function(){
         view_mode = "control";
+        view_live_device = device_id;
         // view_live_device = null; // we are not in live mode
         $('#btn_refresh_live_data').attr('hidden', true);
         $('#tab_avg_data').hide();
