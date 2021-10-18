@@ -3314,6 +3314,7 @@
 
     $('.nav_link-control').on('click', function(){
         clearInterval(avg_data);
+
         view_mode = "control";
         view_live_device = device_id;
         // view_live_device = null; // we are not in live mode
@@ -3349,6 +3350,14 @@
             $('#btn_relay_8').removeAttr("disabled");
             $('#btn_relay_9').removeAttr("disabled");
         }
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getDeviceSetpointsForCalculation/"+device_id,
+        })
+        .done(function(response){
+            userDevices = response;
+        });
         if(typeof live_data === 'undefined')
             live_data = setInterval(pull_live_data,5000);
         // relay_data = setInterval(pull_live_data,10000);
