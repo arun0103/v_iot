@@ -689,8 +689,8 @@
         let street = $('#input_street_address_1').val()
         let house = $('#input_house_address_1').val()
         let zip = $('#input_zip_code').val()
-        console.log(country);
-        console.log(state);
+        // console.log(country);
+        // console.log(state);
         let validated = true;
         if(user_name == null || user_name == ""){
             validated = false;
@@ -929,10 +929,6 @@
             Swal.fire("Error","Please check the fields and correct them to continue","error");
         }
     })
-
-
-
-
 
     $('#device_lists').on('click','.view-device-users', function(){
         var device_id = $(this).closest('tr').attr('id'); // table row ID
