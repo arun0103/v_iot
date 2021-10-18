@@ -1973,8 +1973,8 @@
         .done(function(response){
             $('.message_from_database').removeClass("linear-background");
             $('.display_body').css('visibility','visible')
-            console.log("% % % %  Refreshing Dashboad Data :"+device_id + " % % % % %")
-            console.log(response);
+            // console.log("% % % %  Refreshing Dashboad Data :"+device_id + " % % % % %")
+            // console.log(response);
             if(response['deviceDetails'].latest_log != null){
                 $('#btn_device_start_stop').removeAttr("hidden");
 
@@ -2056,7 +2056,7 @@
                             }
                         }else{
                             command_sent_time = +new Date(response_command.created_at)
-                            console.log("Command sent time : "+ command_sent_time)
+                            // console.log("Command sent time : "+ command_sent_time)
                         }
                     });
                 }
@@ -2561,7 +2561,7 @@
     function pull_relay_data(){
         clearInterval(avg_data);
         clearInterval(dashboard_data);
-        console.log("Pulling relay data")
+        // console.log("Pulling relay data")
         // get the device relay values
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -2898,7 +2898,7 @@
                             url: "/resetCriticAcid/"+ device_id +"/"+volume,
                         })
                         .done(function(response){
-                            console.log(response)
+                            // console.log(response)
                             $('#critic_acid_error').text("").trigger("change");
                             $('#critic_acid_details').removeAttr("hidden");
                             $('#critic_acid_volume_left').text(critic_acid_reset_value);

@@ -1282,7 +1282,7 @@
         })
         .done(function(response){
             userDevices = response;
-            console.log(response)
+            // console.log(response)
         });
         $('.volume_custom_time').hide();
         $('#btn_reload_graph').hide();
@@ -1453,7 +1453,7 @@
                                 var volume_left_post_filter = response[i]['deviceDetails']['device_settings'].post_filter - response[i]['deviceVolume'].total + post_filter_reset_value ;
                                 var volume_left_general_service = response[i]['deviceDetails']['device_settings'].general_service - response[i]['deviceVolume'].total + general_service_reset_value ;
                                 general_service_reset_date = response[i]['deviceDetails']['latest_maintenance_general_service']!=null?response[i]['deviceDetails']['latest_maintenance_general_service'].created_at:response[i]['deviceDetails'].installation_date;
-                                console.log(general_service_reset_date)
+                                // console.log(general_service_reset_date)
                                 var temp_date;
                                 if(response[i]['deviceDetails']['latest_maintenance_general_service'] != null){ // if general service is performed before
                                     temp_date = new Date(response[i]['deviceDetails']['latest_maintenance_general_service'].created_at)
@@ -2079,8 +2079,8 @@
             })
             $('#timeframe_volume').on('change', function(){
                 graph_time_frame = $('#timeframe_volume').val();
-                console.log(graph_time_frame)
-                console.log(graph_displayed)
+                // console.log(graph_time_frame)
+                // console.log(graph_displayed)
                 if(graph_time_frame != graph_displayed)
                     $('#btn_reload_graph').prop('disabled', false);
                 else
@@ -2309,7 +2309,7 @@
         })
         .done(function(response){
             userDevices = response;
-            console.log(response)
+            // console.log(response)
             $('#modal-device_settings').modal("show")
         });
 
