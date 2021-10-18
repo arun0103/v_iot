@@ -2485,6 +2485,7 @@
     function pull_relay_data(){
         clearInterval(avg_data);
         clearInterval(dashboard_data);
+        console.log("Pulling relay data")
         // get the device relay values
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
