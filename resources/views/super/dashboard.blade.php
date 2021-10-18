@@ -2781,23 +2781,10 @@
             old_pre_filter = $('.input_pre_filter').val();
             old_post_filter = $('.input_post_filter').val();
             old_general_service = $('.input_general_service').val();
-            Swal.fire({
-                title: 'Disclaimer!',
-                text: "Changing setpoints may cause system to malfunction! ",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('.input_critic_acid').removeAttr("disabled");
-                    $('.input_pre_filter').removeAttr("disabled");
-                    $('.input_post_filter').removeAttr("disabled");
-                    $('.input_general_service').removeAttr("disabled");
-                }
-            })
-
+            $('.input_critic_acid').removeAttr("disabled");
+            $('.input_pre_filter').removeAttr("disabled");
+            $('.input_post_filter').removeAttr("disabled");
+            $('.input_general_service').removeAttr("disabled");
         })
         $('.input_critic_acid').on('keyup', function(){
             $('#btn_save_critic_acid').removeAttr("hidden");
@@ -3581,10 +3568,23 @@
     })
 
     $('#btn_edit_setpoints').on('click', function(){
-        $('#btn_edit_setpoints').attr('hidden',true)
-        $('#btn_save_setpoints').attr('hidden',false)
-        $('#btn_cancel_setpoints').attr('hidden',false)
-        $('.input-setpoints').attr('disabled',false);
+        Swal.fire({
+                title: 'Disclaimer!',
+                text: "Changing setpoints may cause system to malfunction! ",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#btn_edit_setpoints').attr('hidden',true)
+                    $('#btn_save_setpoints').attr('hidden',false)
+                    $('#btn_cancel_setpoints').attr('hidden',false)
+                    $('.input-setpoints').attr('disabled',false);
+                }
+            })
+
     })
     $('#btn_save_setpoints').on('click', function(){
         $('#btn_edit_setpoints').attr('hidden',false)
