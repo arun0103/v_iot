@@ -1221,8 +1221,6 @@
                                                     <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_flush_module" id="btn_flush_module">Flush Module</button></div>
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_start_CIP" id="btn_start_CIP">Start CIP</button></div>
-                                                        <!-- <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_time" id="btn_current_time">Current Time</button></div>
-                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_date" id="btn_current_date">Current Date</button></div> -->
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -1238,68 +1236,145 @@
                                                             </h4>
                                                             <div class="card-body">
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>1. Main Inlet Valve &nbsp;&nbsp; </h4>
+                                                                    <h5>1. Main Inlet Valve &nbsp;&nbsp; </h5>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_1">
                                                                         <span class="slider round btn_relay_1"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>2. Bypass Valve &nbsp;&nbsp; </h4>
+                                                                    <h5>2. Bypass Valve &nbsp;&nbsp; </h5>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_2">
                                                                         <span class="slider round btn_relay_2"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>3. Pure Valve  &nbsp;&nbsp;</h4>
+                                                                    <h5>3. Pure Valve  &nbsp;&nbsp;</h5>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_3">
                                                                         <span class="slider round btn_relay_3"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>4. Waste Valve &nbsp;&nbsp; </h4>
+                                                                    <h5>4. Waste Valve &nbsp;&nbsp; </h5>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_4">
                                                                         <span class="slider round btn_relay_4"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>5. CIP Pump  &nbsp;&nbsp;</h4>
+                                                                    <h5>5. CIP Pump  &nbsp;&nbsp;</h5>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_5">
                                                                         <span class="slider round btn_relay_5"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>6. Contactor Coil 2 &nbsp;&nbsp; </h4>
+                                                                    <h5>6. Contactor Coil 2 &nbsp;&nbsp; </h5>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_6">
                                                                         <span class="slider round btn_relay_6"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>7. Contactor Coil 1 &nbsp;&nbsp; </h4>
+                                                                    <h5>7. Contactor Coil 1 &nbsp;&nbsp; </h5>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_7">
                                                                         <span class="slider round btn_relay_7"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>8. Spare Relay &nbsp;&nbsp; </h4>
+                                                                    <h5>8. Spare Relay &nbsp;&nbsp; </h5>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_8">
                                                                         <span class="slider round btn_relay_8"></span>
                                                                     </label>
                                                                 </div>
                                                                 <div class="d-inline-flex p-2">
-                                                                    <h4>9. Buzzer &nbsp;&nbsp;</h4>
+                                                                    <h5>9. Buzzer &nbsp;&nbsp;</h5>
                                                                     <label class="switch">
                                                                         <input type="checkbox" id="btn_relay_9">
                                                                         <span class="slider round btn_relay_9"></span>
                                                                     </label>
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="timeline-content">
+                                                            <div class="row">
+                                                                <div class="col-sm-4">
+                                                                    <span>Cycles left before next CIP : <b id="cycles"></b> cycles</span><br/>
+                                                                    <span>FLOW : <b id="flow"></b> <i id="flow_unit"></i> </span><br/>
+                                                                    <span>PUMP SPEED : <b id="pump_speed"></b>%</span><br/>
+                                                                    <span>CABINET TEMPERATURE : <b id="cabinet_temp"></b> &deg;C</span><br/>
+                                                                    <span>AVG. CONDUCTIVITY(EC) : <b id="avg_ec"></b> &micro;s/cm</span><br/>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <span>PRESSURE : <b id="pressure"></b> bar</span><br/>
+                                                                    <span>PAE VOLTAGE : <b id="pae_volt"></b> V</span><br/>
+                                                                    <span>RECOVERY : <b id="recovery"></b>%</span><br/>
+                                                                    <span>WATER TEMPERATURE : <b id="water_temp"></b> &deg;C</span><br/>
+                                                                    <span>TOTAL PURE VOLUME : <b id="volume"></b> <i id="volume_unit"></i></span><br/>
+                                                                </div>
+
+                                                            </div>
+                                                            <!-- <div class="row">
+                                                                <div class="col-sm-4">
+                                                                    <table class="table" style="overflow-x:auto;">
+                                                                        <tr><th colspan="5" style="text-align:center;color:blue">INPUT</th></tr>
+                                                                        <tr>
+                                                                            <th>LEVEL</th>
+                                                                            <th>BYPASS</th>
+                                                                            <th>LEAKAGE</th>
+                                                                            <th>SIGNAL</th>
+                                                                            <th>SPARE</th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>input_names[4]</td>
+                                                                            <td>input_names[3]</td>
+                                                                            <td>input_names[2]</td>
+                                                                            <td>input_names[1]</td>
+                                                                            <td>input_names[0]</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div> -->
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <table class="table" style="overflow-x:auto;">
+                                                                        <tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>
+                                                                        <tr style="text-align:center">
+                                                                            <th>Main Inlet Valve</th>
+                                                                            <th>Bypass Valve</th>
+                                                                            <th>Pure Valve</th>
+                                                                            <th>Waste Valve</th>
+                                                                            <th>CIP Pump</th>
+                                                                            <th>Contactor Coil 2</th>
+                                                                            <th>Contactor Coil 1</th>
+                                                                            <th>Spare Relay</th>
+                                                                            <th>Buzzer</th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td id="main_inlet_valve"></td>
+                                                                            <td id="bypass_valve"></td>
+                                                                            <td id="pure_valve"></td>
+                                                                            <td id="waste_valve"></td>
+                                                                            <td id="CIP_pump"></td>
+                                                                            <td id="contactor_coil_2"></td>
+                                                                            <td id="contactor_coil_1"></td>
+                                                                            <td id="spare_relay"></td>
+                                                                            <td id="buzzer"></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="border:1px solid black; margin:5px">
+                                                                <div class="col-sm-12"><h4>ALARMS</h4></div>
+                                                                    <!-- alarm_names+ -->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1644,10 +1719,10 @@
                                                                     <th style="line-height: 2.5em">General</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="general_service_details">
-                                                                            <b><span id="general_service_volume_left"></span></b> gal left before next service
+                                                                            <b><span id="general_service_volume_left"></span></b> days left before next service
                                                                         </span>
                                                                         <p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error"></p></td>
-                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_general_service" class="form-control input_general_service" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_general_service" class="form-control input_general_service" value="" disabled><span class="text-muted">&nbsp; days</span></td>
                                                                     <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service" hidden>Save</button></td>
                                                                     <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service" disabled>Reset</button></td>
                                                                 </tr>
@@ -1816,7 +1891,7 @@
 <script>
     var device_id = 0;
     let device_serial = null;
-    var critic_acid_reset_value, pre_filter_reset_value, post_filter_reset_value, general_service_reset_value;
+    var critic_acid_reset_value, pre_filter_reset_value, post_filter_reset_value, general_service_reset_value,general_service_reset_date;
     var btn_clicked = null;
     var avg_data; var live_data; var dashboard_data; var relay_data;
     var device_data_created_at = null;
@@ -1833,8 +1908,8 @@
         .done(function(response){
             $('.message_from_database').removeClass("linear-background");
             $('.display_body').css('visibility','visible')
-            // console.log("% % % %  Refreshing Dashboad Data :"+device_id + " % % % % %")
-            // console.log(response);
+            console.log("% % % %  Refreshing Dashboad Data :"+device_id + " % % % % %")
+            console.log(response);
             if(response['deviceDetails'].latest_log != null){
                 $('#btn_device_start_stop').removeAttr("hidden");
 
@@ -2032,22 +2107,40 @@
                 pre_filter_reset_value = response['deviceDetails']['latest_maintenance_pre_filter']!=null?response['deviceDetails']['latest_maintenance_pre_filter'].volume_value:0;
                 post_filter_reset_value = response['deviceDetails']['latest_maintenance_post_filter']!=null?response['deviceDetails']['latest_maintenance_post_filter'].volume_value:0;
                 general_service_reset_value = response['deviceDetails']['latest_maintenance_general_service']!=null?response['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
+                general_service_reset_date = response['deviceDetails']['latest_maintenance_general_service']!=null?response['deviceDetails']['latest_maintenance_general_service'].created_at:response['deviceDetails'].installation_date;
+                // console.log(general_service_reset_date)
+                if(response['deviceDetails']['latest_maintenance_general_service'] != null){ // if general service is performed before
+                    let temp_date = new Date(response['deviceDetails']['latest_maintenance_general_service'].created_at*1000)
+                    let year = temp_date.getFullYear();
+                    let month = temp_date.getMonth();
+                    let days = temp_date.getDate();
+                    let date_only = new Date(year,month,days);
+                    general_service_reset_date = date_only;
+                }
+                // console.log(general_service_reset_date)
                 //maintenance setpoints
                 if(data_pulled_number <1){
                     $('#input_critic_acid').val(response['deviceDetails']['device_settings'].critic_acid);
                     $('#input_pre_filter').val(response['deviceDetails']['device_settings'].pre_filter);
                     $('#input_post_filter').val(response['deviceDetails']['device_settings'].post_filter);
                     $('#input_general_service').val(response['deviceDetails']['device_settings'].general_service);
+                    // console.log($('#input_general_service').val())
                 }
-                // calculate volume left
+                // calculate volume left for maintenance
                 var volume_left_critic_acid = response['deviceDetails']['device_settings'].critic_acid - response['deviceVolume'].total + critic_acid_reset_value ;
                 $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
                 var volume_left_pre_filter = response['deviceDetails']['device_settings'].pre_filter - response['deviceVolume'].total + pre_filter_reset_value ;
                 $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
                 var volume_left_post_filter = response['deviceDetails']['device_settings'].post_filter - response['deviceVolume'].total + post_filter_reset_value ;
                 $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
-                var volume_left_general_service = response['deviceDetails']['device_settings'].general_service - response['deviceVolume'].total + general_service_reset_value ;
-                $('#general_service_volume_left').text(volume_left_general_service.toFixed(2));
+                let installation_date = response['deviceDetails'].installation_date;
+                // console.log(installation_date)
+                let i_date = +new Date(installation_date)
+                let s_date = +new Date(general_service_reset_date)
+                let today = Date.now()
+                var difference = Math.abs(Math.floor((parseInt(today) - parseInt(s_date))/(1000*60*60*24)))
+                var days_left_general_service = $('#input_general_service').val() - difference
+                $('#general_service_volume_left').text(days_left_general_service);
                 //check if maintenance needed
                 var is_maintenance_needed = false;
                 if(volume_left_critic_acid < 0){
@@ -2071,8 +2164,8 @@
                     $('#post_filter_error').text("Post-filter replacement needed!").css("color","red");
                     $('#btn_reset_post_filter').attr('disabled',false);
                 }
-                if(volume_left_general_service < 0){
-                    volume_left_general_service = 0;
+                if(days_left_general_service < 0){
+                    days_left_general_service = 0;
                     is_maintenance_needed = true;
                     $('#general_service_details').attr("hidden","true");
                     $('#general_service_error').text("General service needed!").css("color","red");
@@ -2084,7 +2177,7 @@
                 $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
                 $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
                 $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
-                $('#general_service_volume_left').text(volume_left_general_service.toFixed(2));
+                $('#general_service_volume_left').text(days_left_general_service);
                 data_pulled_number++;
             }
         });
@@ -2144,8 +2237,8 @@
                 url: "/deviceLiveData/"+ view_live_device,
             })
             .done(function(response){
-                // console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
-                // console.log(response);
+                console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
+                console.log(response);
                 if(device_data_created_at != response.created_at){
                     device_data_created_at = response.created_at;
                     var recorded_date = new Date(response.created_at);
@@ -2205,6 +2298,16 @@
                         else
                             output_names.push('<span style="color:green">ON</span>');
                     }
+                    // for controls
+                    $('#main_inlet_valve').text(output_names[15])
+                    $('#bypass_valve').text(output_names[14])
+                    $('#pure_valve').text(output_names[13])
+                    $('#waste_valve').text(output_names[12])
+                    $('#CIP_pump').text(output_names[11])
+                    $('#contactor_coil_2').text(output_names[10])
+                    $('#contactor_coil_1').text(output_names[9])
+                    $('#spare_relay').text(output_names[8])
+                    $('#buzzer').text(output_names[7])
 
                     // calculating alarms
                     var alarms = response.alarm;
@@ -2274,7 +2377,8 @@
                     var cycles_left = device_setpoint_CIP_cycles - response.cycle;
                     if(cycles_left < 0)
                         cycles_left = 0;
-                    $('#live_data_rows').prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
+                    $('#live_data_rows').prepend(
+                        '<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
                             '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
                             '<div class="timeline-body">'+
                                 '<div class="timeline-header">'+
@@ -2359,6 +2463,19 @@
                             '</div>'+
                         '</li>');
                     highlight($('#live_data_rows:first .timeline-body:first'));
+                    // for controls
+                    $('#cycles').text(cycles_left);
+                    $('#flow').text(flow);
+                    $('#flow_unit').text(flow_unit);
+                    $('#pump_speed').text((response.aov/0.05).toFixed(2));
+                    $('#cabinet_temp').text(response.c_temp);
+                    $('#avg_ec').text(response.ec);
+                    $('#pressure').text(response.pressure.toFixed(2));
+                    $('#pae_volt').text(response.pae_volt);
+                    $('#recovery').text(response.percentage_recovery);
+                    $('#water_temp').text(response.w_temp);
+                    $('#volume').text(volume);
+                    $('#volume_unit').text(volume_unit);
                 }
             });
         }
@@ -2400,7 +2517,6 @@
     $(document).ready(function () {
         $('.datatable').dataTable();
         dashboard_data = setInterval(pull_dashboard_data,5000);
-
 
         $('.loader').hide();
         $('#btn_map_view').on('click', function(){
@@ -2444,7 +2560,7 @@
                     url: "/getDeviceNotifications/"+device_id,
                 })
                 .done(function(response){
-                    console.log(response)
+                    // console.log(response)
                     // If table is initialized
                     if ($.fn.DataTable.isDataTable('#maintenance_logs_table')){
                         // Destroy existing table
@@ -3191,7 +3307,7 @@
 
     $('.nav_link-control').on('click', function(){
         view_mode = "control";
-        view_live_device = null; // we are not in live mode
+        // view_live_device = null; // we are not in live mode
         $('#btn_refresh_live_data').attr('hidden', true);
         $('#tab_avg_data').hide();
         $('#tab_live_data').hide();
@@ -3224,7 +3340,7 @@
             $('#btn_relay_8').removeAttr("disabled");
             $('#btn_relay_9').removeAttr("disabled");
         }
-        relay_data = setInterval(pull_relay_data,10000);
+        // relay_data = setInterval(pull_live_data,10000);
 
     })
     // variables needed for setpoints tab

@@ -63,7 +63,7 @@ class DeviceController extends Controller
                 $device_setting->critic_acid = 25000;
                 $device_setting->pre_filter = 25000;
                 $device_setting->post_filter = 25000;
-                $device_setting->general_service = 25000;
+                $device_setting->general_service = 365;
                 $device_setting->save();
                 // add device's default setpoints
                 $device_setpoints = new Setpoints();

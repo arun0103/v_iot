@@ -13,6 +13,7 @@ use App\Models\Reseller;
 use App\Notifications\HelloNewUser;
 use App\Notifications\HelloNewReseller;
 
+use Carbon\Carbon;
 
 class ResellerController extends Controller
 {
@@ -287,6 +288,9 @@ class ResellerController extends Controller
                 ]
             ];
         }
+        $now = Carbon::now();
+        $searchDevice->installation_date = $now->toDateString();
+        $searchDevice->save();
         return response()->json($response);
     }
 

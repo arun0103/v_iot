@@ -19,7 +19,7 @@ class CreateDeviceSettings extends Migration
             $table->decimal('critic_acid')->nullable();
             $table->decimal('pre_filter')->nullable();
             $table->decimal('post_filter')->nullable();
-            $table->decimal('general_service')->nullable();
+            $table->integer('general_service')->nullable();
             $table->timestamps();
         });
     }

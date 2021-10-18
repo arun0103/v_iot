@@ -709,6 +709,7 @@
             $('#error_email').text("");
         }else{
             $('#error_email').text("Email is invalid!").css('color','red');
+            validated =  false;
         }
         if(user_mobile == null || user_mobile == ""){
             validated = false;
