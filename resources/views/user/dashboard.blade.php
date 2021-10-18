@@ -988,10 +988,10 @@
                                                                     <th style="line-height: 2.5em">General</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="general_service_details-{{$device->deviceDetails->id}}">
-                                                                            <b><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></span></b> gal left before next service
+                                                                            <b><span id="general_service_volume_left-{{$device->deviceDetails->id}}"></span></b> days left before next service
                                                                         </span>
                                                                         <p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error-{{$device->deviceDetails->id}}"></p></td>
-                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_general_service-{{$device->deviceDetails->id}}" class="form-control input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled><span class="text-muted"> gal</span></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_general_service-{{$device->deviceDetails->id}}" class="form-control input_general_service" value="{{$device->deviceDetails->device_settings!= null ? $device->deviceDetails->device_settings->general_service: ''}}" disabled><span class="text-muted"> days</span></td>
                                                                     <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service-{{$device->deviceDetails->id}}" hidden>Save</button></td>
                                                                     <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service-{{$device->deviceDetails->id}}" disabled>Reset</button></td>
                                                                 </tr>
@@ -1125,9 +1125,19 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row roundPadding20">
-                            <div class="col-sm-12">
-
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 id="card-title">Setpoints</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6"><label for="input_pure_EC_target"></label></div>
+                                    <div class="col-sm-6"><input type="number" id="input_pure_EC_target"/></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6"><label for="input_CIP_cycles"></label></div>
+                                    <div class="col-sm-6"><input type="number" id="input_CIP_cycles"/></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1254,7 +1264,8 @@
 
 <script>
     var device_id;
-
+    var userDevices;
+    var critic_acid_reset_value, pre_filter_reset_value, post_filter_reset_value, general_service_reset_value
     $(document).ready(function () {
         $.ajaxSetup({
             headers: {
@@ -1264,7 +1275,6 @@
 
         // get the setpoints from the database and save for future calculations
         // CIP_cycle, volume unit are two setpoints that is needed to calculate live view data
-        var userDevices;
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
@@ -1272,6 +1282,7 @@
         })
         .done(function(response){
             userDevices = response;
+            console.log(response)
         });
         $('.volume_custom_time').hide();
         $('#btn_reload_graph').hide();
@@ -1397,7 +1408,7 @@
                                                 case 18:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>WASTE VALVE ALARM</p>");break;
                                                 case 19:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>LEAKAGE ALARM</p>");break;
                                                 case 20:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>CABINET TEMP ALARM</p>");break;
-                                                case 21:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>BYPASS ALARM</p>");break;
+                                                // case 21:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>BYPASS ALARM</p>");break;
                                                 case 22:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>LOW FLOW WASTE ALARM</p>");break;
                                                 case 23:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>LOW FLOW PURE ALARM</p>");break;
                                             }
@@ -1432,15 +1443,31 @@
 
                                 // maintenance
                                 //critic acid
-                                var critic_acid_reset_value = response[i]['deviceDetails']['latest_maintenance_critic_acid']!=null?response[i]['deviceDetails']['latest_maintenance_critic_acid'].volume_value:0;
-                                var pre_filter_reset_value = response[i]['deviceDetails']['latest_maintenance_pre_filter']!=null?response[i]['deviceDetails']['latest_maintenance_pre_filter'].volume_value:0;
-                                var post_filter_reset_value = response[i]['deviceDetails']['latest_maintenance_post_filter']!=null?response[i]['deviceDetails']['latest_maintenance_post_filter'].volume_value:0;
-                                var general_service_reset_value = response[i]['deviceDetails']['latest_maintenance_general_service']!=null?response[i]['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
+                                critic_acid_reset_value = response[i]['deviceDetails']['latest_maintenance_critic_acid']!=null?response[i]['deviceDetails']['latest_maintenance_critic_acid'].volume_value:0;
+                                pre_filter_reset_value = response[i]['deviceDetails']['latest_maintenance_pre_filter']!=null?response[i]['deviceDetails']['latest_maintenance_pre_filter'].volume_value:0;
+                                post_filter_reset_value = response[i]['deviceDetails']['latest_maintenance_post_filter']!=null?response[i]['deviceDetails']['latest_maintenance_post_filter'].volume_value:0;
+                                general_service_reset_value = response[i]['deviceDetails']['latest_maintenance_general_service']!=null?response[i]['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
 
                                 var volume_left_critic_acid = response[i]['deviceDetails']['device_settings'].critic_acid - response[i]['deviceVolume'].total + critic_acid_reset_value ;
                                 var volume_left_pre_filter = response[i]['deviceDetails']['device_settings'].pre_filter - response[i]['deviceVolume'].total + pre_filter_reset_value ;
                                 var volume_left_post_filter = response[i]['deviceDetails']['device_settings'].post_filter - response[i]['deviceVolume'].total + post_filter_reset_value ;
                                 var volume_left_general_service = response[i]['deviceDetails']['device_settings'].general_service - response[i]['deviceVolume'].total + general_service_reset_value ;
+                                general_service_reset_date = response[i]['deviceDetails']['latest_maintenance_general_service']!=null?response[i]['deviceDetails']['latest_maintenance_general_service'].created_at:response[i]['deviceDetails'].installation_date;
+                                console.log(general_service_reset_date)
+                                var temp_date;
+                                if(response[i]['deviceDetails']['latest_maintenance_general_service'] != null){ // if general service is performed before
+                                    temp_date = new Date(response[i]['deviceDetails']['latest_maintenance_general_service'].created_at)
+                                    let year = temp_date.getFullYear();
+                                    let month = temp_date.getMonth();
+                                    let days = temp_date.getDate();
+                                    let date_only = new Date(year,month,days);
+                                    general_service_reset_date = date_only;
+                                }
+                                let s_date = +new Date(general_service_reset_date)
+                                let today = Date.now()
+                                var difference = Math.abs(Math.floor((parseInt(today) - parseInt(s_date))/(1000*60*60*24)))
+                                var days_left_general_service = $('#input_general_service-'+response[i]['deviceDetails'].id).val() - difference
+                                $('#general_service_volume_left-'+response[i]['deviceDetails'].id).text(days_left_general_service);
                                 //check if maintenance needed
                                 var is_maintenance_needed = false;
                                 if(volume_left_critic_acid < 0){
@@ -1464,8 +1491,8 @@
                                     $('#post_filter_error-'+response[i]['deviceDetails'].id).text("Post-filter replacement needed!").css("color","red");
                                     $('#btn_reset_post_filter-'+response[i]['deviceDetails'].id).attr('disabled',false);
                                 }
-                                if(volume_left_general_service < 0){
-                                    volume_left_general_service = 0;
+                                if(days_left_general_service < 0){
+                                    days_left_general_service = 0;
                                     is_maintenance_needed = true;
                                     $('#general_service_details-'+response[i]['deviceDetails'].id).attr("hidden","true");
                                     $('#general_service_error-'+response[i]['deviceDetails'].id).text("General service needed!").css("color","red");
@@ -1476,7 +1503,7 @@
                                 $('#critic_acid_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_critic_acid.toFixed(2));
                                 $('#pre_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_pre_filter.toFixed(2));
                                 $('#post_filter_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_post_filter.toFixed(2));
-                                $('#general_service_volume_left-'+response[i]['deviceDetails'].id).text(volume_left_general_service.toFixed(2));
+                                $('#general_service_volume_left-'+response[i]['deviceDetails'].id).text(days_left_general_service);
                             }
                         }
                     });
@@ -1635,6 +1662,15 @@
                     confirmButtonText: 'Yes, Reset it!'
                     }).then((result) => {
                     if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Resetting Critic Acid!',
+                            html: 'Please Wait!',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            },
+                        })
                         var device_id = $(this).closest('section').attr('id');
                         var v = $('#total_volume-'+device_id).text().split(" ");
                         var volume = parseFloat(v[0]);
@@ -1648,6 +1684,7 @@
                             $('#critic_acid_details-'+device_id).removeAttr("hidden");
                             $('#critic_acid_volume_left-'+device_id).text(critic_acid_reset_value);
                             Swal.fire('Done!','Critic acid refilled.','success')
+                            $('#btn_reset_critic-'+device_id).attr('disabled',true);
                         })
                     }
                 })
@@ -1663,6 +1700,15 @@
                     confirmButtonText: 'Yes, Reset it!'
                     }).then((result) => {
                     if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Resetting Pre-filter',
+                            html: 'Please Wait!',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            },
+                        })
                         var device_id = $(this).closest('section').attr('id');
                         var v = $('#total_volume-'+device_id).text().split(" ");
                         var volume = parseFloat(v[0]);
@@ -1676,6 +1722,7 @@
                             $('#pre_filter_details-'+device_id).removeAttr("hidden");
                             $('#pre_filter_volume_left-'+device_id).text(pre_filter_reset_value).trigger("change");
                             Swal.fire('Done!','Pre-filter replaced.','success')
+                            $('#btn_reset_pre_filter-'+device_id).attr('disabled',true);
                         })
 
                     }
@@ -1692,7 +1739,16 @@
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes, Reset it!'
                     }).then((result) => {
-                    if (result.isConfirmed) {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                            title: 'Resetting Post-filter!',
+                            html: 'Please Wait!',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            },
+                        })
                         var device_id = $(this).closest('section').attr('id');
                         var v = $('#total_volume-'+device_id).text().split(" ");
                         var volume = parseFloat(v[0]);
@@ -1706,6 +1762,7 @@
                             $('#post_filter_details-'+device_id).removeAttr("hidden");
                             $('#post_filter_volume_left-'+device_id).text(post_filter_reset_value).trigger("change");
                             Swal.fire('Done!','Post filter replaced.','success')
+                            $('#btn_reset_post_filter-'+device_id).attr('disabled',true);
                         })
 
                     }
@@ -1723,6 +1780,15 @@
                     confirmButtonText: 'Yes, Reset it!'
                     }).then((result) => {
                     if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Resetting Service!',
+                            html: 'Please Wait!',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            },
+                        })
                         var device_id = $(this).closest('section').attr('id');
                         var v = $('#total_volume-'+device_id).text().split(" ");
                         var volume = parseFloat(v[0]);
@@ -1736,6 +1802,7 @@
                             $('#general_service_details-'+device_id).removeAttr("hidden");
                             $('#general_service_volume_left-'+device_id).text(general_service_reset_value).trigger("change");
                             Swal.fire('Done!','General Service performed.','success')
+                            $('#btn_reset_general_service-'+device_id).attr('disabled',true);
                         })
 
                     }
@@ -2233,7 +2300,20 @@
     });
 
     $('#btn_edit_settings').on('click', function(){
-        alert("In progress")
+        device_id = $(this).closest('section').attr('id');
+
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getDeviceSetpointsForCalculation/"+device_id,
+        })
+        .done(function(response){
+            userDevices = response;
+            console.log(response)
+            $('#modal-device_settings').modal("show")
+        });
+
+        alert("In progress" + device_id)
     })
 
 

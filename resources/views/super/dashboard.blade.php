@@ -2175,7 +2175,7 @@
                 general_service_reset_date = response['deviceDetails']['latest_maintenance_general_service']!=null?response['deviceDetails']['latest_maintenance_general_service'].created_at:response['deviceDetails'].installation_date;
                 // console.log(general_service_reset_date)
                 if(response['deviceDetails']['latest_maintenance_general_service'] != null){ // if general service is performed before
-                    let temp_date = new Date(response['deviceDetails']['latest_maintenance_general_service'].created_at*1000)
+                    let temp_date = new Date(response['deviceDetails']['latest_maintenance_general_service'].created_at)
                     let year = temp_date.getFullYear();
                     let month = temp_date.getMonth();
                     let days = temp_date.getDate();
@@ -2881,6 +2881,15 @@
                     confirmButtonText: 'Yes, Reset it!'
                     }).then((result) => {
                     if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Resetting Critic Acid!',
+                            html: 'Please Wait!',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            },
+                        })
                         var v = $('#total_volume').text().split(" ");
                         var volume = parseFloat(v[0]);
                         $.ajax({
@@ -2910,6 +2919,15 @@
                     confirmButtonText: 'Yes, Reset it!'
                     }).then((result) => {
                     if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Resetting Pre-filter!',
+                            html: 'Please Wait!',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            },
+                        })
                         var v = $('#total_volume').text().split(" ");
                         var volume = parseFloat(v[0]);
                         $.ajax({
@@ -2938,6 +2956,15 @@
                     confirmButtonText: 'Yes, Reset it!'
                     }).then((result) => {
                     if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Resetting Post-filter!',
+                            html: 'Please Wait!',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            },
+                        })
                         var v = $('#total_volume').text().split(" ");
                         var volume = parseFloat(v[0]);
                         $.ajax({
@@ -2968,6 +2995,15 @@
                     confirmButtonText: 'Yes, Reset it!'
                     }).then((result) => {
                     if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Resetting Service!',
+                            html: 'Please Wait!',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            },
+                        })
                         var v = $('#total_volume').text().split(" ");
                         var volume = parseFloat(v[0]);
                         $.ajax({
