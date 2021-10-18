@@ -1345,9 +1345,9 @@
                                                             </div> -->
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <table class="table" style="overflow-x:auto;">
+                                                                    <table class="table" style="overflow-x:auto;text-align:center">
                                                                         <tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>
-                                                                        <tr style="text-align:center">
+                                                                        <tr>
                                                                             <th>Main Inlet Valve</th>
                                                                             <th>Bypass Valve</th>
                                                                             <th>Pure Valve</th>
@@ -3341,6 +3341,8 @@
             $('#btn_relay_8').removeAttr("disabled");
             $('#btn_relay_9').removeAttr("disabled");
         }
+        if(typeof live_data === 'undefined')
+            live_data = setInterval(pull_live_data,5000);
         // relay_data = setInterval(pull_live_data,10000);
 
     })
