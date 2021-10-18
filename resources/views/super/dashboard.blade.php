@@ -1229,7 +1229,7 @@
                                                             <h4 class="card-header">
                                                                 <div class="card-title">Relays</div>
                                                                 <div class="card-tools">
-                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#">
+                                                                    <button type="button" class="btn btn-tool collapse_relays" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#">
                                                                         <i class="fas fa-minus"></i>
                                                                     </button>
                                                                 </div>
@@ -2243,8 +2243,8 @@
                 url: "/deviceLiveData/"+ view_live_device,
             })
             .done(function(response){
-                console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
-                console.log(response);
+                // console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
+                // console.log(response);
                 if(device_data_created_at != response.created_at){
                     device_data_created_at = response.created_at;
                     var recorded_date = new Date(response.created_at);
@@ -2276,6 +2276,11 @@
                         case 14: step_name = " SHUNT";break;
                         case 15: step_name = " Wait Before CIP Start";break;
                     }
+                    // greying out relays in controls when system is running
+                    if(response.step != 0 || response.step != 1 || response.step != 13)
+                        $('.collapse_relays').collapse("hide")
+                    else
+                        $('.collapse_relays').collapse("show")
                     // calculating input
                     var input_binary_string = response.input.toString(2);
                     if(input_binary_string.length < 5){
@@ -2711,10 +2716,23 @@
             old_pre_filter = $('.input_pre_filter').val();
             old_post_filter = $('.input_post_filter').val();
             old_general_service = $('.input_general_service').val();
-            $('.input_critic_acid').removeAttr("disabled");
-            $('.input_pre_filter').removeAttr("disabled");
-            $('.input_post_filter').removeAttr("disabled");
-            $('.input_general_service').removeAttr("disabled");
+            Swal.fire({
+                title: 'Disclaimer!',
+                text: "Changing setpoints may cause system to malfunction! ",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('.input_critic_acid').removeAttr("disabled");
+                    $('.input_pre_filter').removeAttr("disabled");
+                    $('.input_post_filter').removeAttr("disabled");
+                    $('.input_general_service').removeAttr("disabled");
+                }
+            })
+
         })
         $('.input_critic_acid').on('keyup', function(){
             $('#btn_save_critic_acid').removeAttr("hidden");
