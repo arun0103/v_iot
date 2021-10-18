@@ -2299,15 +2299,15 @@
                             output_names.push('<span style="color:green">ON</span>');
                     }
                     // for controls
-                    $('#main_inlet_valve').text(output_names[15])
-                    $('#bypass_valve').text(output_names[14])
-                    $('#pure_valve').text(output_names[13])
-                    $('#waste_valve').text(output_names[12])
-                    $('#CIP_pump').text(output_names[11])
-                    $('#contactor_coil_2').text(output_names[10])
-                    $('#contactor_coil_1').text(output_names[9])
-                    $('#spare_relay').text(output_names[8])
-                    $('#buzzer').text(output_names[7])
+                    $('#main_inlet_valve').html(output_names[15])
+                    $('#bypass_valve').html(output_names[14])
+                    $('#pure_valve').html(output_names[13])
+                    $('#waste_valve').html(output_names[12])
+                    $('#CIP_pump').html(output_names[11])
+                    $('#contactor_coil_2').html(output_names[10])
+                    $('#contactor_coil_1').html(output_names[9])
+                    $('#spare_relay').html(output_names[8])
+                    $('#buzzer').html(output_names[7])
 
                     // calculating alarms
                     var alarms = response.alarm;
