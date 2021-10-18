@@ -2319,7 +2319,13 @@
                     $('#contactor_coil_1').html(output_names[9])
                     $('#spare_relay').html(output_names[8])
                     $('#buzzer').html(output_names[7])
-
+                    // for control relays
+                    for(var index =1; index<10; index++ ){
+                        if(output_binary_string.charAt(16-index)=='1') // 1 = OFF, 0 = ON
+                            $('#btn_relay_'+index).attr("checked",false).trigger("change");
+                        else
+                            $('#btn_relay_'+index).attr("checked", true).trigger("change");
+                    }
                     // calculating alarms
                     var alarms = response.alarm;
                     var bin_alarms = (alarms >>> 0).toString(2);
