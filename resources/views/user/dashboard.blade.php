@@ -757,6 +757,7 @@
                                         <h2 class="card-header"> <span id="device_name-{{$device->deviceDetails->id}}">{{$device->deviceDetails->serial_number}} {{$device->deviceDetails->device_name != null ? "[". $device->deviceDetails->device_name ."]" : ""}} </span>
                                             <!-- <button type="button" class="btn btn-primary btn_live_view" style="margin-left:10px">Live View</button> -->
                                             <div class="card-tools">
+                                                <i class="fas fa-cog" ></i>
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                     <i class="fas fa-minus"></i>
                                                 </button>

@@ -4247,7 +4247,7 @@
                         case 18:alarm_names.push('<h5 style="color:red">&nbsp;WASTE VALVE ALARM</h5>');break;
                         case 19:alarm_names.push('<h5 style="color:red">&nbsp;LEAKAGE ALARM</h5>');break;
                         case 20:alarm_names.push('<h5 style="color:red">&nbsp;CABINET TEMP ALARM</h5>');break;
-                        case 21:alarm_names.push('<h5 style="color:red">&nbsp;BYPASS ALARM</h5>');break;
+                        // case 21:alarm_names.push('<h5 style="color:red">&nbsp;BYPASS ALARM</h5>');break;
                         case 22:alarm_names.push('<h5 style="color:red">&nbsp;LOW FLOW WASTE ALARM</h5>');break;
                         case 23:alarm_names.push('<h5 style="color:red">&nbsp;LOW FLOW PURE ALARM</h5>');break;
                     }
