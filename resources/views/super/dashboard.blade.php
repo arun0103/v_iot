@@ -1310,14 +1310,14 @@
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="row">
-                                                                    <div class="col-sm-4">
+                                                                    <div class="col-sm-6">
                                                                         <span>Cycles left before next CIP : <b id="cycles"></b> cycles</span><br/>
                                                                         <span>FLOW : <b id="flow"></b> <i id="flow_unit"></i> </span><br/>
                                                                         <span>PUMP SPEED : <b id="pump_speed"></b>%</span><br/>
                                                                         <span>CABINET TEMPERATURE : <b id="cabinet_temp"></b> &deg;C</span><br/>
                                                                         <span>AVG. CONDUCTIVITY(EC) : <b id="avg_ec"></b> &micro;s/cm</span><br/>
                                                                     </div>
-                                                                    <div class="col-sm-4">
+                                                                    <div class="col-sm-6">
                                                                         <span>PRESSURE : <b id="pressure"></b> bar</span><br/>
                                                                         <span>PAE VOLTAGE : <b id="pae_volt"></b> V</span><br/>
                                                                         <span>RECOVERY : <b id="recovery"></b>%</span><br/>
@@ -3313,6 +3313,7 @@
     })
 
     $('.nav_link-control').on('click', function(){
+        clearInterval(avg_data);
         view_mode = "control";
         view_live_device = device_id;
         // view_live_device = null; // we are not in live mode
