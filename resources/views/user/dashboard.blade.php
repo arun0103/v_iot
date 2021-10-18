@@ -757,7 +757,7 @@
                                         <h2 class="card-header"> <span id="device_name-{{$device->deviceDetails->id}}">{{$device->deviceDetails->serial_number}} {{$device->deviceDetails->device_name != null ? "[". $device->deviceDetails->device_name ."]" : ""}} </span>
                                             <!-- <button type="button" class="btn btn-primary btn_live_view" style="margin-left:10px">Live View</button> -->
                                             <div class="card-tools">
-                                                <i class="fas fa-cog" ></i>
+                                                <i class="fas fa-cog" id="btn_edit_settings"></i>
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                     <i class="fas fa-minus"></i>
                                                 </button>
@@ -1115,6 +1115,32 @@
             <!-- /.modal-content -->
         </div>
     </div>
+    <div class="modal fade" id="modal-device_settings">
+        <form id="form_device_settings" class="form-horizontal" method="post" action="" autocomplete="no">
+            {{ csrf_field() }}
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">Device Settings</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20">
+                            <div class="col-sm-12">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->"
+        </form>
+    </div>
+
 
     <div class="modal fade" id="modal-add-new-device">
         <form id="form_addUser" class="form-horizontal" autocomplete="no">
@@ -2205,6 +2231,10 @@
 
         //
     });
+
+    $('#btn_edit_settings').on('click', function(){
+        alert("In progress")
+    })
 
 
     $('#btn_confirm_add_device').on('click', function() {
