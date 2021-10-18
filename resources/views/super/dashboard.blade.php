@@ -727,6 +727,9 @@
 </style>
 <!-- switch button styles -->
 <style>
+    .float-right{
+        float:right;
+    }
     .switch {
     position: relative;
     display: inline-block;
@@ -1235,68 +1238,124 @@
                                                                 </div>
                                                             </h4>
                                                             <div class="card-body">
-                                                                <div class="d-inline-flex p-2">
-                                                                    <h5>1. Main Inlet Valve &nbsp;&nbsp; </h5>
-                                                                    <label class="switch">
-                                                                        <input type="checkbox" id="btn_relay_1">
-                                                                        <span class="slider round btn_relay_1"></span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="d-inline-flex p-2">
-                                                                    <h5>2. Bypass Valve &nbsp;&nbsp; </h5>
-                                                                    <label class="switch">
-                                                                        <input type="checkbox" id="btn_relay_2">
-                                                                        <span class="slider round btn_relay_2"></span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="d-inline-flex p-2">
-                                                                    <h5>3. Pure Valve  &nbsp;&nbsp;</h5>
-                                                                    <label class="switch">
-                                                                        <input type="checkbox" id="btn_relay_3">
-                                                                        <span class="slider round btn_relay_3"></span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="d-inline-flex p-2">
-                                                                    <h5>4. Waste Valve &nbsp;&nbsp; </h5>
-                                                                    <label class="switch">
-                                                                        <input type="checkbox" id="btn_relay_4">
-                                                                        <span class="slider round btn_relay_4"></span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="d-inline-flex p-2">
-                                                                    <h5>5. CIP Pump  &nbsp;&nbsp;</h5>
-                                                                    <label class="switch">
-                                                                        <input type="checkbox" id="btn_relay_5">
-                                                                        <span class="slider round btn_relay_5"></span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="d-inline-flex p-2">
-                                                                    <h5>6. Contactor Coil 2 &nbsp;&nbsp; </h5>
-                                                                    <label class="switch">
-                                                                        <input type="checkbox" id="btn_relay_6">
-                                                                        <span class="slider round btn_relay_6"></span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="d-inline-flex p-2">
-                                                                    <h5>7. Contactor Coil 1 &nbsp;&nbsp; </h5>
-                                                                    <label class="switch">
-                                                                        <input type="checkbox" id="btn_relay_7">
-                                                                        <span class="slider round btn_relay_7"></span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="d-inline-flex p-2">
-                                                                    <h5>8. Spare Relay &nbsp;&nbsp; </h5>
-                                                                    <label class="switch">
-                                                                        <input type="checkbox" id="btn_relay_8">
-                                                                        <span class="slider round btn_relay_8"></span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="d-inline-flex p-2">
-                                                                    <h5>9. Buzzer &nbsp;&nbsp;</h5>
-                                                                    <label class="switch">
-                                                                        <input type="checkbox" id="btn_relay_9">
-                                                                        <span class="slider round btn_relay_9"></span>
-                                                                    </label>
+                                                                <div class="row">
+                                                                    <div class="col-sm-3">
+                                                                        <div class="d-inline-flex p-0">
+                                                                            <h5>1. Main Inlet Valve &nbsp; </h5>
+                                                                            <div class="float-right d-inline-flex">
+                                                                                OFF&nbsp;
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="btn_relay_1">
+                                                                                    <span class="slider round btn_relay_1"></span>
+                                                                                </label>
+                                                                                &nbsp;ON
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <div class="d-inline-flex p-0">
+                                                                            <h5>2. Bypass Valve &nbsp;&nbsp;&nbsp;&nbsp; </h5>
+                                                                            <div class="float-right ">
+                                                                                OFF&nbsp;
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="btn_relay_2">
+                                                                                    <span class="slider round btn_relay_2"></span>
+                                                                                </label>
+                                                                                &nbsp;ON
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3"><div class="d-inline-flex p-0">
+                                                                        <h5>3. Pure Valve  &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                                                            <div class="float-right d-inline-flex">
+                                                                                OFF&nbsp;
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="btn_relay_3">
+                                                                                    <span class="slider round btn_relay_3"></span>
+                                                                                </label>
+                                                                                &nbsp;ON
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <div class="d-inline-flex p-0">
+                                                                            <h5>4. Waste Valve &nbsp;&nbsp; </h5>
+                                                                            <div class="float-right d-inline-flex">
+                                                                                OFF&nbsp;
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="btn_relay_4">
+                                                                                    <span class="slider round btn_relay_4"></span>
+                                                                                </label>
+                                                                                &nbsp;ON
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <div class="d-inline-flex p-0">
+                                                                            <h5>5. CIP Pump  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                                                            <div class="float-right d-inline-flex">
+                                                                                OFF&nbsp;
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="btn_relay_5">
+                                                                                    <span class="slider round btn_relay_5"></span>
+                                                                                </label>
+                                                                                &nbsp;ON
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <div class="d-inline-flex p-0">
+                                                                            <h5>6. Contactor Coil 2 &nbsp; </h5>
+                                                                            <div class="float-right d-inline-flex">
+                                                                                OFF&nbsp;
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="btn_relay_6">
+                                                                                    <span class="slider round btn_relay_6"></span>
+                                                                                </label>
+                                                                                &nbsp;ON
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <div class="d-inline-flex p-0">
+                                                                            <h5>7. Contactor Coil 1 &nbsp;&nbsp; </h5>
+                                                                            <div class="float-right d-inline-flex">
+                                                                                OFF&nbsp;
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="btn_relay_7">
+                                                                                    <span class="slider round btn_relay_7"></span>
+                                                                                </label>
+                                                                                &nbsp;ON
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <div class="d-inline-flex p-0">
+                                                                            <h5>8. Spare Relay &nbsp;&nbsp; </h5>
+                                                                            <div class="float-right d-inline-flex">
+                                                                                OFF&nbsp;
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="btn_relay_8">
+                                                                                    <span class="slider round btn_relay_8"></span>
+                                                                                </label>
+                                                                                &nbsp;ON
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- <div class="col-sm-3">
+                                                                        <div class="d-inline-flex p-0">
+                                                                            <h5>9. Buzzer &nbsp;&nbsp;</h5>
+                                                                            <div class="float-right">
+                                                                                OFF&nbsp;
+                                                                                <label class="switch">
+                                                                                    <input type="checkbox" id="btn_relay_9">
+                                                                                    <span class="slider round btn_relay_9"></span>
+                                                                                </label>
+                                                                                &nbsp;ON
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> -->
                                                                 </div>
                                                             </div>
                                                         </div>

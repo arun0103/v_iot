@@ -21,7 +21,7 @@ class CreateRawDataTable extends Migration
             $table->integer('step');
             $table->integer('step_run_sec');
             $table->float('pae_volt');
-            $table->float('tpv');
+            $table->double('tpv');
             $table->float('c_flow');
             $table->integer('ec');
             $table->integer('alarm');
