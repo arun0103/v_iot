@@ -226,7 +226,8 @@ class DataController extends Controller
         $dataToSend = [
             'device_id'=>$device_setpoints->id,
             'volume_unit'=>$device_setpoints->setpoints->volume_unit,
-            'CIP_cycles'=>$device_setpoints->setpoints->CIP_cycles
+            'CIP_cycles'=>$device_setpoints->setpoints->CIP_cycles,
+            'pure_EC_target'=>$device_setpoints->setpoints->pure_EC_target
         ];
         return response()->json($dataToSend);
     }
@@ -618,6 +619,43 @@ class DataController extends Controller
             return response()->json($setpoints,200);
 
         }
+    }
+    public function setUserDeviceSetpoints(Request $req){
+        $setpoints = Setpoints::where('device_id',$req->device_id)->first();
+        if($setpoints == null){
+            return response()->json(['message'=>'No previous setpoints found',400]);
+        }else{
+            if($setpoints->pure_EC_target != $req->pure_EC_target){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $req->device_id;
+                $log->parameter = "Pure EC Target";
+                $log->old_value = $setpoints->pure_EC_target;
+                $log->new_value = $req->pure_EC_target;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            if($setpoints->CIP_cycles != $req->CIP_cycles){
+                $log = new DeviceSetpointsChangeLog();
+                $log->device_id = $req->device_id;
+                $log->parameter = "CIP Cycles";
+                $log->old_value = $setpoints->CIP_cycles;
+                $log->new_value = $req->CIP_cycles;
+                $log->changed_by = Auth::user()->id;
+                $log->save();
+            }
+            $setpoints->pure_EC_target = $req->pure_EC_target;
+            $setpoints->CIP_cycles = $req->CIP_cycles;
+            $setpoints->save();
+
+            $deviceCommand = new Device_commands();
+            $deviceCommand->device_id = $req->device_id;
+            $deviceCommand->command = "Setpoint";
+            $deviceCommand->created_by = Auth::user()->id;
+            $deviceCommand->save();
+
+            return response()->json($setpoints,200);
+        }
+
     }
 
     public function getPureECTarget($id){

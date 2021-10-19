@@ -49,12 +49,12 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">List of Devices</h4>
+                        <h4 class="card-header">
+                            <div class="card-title">List of Devices</div>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-add-new-device">Add New</button>
                             </div>
-                        </div>
+                        </h4>
                         <div class="card-body table-responsive">
                             <table class="table table-hover datatable" id="deviceTable">
                                 <thead>

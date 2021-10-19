@@ -182,6 +182,7 @@ Route::get('/getDeviceSetpointsForCalculation/{id}',[App\Http\Controllers\DataCo
 Route::get('/getDeviceSetpoints/{id}',[App\Http\Controllers\DataController::class, 'getDeviceSetpoints'])->middleware('auth');
 Route::get('/getPureECTargetSetpoint/{id}',[App\Http\Controllers\DataController::class, 'getPureECTarget'])->middleware('auth');
 Route::post('/saveDeviceSetpoints/{id}',[App\Http\Controllers\DataController::class, 'setDeviceSetpoints'])->middleware('auth');
+Route::post('/setUserDeviceSetpoints',[App\Http\Controllers\DataController::class, 'setUserDeviceSetpoints'])->middleware('auth');
 
 
 //Maintenance
