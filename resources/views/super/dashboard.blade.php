@@ -1382,7 +1382,7 @@
                                                     <div class="col-sm-12">
                                                         <div class="card" id="device_live_data">
                                                             <div class="card-header">
-                                                                <h3 id="card-title">Live Data <span id="device_status_controls"></span>:<span id="device_step"></span> [<span id="device_run_sec"></span>s]</h3>
+                                                                <h3 id="card-title">Live Data <small> <span id="device_status_controls"></span>:<span id="device_step"></span> [<span id="device_run_sec"></span>s]</small></h3>
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="row">
