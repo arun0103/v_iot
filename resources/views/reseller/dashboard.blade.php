@@ -751,6 +751,9 @@
     -webkit-transition: .4s;
     transition: .4s;
     }
+    .slider.inactive{
+        background-color:grey;
+    }
 
     .slider:before {
     position: absolute;

@@ -52,23 +52,23 @@
     /* #btn_edit_user_profile{
         margin-right:-15px;
     } */
-    .edit_info{
+    /* .edit_info{
         margin-top:-25px;
     }
     #info_member_since_edit, .edit_info{
         color:yellow;
         font-weight: bolder;
         float:right;
-    }
+    } */
     #btn_edit_user_profile, #btn_cancel_edit_user_profile{
         float:right;
     }
-    #img_avatar_preview{
+    /* #img_avatar_preview{
         width:450px;
         height:300px;
         border-radius: 5px;
 
-    }
+    } */
 
     /* /////////////////////////// */
     body{
@@ -84,13 +84,12 @@
         width: auto;
     }
 
-    .profile-header {
+    /* .profile-header {
         position: relative;
         overflow: hidden
-    }
+    }*/
 
-    .profile-header .profile-header-cover {
-        /* background-image: url(https://bootdey.com/img/Content/bg1.jpg); */
+    /* .profile-header .profile-header-cover {
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -99,9 +98,9 @@
         right: 0;
         top: 0;
         bottom: 0
-    }
+    } */
 
-    .profile-header .profile-header-cover:before {
+    /* .profile-header .profile-header-cover:before {
         content: '';
         position: absolute;
         top: 0;
@@ -122,7 +121,7 @@
         height: 120px;
         overflow: hidden;
         position: relative;
-        /*z-index: 10;*/
+
         margin: 0 0 -20px;
         padding: 3px;
         border-radius: 4px;
@@ -145,9 +144,9 @@
     .profile-header .profile-header-content,
     .profile-header .profile-header-tab {
         position: relative
-    }
+    } */
 
-    .b-minus-1,
+    /* .b-minus-1,
     .b-minus-10,
     .b-minus-2,
     .b-minus-3,
@@ -227,9 +226,9 @@
     .t-plus-8,
     .t-plus-9 {
         position: relative!important
-    }
+    } */
 
-    .profile-header .profile-header-tab {
+    /* .profile-header .profile-header-tab {
         background: #fff;
         list-style-type: none;
         margin: -10px 0 0;
@@ -317,9 +316,9 @@
         margin: 0 0 7px;
         font-size: 12px;
         font-weight: 700
-    }
+    } */
 
-    .table.table-profile>thead>tr>th {
+    /* .table.table-profile>thead>tr>th {
         border-bottom: none!important
     }
 
@@ -359,9 +358,9 @@
     .table.table-profile>tbody>tr.divider>td {
         padding: 0!important;
         height: 10px
-    }
+    } */
 
-    .profile-section+.profile-section {
+    /* .profile-section+.profile-section {
         margin-top: 20px;
         padding-top: 20px;
         border-top: 1px solid #b9c3ca
@@ -381,9 +380,9 @@
 
     .profile-section .title small {
         font-weight: 400
-    }
+    } */
 
-    body.flat-black {
+    /* body.flat-black {
         background: #E7E7E7
     }
 
@@ -482,7 +481,7 @@
     .media-body, .media-left, .media-right {
         display: table-cell;
         vertical-align: top;
-    }
+    }*/
     select.form-control:not([size]):not([multiple]) {
         height: 34px;
     }
@@ -736,6 +735,9 @@
     width: 50px;
     height: 24px;
     }
+    .slider.inactive, input:checked + .slider.inactive{
+        background-color:grey;
+    }
 
     .switch input {
     opacity: 0;
@@ -822,8 +824,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard </h1>
-                        <!-- <button type="button" class="btn btn-info" id="btn_map_view">Map View</button> -->
+                        <h1 class="m-0">Dashboard &nbsp;<!-- <button type="button" class="btn btn-info" id="btn_map_view">Map View</button> --></h1>
                     </div>
                     <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -1178,6 +1179,22 @@
                                                                 </div>
                                                             </div>
                                                             <!-- /.card-body -->
+                                                            <div class="card-footer">
+                                                                <h5>Pressure</h5>
+                                                                <div class="row">
+                                                                    <div class="col-sm-2" style="white-space: nowrap;">Low</div>
+                                                                    <div class="col-sm-8">
+                                                                        <progress max="100" id="pressure" style="width:100%; margin-top:5px"></progress>
+                                                                        <!-- <div class="progress pressure_progress">
+                                                                            <div class="progress-bar" id="pressure" ></div>
+                                                                        </div> -->
+                                                                    </div>
+                                                                    <div class="col-sm-2" style="white-space: nowrap;">High</div>
+                                                                </div>
+                                                                <div class="d-inline-flex">
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6 col-sm-6 box">
@@ -1363,9 +1380,9 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <div class="card">
+                                                        <div class="card" id="device_live_data">
                                                             <div class="card-header">
-                                                                <h3 id="card-title">Live Data</h3>
+                                                                <h3 id="card-title">Live Data <span id="device_status"></span>:<span id="device_step"></span>[<span id="device_run_sec"></span>]</h3>
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="row">
@@ -1750,11 +1767,11 @@
                                                                     <th style="line-height: 2.5em">Critic Acid</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="critic_acid_details">
-                                                                            <b><span id="critic_acid_volume_left"></span></b> gal left before next service
+                                                                            <b><span id="critic_acid_volume_left"></span></b> <span class="volume_unit">gal</span> left before next service
                                                                         </span>
                                                                         <p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error"></p>
                                                                     </td>
-                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid" class="form-control input_critic_acid" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid" class="form-control input_critic_acid" value="" disabled><span class="text-muted">&nbsp; <span class="volume_unit">gal</span></span></td>
                                                                     <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid" hidden>Save</button></td>
                                                                     <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid" disabled>Reset</button></td>
                                                                 </tr>
@@ -1762,10 +1779,10 @@
                                                                     <th style="line-height: 2.5em">Pre-filter</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="pre_filter_details">
-                                                                            <b><span id="pre_filter_volume_left"></span></b> gal left before next service
+                                                                            <b><span id="pre_filter_volume_left"></span></b> <span class="volume_unit">gal</span> left before next service
                                                                         </span>
                                                                         <p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error"></p></td>
-                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter" class="form-control input_pre_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter" class="form-control input_pre_filter" value="" disabled><span class="text-muted">&nbsp; <span class="volume_unit">gal</span></span></td>
                                                                     <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter" hidden>Save</button></td>
                                                                     <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter" disabled>Reset</button></td>
                                                                 </tr>
@@ -1773,10 +1790,10 @@
                                                                     <th style="line-height: 2.5em">Post-filter</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="post_filter_details">
-                                                                            <b><span id="post_filter_volume_left"></span></b> gal left before next service
+                                                                            <b><span id="post_filter_volume_left"></span></b> <span class="volume_unit">gal</span> left before next service
                                                                         </span>
                                                                         <p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error"></p></td>
-                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter" class="form-control input_post_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter" class="form-control input_post_filter" value="" disabled><span class="text-muted">&nbsp; <span class="volume_unit">gal</span></span></td>
                                                                     <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter" hidden>Save</button></td>
                                                                     <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter" disabled>Reset</button></td>
                                                                 </tr>
@@ -2100,6 +2117,18 @@
                 }
                 $('#ec-'+response['deviceDetails'].id).text(water_quality);
                 $('#device_conductivity_value').text(water_quality); // device info water quality
+                // calculate pressure
+                let full_pressure = response['deviceDetails']['setpoints'].stop_pressure * 0.95;
+                let low_pressure = response['deviceDetails']['setpoints'].bypass_pressure;
+                let device_pressure = response['deviceDetails'].latest_log.pressure;
+                let pressure_percentage = device_pressure*100/full_pressure;
+                $('#pressure').val(pressure_percentage)
+
+                // $('#pressure').css('width',pressure_percentage+"%")
+                // $('.pressure_progress').css('color:red')
+                // console.log(full_pressure)
+                // console.log(device_pressure)
+                // console.log(pressure_percentage)
                 // change device connection status
                 var now = new Date();
                 var created_at = new Date(response['deviceDetails'].latest_log.created_at);
@@ -2114,15 +2143,17 @@
                 // change volume
                 switch(select_view_volume_by){
                     case "gallons":
-                            $('#daily_volume').text(response['deviceVolume']!=null?response['deviceVolume'].daily +" gal" : "");
-                            $('#monthly_volume').text(response['deviceVolume']!=null?response['deviceVolume'].monthly +" gal" : "");
-                            $('#total_volume').text(response['deviceVolume']!=null?response['deviceVolume'].total +" gal" : "");
-                        break;
+                        $('.volume_unit').text('gal');
+                        $('#daily_volume').text(response['deviceVolume']!=null?response['deviceVolume'].daily +" gal" : "");
+                        $('#monthly_volume').text(response['deviceVolume']!=null?response['deviceVolume'].monthly +" gal" : "");
+                        $('#total_volume').text(response['deviceVolume']!=null?response['deviceVolume'].total +" gal" : "");
+                    break;
                     case "litres":
-                            $('#daily_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].daily/0.2642007926).toFixed(2) + " L" : "");
-                            $('#monthly_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].monthly/0.2642007926).toFixed(2) +" L" : "");
-                            $('#total_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].total/0.2642007926).toFixed(2) +" L" : "");
-                        break;
+                        $('.volume_unit').text('L');
+                        $('#daily_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].daily/0.2642007926).toFixed(2) + " L" : "");
+                        $('#monthly_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].monthly/0.2642007926).toFixed(2) +" L" : "");
+                        $('#total_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].total/0.2642007926).toFixed(2) +" L" : "");
+                    break;
                 }
                 // change alarm
                 var alarms = response['deviceDetails'].latest_log.alarm;
@@ -2193,11 +2224,9 @@
                 }
                 // calculate volume left for maintenance
                 var volume_left_critic_acid = response['deviceDetails']['device_settings'].critic_acid - response['deviceVolume'].total + critic_acid_reset_value ;
-                $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
                 var volume_left_pre_filter = response['deviceDetails']['device_settings'].pre_filter - response['deviceVolume'].total + pre_filter_reset_value ;
-                $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
                 var volume_left_post_filter = response['deviceDetails']['device_settings'].post_filter - response['deviceVolume'].total + post_filter_reset_value ;
-                $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
+                // for general service
                 let installation_date = response['deviceDetails'].installation_date;
                 // console.log(installation_date)
                 let i_date = +new Date(installation_date)
@@ -2239,9 +2268,18 @@
                 if(is_maintenance_needed)
                     $('section#alarmsList').append('<a class="goto_maintenance" id="goto_maintenance"><p><button class="btn btn-warning btn_goto_maintenance">Routine Maintenance Needed</button></p><a>');
                 //Show volumes left
-                $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
-                $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
-                $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
+                // $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
+                // $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
+                // $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
+                if(select_view_volume_by == "gallons"){
+                    $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
+                    $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
+                    $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
+                }else{
+                    $('#critic_acid_volume_left').text((volume_left_critic_acid/0.2642007926).toFixed(2));
+                    $('#pre_filter_volume_left').text((volume_left_pre_filter/0.2642007926).toFixed(2));
+                    $('#post_filter_volume_left').text((volume_left_post_filter/0.2642007926).toFixed(2));
+                }
                 $('#general_service_volume_left').text(days_left_general_service);
                 data_pulled_number++;
             }
@@ -2336,10 +2374,11 @@
                         case 15: step_name = " Wait Before CIP Start";break;
                     }
                     // greying out relays in controls when system is running
-                    if(response.step != 0 || response.step != 1 || response.step != 13)
-                        $('.collapse_relays').collapse("hide")
-                    else
-                        $('.collapse_relays').collapse("show")
+                    if(response.step != 0 || response.step != 1 || response.step != 13){
+                        $('.slider').addClass('inactive')
+                    }else{
+                        $('.slider').removeClass('inactive')
+                    }
                     // calculating input
                     var input_binary_string = response.input.toString(2);
                     if(input_binary_string.length < 5){
@@ -2552,6 +2591,13 @@
                     $('#water_temp').text(response.w_temp);
                     $('#volume').text(volume);
                     $('#volume_unit').text(volume_unit);
+                    $('#device_status').text(status);
+                    $('#device_step').text(step_name);
+                    $('#device_run_sec').text(response.step_run_sec);
+                    $('#device_live_data').show()
+                }else{
+                    $('.slider').addClass('inactive')
+                    $('#device_live_data').hide()
                 }
             });
         }
@@ -2871,186 +2917,200 @@
             }
         })
         $('.btn_reset_critic_acid').on('click', function(){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Reset it!'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: 'Resetting Critic Acid!',
-                            html: 'Please Wait!',
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            didOpen: () => {
-                                Swal.showLoading()
-                            },
-                        })
-                        var v = $('#total_volume').text().split(" ");
-                        var volume = parseFloat(v[0]);
-                        $.ajax({
-                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                            type: "POST",
-                            url: "/resetCriticAcid/"+ device_id +"/"+volume,
-                        })
-                        .done(function(response){
-                            // console.log(response)
-                            $('#critic_acid_error').text("").trigger("change");
-                            $('#critic_acid_details').removeAttr("hidden");
-                            $('#critic_acid_volume_left').text(critic_acid_reset_value);
-                            Swal.fire('Done!','Critic acid refilled.','success')
-                            $('#btn_reset_critic_acid').attr('disabled',true);
-                        })
-                    }
-                })
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Reset it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Resetting Critic Acid!',
+                        html: 'Please Wait!',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                        },
+                    })
+                    var v = $('#total_volume').text().split(" ");
+                    var volume = parseFloat(v[0]);
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/resetCriticAcid/"+ device_id +"/"+volume,
+                    })
+                    .done(function(response){
+                        // console.log(response)
+                        $('#critic_acid_error').text("").trigger("change");
+                        $('#critic_acid_details').removeAttr("hidden");
+                        $('#critic_acid_volume_left').text(critic_acid_reset_value);
+                        Swal.fire('Done!','Critic acid refilled.','success')
+                        $('#btn_reset_critic_acid').attr('disabled',true);
+                    })
+                }
             })
-            $('.btn_reset_pre_filter').on('click', function(){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Reset it!'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: 'Resetting Pre-filter!',
-                            html: 'Please Wait!',
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            didOpen: () => {
-                                Swal.showLoading()
-                            },
-                        })
-                        var v = $('#total_volume').text().split(" ");
-                        var volume = parseFloat(v[0]);
-                        $.ajax({
-                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                            type: "POST",
-                            url: "/resetPreFilter/"+ device_id +"/"+volume,
-                        })
-                        .done(function(response){
-                            $('#pre_filter_error').text("").trigger("change");
-                            $('#pre_filter_details').removeAttr("hidden");
-                            $('#pre_filter_volume_left').text(pre_filter_reset_value).trigger("change");
-                            Swal.fire('Done!','Pre-filter replaced.','success')
-                            $('#btn_reset_pre_filter').attr('disabled',true);
-                        })
-                    }
-                })
+        })
+        $('.btn_reset_pre_filter').on('click', function(){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Reset it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Resetting Pre-filter!',
+                        html: 'Please Wait!',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                        },
+                    })
+                    var v = $('#total_volume').text().split(" ");
+                    var volume = parseFloat(v[0]);
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/resetPreFilter/"+ device_id +"/"+volume,
+                    })
+                    .done(function(response){
+                        $('#pre_filter_error').text("").trigger("change");
+                        $('#pre_filter_details').removeAttr("hidden");
+                        $('#pre_filter_volume_left').text(pre_filter_reset_value).trigger("change");
+                        Swal.fire('Done!','Pre-filter replaced.','success')
+                        $('#btn_reset_pre_filter').attr('disabled',true);
+                    })
+                }
             })
-            $('.btn_reset_post_filter').on('click', function(){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Reset it!'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: 'Resetting Post-filter!',
-                            html: 'Please Wait!',
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            didOpen: () => {
-                                Swal.showLoading()
-                            },
-                        })
-                        var v = $('#total_volume').text().split(" ");
-                        var volume = parseFloat(v[0]);
-                        $.ajax({
-                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                            type: "POST",
-                            url: "/resetPostFilter/"+ device_id +"/"+volume,
-                        })
-                        .done(function(response){
-                            $('#post_filter_error').text("").trigger("change");
-                            $('#post_filter_details').removeAttr("hidden");
-                            $('#post_filter_volume_left').text(post_filter_reset_value).trigger("change");
-                            Swal.fire('Done!','Post filter replaced.','success')
-                            $('#btn_reset_post_filter').attr('disabled',true);
-                        })
+        })
+        $('.btn_reset_post_filter').on('click', function(){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Reset it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Resetting Post-filter!',
+                        html: 'Please Wait!',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                        },
+                    })
+                    var v = $('#total_volume').text().split(" ");
+                    var volume = parseFloat(v[0]);
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/resetPostFilter/"+ device_id +"/"+volume,
+                    })
+                    .done(function(response){
+                        $('#post_filter_error').text("").trigger("change");
+                        $('#post_filter_details').removeAttr("hidden");
+                        $('#post_filter_volume_left').text(post_filter_reset_value).trigger("change");
+                        Swal.fire('Done!','Post filter replaced.','success')
+                        $('#btn_reset_post_filter').attr('disabled',true);
+                    })
 
-                    }
-                })
-
+                }
             })
-            $('.btn_reset_general_service').on('click', function(){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. Do you want to continue?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Reset it!'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: 'Resetting Service!',
-                            html: 'Please Wait!',
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            didOpen: () => {
-                                Swal.showLoading()
-                            },
-                        })
-                        var v = $('#total_volume').text().split(" ");
-                        var volume = parseFloat(v[0]);
-                        $.ajax({
-                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                            type: "POST",
-                            url: "/resetGeneralService/"+ device_id +"/"+volume,
-                        })
-                        .done(function(response){
-                            $('#general_service_error').text("").trigger("change");
-                            $('#general_service_details').removeAttr("hidden");
-                            $('#general_service_volume_left').text(general_service_reset_value).trigger("change");
-                            Swal.fire('Done!','General Service performed.','success')
-                            $('#btn_reset_general_service').attr('disabled',true);
-                        })
 
-                    }
-                })
+        })
+        $('.btn_reset_general_service').on('click', function(){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. Do you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Reset it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Resetting Service!',
+                        html: 'Please Wait!',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                        },
+                    })
+                    var v = $('#total_volume').text().split(" ");
+                    var volume = parseFloat(v[0]);
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "POST",
+                        url: "/resetGeneralService/"+ device_id +"/"+volume,
+                    })
+                    .done(function(response){
+                        $('#general_service_error').text("").trigger("change");
+                        $('#general_service_details').removeAttr("hidden");
+                        $('#general_service_volume_left').text(general_service_reset_value).trigger("change");
+                        Swal.fire('Done!','General Service performed.','success')
+                        $('#btn_reset_general_service').attr('disabled',true);
+                    })
 
+                }
             })
+
+        })
     // end of maintenance
     var select_view_volume_by = "gallons";
     $('#select_view_volume_by').on('change',function(){
         select_view_volume_by = $('#select_view_volume_by').val();
-        var trid = $(this).closest('tr').attr('id'); // table row ID
+        // var trid = $(this).closest('tr').attr('id'); // table row ID
         var vol_gal_daily,vol_lit_daily,vol_gal_monthly,vol_lit_monthly,vol_gal_total,vol_lit_total;
         switch(select_view_volume_by){
             case "gallons":
-                vol_gal_daily =$("#daily_volume-"+trid).text();
+                vol_gal_daily =$("#daily_volume").text();
                 vol_lit_daily = parseFloat(vol_gal_daily)*0.2642007926;
-                $('#daily_volume-'+trid).text(vol_lit_daily.toFixed(2) + " gal");
-                vol_gal_monthly =$("#monthly_volume-"+trid).text();
+                $('#daily_volume').text(vol_lit_daily.toFixed(2) + " gal");
+                vol_gal_monthly =$("#monthly_volume").text();
                 vol_lit_monthly = parseFloat(vol_gal_monthly)*0.2642007926;
-                $('#monthly_volume-'+trid).text(vol_lit_monthly.toFixed(2) + " gal");
-                vol_gal_total =$("#total_volume-"+trid).text();
+                $('#monthly_volume').text(vol_lit_monthly.toFixed(2) + " gal");
+                vol_gal_total =$("#total_volume").text();
                 vol_lit_total = parseFloat(vol_gal_total)*0.2642007926;
-                $('#total_volume-'+trid).text(vol_lit_total.toFixed(2) + " gal");
+                $('#total_volume').text(vol_lit_total.toFixed(2) + " gal");
+
+                let l_critic = $('#input_critic_acid').val()*0.2642007926
+                $('#input_critic_acid').val(l_critic.toFixed(2));
+                let l_pre_filter = $('#input_pre_filter').val()*0.2642007926
+                $('#input_pre_filter').val(l_pre_filter.toFixed(2));
+                input_post_filter = $('#input_post_filter').val()*0.2642007926
+                $('#input_post_filter').val(l_post_filter.toFixed(2));
                 break;
             case "litres":
-                vol_lit_daily =$("#daily_volume-"+trid).text();
+                vol_lit_daily =$("#daily_volume").text();
                 vol_gal_daily = parseFloat(vol_lit_daily)/0.2642007926;
-                $('#daily_volume-'+trid).text(vol_gal_daily.toFixed(2) + " L");
-                vol_lit_monthly =$("#monthly_volume-"+trid).text();
+                $('#daily_volume').text(vol_gal_daily.toFixed(2) + " L");
+                vol_lit_monthly =$("#monthly_volume").text();
                 vol_gal_monthly = parseFloat(vol_lit_monthly)/0.2642007926;
-                $('#monthly_volume-'+trid).text(vol_gal_monthly.toFixed(2) + " L");
-                vol_lit_total =$("#total_volume-"+trid).text();
+                $('#monthly_volume').text(vol_gal_monthly.toFixed(2) + " L");
+                vol_lit_total =$("#total_volume").text();
                 vol_gal_total = parseFloat(vol_lit_total)/0.2642007926;
-                $('#total_volume-'+trid).text(vol_gal_total.toFixed(2) + " L");
+                $('#total_volume').text(vol_gal_total.toFixed(2) + " L");
+
+                let g_critic = $('#input_critic_acid').val()/0.2642007926
+                $('#input_critic_acid').val(g_critic.toFixed(2));
+                let g_pre = $('#input_pre_filter').val()/0.2642007926
+                $('#input_pre_filter').val(g_pre.toFixed(2));
+                let g_post = $('#input_post_filter').val()/0.2642007926
+                $('#input_post_filter').val(g_post.toFixed(2));
                 break;
         }
     })
@@ -3420,7 +3480,8 @@
 
     $('.nav_link-control').on('click', function(){
         clearInterval(avg_data);
-
+        $('#device_live_data').hide()
+        $('.slider').addClass('inactive')
         view_mode = "control";
         view_live_device = device_id;
         // view_live_device = null; // we are not in live mode
@@ -3602,191 +3663,191 @@
         //alert('Refreshing data')
         // Request server for recent logs
     })
+    // Setpoints tab
+        $('#btn_edit_setpoints').on('click', function(){
+            Swal.fire({
+                    title: 'Disclaimer!',
+                    text: "Changing setpoints may cause system to malfunction! Do you still want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#btn_edit_setpoints').attr('hidden',true)
+                        $('#btn_save_setpoints').attr('hidden',false)
+                        $('#btn_cancel_setpoints').attr('hidden',false)
+                        $('.input-setpoints').attr('disabled',false);
+                    }
+                })
 
-    $('#btn_edit_setpoints').on('click', function(){
-        Swal.fire({
-                title: 'Disclaimer!',
-                text: "Changing setpoints may cause system to malfunction! ",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('#btn_edit_setpoints').attr('hidden',true)
-                    $('#btn_save_setpoints').attr('hidden',false)
-                    $('#btn_cancel_setpoints').attr('hidden',false)
-                    $('.input-setpoints').attr('disabled',false);
-                }
-            })
-
-    })
-    $('#btn_save_setpoints').on('click', function(){
-        $('#btn_edit_setpoints').attr('hidden',false)
-        $('#btn_save_setpoints').attr('hidden',true)
-        $('#btn_cancel_setpoints').attr('hidden',true)
-        $('.input-setpoints').attr('disabled',true);
-
-        //save new values in the database and send commands to device to change the setpoints to new value
-        var formData ={
-            'pure_EC_target':$('#input-pure_EC_target').val(),
-            'prepurify_time':$('#input-pre_purify_time').val(),
-            'purify_time':$('#input-purify_time').val(),
-            'waste_time':$('#input-waste_time').val(),
-            'HF_waste_time':$('#input-HF_waste_time').val(),
-            'CIP_dose':$('#input-CIP_dose').val(),
-            'CIP_dose_rec':$('#input-CIP_dose_rec').val(),
-            'CIP_dose_total':$('#input-CIP_dose_total').val(),
-            'CIP_flow_total':$('#input-CIP_flow_total').val(),
-            'CIP_flow_flush':$('#input-CIP_flow_flush').val(),
-            'CIP_flow_rec':$('#input-CIP_flow_rec').val(),
-            'CIP_flush_time':$('#input-CIP_flush_time').val(),
-            'WV_check_time':$('#input-WV_check_time').val(),
-            'wait_HT_time':$('#input-wait_HT_time').val(),
-            'p_flow_target':$('#input-p_flow_target').val(),
-            'low_flow_purify_alarm':$('#input-low_flow_purify_alarm').val(),
-            'low_flow_waste_alarm':$('#input-low_flow_waste_alarm').val(),
-            'CIP_cycles':$('#input-CIP_cycles').val(),
-            'temperature_alarm':$('#input-temperature_alarm').val(),
-            'max_CIP_prt':$('#input-max_CIP_prt').val(),
-            'pump_p_factor':$('#input-pump_p_factor').val(),
-            'dynamic_p_factor':$('#input-dynamic_p_factor').val(),
-            'p_max_volt':$('#input-p_max_volt').val(),
-            'w_max_volt':$('#input-w_max_volt').val(),
-            'w_value':$('#input-w_value').val(),
-            'flow_k_factor':$('#input-flow_k_factor').val(),
-            'volume_unit':$('#input-volume_unit').val(),
-            'bypass_option':$('#input-bypass_option').val(),
-            'start_pressure':$('#input-start_pressure').val(),
-            'stop_pressure':$('#input-stop_pressure').val(),
-            'bypass_pressure':$('#input-bypass_pressure').val(),
-            'CIP_pressure':$('#input-CIP_pressure').val(),
-            'wait_time_before_CIP':$('#input-wait_time_before_CIP').val(),
-        };
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "POST",
-            url: "/saveDeviceSetpoints/"+ device_id,
-            data: formData
         })
-        .done(function(response){
-            Swal.fire('Success','Set - Setpoints command sent to device.','success')
-            // wait for response and notify if value error
+        $('#btn_save_setpoints').on('click', function(){
+            $('#btn_edit_setpoints').attr('hidden',false)
+            $('#btn_save_setpoints').attr('hidden',true)
+            $('#btn_cancel_setpoints').attr('hidden',true)
+            $('.input-setpoints').attr('disabled',true);
 
-        });
-
-    })
-    $('#btn_cancel_setpoints').on('click', function(){
-        $('#btn_edit_setpoints').attr('hidden',false)
-        $('#btn_save_setpoints').attr('hidden',true)
-        $('#btn_cancel_setpoints').attr('hidden',true)
-        $('.input-setpoints').attr('disabled',true);
-
-        // put old values in the input fields
-        $('#input-pure_EC_target').val(pure_EC_target)
-        $('#input-pre_purify_time').val(pre_purify_time)
-        $('#input-purify_time').val(purify_time)
-        $('#input-waste_time').val(waste_time)
-        $('#input-HF_waste_time').val(HF_waste_time)
-        $('#input-CIP_dose').val(CIP_dose)
-        $('#input-CIP_dose_rec').val(CIP_dose_rec)
-        $('#input-CIP_dose_total').val(CIP_dose_total)
-        $('#input-CIP_flow_total').val(CIP_flow_total)
-        $('#input-CIP_flow_flush').val(CIP_flow_flush)
-        $('#input-CIP_flow_rec').val(CIP_flow_rec)
-        $('#input-CIP_flush_time').val(CIP_flush_time)
-        $('#input-WV_check_time').val(WV_check_time)
-        $('#input-wait_HT_time').val(wait_HT_time)
-        $('#input-p_flow_target').val(p_flow_target)
-        $('#input-low_flow_purify_alarm').val(low_flow_purify_alarm)
-        $('#input-low_flow_waste_alarm').val(low_flow_waste_alarm)
-        $('#input-CIP_cycles').val(CIP_cycles)
-        $('#input-temperature_alarm').val(temperature_alarm)
-        $('#input-max_CIP_prt').val(max_CIP_prt)
-        $('#input-pump_p_factor').val(pump_p_factor)
-        $('#input-dynamic_p_factor').val(dynamic_p_factor)
-        $('#input-p_max_volt').val(p_max_volt)
-        $('#input-w_max_volt').val(w_max_volt)
-        $('#input-w_value').val(w_value)
-        $('#input-flow_k_factor').val(flow_k_factor)
-        $('#input-volume_unit').val(volume_unit)
-        $('#input-bypass_option').val(bypass_option)
-        $('#input-start_pressure').val(start_pressure)
-        $('#input-stop_pressure').val(stop_pressure)
-        $('#input-bypass_pressure').val(bypass_pressure)
-        $('#input-CIP_pressure').val(CIP_pressure)
-        $('#input-wait_time_before_CIP').val(wait_time_before_CIP)
-    })
-    $('.btn_getDeviceSetpoints').on('click', function(){
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            //save new values in the database and send commands to device to change the setpoints to new value
+            var formData ={
+                'pure_EC_target':$('#input-pure_EC_target').val(),
+                'prepurify_time':$('#input-pre_purify_time').val(),
+                'purify_time':$('#input-purify_time').val(),
+                'waste_time':$('#input-waste_time').val(),
+                'HF_waste_time':$('#input-HF_waste_time').val(),
+                'CIP_dose':$('#input-CIP_dose').val(),
+                'CIP_dose_rec':$('#input-CIP_dose_rec').val(),
+                'CIP_dose_total':$('#input-CIP_dose_total').val(),
+                'CIP_flow_total':$('#input-CIP_flow_total').val(),
+                'CIP_flow_flush':$('#input-CIP_flow_flush').val(),
+                'CIP_flow_rec':$('#input-CIP_flow_rec').val(),
+                'CIP_flush_time':$('#input-CIP_flush_time').val(),
+                'WV_check_time':$('#input-WV_check_time').val(),
+                'wait_HT_time':$('#input-wait_HT_time').val(),
+                'p_flow_target':$('#input-p_flow_target').val(),
+                'low_flow_purify_alarm':$('#input-low_flow_purify_alarm').val(),
+                'low_flow_waste_alarm':$('#input-low_flow_waste_alarm').val(),
+                'CIP_cycles':$('#input-CIP_cycles').val(),
+                'temperature_alarm':$('#input-temperature_alarm').val(),
+                'max_CIP_prt':$('#input-max_CIP_prt').val(),
+                'pump_p_factor':$('#input-pump_p_factor').val(),
+                'dynamic_p_factor':$('#input-dynamic_p_factor').val(),
+                'p_max_volt':$('#input-p_max_volt').val(),
+                'w_max_volt':$('#input-w_max_volt').val(),
+                'w_value':$('#input-w_value').val(),
+                'flow_k_factor':$('#input-flow_k_factor').val(),
+                'volume_unit':$('#input-volume_unit').val(),
+                'bypass_option':$('#input-bypass_option').val(),
+                'start_pressure':$('#input-start_pressure').val(),
+                'stop_pressure':$('#input-stop_pressure').val(),
+                'bypass_pressure':$('#input-bypass_pressure').val(),
+                'CIP_pressure':$('#input-CIP_pressure').val(),
+                'wait_time_before_CIP':$('#input-wait_time_before_CIP').val(),
+            };
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "POST",
-                url: "/command/getSetpointsFromDevice/" + device_id,
+                url: "/saveDeviceSetpoints/"+ device_id,
+                data: formData
+            })
+            .done(function(response){
+                Swal.fire('Success','Setpoints command sent to device.','success')
+                // wait for response and notify if value error
+
+            });
+
         })
-        .done(function(response){
-            Swal.fire('Success','Get - Setpoints command sent to device. Setpoints will be updated once the reply is received from the device','success')
+        $('#btn_cancel_setpoints').on('click', function(){
+            $('#btn_edit_setpoints').attr('hidden',false)
+            $('#btn_save_setpoints').attr('hidden',true)
+            $('#btn_cancel_setpoints').attr('hidden',true)
+            $('.input-setpoints').attr('disabled',true);
 
-            var is_response_received = false;
-            setInterval(function(){
-                if(!is_response_received){
-                    $.ajax({
-                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                            type: "GET",
-                            url: "/command_status/Setpoints-get/" + device_id,
-                    })
-                    .done(function(response){
-                        if(response.device_read_at != null){
-                            is_response_received = true;
-                            $.ajax({
-                                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                                    type: "GET",
-                                    url: "/getDeviceSetpoints/" + device_id,
-                            })
-                            .done(function(response){
-                                $('#input-pure_EC_target').val(response.pure_EC_target)
-                                $('#input-pre_purify_time').val(response.prepurify_time)
-                                $('#input-purify_time').val(response.purify_time)
-                                $('#input-waste_time').val(response.waste_time)
-                                $('#input-HF_waste_time').val(response.HF_waste_time)
-                                $('#input-CIP_dose').val(response.CIP_dose)
-                                $('#input-CIP_dose_rec').val(response.CIP_dose_rec)
-                                $('#input-CIP_dose_total').val(response.CIP_dose_total)
-                                $('#input-CIP_flow_total').val(response.CIP_flow_total)
-                                $('#input-CIP_flow_flush').val(response.CIP_flow_flush)
-                                $('#input-CIP_flow_rec').val(response.CIP_flow_rec)
-                                $('#input-CIP_flush_time').val(response.CIP_flush_time)
-                                $('#input-WV_check_time').val(response.WV_check_time)
-                                $('#input-wait_HT_time').val(response.wait_HT_time)
-                                $('#input-p_flow_target').val(response.p_flow_target)
-                                $('#input-low_flow_purify_alarm').val(response.low_flow_purify_alarm)
-                                $('#input-low_flow_waste_alarm').val(response.low_flow_waste_alarm)
-                                $('#input-CIP_cycles').val(response.CIP_cycles)
-                                $('#input-temperature_alarm').val(response.temperature_alarm)
-                                $('#input-max_CIP_prt').val(response.max_CIP_prt)
-                                $('#input-pump_p_factor').val(response.pump_p_factor)
-                                $('#input-dynamic_p_factor').val(response.dynamic_p_factor)
-                                $('#input-p_max_volt').val(response.p_max_volt)
-                                $('#input-w_max_volt').val(response.w_max_volt)
-                                $('#input-w_value').val(response.w_value)
-                                $('#input-flow_k_factor').val(response.flow_k_factor)
-                                $('#input-volume_unit').val(response.volume_unit)
-                                $('#input-bypass_option').val(response.bypass_option)
-                                $('#input-start_pressure').val(response.start_pressure)
-                                $('#input-stop_pressure').val(response.stop_pressure)
-                                $('#input-bypass_pressure').val(response.bypass_pressure)
-                                $('#input-CIP_pressure').val(response.CIP_pressure)
-                                $('#input-wait_time_before_CIP').val(response.wait_time_before_CIP)
-
-                                Swal.fire('Success','Setpoints updated in server','success')
-                            })
-                        }
-                    })
-                }
-            }, 5000); // 5 seconds
+            // put old values in the input fields
+            $('#input-pure_EC_target').val(pure_EC_target)
+            $('#input-pre_purify_time').val(pre_purify_time)
+            $('#input-purify_time').val(purify_time)
+            $('#input-waste_time').val(waste_time)
+            $('#input-HF_waste_time').val(HF_waste_time)
+            $('#input-CIP_dose').val(CIP_dose)
+            $('#input-CIP_dose_rec').val(CIP_dose_rec)
+            $('#input-CIP_dose_total').val(CIP_dose_total)
+            $('#input-CIP_flow_total').val(CIP_flow_total)
+            $('#input-CIP_flow_flush').val(CIP_flow_flush)
+            $('#input-CIP_flow_rec').val(CIP_flow_rec)
+            $('#input-CIP_flush_time').val(CIP_flush_time)
+            $('#input-WV_check_time').val(WV_check_time)
+            $('#input-wait_HT_time').val(wait_HT_time)
+            $('#input-p_flow_target').val(p_flow_target)
+            $('#input-low_flow_purify_alarm').val(low_flow_purify_alarm)
+            $('#input-low_flow_waste_alarm').val(low_flow_waste_alarm)
+            $('#input-CIP_cycles').val(CIP_cycles)
+            $('#input-temperature_alarm').val(temperature_alarm)
+            $('#input-max_CIP_prt').val(max_CIP_prt)
+            $('#input-pump_p_factor').val(pump_p_factor)
+            $('#input-dynamic_p_factor').val(dynamic_p_factor)
+            $('#input-p_max_volt').val(p_max_volt)
+            $('#input-w_max_volt').val(w_max_volt)
+            $('#input-w_value').val(w_value)
+            $('#input-flow_k_factor').val(flow_k_factor)
+            $('#input-volume_unit').val(volume_unit)
+            $('#input-bypass_option').val(bypass_option)
+            $('#input-start_pressure').val(start_pressure)
+            $('#input-stop_pressure').val(stop_pressure)
+            $('#input-bypass_pressure').val(bypass_pressure)
+            $('#input-CIP_pressure').val(CIP_pressure)
+            $('#input-wait_time_before_CIP').val(wait_time_before_CIP)
         })
-    })
+        $('.btn_getDeviceSetpoints').on('click', function(){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "POST",
+                    url: "/command/getSetpointsFromDevice/" + device_id,
+            })
+            .done(function(response){
+                Swal.fire('Success','Get - Setpoints command sent to device. Setpoints will be updated once the reply is received from the device','success')
 
+                var is_response_received = false;
+                setInterval(function(){
+                    if(!is_response_received){
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                                type: "GET",
+                                url: "/command_status/Setpoints-get/" + device_id,
+                        })
+                        .done(function(response){
+                            if(response.device_read_at != null){
+                                is_response_received = true;
+                                $.ajax({
+                                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                                        type: "GET",
+                                        url: "/getDeviceSetpoints/" + device_id,
+                                })
+                                .done(function(response){
+                                    $('#input-pure_EC_target').val(response.pure_EC_target)
+                                    $('#input-pre_purify_time').val(response.prepurify_time)
+                                    $('#input-purify_time').val(response.purify_time)
+                                    $('#input-waste_time').val(response.waste_time)
+                                    $('#input-HF_waste_time').val(response.HF_waste_time)
+                                    $('#input-CIP_dose').val(response.CIP_dose)
+                                    $('#input-CIP_dose_rec').val(response.CIP_dose_rec)
+                                    $('#input-CIP_dose_total').val(response.CIP_dose_total)
+                                    $('#input-CIP_flow_total').val(response.CIP_flow_total)
+                                    $('#input-CIP_flow_flush').val(response.CIP_flow_flush)
+                                    $('#input-CIP_flow_rec').val(response.CIP_flow_rec)
+                                    $('#input-CIP_flush_time').val(response.CIP_flush_time)
+                                    $('#input-WV_check_time').val(response.WV_check_time)
+                                    $('#input-wait_HT_time').val(response.wait_HT_time)
+                                    $('#input-p_flow_target').val(response.p_flow_target)
+                                    $('#input-low_flow_purify_alarm').val(response.low_flow_purify_alarm)
+                                    $('#input-low_flow_waste_alarm').val(response.low_flow_waste_alarm)
+                                    $('#input-CIP_cycles').val(response.CIP_cycles)
+                                    $('#input-temperature_alarm').val(response.temperature_alarm)
+                                    $('#input-max_CIP_prt').val(response.max_CIP_prt)
+                                    $('#input-pump_p_factor').val(response.pump_p_factor)
+                                    $('#input-dynamic_p_factor').val(response.dynamic_p_factor)
+                                    $('#input-p_max_volt').val(response.p_max_volt)
+                                    $('#input-w_max_volt').val(response.w_max_volt)
+                                    $('#input-w_value').val(response.w_value)
+                                    $('#input-flow_k_factor').val(response.flow_k_factor)
+                                    $('#input-volume_unit').val(response.volume_unit)
+                                    $('#input-bypass_option').val(response.bypass_option)
+                                    $('#input-start_pressure').val(response.start_pressure)
+                                    $('#input-stop_pressure').val(response.stop_pressure)
+                                    $('#input-bypass_pressure').val(response.bypass_pressure)
+                                    $('#input-CIP_pressure').val(response.CIP_pressure)
+                                    $('#input-wait_time_before_CIP').val(response.wait_time_before_CIP)
+
+                                    Swal.fire('Success','Setpoints updated in server','success')
+                                })
+                            }
+                        })
+                    }
+                }, 5000); // 5 seconds
+            })
+        })
+    //
     // starting and stopping the device
         var start_stop_command_sent;
         var command_sent = "";
@@ -4283,7 +4344,7 @@
                         case 18:alarm_names.push('<h5 style="color:red">&nbsp;WASTE VALVE ALARM</h5>');break;
                         case 19:alarm_names.push('<h5 style="color:red">&nbsp;LEAKAGE ALARM</h5>');break;
                         case 20:alarm_names.push('<h5 style="color:red">&nbsp;CABINET TEMP ALARM</h5>');break;
-                        // case 21:alarm_names.push('<h5 style="color:red">&nbsp;BYPASS ALARM</h5>');break;
+                        case 21:alarm_names.push('<h5 style="color:red">&nbsp;BYPASS ALARM</h5>');break;
                         case 22:alarm_names.push('<h5 style="color:red">&nbsp;LOW FLOW WASTE ALARM</h5>');break;
                         case 23:alarm_names.push('<h5 style="color:red">&nbsp;LOW FLOW PURE ALARM</h5>');break;
                     }

@@ -745,7 +745,7 @@
                                                 case 18:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>WASTE VALVE ALARM</p>");break;
                                                 case 19:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>LEAKAGE ALARM</p>");break;
                                                 case 20:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>CABINET TEMP ALARM</p>");break;
-                                                // case 21:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>BYPASS ALARM</p>");break;
+                                                case 21:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>BYPASS ALARM</p>");break;
                                                 case 22:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>LOW FLOW WASTE ALARM</p>");break;
                                                 case 23:$('section#alarmsList_'+response[i]['deviceDetails'].id).append("<p>LOW FLOW PURE ALARM</p>");break;
                                             }
@@ -1656,7 +1656,7 @@
     $('#btn_edit_setpoints').on('click',function(){
         Swal.fire({
             title: 'Disclaimer!',
-            text: "Changing setpoints may cause system to malfunction! ",
+            text: "Changing setpoints may cause system to malfunction! Do you still want to continue?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
