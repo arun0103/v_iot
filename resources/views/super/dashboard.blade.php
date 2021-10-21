@@ -1382,7 +1382,7 @@
                                                     <div class="col-sm-12">
                                                         <div class="card" id="device_live_data">
                                                             <div class="card-header">
-                                                                <h3 id="card-title">Live Data <span id="device_status"></span>:<span id="device_step"></span>[<span id="device_run_sec"></span>]</h3>
+                                                                <h3 id="card-title">Live Data <span id="device_status_controls"></span>:<span id="device_step"></span> [<span id="device_run_sec"></span>s]</h3>
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="row">
@@ -2373,7 +2373,6 @@
                         case 14: step_name = " SHUNT";break;
                         case 15: step_name = " Wait Before CIP Start";break;
                     }
-                    $('#device_step').text(step_name); // for controls
                     // greying out relays in controls when system is running
                     if(response.step != 0 || response.step != 1 || response.step != 13){
                         $('.slider').addClass('inactive')
@@ -2592,8 +2591,8 @@
                     $('#water_temp').text(response.w_temp);
                     $('#volume').text(volume);
                     $('#volume_unit').text(volume_unit);
-                    $('#device_status').text(status);
-
+                    $('#device_status_controls').text(status);
+                    $('#device_step').text(step_name); // for controls
                     $('#device_run_sec').text(response.step_run_sec);
                     $('#device_live_data').show()
                 }else{
