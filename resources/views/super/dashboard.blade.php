@@ -1184,7 +1184,7 @@
                                                                 <div class="row">
                                                                     <div class="col-sm-2" style="white-space: nowrap;">Low</div>
                                                                     <div class="col-sm-8">
-                                                                        <progress max="100" id="pressure" style="width:100%; margin-top:5px"></progress>
+                                                                        <progress max="100" id="pressure_progress" style="width:100%; margin-top:5px"></progress>
                                                                         <!-- <div class="progress pressure_progress">
                                                                             <div class="progress-bar" id="pressure" ></div>
                                                                         </div> -->
@@ -2122,7 +2122,7 @@
                 let low_pressure = response['deviceDetails']['setpoints'].bypass_pressure;
                 let device_pressure = response['deviceDetails'].latest_log.pressure;
                 let pressure_percentage = device_pressure*100/full_pressure;
-                $('#pressure').val(pressure_percentage)
+                $('#pressure_progress').val(pressure_percentage)
 
                 // $('#pressure').css('width',pressure_percentage+"%")
                 // $('.pressure_progress').css('color:red')
