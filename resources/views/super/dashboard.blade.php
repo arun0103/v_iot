@@ -1180,7 +1180,7 @@
                                                             </div>
                                                             <!-- /.card-body -->
                                                             <div class="card-footer">
-                                                                <h5>Pressure</h5>
+                                                                <h5 id="tank_level">Tank Level</h5>
                                                                 <div class="row">
                                                                     <div class="col-sm-2" style="white-space: nowrap;">Low</div>
                                                                     <div class="col-sm-8">
@@ -1189,7 +1189,7 @@
                                                                             <div class="progress-bar" id="pressure" ></div>
                                                                         </div> -->
                                                                     </div>
-                                                                    <div class="col-sm-2" style="white-space:nowrap;position:absolute;right: 20px;">High</div>
+                                                                    <div class="col-sm-2" style="white-space:nowrap;position:absolute;right:20px;">Full</div>
                                                                 </div>
                                                                 <div class="d-inline-flex">
 
@@ -2123,6 +2123,11 @@
                 let device_pressure = response['deviceDetails'].latest_log.pressure;
                 let pressure_percentage = device_pressure*100/full_pressure;
                 $('#pressure_progress').val(pressure_percentage)
+                if(device_pressure < low_pressure){
+                    $('#tank_level').css('color','red')
+                else
+                    $('#tank_level').css('color','green')
+                }
 
                 // $('#pressure').css('width',pressure_percentage+"%")
                 // $('.pressure_progress').css('color:red')
