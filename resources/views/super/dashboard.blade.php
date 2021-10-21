@@ -2125,7 +2125,7 @@
                 $('#pressure_progress').val(pressure_percentage)
                 if(device_pressure < low_pressure){
                     $('#tank_level').css('color','red')
-                else
+                }else{
                     $('#tank_level').css('color','green')
                 }
 
