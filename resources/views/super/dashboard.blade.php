@@ -2373,6 +2373,7 @@
                         case 14: step_name = " SHUNT";break;
                         case 15: step_name = " Wait Before CIP Start";break;
                     }
+                    $('#device_step').text(step_name); // for controls
                     // greying out relays in controls when system is running
                     if(response.step != 0 || response.step != 1 || response.step != 13){
                         $('.slider').addClass('inactive')
@@ -2592,12 +2593,12 @@
                     $('#volume').text(volume);
                     $('#volume_unit').text(volume_unit);
                     $('#device_status').text(status);
-                    $('#device_step').text(step_name);
+
                     $('#device_run_sec').text(response.step_run_sec);
                     $('#device_live_data').show()
                 }else{
                     $('.slider').addClass('inactive')
-                    $('#device_live_data').hide()
+                    // $('#device_live_data').hide()
                 }
             });
         }
