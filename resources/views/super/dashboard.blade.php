@@ -2594,7 +2594,7 @@
                     $('#device_status_controls').text(status);
                     $('#device_step').text(step_name); // for controls
                     $('#device_run_sec').text(response.step_run_sec);
-                    $('#device_live_data').show()
+                    // $('#device_live_data').show()
                 }else{
                     $('.slider').addClass('inactive')
                     // $('#device_live_data').hide()
@@ -3480,7 +3480,7 @@
 
     $('.nav_link-control').on('click', function(){
         clearInterval(avg_data);
-        $('#device_live_data').hide()
+        // $('#device_live_data').hide()
         $('.slider').addClass('inactive')
         view_mode = "control";
         view_live_device = device_id;
