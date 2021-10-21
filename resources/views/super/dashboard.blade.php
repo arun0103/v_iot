@@ -1189,7 +1189,7 @@
                                                                             <div class="progress-bar" id="pressure" ></div>
                                                                         </div> -->
                                                                     </div>
-                                                                    <div class="col-sm-2" style="white-space: nowrap;">High</div>
+                                                                    <div class="col-sm-2" style="white-space: nowrap;padding-right:5px">High</div>
                                                                 </div>
                                                                 <div class="d-inline-flex">
 
