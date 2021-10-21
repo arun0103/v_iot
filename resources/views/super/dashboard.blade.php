@@ -1184,12 +1184,12 @@
                                                                 <div class="row">
                                                                     <div class="col-sm-2" style="white-space: nowrap;">Low</div>
                                                                     <div class="col-sm-8">
-                                                                        <progress max="100" id="pressure_progress" style="width:100%; margin-top:5px"></progress>
+                                                                        <progress max="100" id="pressure_progress" style="width:100%;margin-top:5px"></progress>
                                                                         <!-- <div class="progress pressure_progress">
                                                                             <div class="progress-bar" id="pressure" ></div>
                                                                         </div> -->
                                                                     </div>
-                                                                    <div class="col-sm-2" style="white-space: nowrap;padding-right:5px">High</div>
+                                                                    <div class="col-sm-2" style="white-space:nowrap;position:absolute;right: 20px;">High</div>
                                                                 </div>
                                                                 <div class="d-inline-flex">
 
