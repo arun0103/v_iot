@@ -113,7 +113,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <label for="input_house_address_1" class="control-label">House address </label>
+                                                    <label for="input_house_address" class="control-label">House address </label>
                                                     <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
                                                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
                                                         <a href="#" class="dropdown-item">
@@ -124,7 +124,7 @@
                                                             </div>
                                                         </a>
                                                     </div>
-                                                    <input type="text" class="form-control" id="input_house_address_1" placeholder="House address" name="house_address_1" autocomplete="no" required>
+                                                    <input type="text" class="form-control" id="input_house_address" placeholder="House address" name="house_address_1" autocomplete="no" required>
                                                     <span id="error_house"></span>
                                                 </div>
                                             </div>
@@ -222,7 +222,7 @@
         <div class="modal-dialog modal-lg" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="modal-title-distributor_device_list">distributors' Device List</h4>
+                    <h4 class="modal-title" id="modal-title-distributor_device_list">Distributor's Reseller List</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
@@ -231,11 +231,11 @@
                             <table class="table table-stripped ">
                                 <thead>
                                     <tr>
-                                        <th>PCB Serial #</th>
-                                        <th>Device Serial #</th>
-                                        <th>Model</th>
-                                        <th># Users</th>
-                                        <th>Last Data</th>
+                                        <th>Company Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Address</th>
+                                        <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -304,7 +304,7 @@
                 'state': $('#select_state').val(),
                 'city': $('#input_city').val(),
                 'street_address': $('#input_street_address').val(),
-                'house_address': $('#input_house_address_1').val(),
+                'house_address': $('#input_house_address').val(),
                 'zip_code': $('#input_zip_code').val()
             }
             var  formData = {
@@ -383,7 +383,7 @@
             $('#select_state').val('');
             $('#input_city').val('');
             $('#input_street_address').val('');
-            $('#input_house_address_1').val('');
+            $('#input_house_address').val('');
             $('#input_zip_code').val('');
             $('#add_edit_distributor').attr('hidden',false);
             $('#distributors-table').attr('hidden',true);
@@ -451,7 +451,7 @@
                 $('#select_state').val(data.address.state).change();
                 $('#input_city').val(data.address.city);
                 $('#input_street_address').val(data.address.street_address);
-                $('#input_house_address_1').val(data.address.house_address);
+                $('#input_house_address').val(data.address.house_address);
                 $('#input_zip_code').val(data.address.zip_code);
             });
             $('.loader').hide();
@@ -463,7 +463,7 @@
                 'country': $('#select_country').val(),
                 'state': $('#select_state').val(),
                 'city': $('#input_city').val(),
-                'house_address': $('#input_house_address_1').val(),
+                'house_address': $('#input_house_address').val(),
                 'street_address': $('#input_street_address').val(),
                 'zip_code': $('#input_zip_code').val()
             }
@@ -517,15 +517,16 @@
                             'question'
                         )
                     }else{
+                        console.log(data);
                         $('#distributor_device_table_body').empty();
                         for(var i=0; i<data.length; i++){
-                            var device_model = data[i].model == 'U'?"DiUse":'DiEntry';
-                            var last_data = data[i].latest_log!= null?data[i].latest_log.created_at:"-";
-                            $('#distributor_device_table_body').append('<tr><td>'+data[i].serial_number+ '</td>'+
-                            '<td>'+ data[i].device_number+'</td>'+
-                            '<td>'+device_model + '</td>'+
-                            '<td>'+data[i].user_devices_count+'</td>'+ // no. of users
-                            '<td>'+ last_data+'</td>'+ // last record received on
+                            let created_date = Date(data[i].created_at)
+                            let address = data[i].address.home_address + ", "+data[i].address.street_address +", "+data[i].address.city+", "+data[i].address.state+", "+data[i].address.country
+                            $('#distributor_device_table_body').append('<tr><td>'+data[i].company_name+ '</td>'+
+                            '<td>'+ data[i].email+'</td>'+
+                            '<td>'+data[i].phone + '</td>'+
+                            '<td>'+address+'</td>'+
+                            '<td>'+ created_date+'</td>'+
                             '<td><i class="fa fa-trash delete_device_from_distributor"></i> Delete</td></tr>'
                             )
                         }

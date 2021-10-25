@@ -61,38 +61,90 @@
                                                     <input type="number" class="form-control" id="inputCompanyPhone" placeholder="Company Phone" name="company_phone" autocomplete="no">
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <label for="countires" class="control-label">Country <span class="flag" id="flag"></span></label>
-                                                    <input type="text" class="form-control" id="countries" placeholder="Country" name="countires" autocomplete="no">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <label for="state-select" class="control-label">State</label>
-
-                                                    <input type="text" class="form-control" id="state-select" placeholder="State" name="state" autocomplete="no">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <label for="city-input" class="control-label">City / Town</label>
-                                                    <input type="text" class="form-control" id="city-input" placeholder="City/Town" name="city" autocomplete="no">
-                                                </div>
-                                            </div>
-                                            <!-- <div class="col-sm-3">
-                                                <div class="form-group">
-                                                <label for="selectRole" class="control-label">Role</label>
-                                                    <select name="role" id="role" class="form-control">
-                                                        <option>-- Select --</option>
-                                                        <option value="R">Reseller</option>
-                                                        @if(Auth::user()->role == 'S')
-                                                            <option value="S">Super Admin</option>
-                                                        @endif
-                                                        <option value="U">User</option>
+                                            <div class="row roundPadding20">
+                                                <div class="col-sm-3">
+                                                    <label for="select_county" class="control-label"> Country</label><br/>
+                                                    <select class="form-control select2" id="select_country" name="select_country" style="width:100%" required>
+                                                        <option selected hidden>-- Select --</option>
                                                     </select>
+                                                    <span id="error_country"></span>
                                                 </div>
-                                            </div> -->
+                                                <div class="col-sm-3">
+                                                    <label for="select_state" class="control-label"> State/District</label><br/>
+                                                    <select class="form-control select2" id="select_state" name="select_state" style="width:100%" required>
+                                                        <option hidden selected>-- Select --</option>
+                                                    </select>
+                                                    <span id="error_state"></span>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="input_city" class="control-label">City</label>
+                                                        <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
+                                                            <a href="#" class="dropdown-item">
+                                                                <div class="media">
+                                                                    <div class="media-body">
+                                                                        <p class="text-sm"><b><i>The city where user lives in</i></b></p>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="input_city" placeholder="City" name="city" autocomplete="no" required>
+                                                        <span id="error_city"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="input_street_address" class="control-label">Street address </label>
+                                                        <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
+                                                            <a href="#" class="dropdown-item">
+                                                                <div class="media">
+                                                                    <div class="media-body">
+                                                                        <p class="text-sm"><b><i>Name of the street</i></b></p>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="input_street_address" placeholder="Street address" name="street_address_1" autocomplete="no" required>
+                                                        <span id="error_street"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label for="input_house_address" class="control-label">House address </label>
+                                                        <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
+                                                            <a href="#" class="dropdown-item">
+                                                                <div class="media">
+                                                                    <div class="media-body">
+                                                                        <p class="text-sm"><b><i>House number, nearby landmarks</i></b></p>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="input_house_address" placeholder="House address" name="house_address_1" autocomplete="no" required>
+                                                        <span id="error_house"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label for="input_zip_code" class="control-label">Zip Code </label>
+                                                        <i id="info_serial" class="fas fa-info-circle f-r-info" data-toggle="dropdown" ></i>
+                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right f-r">
+                                                            <a href="#" class="dropdown-item">
+                                                                <div class="media">
+                                                                    <div class="media-body">
+                                                                        <p class="text-sm"><b><i>Zip Code / Postal Code</i></b></p>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="input_zip_code" placeholder="Zip code" name="zip_code" autocomplete="no" required>
+                                                        <span id="error_zip"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +189,17 @@
                                             <span class="badge bg-danger">NEW</span>
                                             @endif
                                         </td>
-                                        <td>{{$reseller['data']->address['city']}}, {{$reseller['data']->address['state']}}, {{$reseller['data']->address['country']}}</td>
+                                        <td>
+                                            @if(array_key_exists('house_address', $reseller['data']->address))
+                                                {{$reseller['data']->address['house_address']}},
+                                            @endif
+                                            @if(array_key_exists('street_address', $reseller['data']->address))
+                                                {{$reseller['data']->address['street_address']}},
+                                            @endif
+                                            {{$reseller['data']->address['city']}}, {{$reseller['data']->address['state']}}, {{$reseller['data']->address['country']}}</td>
+                                            @if(array_key_exists('zip_code', $reseller['data']->address))
+                                                , {{$reseller['data']->address['zip_code']}}
+                                            @endif
                                         <td>{{$reseller['data']->email}}</td>
                                         <td>{{$reseller['data']->phone}}</td>
                                         <td> {{$reseller['device_count']}}
@@ -207,6 +269,23 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $('.datatable').dataTable();
+            $('.select2').select2();
+            $(document).on('select2:open', () => {
+                document.querySelector('.select2-search__field').focus();
+            });
+            for(var i =0; i<countries.length; i++)
+                $('#select_country').append('<option id="option_country_'+i+'" value ="'+countries[i].country+'">'+countries[i].country+'</option>');
+
+            $('#select_country').on('change',function(){
+                var id = $(this).children(":selected").attr("value");
+                var found = countries.filter(function(item) { return item.country === id; });
+                $('#select_state').find('option').remove().end()
+                        .append('<option>-- Select --</option>')
+                for(var i =0;i<found[0]['states'].length;i++)
+                    $('#select_state').append('<option value ="'+found[0].states[i]+'">'+found[0].states[i]+'</option>');
+                $('#select_state').attr('disabled', false);
+
+            })
         })
         var edit_id;
         // var reseller_table = $('#resellersTable').DataTable();
@@ -229,10 +308,13 @@
                 //     clearInterval(timerInterval)
                 // }
             })
-            var address = {
-                'country': $('#countries').val(),
-                'state': $('#state-select').val(),
-                'city': $('#city-input').val()
+            let address = {
+                'country': $('#select_country').val(),
+                'state': $('#select_state').val(),
+                'city': $('#input_city').val(),
+                'street_address': $('#input_street_address').val(),
+                'house_address': $('#input_house_address').val(),
+                'zip_code': $('#input_zip_code').val()
             }
             var  formData = {
                 'company_name' : $('#inputCompanyName').val(),
@@ -306,9 +388,12 @@
             $('#inputCompanyName').val('');
             $('#inputCompanyEmail').val('');
             $('#inputCompanyPhone').val('');
-            $('#countries').val('');
-            $('#state-select').val('');
-            $('#city-input').val('');
+            $('#select_country').val('');
+            $('#select_state').val('');
+            $('#input_city').val('');
+            $('#input_street_address').val('');
+            $('#input_house_address').val('');
+            $('#input_zip_code').val('');
             $('#add_edit_reseller').attr('hidden',false);
             $('#resellers-table').attr('hidden',true);
 
@@ -374,19 +459,25 @@
                 $('#inputCompanyName').val(data.company_name);
                 $('#inputCompanyEmail').val(data.email);
                 $('#inputCompanyPhone').val(data.phone);
-                $('#countries').val(data.address.country);
-                $('#state-select').val(data.address.state);
-                $('#city-input').val(data.address.city);
+                $('#input_city').val(data.address.city);
+                $('#input_street_address').val(data.address.street_address);
+                $('#input_house_address').val(data.address.house_address);
+                $('#input_zip_code').val(data.address.zip_code);
+                $('#select_country').val(data.address.country).change();
+                $('#select_state').val(data.address.state).change();
             });
             $('.loader').hide();
         })
 
         $('#btn_edit_save_reseller').on('click', function(){
 
-            var address = {
-                'country': $('#countries').val(),
-                'state': $('#state-select').val(),
-                'city': $('#city-input').val()
+            let address = {
+                'country': $('#select_country').val(),
+                'state': $('#select_state').val(),
+                'city': $('#input_city').val(),
+                'street_address': $('#input_street_address').val(),
+                'house_address': $('#input_house_address').val(),
+                'zip_code': $('#input_zip_code').val()
             }
             var  formData = {
                 'reseller_id' : edit_id,
@@ -411,7 +502,7 @@
                 $('#add_edit_reseller').hide();
                 $('#resellers-table').show();
                 $('#'+response.id).find("td:eq(0)").text(response.company_name)
-                $('#'+response.id).find("td:eq(1)").text(response.address.city+', '+response.address.state+', '+response.address.country)
+                $('#'+response.id).find("td:eq(1)").text(response.address.house_address+', '+response.address.street_address+', '+response.address.city+', '+response.address.state+', '+response.address.country+', ' +response.address.zip_code)
                 $('#'+response.id).find("td:eq(2)").text(response.email)
                 $('#'+response.id).find("td:eq(3)").text(response.phone)
                 //$('#'+response.id).find("td:eq(4)").text(response.devices_count)
