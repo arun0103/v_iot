@@ -91,7 +91,7 @@ class DistributorController extends Controller
         return $distributor;//response()->json(["status"=>200,"data"=>$reseller]);
     }
     public function distributorResellers($id){
-        $resellers = Reseller('distributor_id',$id)->get();
+        $resellers = Reseller::where('distributor_id',$id)->get();
         return response()->json($resellers);
     }
     // adds only device to Distributor for testing purpose

@@ -187,7 +187,7 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Devices
-                            <span class="right badge badge-danger">New</span>
+                            <!-- <span class="right badge badge-danger">New</span> -->
                         </p>
                     </a>
                 </li>
