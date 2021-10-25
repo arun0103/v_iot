@@ -774,30 +774,43 @@
 
     })
     $('#user_device_table_body').on('click','.delete_user_from_device', function(){
-        var user_device_id = $(this).closest('tr').attr('id'); // table row ID
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "delete",
-            url: "/deleteUserAccessFromDevice/"+user_device_id,
-        })
-        .done(function(response){
-            console.log(response)
-            if(response[0] == "deleted"){
-                $('#user_device_table_body #'+user_device_id).remove();
-                var count = parseInt($('#count_userDevices-'+response[1]).text());
-                $('#count_userDevices-'+response[1]).text(count -1);
-                Swal.fire({title: 'Success!',
-                text: 'Deleted!',
-                    icon: 'success',
-                    confirmButtonText: 'OK'})
+        Swal.fire({
+            title: 'Are you sure to delete?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                let user_device_id = $(this).closest('tr').attr('id'); // table row ID
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "delete",
+                    url: "/deleteUserAccessFromDevice/"+user_device_id,
+                })
+                .done(function(response){
+                    console.log(response)
+                    if(response[0] == "deleted"){
+                        $('#user_device_table_body #'+user_device_id).remove();
+                        var count = parseInt($('#count_userDevices-'+response[1]).text());
+                        $('#count_userDevices-'+response[1]).text(count -1);
+                        Swal.fire({title: 'Success!',
+                        text: 'Deleted!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'})
+                    }
+                    else{
+                        Swal.fire({title: 'Error!',
+                            text: 'Unable to delete!',
+                            icon: 'error',
+                            confirmButtonText: 'OK'})
+                    }
+                })
             }
-            else{
-                Swal.fire({title: 'Error!',
-                    text: 'Unable to delete!',
-                    icon: 'error',
-                    confirmButtonText: 'OK'})
-            }
         })
+
 
     })
     $('#device_lists').on('click','.operation-delete', function(){
