@@ -50,6 +50,11 @@ class HomeController extends Controller
 
             return view('reseller/dashboard')->with(['users'=>$users])
                     ->with(['devices'=>$devices]);
+        }elseif($loggedInUser->role == 'D'){
+            $devices = Device::where('distributor_id',$loggedInUser->distributor_id)->get();
+            // dd($devices);
+
+            return view('distributor/dashboard')->with(['devices'=>$devices]);
         }
         else{ // logged in user is user
             $users = $loggedInUser;

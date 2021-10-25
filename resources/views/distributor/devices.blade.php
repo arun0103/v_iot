@@ -351,8 +351,7 @@
                                             <label for="edit_selectModel" class="control-label">Model</label>
                                             <select name="model" id="edit_selectModel" class="form-control" title="Select Model">
                                                 @foreach($models as $model)
-                                                <option value="{{$model->id}}">{{$model->name}}</option>
-
+                                                    <option value="{{$model->id}}">{{$model->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -390,9 +389,7 @@
                                         <label for="select_user_id_edit" class="control-label">User</label><br>
                                             <select name="user_id" id="select_user_id_edit" class="form-control" style="width:100%; height:100%">
                                                 <option></option>
-                                                @foreach($users as $user)
-                                                    <option value="{{$user->id}}">{{$user->name}}</option>
-                                                @endforeach
+
                                             </select>
                                         </div>
                                     </div>
@@ -786,7 +783,7 @@
         }
         $.ajax({
             method: "post",
-            url: "/addNewResellerDevice",
+            url: "/addNewDistributorDevice",
             data: formData,
             })
             .done(function(response) {

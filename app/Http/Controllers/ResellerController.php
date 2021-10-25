@@ -49,6 +49,9 @@ class ResellerController extends Controller
         $reseller->address = $req->address;
         $reseller->phone = $req->phone;
         $reseller->created_by = $loggedInUser->id;
+        if($loggedInUser->role =='D'){
+            $reseller->distributor_id = $loggedInUser->distributor->id;
+        }
 
         $user = new User();
         if($reseller->save()){

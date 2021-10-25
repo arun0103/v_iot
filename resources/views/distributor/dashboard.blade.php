@@ -1,8 +1,6 @@
 @extends('layouts.master')
 
 @section('head')
-<!-- <script src="{{asset('js/require.js')}}"></script> -->
-<!-- <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiNdCuOv2SfFYbx2Bl0PhUGtvOgwAC762wyq7NZtQ8ISA98uAlaHJa5X3vLeNp6r' async defer></script> -->
 <style>
     .modal-body {
         max-height: calc(100vh - 60px);
@@ -52,23 +50,23 @@
     /* #btn_edit_user_profile{
         margin-right:-15px;
     } */
-    /* .edit_info{
+    .edit_info{
         margin-top:-25px;
     }
     #info_member_since_edit, .edit_info{
         color:yellow;
         font-weight: bolder;
         float:right;
-    } */
+    }
     #btn_edit_user_profile, #btn_cancel_edit_user_profile{
         float:right;
     }
-    /* #img_avatar_preview{
+    #img_avatar_preview{
         width:450px;
         height:300px;
         border-radius: 5px;
 
-    } */
+    }
 
     /* /////////////////////////// */
     body{
@@ -84,12 +82,13 @@
         width: auto;
     }
 
-    /* .profile-header {
+    .profile-header {
         position: relative;
         overflow: hidden
-    }*/
+    }
 
-    /* .profile-header .profile-header-cover {
+    .profile-header .profile-header-cover {
+        /* background-image: url(https://bootdey.com/img/Content/bg1.jpg); */
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -98,9 +97,9 @@
         right: 0;
         top: 0;
         bottom: 0
-    } */
+    }
 
-    /* .profile-header .profile-header-cover:before {
+    .profile-header .profile-header-cover:before {
         content: '';
         position: absolute;
         top: 0;
@@ -121,7 +120,7 @@
         height: 120px;
         overflow: hidden;
         position: relative;
-
+        /*z-index: 10;*/
         margin: 0 0 -20px;
         padding: 3px;
         border-radius: 4px;
@@ -144,9 +143,9 @@
     .profile-header .profile-header-content,
     .profile-header .profile-header-tab {
         position: relative
-    } */
+    }
 
-    /* .b-minus-1,
+    .b-minus-1,
     .b-minus-10,
     .b-minus-2,
     .b-minus-3,
@@ -226,9 +225,9 @@
     .t-plus-8,
     .t-plus-9 {
         position: relative!important
-    } */
+    }
 
-    /* .profile-header .profile-header-tab {
+    .profile-header .profile-header-tab {
         background: #fff;
         list-style-type: none;
         margin: -10px 0 0;
@@ -316,9 +315,9 @@
         margin: 0 0 7px;
         font-size: 12px;
         font-weight: 700
-    } */
+    }
 
-    /* .table.table-profile>thead>tr>th {
+    .table.table-profile>thead>tr>th {
         border-bottom: none!important
     }
 
@@ -358,9 +357,9 @@
     .table.table-profile>tbody>tr.divider>td {
         padding: 0!important;
         height: 10px
-    } */
+    }
 
-    /* .profile-section+.profile-section {
+    .profile-section+.profile-section {
         margin-top: 20px;
         padding-top: 20px;
         border-top: 1px solid #b9c3ca
@@ -380,9 +379,9 @@
 
     .profile-section .title small {
         font-weight: 400
-    } */
+    }
 
-    /* body.flat-black {
+    body.flat-black {
         background: #E7E7E7
     }
 
@@ -481,7 +480,7 @@
     .media-body, .media-left, .media-right {
         display: table-cell;
         vertical-align: top;
-    }*/
+    }
     select.form-control:not([size]):not([multiple]) {
         height: 34px;
     }
@@ -726,17 +725,11 @@
 </style>
 <!-- switch button styles -->
 <style>
-    .float-right{
-        float:right;
-    }
     .switch {
     position: relative;
     display: inline-block;
     width: 50px;
     height: 24px;
-    }
-    .slider.inactive, input:checked + .slider.inactive{
-        background-color:grey;
     }
 
     .switch input {
@@ -755,6 +748,9 @@
     background-color: #FF0000;
     -webkit-transition: .4s;
     transition: .4s;
+    }
+    .slider.inactive{
+        background-color:grey;
     }
 
     .slider:before {
@@ -824,7 +820,8 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard &nbsp;<!-- <button type="button" class="btn btn-info" id="btn_map_view">Map View</button> --></h1>
+                        <h1 class="m-0">Dashboard </h1>
+                        <!-- <button type="button" class="btn btn-info" id="btn_map_view">Map View</button> -->
                     </div>
                     <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -861,7 +858,7 @@
                                                 <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
                                                 <td><span class="ec" id="ec-{{$device->id}}">- - </span></td>
                                                 <td>
-                                                    <button class="btn btn-primary view_device_details" href="/{{$device->serial_number}}/status">View</button>
+                                                    <button class="btn btn-primary view_device_details">View</button>
                                                     <i class="btn fas fa-bell btn_notifications"></i>
                                                     <!-- <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -1029,15 +1026,15 @@
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-6 col-sm-6 box">
                                                         <div class="card card-outline card-success">
-                                                            <h3 class="card-header">
-                                                                <div class="card-title">Status </div>
+                                                            <div class="card-header">
+                                                                <h3 class="card-title">Status </h3>
                                                                 <div class="card-tools">
                                                                     <i class="btn fas fa-sync-alt btn-refresh" id="device-sync"></i>
                                                                 </div>
-                                                            </h3>
+                                                            </div>
                                                             <div class="card-body message_from_database">
                                                                 <div class="display_body">
-                                                                    <!-- <div> -->
+                                                                    <div>
                                                                         <i id="device_status_pic" class="fas fa fa-certificate"></i>&nbsp;&nbsp;
                                                                         <span id="device_status"></span>
                                                                         <i id="info_device_status" class="fas fa-info-circle float-right info-device-status" data-toggle="dropdown" ></i>
@@ -1051,7 +1048,7 @@
                                                                                 </div>
                                                                             </a>
                                                                         </div>
-                                                                    <!-- </div> -->
+                                                                    </div>
                                                                     <div><br>
                                                                         <span><b>Connection :</b></span>
                                                                         <i id="device_connection_status" >
@@ -1179,22 +1176,6 @@
                                                                 </div>
                                                             </div>
                                                             <!-- /.card-body -->
-                                                            <div class="card-footer">
-                                                                <h5 id="tank_level">Tank Level</h5>
-                                                                <div class="row">
-                                                                    <div class="col-sm-2" style="white-space: nowrap;">Low</div>
-                                                                    <div class="col-sm-8">
-                                                                        <progress max="100" id="pressure_progress" style="width:100%;margin-top:5px"></progress>
-                                                                        <!-- <div class="progress pressure_progress">
-                                                                            <div class="progress-bar" id="pressure" ></div>
-                                                                        </div> -->
-                                                                    </div>
-                                                                    <div class="col-sm-2" style="white-space:nowrap;position:absolute;right:20px;">Full</div>
-                                                                </div>
-                                                                <div class="d-inline-flex">
-
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6 col-sm-6 box">
@@ -1241,6 +1222,8 @@
                                                     <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_flush_module" id="btn_flush_module">Flush Module</button></div>
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_start_CIP" id="btn_start_CIP">Start CIP</button></div>
+                                                        <!-- <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_time" id="btn_current_time">Current Time</button></div>
+                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_current_date" id="btn_current_date">Current Date</button></div> -->
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -1249,215 +1232,76 @@
                                                             <h4 class="card-header">
                                                                 <div class="card-title">Relays</div>
                                                                 <div class="card-tools">
-                                                                    <button type="button" class="btn btn-tool collapse_relays" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#">
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" data-toggle="collapse" data-target="#">
                                                                         <i class="fas fa-minus"></i>
                                                                     </button>
                                                                 </div>
                                                             </h4>
                                                             <div class="card-body">
-                                                                <div class="row">
-                                                                    <div class="col-sm-3">
-                                                                        <div class="d-inline-flex p-0">
-                                                                            <h5>1. Main Inlet Valve &nbsp; </h5>
-                                                                            <div class="float-right d-inline-flex">
-                                                                                OFF&nbsp;
-                                                                                <label class="switch">
-                                                                                    <input type="checkbox" id="btn_relay_1">
-                                                                                    <span class="slider round btn_relay_1"></span>
-                                                                                </label>
-                                                                                &nbsp;ON
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <div class="d-inline-flex p-0">
-                                                                            <h5>2. Bypass Valve &nbsp;&nbsp;&nbsp;&nbsp; </h5>
-                                                                            <div class="float-right ">
-                                                                                OFF&nbsp;
-                                                                                <label class="switch">
-                                                                                    <input type="checkbox" id="btn_relay_2">
-                                                                                    <span class="slider round btn_relay_2"></span>
-                                                                                </label>
-                                                                                &nbsp;ON
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3"><div class="d-inline-flex p-0">
-                                                                        <h5>3. Pure Valve  &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                                                            <div class="float-right d-inline-flex">
-                                                                                OFF&nbsp;
-                                                                                <label class="switch">
-                                                                                    <input type="checkbox" id="btn_relay_3">
-                                                                                    <span class="slider round btn_relay_3"></span>
-                                                                                </label>
-                                                                                &nbsp;ON
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <div class="d-inline-flex p-0">
-                                                                            <h5>4. Waste Valve &nbsp;&nbsp; </h5>
-                                                                            <div class="float-right d-inline-flex">
-                                                                                OFF&nbsp;
-                                                                                <label class="switch">
-                                                                                    <input type="checkbox" id="btn_relay_4">
-                                                                                    <span class="slider round btn_relay_4"></span>
-                                                                                </label>
-                                                                                &nbsp;ON
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <div class="d-inline-flex p-0">
-                                                                            <h5>5. CIP Pump  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                                                            <div class="float-right d-inline-flex">
-                                                                                OFF&nbsp;
-                                                                                <label class="switch">
-                                                                                    <input type="checkbox" id="btn_relay_5">
-                                                                                    <span class="slider round btn_relay_5"></span>
-                                                                                </label>
-                                                                                &nbsp;ON
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <div class="d-inline-flex p-0">
-                                                                            <h5>6. Contactor Coil 2 &nbsp; </h5>
-                                                                            <div class="float-right d-inline-flex">
-                                                                                OFF&nbsp;
-                                                                                <label class="switch">
-                                                                                    <input type="checkbox" id="btn_relay_6">
-                                                                                    <span class="slider round btn_relay_6"></span>
-                                                                                </label>
-                                                                                &nbsp;ON
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <div class="d-inline-flex p-0">
-                                                                            <h5>7. Contactor Coil 1 &nbsp;&nbsp; </h5>
-                                                                            <div class="float-right d-inline-flex">
-                                                                                OFF&nbsp;
-                                                                                <label class="switch">
-                                                                                    <input type="checkbox" id="btn_relay_7">
-                                                                                    <span class="slider round btn_relay_7"></span>
-                                                                                </label>
-                                                                                &nbsp;ON
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <div class="d-inline-flex p-0">
-                                                                            <h5>8. Spare Relay &nbsp;&nbsp; </h5>
-                                                                            <div class="float-right d-inline-flex">
-                                                                                OFF&nbsp;
-                                                                                <label class="switch">
-                                                                                    <input type="checkbox" id="btn_relay_8">
-                                                                                    <span class="slider round btn_relay_8"></span>
-                                                                                </label>
-                                                                                &nbsp;ON
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- <div class="col-sm-3">
-                                                                        <div class="d-inline-flex p-0">
-                                                                            <h5>9. Buzzer &nbsp;&nbsp;</h5>
-                                                                            <div class="float-right">
-                                                                                OFF&nbsp;
-                                                                                <label class="switch">
-                                                                                    <input type="checkbox" id="btn_relay_9">
-                                                                                    <span class="slider round btn_relay_9"></span>
-                                                                                </label>
-                                                                                &nbsp;ON
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> -->
+                                                                <div class="d-inline-flex p-2">
+                                                                    <h4>1. MIV &nbsp;&nbsp; </h4>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" id="btn_relay_1">
+                                                                        <span class="slider round btn_relay_1"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="d-inline-flex p-2">
+                                                                    <h4>2. Bypass &nbsp;&nbsp; </h4>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" id="btn_relay_2">
+                                                                        <span class="slider round btn_relay_2"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="d-inline-flex p-2">
+                                                                    <h4>3. POV  &nbsp;&nbsp;</h4>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" id="btn_relay_3">
+                                                                        <span class="slider round btn_relay_3"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="d-inline-flex p-2">
+                                                                    <h4>4. WOV &nbsp;&nbsp; </h4>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" id="btn_relay_4">
+                                                                        <span class="slider round btn_relay_4"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="d-inline-flex p-2">
+                                                                    <h4>5. CIP  &nbsp;&nbsp;</h4>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" id="btn_relay_5">
+                                                                        <span class="slider round btn_relay_5"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="d-inline-flex p-2">
+                                                                    <h4>6. SHUNT &nbsp;&nbsp; </h4>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" id="btn_relay_6">
+                                                                        <span class="slider round btn_relay_6"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="d-inline-flex p-2">
+                                                                    <h4>7. POLARITY &nbsp;&nbsp; </h4>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" id="btn_relay_7">
+                                                                        <span class="slider round btn_relay_7"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="d-inline-flex p-2">
+                                                                    <h4>8. PAE &nbsp;&nbsp; </h4>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" id="btn_relay_8">
+                                                                        <span class="slider round btn_relay_8"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="d-inline-flex p-2">
+                                                                    <h4>9. BUZZER &nbsp;&nbsp;</h4>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" id="btn_relay_9">
+                                                                        <span class="slider round btn_relay_9"></span>
+                                                                    </label>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="card" id="device_live_data">
-                                                            <div class="card-header">
-                                                                <h3 id="card-title">Live Data <small> <span id="device_status_controls"></span>:<span id="device_step"></span> [<span id="device_run_sec"></span>s]</small></h3>
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <div class="row">
-                                                                    <div class="col-sm-3">
-                                                                        <span>Cycles left before next CIP : <b id="cycles"></b> cycles</span><br/>
-                                                                        <span>FLOW : <b id="flow"></b> <i id="flow_unit"></i> </span><br/>
-                                                                        <span>PUMP SPEED : <b id="pump_speed"></b>%</span><br/>
-                                                                        <span>CABINET TEMPERATURE : <b id="cabinet_temp"></b> &deg;C</span><br/>
-                                                                        <span>AVG. CONDUCTIVITY(EC) : <b id="avg_ec"></b> &micro;s/cm</span><br/>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <span>PRESSURE : <b id="pressure"></b> bar</span><br/>
-                                                                        <span>PAE VOLTAGE : <b id="pae_volt"></b> V</span><br/>
-                                                                        <span>RECOVERY : <b id="recovery"></b>%</span><br/>
-                                                                        <span>WATER TEMPERATURE : <b id="water_temp"></b> &deg;C</span><br/>
-                                                                        <span>TOTAL PURE VOLUME : <b id="volume"></b> <i id="volume_unit"></i></span><br/>
-                                                                    </div>
-
-                                                                </div>
-                                                                <!-- <div class="row">
-                                                                    <div class="col-sm-4">
-                                                                        <table class="table" style="overflow-x:auto;">
-                                                                            <tr><th colspan="5" style="text-align:center;color:blue">INPUT</th></tr>
-                                                                            <tr>
-                                                                                <th>LEVEL</th>
-                                                                                <th>BYPASS</th>
-                                                                                <th>LEAKAGE</th>
-                                                                                <th>SIGNAL</th>
-                                                                                <th>SPARE</th>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>input_names[4]</td>
-                                                                                <td>input_names[3]</td>
-                                                                                <td>input_names[2]</td>
-                                                                                <td>input_names[1]</td>
-                                                                                <td>input_names[0]</td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </div>
-                                                                </div> -->
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <table class="table" style="overflow-x:auto;text-align:center">
-                                                                            <tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>
-                                                                            <tr>
-                                                                                <th>Main Inlet Valve</th>
-                                                                                <th>Bypass Valve</th>
-                                                                                <th>Pure Valve</th>
-                                                                                <th>Waste Valve</th>
-                                                                                <th>CIP Pump</th>
-                                                                                <th>Contactor Coil 2</th>
-                                                                                <th>Contactor Coil 1</th>
-                                                                                <th>Spare Relay</th>
-                                                                                <th>Buzzer</th>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td id="main_inlet_valve"></td>
-                                                                                <td id="bypass_valve"></td>
-                                                                                <td id="pure_valve"></td>
-                                                                                <td id="waste_valve"></td>
-                                                                                <td id="CIP_pump"></td>
-                                                                                <td id="contactor_coil_2"></td>
-                                                                                <td id="contactor_coil_1"></td>
-                                                                                <td id="spare_relay"></td>
-                                                                                <td id="buzzer"></td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row" style="border:1px solid black; margin:5px">
-                                                                    <div class="col-sm-12"><h4>ALARMS</h4></div>
-                                                                        <!-- alarm_names+ -->
-                                                                </div>
-                                                            </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1468,268 +1312,279 @@
                                                         <button type="button" class="btn btn-primary btn_getDeviceSetpoints" id="btn_get_device_setpoints">Get Device Setpoints</button><br>
                                                     </div>
                                                 </div>
-                                                <!-- Standard Setpoints -->
-                                                <div class="card" id="standard_setpoints">
-                                                    <h4 class="card-header">
-                                                        <div class="card-title">Standard Setpoints</div>
-                                                    </h4>
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-pure_EC_target">Pure EC Target</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-pure_EC_target" id="input-pure_EC_target" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-p_flow_target">Pure Flow Target</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-p_flow_target" id="input-p_flow_target" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-CIP_cycles">CIP Cycles</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_cycles" id="input-CIP_cycles" value=""/>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-low_flow_purify_alarm">Low Flow Purify Alarm</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-low_flow_purify_alarm" id="input-low_flow_purify_alarm" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-low_flow_waste_alarm">Low Flow Waste Alarm</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-low_flow_waste_alarm" id="input-low_flow_waste_alarm" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-bypass_option">Bypass Option</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-bypass_option" id="input-bypass_option" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-bypass_pressure">Bypass Pressure</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-bypass_pressure" id="input-bypass_pressure" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-start_pressure">Start Pressure</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-start_pressure" id="input-start_pressure" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-stop_pressure">Stop Pressure</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-stop_pressure" id="input-stop_pressure" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-bypass_time">Bypass Time</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-bypass_time" value=""/>
-                                                            </div>
-                                                        </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-pure_EC_target">1. Pure EC Target</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-pure_EC_target" id="input-pure_EC_target" value=""/>
                                                     </div>
                                                 </div>
-                                                <!-- Advance Setpoints -->
-                                                <div class="card" id="advance_setpoints">
-                                                    <h4 class="card-header">
-                                                        <div class="card-title">Advance Setpoints</div>
-                                                    </h4>
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-pre_purify_time">Pre-purify Time</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-pre_purify_time" id="input-pre_purify_time" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-purify_time">Purify Time</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-purify_time" id="input-purify_time" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-waste_time">Waste Time</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-waste_time" id="input-waste_time" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-HF_waste_time">HF Waste Time</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-HF_waste_time" id="input-HF_waste_time" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-CIP_dose">CIP Dose</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose" id="input-CIP_dose" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-CIP_dose_rec">CIP Dose Rec</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose_rec" id="input-CIP_dose_rec" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-CIP_dose_total">CIP Dose Total</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_dose_total" id="input-CIP_dose_total" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-CIP_flow_total">CIP Flow Total</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_total" id="input-CIP_flow_total" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-CIP_flow_flush">CIP Flow Flush</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_flush" id="input-CIP_flow_flush" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-CIP_flow_rec">CIP Flow Rec</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flow_rec" id="input-CIP_flow_rec" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-CIP_flush_time">CIP Flush Time</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_flush_time" id="input-CIP_flush_time" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-WV_check_time">WV Check Time</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-WV_check_time" id="input-WV_check_time" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-wait_HT_time">Wait HT Time</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-wait_HT_time" id="input-wait_HT_time" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-temperature_alarm">Temperature Alarm</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-temperature_alarm" id="input-temperature_alarm" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-max_CIP_prt">Max CIP P.R.T</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-max_CIP_prt" id="input-max_CIP_prt" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-pump_p_factor">Pump P-Factor</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-pump_p_factor" id="input-pump_p_factor" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-dynamic_p_factor">Dynamic P-Factor</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-dynamic_p_factor" id="input-dynamic_p_factor" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-p_max_volt">P.Max Volt</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-p_max_volt" id="input-p_max_volt" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-w_max_volt">W.Max Volt</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-w_max_volt" id="input-w_max_volt" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-w_value">W_Value</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-w_value" id="input-w_value" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-flow_k_factor">Flow K Factor</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-flow_k_factor" id="input-flow_k_factor" value=""/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-volume_unit">Volume Unit</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <select class="form-control input-setpoints"  id="input-volume_unit">
-                                                                    <option value="0">Litre</option>
-                                                                    <option value="1">Gallon</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-CIP_pressure">CIP Pressure</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-CIP_pressure" id="input-CIP_pressure" value=""/>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <label for="input-wait_time_before_CIP">Wait Time Before CIP</label>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-wait_time_before_CIP" value=""/>
-                                                            </div>
-                                                        </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-pre_purify_time">2. Pre-purify Time</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-pre_purify_time" id="input-pre_purify_time" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-purify_time">3. Purify Time</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-purify_time" id="input-purify_time" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-waste_time">4. Waste Time</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-waste_time" id="input-waste_time" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-HF_waste_time">5. HF Waste Time</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-HF_waste_time" id="input-HF_waste_time" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-CIP_dose">6. CIP Dose</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-CIP_dose" id="input-CIP_dose" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-CIP_dose_rec">7. CIP Dose Rec</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-CIP_dose_rec" id="input-CIP_dose_rec" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-CIP_dose_total">8. CIP Dose Total</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-CIP_dose_total" id="input-CIP_dose_total" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-CIP_flow_total">9. CIP Flow Total</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-CIP_flow_total" id="input-CIP_flow_total" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-CIP_flow_flush">10. CIP Flow Flush</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-CIP_flow_flush" id="input-CIP_flow_flush" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-CIP_flow_rec">11. CIP Flow Rec</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-CIP_flow_rec" id="input-CIP_flow_rec" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-CIP_flush_time">12. CIP Flush Time</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-CIP_flush_time" id="input-CIP_flush_time" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-WV_check_time">13. WV Check Time</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-WV_check_time" id="input-WV_check_time" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-wait_HT_time">14. Wait HT Time</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-wait_HT_time" id="input-wait_HT_time" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-p_flow_target">15. P.Flow Target</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-p_flow_target" id="input-p_flow_target" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-low_flow_purify_alarm">16. Low Flow Purify Alarm</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-low_flow_purify_alarm" id="input-low_flow_purify_alarm" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-low_flow_waste_alarm">17. Low Flow Waste Alarm</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-low_flow_waste_alarm" id="input-low_flow_waste_alarm" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-CIP_cycles">18. CIP Cycles</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-CIP_cycles" id="input-CIP_cycles" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-temperature_alarm">19. Temperature Alarm</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-temperature_alarm" id="input-temperature_alarm" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-max_CIP_prt">20. Max CIP P.R.T</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-max_CIP_prt" id="input-max_CIP_prt" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-pump_p_factor">21. Pump P-Factor</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-pump_p_factor" id="input-pump_p_factor" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-dynamic_p_factor">22. Dynamic P-Factor</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-dynamic_p_factor" id="input-dynamic_p_factor" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-p_max_volt">23. P.Max Volt</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-p_max_volt" id="input-p_max_volt" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-w_max_volt">24. W.Max Volt</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-w_max_volt" id="input-w_max_volt" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-w_value">25. W_Value</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-w_value" id="input-w_value" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-flow_k_factor">26. Flow K Factor</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-flow_k_factor" id="input-flow_k_factor" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-volume_unit">27. Volume Unit</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <select class="form-control input-setpoints"  id="input-volume_unit">
+                                                            <option value="0">Litre</option>
+                                                            <option value="1">Gallon</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-bypass_option">28. Bypass Option</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-bypass_option" id="input-bypass_option" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-start_pressure">29. Start Pressure</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-start_pressure" id="input-start_pressure" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-stop_pressure">30. Stop Pressure</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-stop_pressure" id="input-stop_pressure" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-bypass_pressure">31. Bypass Pressure</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-bypass_pressure" id="input-bypass_pressure" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-CIP_pressure">32. CIP Pressure</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-CIP_pressure" id="input-CIP_pressure" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-wait_time_before_CIP">33. Wait Time Before CIP</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-wait_time_before_CIP" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <label for="input-bypass_time">34. Bypass Time</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 ">
+                                                        <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-bypass_time" value=""/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1756,11 +1611,11 @@
                                                                     <th style="line-height: 2.5em">Critic Acid</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="critic_acid_details">
-                                                                            <b><span id="critic_acid_volume_left"></span></b> <span class="volume_unit">gal</span> left before next service
+                                                                            <b><span id="critic_acid_volume_left"></span></b> gal left before next service
                                                                         </span>
                                                                         <p style="text-align:center;font-weight:900" class="critic_acid_error" id="critic_acid_error"></p>
                                                                     </td>
-                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid" class="form-control input_critic_acid" value="" disabled><span class="text-muted">&nbsp; <span class="volume_unit">gal</span></span></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_critic_acid" class="form-control input_critic_acid" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                     <td><button class="btn btn-primary btn-save-critic_acid" id="btn_save_critic_acid" hidden>Save</button></td>
                                                                     <td><button class="btn btn-danger btn_reset_critic_acid" id="btn_reset_critic_acid" disabled>Reset</button></td>
                                                                 </tr>
@@ -1768,10 +1623,10 @@
                                                                     <th style="line-height: 2.5em">Pre-filter</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="pre_filter_details">
-                                                                            <b><span id="pre_filter_volume_left"></span></b> <span class="volume_unit">gal</span> left before next service
+                                                                            <b><span id="pre_filter_volume_left"></span></b> gal left before next service
                                                                         </span>
                                                                         <p style="text-align:center;font-weight:900" class="pre_filter_error" id="pre_filter_error"></p></td>
-                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter" class="form-control input_pre_filter" value="" disabled><span class="text-muted">&nbsp; <span class="volume_unit">gal</span></span></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_pre_filter" class="form-control input_pre_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                     <td><button class="btn btn-primary btn-save-pre_filter" id="btn_save_pre_filter" hidden>Save</button></td>
                                                                     <td><button class="btn btn-danger btn_reset_pre_filter" id="btn_reset_pre_filter" disabled>Reset</button></td>
                                                                 </tr>
@@ -1779,10 +1634,10 @@
                                                                     <th style="line-height: 2.5em">Post-filter</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="post_filter_details">
-                                                                            <b><span id="post_filter_volume_left"></span></b> <span class="volume_unit">gal</span> left before next service
+                                                                            <b><span id="post_filter_volume_left"></span></b> gal left before next service
                                                                         </span>
                                                                         <p style="text-align:center;font-weight:900" class="post_filter_error" id="post_filter_error"></p></td>
-                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter" class="form-control input_post_filter" value="" disabled><span class="text-muted">&nbsp; <span class="volume_unit">gal</span></span></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_post_filter" class="form-control input_post_filter" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                     <td><button class="btn btn-primary btn-save-post_filter" id="btn_save_post_filter" hidden>Save</button></td>
                                                                     <td><button class="btn btn-danger btn_reset_post_filter" id="btn_reset_post_filter" disabled>Reset</button></td>
                                                                 </tr>
@@ -1790,10 +1645,10 @@
                                                                     <th style="line-height: 2.5em">General</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="general_service_details">
-                                                                            <b><span id="general_service_volume_left"></span></b> days left before next service
+                                                                            <b><span id="general_service_volume_left"></span></b> gal left before next service
                                                                         </span>
                                                                         <p style="text-align:center;font-weight:900" class="general_service_error" id="general_service_error"></p></td>
-                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_general_service" class="form-control input_general_service" value="" disabled><span class="text-muted">&nbsp; days</span></td>
+                                                                    <td class="form-inline"><input style="width:100px" type="number" id="input_general_service" class="form-control input_general_service" value="" disabled><span class="text-muted">&nbsp; gal</span></td>
                                                                     <td><button class="btn btn-primary  btn-save-general_service" id="btn_save_general_service" hidden>Save</button></td>
                                                                     <td><button class="btn btn-danger  btn_reset_general_service" id="btn_reset_general_service" disabled>Reset</button></td>
                                                                 </tr>
@@ -1809,45 +1664,6 @@
                         </div>
                     </section>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal" tabindex="-1" role="dialog" id="view_userDevices_modal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit {{Auth::user()->name}}'s Profile</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-                <form id="form_profile_info" action="api/updateProfile" method="POST">
-                    {{ csrf_field() }}
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h5 style="text-decoration:underline">Personal Information</h5>
-                                <table class="table">
-                                    <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
-                                    <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="email" id="txt_email" value="{{Auth::user()->email}}"></td></tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modal-map_view">
-        <div class="modal-dialog modal-full" >
-            <div class="modal-content">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-               <div id="myMap" style='position:relative;width:800px;height:500px;'></div>
             </div>
         </div>
     </div>
@@ -1946,6 +1762,47 @@
         </div>
     </div>
 
+
+    <div class="modal" tabindex="-1" role="dialog" id="view_userDevices_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit {{Auth::user()->name}}'s Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <form id="form_profile_info" action="api/updateProfile" method="POST">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h5 style="text-decoration:underline">Personal Information</h5>
+                                <table class="table">
+                                    <tr><th>Name</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="text" id="txt_name" value="{{Auth::user()->name}}"></td></tr>
+                                    <tr><th>Email</th><td>&nbsp;:&nbsp;</td>  <td><input class="form-control" type="email" id="txt_email" value="{{Auth::user()->email}}"></td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-map_view">
+        <div class="modal-dialog modal-full" >
+            <div class="modal-content">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+               <div id="myMap" style='position:relative;width:800px;height:500px;'></div>
+            </div>
+        </div>
+    </div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- //Bing map -->
     <!-- <script type='text/javascript'>
@@ -1962,14 +1819,13 @@
 <script>
     var device_id = 0;
     let device_serial = null;
-    var critic_acid_reset_value, pre_filter_reset_value, post_filter_reset_value, general_service_reset_value,general_service_reset_date;
+    var critic_acid_reset_value, pre_filter_reset_value, post_filter_reset_value, general_service_reset_value;
     var btn_clicked = null;
     var avg_data; var live_data; var dashboard_data; var relay_data;
     var device_data_created_at = null;
     var userDevices;
     var view_live_device = null; // to track whether user wants to view live data of particular device
     var view_mode = "average";
-    var data_pulled_number = 0;
     function pull_average_data(){
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -2050,7 +1906,7 @@
                         if(response_command.device_read_at != null){
                             start_stop_command_sent = false;
                             command_sent_time = +new Date(response_command.device_read_at);
-                            // console.log("Changed Command sent time : "+ command_sent_time)
+                            console.log("Changed Command sent time : "+ command_sent_time)
                             $('#btn_device_start_stop').attr('disabled',false).change();
                             switch(response.command){
                                 case "Start":
@@ -2062,7 +1918,7 @@
                             }
                         }else{
                             command_sent_time = +new Date(response_command.created_at)
-                            // console.log("Command sent time : "+ command_sent_time)
+                            console.log("Command sent time : "+ command_sent_time)
                         }
                     });
                 }
@@ -2106,23 +1962,6 @@
                 }
                 $('#ec-'+response['deviceDetails'].id).text(water_quality);
                 $('#device_conductivity_value').text(water_quality); // device info water quality
-                // calculate pressure
-                let full_pressure = response['deviceDetails']['setpoints'].stop_pressure * 0.95;
-                let low_pressure = response['deviceDetails']['setpoints'].bypass_pressure;
-                let device_pressure = response['deviceDetails'].latest_log.pressure;
-                let pressure_percentage = device_pressure*100/full_pressure;
-                $('#pressure_progress').val(pressure_percentage)
-                if(device_pressure < low_pressure){
-                    $('#tank_level').css('color','red')
-                }else{
-                    $('#tank_level').css('color','green')
-                }
-
-                // $('#pressure').css('width',pressure_percentage+"%")
-                // $('.pressure_progress').css('color:red')
-                // console.log(full_pressure)
-                // console.log(device_pressure)
-                // console.log(pressure_percentage)
                 // change device connection status
                 var now = new Date();
                 var created_at = new Date(response['deviceDetails'].latest_log.created_at);
@@ -2137,17 +1976,15 @@
                 // change volume
                 switch(select_view_volume_by){
                     case "gallons":
-                        $('.volume_unit').text('gal');
-                        $('#daily_volume').text(response['deviceVolume']!=null?response['deviceVolume'].daily +" gal" : "");
-                        $('#monthly_volume').text(response['deviceVolume']!=null?response['deviceVolume'].monthly +" gal" : "");
-                        $('#total_volume').text(response['deviceVolume']!=null?response['deviceVolume'].total +" gal" : "");
-                    break;
+                            $('#daily_volume').text(response['deviceVolume']!=null?response['deviceVolume'].daily +" gal" : "");
+                            $('#monthly_volume').text(response['deviceVolume']!=null?response['deviceVolume'].monthly +" gal" : "");
+                            $('#total_volume').text(response['deviceVolume']!=null?response['deviceVolume'].total +" gal" : "");
+                        break;
                     case "litres":
-                        $('.volume_unit').text('L');
-                        $('#daily_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].daily/0.2642007926).toFixed(2) + " L" : "");
-                        $('#monthly_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].monthly/0.2642007926).toFixed(2) +" L" : "");
-                        $('#total_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].total/0.2642007926).toFixed(2) +" L" : "");
-                    break;
+                            $('#daily_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].daily/0.2642007926).toFixed(2) + " L" : "");
+                            $('#monthly_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].monthly/0.2642007926).toFixed(2) +" L" : "");
+                            $('#total_volume').text(response['deviceVolume']!=null?(response['deviceVolume'].total/0.2642007926).toFixed(2) +" L" : "");
+                        break;
                 }
                 // change alarm
                 var alarms = response['deviceDetails'].latest_log.alarm;
@@ -2197,38 +2034,20 @@
                 pre_filter_reset_value = response['deviceDetails']['latest_maintenance_pre_filter']!=null?response['deviceDetails']['latest_maintenance_pre_filter'].volume_value:0;
                 post_filter_reset_value = response['deviceDetails']['latest_maintenance_post_filter']!=null?response['deviceDetails']['latest_maintenance_post_filter'].volume_value:0;
                 general_service_reset_value = response['deviceDetails']['latest_maintenance_general_service']!=null?response['deviceDetails']['latest_maintenance_general_service'].volume_value:0;
-                general_service_reset_date = response['deviceDetails']['latest_maintenance_general_service']!=null?response['deviceDetails']['latest_maintenance_general_service'].created_at:response['deviceDetails'].installation_date;
-                // console.log(general_service_reset_date)
-                if(response['deviceDetails']['latest_maintenance_general_service'] != null){ // if general service is performed before
-                    let temp_date = new Date(response['deviceDetails']['latest_maintenance_general_service'].created_at)
-                    let year = temp_date.getFullYear();
-                    let month = temp_date.getMonth();
-                    let days = temp_date.getDate();
-                    let date_only = new Date(year,month,days);
-                    general_service_reset_date = date_only;
-                }
-                // console.log(general_service_reset_date)
                 //maintenance setpoints
-                if(data_pulled_number <1){
-                    $('#input_critic_acid').val(response['deviceDetails']['device_settings'].critic_acid);
-                    $('#input_pre_filter').val(response['deviceDetails']['device_settings'].pre_filter);
-                    $('#input_post_filter').val(response['deviceDetails']['device_settings'].post_filter);
-                    $('#input_general_service').val(response['deviceDetails']['device_settings'].general_service);
-                    // console.log($('#input_general_service').val())
-                }
-                // calculate volume left for maintenance
+                $('#input_critic_acid').val(response['deviceDetails']['device_settings'].critic_acid);
+                $('#input_pre_filter').val(response['deviceDetails']['device_settings'].pre_filter);
+                $('#input_post_filter').val(response['deviceDetails']['device_settings'].post_filter);
+                $('#input_general_service').val(response['deviceDetails']['device_settings'].general_service);
+                // calculate volume left
                 var volume_left_critic_acid = response['deviceDetails']['device_settings'].critic_acid - response['deviceVolume'].total + critic_acid_reset_value ;
+                $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
                 var volume_left_pre_filter = response['deviceDetails']['device_settings'].pre_filter - response['deviceVolume'].total + pre_filter_reset_value ;
+                $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
                 var volume_left_post_filter = response['deviceDetails']['device_settings'].post_filter - response['deviceVolume'].total + post_filter_reset_value ;
-                // for general service
-                let installation_date = response['deviceDetails'].installation_date;
-                // console.log(installation_date)
-                let i_date = +new Date(installation_date)
-                let s_date = +new Date(general_service_reset_date)
-                let today = Date.now()
-                var difference = Math.abs(Math.floor((parseInt(today) - parseInt(s_date))/(1000*60*60*24)))
-                var days_left_general_service = $('#input_general_service').val() - difference
-                $('#general_service_volume_left').text(days_left_general_service);
+                $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
+                var volume_left_general_service = response['deviceDetails']['device_settings'].general_service - response['deviceVolume'].total + general_service_reset_value ;
+                $('#general_service_volume_left').text(volume_left_general_service.toFixed(2));
                 //check if maintenance needed
                 var is_maintenance_needed = false;
                 if(volume_left_critic_acid < 0){
@@ -2252,8 +2071,8 @@
                     $('#post_filter_error').text("Post-filter replacement needed!").css("color","red");
                     $('#btn_reset_post_filter').attr('disabled',false);
                 }
-                if(days_left_general_service < 0){
-                    days_left_general_service = 0;
+                if(volume_left_general_service < 0){
+                    volume_left_general_service = 0;
                     is_maintenance_needed = true;
                     $('#general_service_details').attr("hidden","true");
                     $('#general_service_error').text("General service needed!").css("color","red");
@@ -2262,20 +2081,10 @@
                 if(is_maintenance_needed)
                     $('section#alarmsList').append('<a class="goto_maintenance" id="goto_maintenance"><p><button class="btn btn-warning btn_goto_maintenance">Routine Maintenance Needed</button></p><a>');
                 //Show volumes left
-                // $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
-                // $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
-                // $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
-                if(select_view_volume_by == "gallons"){
-                    $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
-                    $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
-                    $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
-                }else{
-                    $('#critic_acid_volume_left').text((volume_left_critic_acid/0.2642007926).toFixed(2));
-                    $('#pre_filter_volume_left').text((volume_left_pre_filter/0.2642007926).toFixed(2));
-                    $('#post_filter_volume_left').text((volume_left_post_filter/0.2642007926).toFixed(2));
-                }
-                $('#general_service_volume_left').text(days_left_general_service);
-                data_pulled_number++;
+                $('#critic_acid_volume_left').text(volume_left_critic_acid.toFixed(2));
+                $('#pre_filter_volume_left').text(volume_left_pre_filter.toFixed(2));
+                $('#post_filter_volume_left').text(volume_left_post_filter.toFixed(2));
+                $('#general_service_volume_left').text(volume_left_general_service.toFixed(2));
             }
         });
     }
@@ -2367,12 +2176,6 @@
                         case 14: step_name = " SHUNT";break;
                         case 15: step_name = " Wait Before CIP Start";break;
                     }
-                    // greying out relays in controls when system is running
-                    if(response.step != 0 || response.step != 1 || response.step != 13){
-                        $('.slider').addClass('inactive')
-                    }else{
-                        $('.slider').removeClass('inactive')
-                    }
                     // calculating input
                     var input_binary_string = response.input.toString(2);
                     if(input_binary_string.length < 5){
@@ -2401,23 +2204,7 @@
                         else
                             output_names.push('<span style="color:green">ON</span>');
                     }
-                    // for controls
-                    $('#main_inlet_valve').html(output_names[15])
-                    $('#bypass_valve').html(output_names[14])
-                    $('#pure_valve').html(output_names[13])
-                    $('#waste_valve').html(output_names[12])
-                    $('#CIP_pump').html(output_names[11])
-                    $('#contactor_coil_2').html(output_names[10])
-                    $('#contactor_coil_1').html(output_names[9])
-                    $('#spare_relay').html(output_names[8])
-                    $('#buzzer').html(output_names[7])
-                    // for control relays
-                    for(var index =1; index<10; index++ ){
-                        if(output_binary_string.charAt(16-index)=='1') // 1 = OFF, 0 = ON
-                            $('#btn_relay_'+index).attr("checked",false).trigger("change");
-                        else
-                            $('#btn_relay_'+index).attr("checked", true).trigger("change");
-                    }
+
                     // calculating alarms
                     var alarms = response.alarm;
                     var bin_alarms = (alarms >>> 0).toString(2);
@@ -2486,8 +2273,7 @@
                     var cycles_left = device_setpoint_CIP_cycles - response.cycle;
                     if(cycles_left < 0)
                         cycles_left = 0;
-                    $('#live_data_rows').prepend(
-                        '<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
+                    $('#live_data_rows').prepend('<li><div class="timeline-time"><span class="time">'+recorded_date+'</span></div>'+
                             '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
                             '<div class="timeline-body">'+
                                 '<div class="timeline-header">'+
@@ -2540,15 +2326,15 @@
                                             '<table class="table" style="overflow-x:auto;">'+
                                                 '<tr><th colspan="9" style="text-align:center;color:blue">OUTPUT</th></tr>'+
                                                 '<tr>'+
-                                                    '<th>Main Inlet Valve</th>'+
-                                                    '<th>Bypass Valve</th>'+
-                                                    '<th>Pure Valve</th>'+
-                                                    '<th>Waste Valve</th>'+
-                                                    '<th>CIP Pump</th>'+
-                                                    '<th>Contractor Coil 2</th>'+
-                                                    '<th>Contractor Coil 1</th>'+
-                                                    '<th>Spare Relay</th>'+
-                                                    '<th>Buzzer</th>'+
+                                                    '<th>MIV</th>'+
+                                                    '<th>BYPASS</th>'+
+                                                    '<th>POV</th>'+
+                                                    '<th>WOV</th>'+
+                                                    '<th>CIP</th>'+
+                                                    '<th>SHUNT</th>'+
+                                                    '<th>POLARITY</th>'+
+                                                    '<th>PAE</th>'+
+                                                    '<th>SPARE</th>'+
                                                 '</tr>'+
                                                 '<tr>'+
                                                     '<td>'+output_names[15]+'</td>'+
@@ -2572,26 +2358,6 @@
                             '</div>'+
                         '</li>');
                     highlight($('#live_data_rows:first .timeline-body:first'));
-                    // for controls
-                    $('#cycles').text(cycles_left);
-                    $('#flow').text(flow);
-                    $('#flow_unit').text(flow_unit);
-                    $('#pump_speed').text((response.aov/0.05).toFixed(2));
-                    $('#cabinet_temp').text(response.c_temp);
-                    $('#avg_ec').text(response.ec);
-                    $('#pressure').text(response.pressure.toFixed(2));
-                    $('#pae_volt').text(response.pae_volt);
-                    $('#recovery').text(response.percentage_recovery);
-                    $('#water_temp').text(response.w_temp);
-                    $('#volume').text(volume);
-                    $('#volume_unit').text(volume_unit);
-                    $('#device_status_controls').text(status);
-                    $('#device_step').text(step_name); // for controls
-                    $('#device_run_sec').text(response.step_run_sec);
-                    // $('#device_live_data').show()
-                }else{
-                    $('.slider').addClass('inactive')
-                    // $('#device_live_data').hide()
                 }
             });
         }
@@ -2601,7 +2367,6 @@
     function pull_relay_data(){
         clearInterval(avg_data);
         clearInterval(dashboard_data);
-        // console.log("Pulling relay data")
         // get the device relay values
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -2634,6 +2399,7 @@
     $(document).ready(function () {
         $('.datatable').dataTable();
         dashboard_data = setInterval(pull_dashboard_data,5000);
+
 
         $('.loader').hide();
         $('#btn_map_view').on('click', function(){
@@ -2677,7 +2443,7 @@
                     url: "/getDeviceNotifications/"+device_id,
                 })
                 .done(function(response){
-                    // console.log(response)
+                    console.log(response)
                     // If table is initialized
                     if ($.fn.DataTable.isDataTable('#maintenance_logs_table')){
                         // Destroy existing table
@@ -2799,7 +2565,6 @@
         device_serial = $("#"+trid).find("td:first").html();
 
         //get data from database every 5 seconds
-        data_pulled_number = 0;
         avg_data = setInterval(pull_average_data,5000);
         $('#modal-device-detail').modal('show');
     })
@@ -2911,200 +2676,150 @@
             }
         })
         $('.btn_reset_critic_acid').on('click', function(){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Reset it!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Resetting Critic Acid!',
-                        html: 'Please Wait!',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        didOpen: () => {
-                            Swal.showLoading()
-                        },
-                    })
-                    var v = $('#total_volume').text().split(" ");
-                    var volume = parseFloat(v[0]);
-                    $.ajax({
-                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                        type: "POST",
-                        url: "/resetCriticAcid/"+ device_id +"/"+volume,
-                    })
-                    .done(function(response){
-                        // console.log(response)
-                        $('#critic_acid_error').text("").trigger("change");
-                        $('#critic_acid_details').removeAttr("hidden");
-                        $('#critic_acid_volume_left').text(critic_acid_reset_value);
-                        Swal.fire('Done!','Critic acid refilled.','success')
-                        $('#btn_reset_critic_acid').attr('disabled',true);
-                    })
-                }
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var v = $('#total_volume').text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetCriticAcid/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            console.log(response)
+                            $('#critic_acid_error').text("").trigger("change");
+                            $('#critic_acid_details').removeAttr("hidden");
+                            $('#critic_acid_volume_left').text(critic_acid_reset_value);
+                            Swal.fire('Done!','Critic acid refilled.','success')
+                            $('#btn_reset_critic_acid').attr('disabled',true);
+                        })
+                    }
+                })
             })
-        })
-        $('.btn_reset_pre_filter').on('click', function(){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Reset it!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Resetting Pre-filter!',
-                        html: 'Please Wait!',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        didOpen: () => {
-                            Swal.showLoading()
-                        },
-                    })
-                    var v = $('#total_volume').text().split(" ");
-                    var volume = parseFloat(v[0]);
-                    $.ajax({
-                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                        type: "POST",
-                        url: "/resetPreFilter/"+ device_id +"/"+volume,
-                    })
-                    .done(function(response){
-                        $('#pre_filter_error').text("").trigger("change");
-                        $('#pre_filter_details').removeAttr("hidden");
-                        $('#pre_filter_volume_left').text(pre_filter_reset_value).trigger("change");
-                        Swal.fire('Done!','Pre-filter replaced.','success')
-                        $('#btn_reset_pre_filter').attr('disabled',true);
-                    })
-                }
+            $('.btn_reset_pre_filter').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var v = $('#total_volume').text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetPreFilter/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            $('#pre_filter_error').text("").trigger("change");
+                            $('#pre_filter_details').removeAttr("hidden");
+                            $('#pre_filter_volume_left').text(pre_filter_reset_value).trigger("change");
+                            Swal.fire('Done!','Pre-filter replaced.','success')
+                            $('#btn_reset_pre_filter').attr('disabled',true);
+                        })
+                    }
+                })
             })
-        })
-        $('.btn_reset_post_filter').on('click', function(){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Reset it!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Resetting Post-filter!',
-                        html: 'Please Wait!',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        didOpen: () => {
-                            Swal.showLoading()
-                        },
-                    })
-                    var v = $('#total_volume').text().split(" ");
-                    var volume = parseFloat(v[0]);
-                    $.ajax({
-                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                        type: "POST",
-                        url: "/resetPostFilter/"+ device_id +"/"+volume,
-                    })
-                    .done(function(response){
-                        $('#post_filter_error').text("").trigger("change");
-                        $('#post_filter_details').removeAttr("hidden");
-                        $('#post_filter_volume_left').text(post_filter_reset_value).trigger("change");
-                        Swal.fire('Done!','Post filter replaced.','success')
-                        $('#btn_reset_post_filter').attr('disabled',true);
-                    })
+            $('.btn_reset_post_filter').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. \nDo you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var v = $('#total_volume').text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetPostFilter/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            $('#post_filter_error').text("").trigger("change");
+                            $('#post_filter_details').removeAttr("hidden");
+                            $('#post_filter_volume_left').text(post_filter_reset_value).trigger("change");
+                            Swal.fire('Done!','Post filter replaced.','success')
+                            $('#btn_reset_post_filter').attr('disabled',true);
+                        })
 
-                }
+                    }
+                })
+
             })
+            $('.btn_reset_general_service').on('click', function(){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. Do you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Reset it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        var v = $('#total_volume').text().split(" ");
+                        var volume = parseFloat(v[0]);
+                        $.ajax({
+                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "POST",
+                            url: "/resetGeneralService/"+ device_id +"/"+volume,
+                        })
+                        .done(function(response){
+                            $('#general_service_error').text("").trigger("change");
+                            $('#general_service_details').removeAttr("hidden");
+                            $('#general_service_volume_left').text(general_service_reset_value).trigger("change");
+                            Swal.fire('Done!','General Service performed.','success')
+                            $('#btn_reset_general_service').attr('disabled',true);
+                        })
 
-        })
-        $('.btn_reset_general_service').on('click', function(){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Resetting this confirms that you have done your routine maintenance according to Voltea’s User Manuals Maintenance protocols. Do you want to continue?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Reset it!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Resetting Service!',
-                        html: 'Please Wait!',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        didOpen: () => {
-                            Swal.showLoading()
-                        },
-                    })
-                    var v = $('#total_volume').text().split(" ");
-                    var volume = parseFloat(v[0]);
-                    $.ajax({
-                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                        type: "POST",
-                        url: "/resetGeneralService/"+ device_id +"/"+volume,
-                    })
-                    .done(function(response){
-                        $('#general_service_error').text("").trigger("change");
-                        $('#general_service_details').removeAttr("hidden");
-                        $('#general_service_volume_left').text(general_service_reset_value).trigger("change");
-                        Swal.fire('Done!','General Service performed.','success')
-                        $('#btn_reset_general_service').attr('disabled',true);
-                    })
+                    }
+                })
 
-                }
             })
-
-        })
     // end of maintenance
     var select_view_volume_by = "gallons";
     $('#select_view_volume_by').on('change',function(){
         select_view_volume_by = $('#select_view_volume_by').val();
-        // var trid = $(this).closest('tr').attr('id'); // table row ID
+        var trid = $(this).closest('tr').attr('id'); // table row ID
         var vol_gal_daily,vol_lit_daily,vol_gal_monthly,vol_lit_monthly,vol_gal_total,vol_lit_total;
         switch(select_view_volume_by){
             case "gallons":
-                vol_gal_daily =$("#daily_volume").text();
+                vol_gal_daily =$("#daily_volume-"+trid).text();
                 vol_lit_daily = parseFloat(vol_gal_daily)*0.2642007926;
-                $('#daily_volume').text(vol_lit_daily.toFixed(2) + " gal");
-                vol_gal_monthly =$("#monthly_volume").text();
+                $('#daily_volume-'+trid).text(vol_lit_daily.toFixed(2) + " gal");
+                vol_gal_monthly =$("#monthly_volume-"+trid).text();
                 vol_lit_monthly = parseFloat(vol_gal_monthly)*0.2642007926;
-                $('#monthly_volume').text(vol_lit_monthly.toFixed(2) + " gal");
-                vol_gal_total =$("#total_volume").text();
+                $('#monthly_volume-'+trid).text(vol_lit_monthly.toFixed(2) + " gal");
+                vol_gal_total =$("#total_volume-"+trid).text();
                 vol_lit_total = parseFloat(vol_gal_total)*0.2642007926;
-                $('#total_volume').text(vol_lit_total.toFixed(2) + " gal");
-
-                let l_critic = $('#input_critic_acid').val()*0.2642007926
-                $('#input_critic_acid').val(l_critic.toFixed(2));
-                let l_pre_filter = $('#input_pre_filter').val()*0.2642007926
-                $('#input_pre_filter').val(l_pre_filter.toFixed(2));
-                let l_post_filter = $('#input_post_filter').val()*0.2642007926
-                $('#input_post_filter').val(l_post_filter.toFixed(2));
+                $('#total_volume-'+trid).text(vol_lit_total.toFixed(2) + " gal");
                 break;
             case "litres":
-                vol_lit_daily =$("#daily_volume").text();
+                vol_lit_daily =$("#daily_volume-"+trid).text();
                 vol_gal_daily = parseFloat(vol_lit_daily)/0.2642007926;
-                $('#daily_volume').text(vol_gal_daily.toFixed(2) + " L");
-                vol_lit_monthly =$("#monthly_volume").text();
+                $('#daily_volume-'+trid).text(vol_gal_daily.toFixed(2) + " L");
+                vol_lit_monthly =$("#monthly_volume-"+trid).text();
                 vol_gal_monthly = parseFloat(vol_lit_monthly)/0.2642007926;
-                $('#monthly_volume').text(vol_gal_monthly.toFixed(2) + " L");
-                vol_lit_total =$("#total_volume").text();
+                $('#monthly_volume-'+trid).text(vol_gal_monthly.toFixed(2) + " L");
+                vol_lit_total =$("#total_volume-"+trid).text();
                 vol_gal_total = parseFloat(vol_lit_total)/0.2642007926;
-                $('#total_volume').text(vol_gal_total.toFixed(2) + " L");
-
-                let g_critic = $('#input_critic_acid').val()/0.2642007926
-                $('#input_critic_acid').val(g_critic.toFixed(2));
-                let g_pre = $('#input_pre_filter').val()/0.2642007926
-                $('#input_pre_filter').val(g_pre.toFixed(2));
-                let g_post = $('#input_post_filter').val()/0.2642007926
-                $('#input_post_filter').val(g_post.toFixed(2));
+                $('#total_volume-'+trid).text(vol_gal_total.toFixed(2) + " L");
                 break;
         }
     })
@@ -3473,12 +3188,8 @@
     })
 
     $('.nav_link-control').on('click', function(){
-        clearInterval(avg_data);
-        // $('#device_live_data').hide()
-        $('.slider').addClass('inactive')
         view_mode = "control";
-        view_live_device = device_id;
-        // view_live_device = null; // we are not in live mode
+        view_live_device = null; // we are not in live mode
         $('#btn_refresh_live_data').attr('hidden', true);
         $('#tab_avg_data').hide();
         $('#tab_live_data').hide();
@@ -3511,17 +3222,7 @@
             $('#btn_relay_8').removeAttr("disabled");
             $('#btn_relay_9').removeAttr("disabled");
         }
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "GET",
-            url: "/getDeviceSetpointsForCalculation/"+device_id,
-        })
-        .done(function(response){
-            userDevices = response;
-        });
-        if(typeof live_data === 'undefined')
-            live_data = setInterval(pull_live_data,5000);
-        // relay_data = setInterval(pull_live_data,10000);
+        relay_data = setInterval(pull_relay_data,10000);
 
     })
     // variables needed for setpoints tab
@@ -3657,191 +3358,178 @@
         //alert('Refreshing data')
         // Request server for recent logs
     })
-    // Setpoints tab
-        $('#btn_edit_setpoints').on('click', function(){
-            Swal.fire({
-                    title: 'Disclaimer!',
-                    text: "Changing setpoints may cause system to malfunction! Do you still want to continue?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#btn_edit_setpoints').attr('hidden',true)
-                        $('#btn_save_setpoints').attr('hidden',false)
-                        $('#btn_cancel_setpoints').attr('hidden',false)
-                        $('.input-setpoints').attr('disabled',false);
-                    }
-                })
 
+    $('#btn_edit_setpoints').on('click', function(){
+        $('#btn_edit_setpoints').attr('hidden',true)
+        $('#btn_save_setpoints').attr('hidden',false)
+        $('#btn_cancel_setpoints').attr('hidden',false)
+        $('.input-setpoints').attr('disabled',false);
+    })
+    $('#btn_save_setpoints').on('click', function(){
+        $('#btn_edit_setpoints').attr('hidden',false)
+        $('#btn_save_setpoints').attr('hidden',true)
+        $('#btn_cancel_setpoints').attr('hidden',true)
+        $('.input-setpoints').attr('disabled',true);
+
+        //save new values in the database and send commands to device to change the setpoints to new value
+        var formData ={
+            'pure_EC_target':$('#input-pure_EC_target').val(),
+            'prepurify_time':$('#input-pre_purify_time').val(),
+            'purify_time':$('#input-purify_time').val(),
+            'waste_time':$('#input-waste_time').val(),
+            'HF_waste_time':$('#input-HF_waste_time').val(),
+            'CIP_dose':$('#input-CIP_dose').val(),
+            'CIP_dose_rec':$('#input-CIP_dose_rec').val(),
+            'CIP_dose_total':$('#input-CIP_dose_total').val(),
+            'CIP_flow_total':$('#input-CIP_flow_total').val(),
+            'CIP_flow_flush':$('#input-CIP_flow_flush').val(),
+            'CIP_flow_rec':$('#input-CIP_flow_rec').val(),
+            'CIP_flush_time':$('#input-CIP_flush_time').val(),
+            'WV_check_time':$('#input-WV_check_time').val(),
+            'wait_HT_time':$('#input-wait_HT_time').val(),
+            'p_flow_target':$('#input-p_flow_target').val(),
+            'low_flow_purify_alarm':$('#input-low_flow_purify_alarm').val(),
+            'low_flow_waste_alarm':$('#input-low_flow_waste_alarm').val(),
+            'CIP_cycles':$('#input-CIP_cycles').val(),
+            'temperature_alarm':$('#input-temperature_alarm').val(),
+            'max_CIP_prt':$('#input-max_CIP_prt').val(),
+            'pump_p_factor':$('#input-pump_p_factor').val(),
+            'dynamic_p_factor':$('#input-dynamic_p_factor').val(),
+            'p_max_volt':$('#input-p_max_volt').val(),
+            'w_max_volt':$('#input-w_max_volt').val(),
+            'w_value':$('#input-w_value').val(),
+            'flow_k_factor':$('#input-flow_k_factor').val(),
+            'volume_unit':$('#input-volume_unit').val(),
+            'bypass_option':$('#input-bypass_option').val(),
+            'start_pressure':$('#input-start_pressure').val(),
+            'stop_pressure':$('#input-stop_pressure').val(),
+            'bypass_pressure':$('#input-bypass_pressure').val(),
+            'CIP_pressure':$('#input-CIP_pressure').val(),
+            'wait_time_before_CIP':$('#input-wait_time_before_CIP').val(),
+        };
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "POST",
+            url: "/saveDeviceSetpoints/"+ device_id,
+            data: formData
         })
-        $('#btn_save_setpoints').on('click', function(){
-            $('#btn_edit_setpoints').attr('hidden',false)
-            $('#btn_save_setpoints').attr('hidden',true)
-            $('#btn_cancel_setpoints').attr('hidden',true)
-            $('.input-setpoints').attr('disabled',true);
+        .done(function(response){
+            Swal.fire('Success','Set - Setpoints command sent to device.','success')
+            // wait for response and notify if value error
 
-            //save new values in the database and send commands to device to change the setpoints to new value
-            var formData ={
-                'pure_EC_target':$('#input-pure_EC_target').val(),
-                'prepurify_time':$('#input-pre_purify_time').val(),
-                'purify_time':$('#input-purify_time').val(),
-                'waste_time':$('#input-waste_time').val(),
-                'HF_waste_time':$('#input-HF_waste_time').val(),
-                'CIP_dose':$('#input-CIP_dose').val(),
-                'CIP_dose_rec':$('#input-CIP_dose_rec').val(),
-                'CIP_dose_total':$('#input-CIP_dose_total').val(),
-                'CIP_flow_total':$('#input-CIP_flow_total').val(),
-                'CIP_flow_flush':$('#input-CIP_flow_flush').val(),
-                'CIP_flow_rec':$('#input-CIP_flow_rec').val(),
-                'CIP_flush_time':$('#input-CIP_flush_time').val(),
-                'WV_check_time':$('#input-WV_check_time').val(),
-                'wait_HT_time':$('#input-wait_HT_time').val(),
-                'p_flow_target':$('#input-p_flow_target').val(),
-                'low_flow_purify_alarm':$('#input-low_flow_purify_alarm').val(),
-                'low_flow_waste_alarm':$('#input-low_flow_waste_alarm').val(),
-                'CIP_cycles':$('#input-CIP_cycles').val(),
-                'temperature_alarm':$('#input-temperature_alarm').val(),
-                'max_CIP_prt':$('#input-max_CIP_prt').val(),
-                'pump_p_factor':$('#input-pump_p_factor').val(),
-                'dynamic_p_factor':$('#input-dynamic_p_factor').val(),
-                'p_max_volt':$('#input-p_max_volt').val(),
-                'w_max_volt':$('#input-w_max_volt').val(),
-                'w_value':$('#input-w_value').val(),
-                'flow_k_factor':$('#input-flow_k_factor').val(),
-                'volume_unit':$('#input-volume_unit').val(),
-                'bypass_option':$('#input-bypass_option').val(),
-                'start_pressure':$('#input-start_pressure').val(),
-                'stop_pressure':$('#input-stop_pressure').val(),
-                'bypass_pressure':$('#input-bypass_pressure').val(),
-                'CIP_pressure':$('#input-CIP_pressure').val(),
-                'wait_time_before_CIP':$('#input-wait_time_before_CIP').val(),
-            };
-            $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+        });
+
+    })
+    $('#btn_cancel_setpoints').on('click', function(){
+        $('#btn_edit_setpoints').attr('hidden',false)
+        $('#btn_save_setpoints').attr('hidden',true)
+        $('#btn_cancel_setpoints').attr('hidden',true)
+        $('.input-setpoints').attr('disabled',true);
+
+        // put old values in the input fields
+        $('#input-pure_EC_target').val(pure_EC_target)
+        $('#input-pre_purify_time').val(pre_purify_time)
+        $('#input-purify_time').val(purify_time)
+        $('#input-waste_time').val(waste_time)
+        $('#input-HF_waste_time').val(HF_waste_time)
+        $('#input-CIP_dose').val(CIP_dose)
+        $('#input-CIP_dose_rec').val(CIP_dose_rec)
+        $('#input-CIP_dose_total').val(CIP_dose_total)
+        $('#input-CIP_flow_total').val(CIP_flow_total)
+        $('#input-CIP_flow_flush').val(CIP_flow_flush)
+        $('#input-CIP_flow_rec').val(CIP_flow_rec)
+        $('#input-CIP_flush_time').val(CIP_flush_time)
+        $('#input-WV_check_time').val(WV_check_time)
+        $('#input-wait_HT_time').val(wait_HT_time)
+        $('#input-p_flow_target').val(p_flow_target)
+        $('#input-low_flow_purify_alarm').val(low_flow_purify_alarm)
+        $('#input-low_flow_waste_alarm').val(low_flow_waste_alarm)
+        $('#input-CIP_cycles').val(CIP_cycles)
+        $('#input-temperature_alarm').val(temperature_alarm)
+        $('#input-max_CIP_prt').val(max_CIP_prt)
+        $('#input-pump_p_factor').val(pump_p_factor)
+        $('#input-dynamic_p_factor').val(dynamic_p_factor)
+        $('#input-p_max_volt').val(p_max_volt)
+        $('#input-w_max_volt').val(w_max_volt)
+        $('#input-w_value').val(w_value)
+        $('#input-flow_k_factor').val(flow_k_factor)
+        $('#input-volume_unit').val(volume_unit)
+        $('#input-bypass_option').val(bypass_option)
+        $('#input-start_pressure').val(start_pressure)
+        $('#input-stop_pressure').val(stop_pressure)
+        $('#input-bypass_pressure').val(bypass_pressure)
+        $('#input-CIP_pressure').val(CIP_pressure)
+        $('#input-wait_time_before_CIP').val(wait_time_before_CIP)
+    })
+    $('.btn_getDeviceSetpoints').on('click', function(){
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "POST",
-                url: "/saveDeviceSetpoints/"+ device_id,
-                data: formData
-            })
-            .done(function(response){
-                Swal.fire('Success','Setpoints command sent to device.','success')
-                // wait for response and notify if value error
-
-            });
-
+                url: "/command/getSetpointsFromDevice/" + device_id,
         })
-        $('#btn_cancel_setpoints').on('click', function(){
-            $('#btn_edit_setpoints').attr('hidden',false)
-            $('#btn_save_setpoints').attr('hidden',true)
-            $('#btn_cancel_setpoints').attr('hidden',true)
-            $('.input-setpoints').attr('disabled',true);
+        .done(function(response){
+            Swal.fire('Success','Get - Setpoints command sent to device. Setpoints will be updated once the reply is received from the device','success')
 
-            // put old values in the input fields
-            $('#input-pure_EC_target').val(pure_EC_target)
-            $('#input-pre_purify_time').val(pre_purify_time)
-            $('#input-purify_time').val(purify_time)
-            $('#input-waste_time').val(waste_time)
-            $('#input-HF_waste_time').val(HF_waste_time)
-            $('#input-CIP_dose').val(CIP_dose)
-            $('#input-CIP_dose_rec').val(CIP_dose_rec)
-            $('#input-CIP_dose_total').val(CIP_dose_total)
-            $('#input-CIP_flow_total').val(CIP_flow_total)
-            $('#input-CIP_flow_flush').val(CIP_flow_flush)
-            $('#input-CIP_flow_rec').val(CIP_flow_rec)
-            $('#input-CIP_flush_time').val(CIP_flush_time)
-            $('#input-WV_check_time').val(WV_check_time)
-            $('#input-wait_HT_time').val(wait_HT_time)
-            $('#input-p_flow_target').val(p_flow_target)
-            $('#input-low_flow_purify_alarm').val(low_flow_purify_alarm)
-            $('#input-low_flow_waste_alarm').val(low_flow_waste_alarm)
-            $('#input-CIP_cycles').val(CIP_cycles)
-            $('#input-temperature_alarm').val(temperature_alarm)
-            $('#input-max_CIP_prt').val(max_CIP_prt)
-            $('#input-pump_p_factor').val(pump_p_factor)
-            $('#input-dynamic_p_factor').val(dynamic_p_factor)
-            $('#input-p_max_volt').val(p_max_volt)
-            $('#input-w_max_volt').val(w_max_volt)
-            $('#input-w_value').val(w_value)
-            $('#input-flow_k_factor').val(flow_k_factor)
-            $('#input-volume_unit').val(volume_unit)
-            $('#input-bypass_option').val(bypass_option)
-            $('#input-start_pressure').val(start_pressure)
-            $('#input-stop_pressure').val(stop_pressure)
-            $('#input-bypass_pressure').val(bypass_pressure)
-            $('#input-CIP_pressure').val(CIP_pressure)
-            $('#input-wait_time_before_CIP').val(wait_time_before_CIP)
+            var is_response_received = false;
+            setInterval(function(){
+                if(!is_response_received){
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                            type: "GET",
+                            url: "/command_status/Setpoints-get/" + device_id,
+                    })
+                    .done(function(response){
+                        if(response.device_read_at != null){
+                            is_response_received = true;
+                            $.ajax({
+                                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                                    type: "GET",
+                                    url: "/getDeviceSetpoints/" + device_id,
+                            })
+                            .done(function(response){
+                                $('#input-pure_EC_target').val(response.pure_EC_target)
+                                $('#input-pre_purify_time').val(response.prepurify_time)
+                                $('#input-purify_time').val(response.purify_time)
+                                $('#input-waste_time').val(response.waste_time)
+                                $('#input-HF_waste_time').val(response.HF_waste_time)
+                                $('#input-CIP_dose').val(response.CIP_dose)
+                                $('#input-CIP_dose_rec').val(response.CIP_dose_rec)
+                                $('#input-CIP_dose_total').val(response.CIP_dose_total)
+                                $('#input-CIP_flow_total').val(response.CIP_flow_total)
+                                $('#input-CIP_flow_flush').val(response.CIP_flow_flush)
+                                $('#input-CIP_flow_rec').val(response.CIP_flow_rec)
+                                $('#input-CIP_flush_time').val(response.CIP_flush_time)
+                                $('#input-WV_check_time').val(response.WV_check_time)
+                                $('#input-wait_HT_time').val(response.wait_HT_time)
+                                $('#input-p_flow_target').val(response.p_flow_target)
+                                $('#input-low_flow_purify_alarm').val(response.low_flow_purify_alarm)
+                                $('#input-low_flow_waste_alarm').val(response.low_flow_waste_alarm)
+                                $('#input-CIP_cycles').val(response.CIP_cycles)
+                                $('#input-temperature_alarm').val(response.temperature_alarm)
+                                $('#input-max_CIP_prt').val(response.max_CIP_prt)
+                                $('#input-pump_p_factor').val(response.pump_p_factor)
+                                $('#input-dynamic_p_factor').val(response.dynamic_p_factor)
+                                $('#input-p_max_volt').val(response.p_max_volt)
+                                $('#input-w_max_volt').val(response.w_max_volt)
+                                $('#input-w_value').val(response.w_value)
+                                $('#input-flow_k_factor').val(response.flow_k_factor)
+                                $('#input-volume_unit').val(response.volume_unit)
+                                $('#input-bypass_option').val(response.bypass_option)
+                                $('#input-start_pressure').val(response.start_pressure)
+                                $('#input-stop_pressure').val(response.stop_pressure)
+                                $('#input-bypass_pressure').val(response.bypass_pressure)
+                                $('#input-CIP_pressure').val(response.CIP_pressure)
+                                $('#input-wait_time_before_CIP').val(response.wait_time_before_CIP)
+
+                                Swal.fire('Success','Setpoints updated in server','success')
+                            })
+                        }
+                    })
+                }
+            }, 5000); // 5 seconds
         })
-        $('.btn_getDeviceSetpoints').on('click', function(){
-            $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                    type: "POST",
-                    url: "/command/getSetpointsFromDevice/" + device_id,
-            })
-            .done(function(response){
-                Swal.fire('Success','Get - Setpoints command sent to device. Setpoints will be updated once the reply is received from the device','success')
+    })
 
-                var is_response_received = false;
-                setInterval(function(){
-                    if(!is_response_received){
-                        $.ajax({
-                            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                                type: "GET",
-                                url: "/command_status/Setpoints-get/" + device_id,
-                        })
-                        .done(function(response){
-                            if(response.device_read_at != null){
-                                is_response_received = true;
-                                $.ajax({
-                                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                                        type: "GET",
-                                        url: "/getDeviceSetpoints/" + device_id,
-                                })
-                                .done(function(response){
-                                    $('#input-pure_EC_target').val(response.pure_EC_target)
-                                    $('#input-pre_purify_time').val(response.prepurify_time)
-                                    $('#input-purify_time').val(response.purify_time)
-                                    $('#input-waste_time').val(response.waste_time)
-                                    $('#input-HF_waste_time').val(response.HF_waste_time)
-                                    $('#input-CIP_dose').val(response.CIP_dose)
-                                    $('#input-CIP_dose_rec').val(response.CIP_dose_rec)
-                                    $('#input-CIP_dose_total').val(response.CIP_dose_total)
-                                    $('#input-CIP_flow_total').val(response.CIP_flow_total)
-                                    $('#input-CIP_flow_flush').val(response.CIP_flow_flush)
-                                    $('#input-CIP_flow_rec').val(response.CIP_flow_rec)
-                                    $('#input-CIP_flush_time').val(response.CIP_flush_time)
-                                    $('#input-WV_check_time').val(response.WV_check_time)
-                                    $('#input-wait_HT_time').val(response.wait_HT_time)
-                                    $('#input-p_flow_target').val(response.p_flow_target)
-                                    $('#input-low_flow_purify_alarm').val(response.low_flow_purify_alarm)
-                                    $('#input-low_flow_waste_alarm').val(response.low_flow_waste_alarm)
-                                    $('#input-CIP_cycles').val(response.CIP_cycles)
-                                    $('#input-temperature_alarm').val(response.temperature_alarm)
-                                    $('#input-max_CIP_prt').val(response.max_CIP_prt)
-                                    $('#input-pump_p_factor').val(response.pump_p_factor)
-                                    $('#input-dynamic_p_factor').val(response.dynamic_p_factor)
-                                    $('#input-p_max_volt').val(response.p_max_volt)
-                                    $('#input-w_max_volt').val(response.w_max_volt)
-                                    $('#input-w_value').val(response.w_value)
-                                    $('#input-flow_k_factor').val(response.flow_k_factor)
-                                    $('#input-volume_unit').val(response.volume_unit)
-                                    $('#input-bypass_option').val(response.bypass_option)
-                                    $('#input-start_pressure').val(response.start_pressure)
-                                    $('#input-stop_pressure').val(response.stop_pressure)
-                                    $('#input-bypass_pressure').val(response.bypass_pressure)
-                                    $('#input-CIP_pressure').val(response.CIP_pressure)
-                                    $('#input-wait_time_before_CIP').val(response.wait_time_before_CIP)
-
-                                    Swal.fire('Success','Setpoints updated in server','success')
-                                })
-                            }
-                        })
-                    }
-                }, 5000); // 5 seconds
-            })
-        })
-    //
     // starting and stopping the device
         var start_stop_command_sent;
         var command_sent = "";

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reseller extends Model
+class Distributor extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -14,7 +14,6 @@ class Reseller extends Model
         'address',
         'phone',
         'user_id',
-        'distributor_id',
         'created_by',
         'created_at','updated_at'
     ];
@@ -22,10 +21,7 @@ class Reseller extends Model
         'address' => 'array',
         'phone' => 'array',
     ];
-    public function users(){
-        return $this->belongsTo('App\Models\User','id','reseller_id');
-    }
-    public function distributor(){
-        return $this->belongsTo('App\Models\Distributor','distributor_id','id');
+    public function resellers(){
+        return $this->belongsTo('App\Models\Reseller','id','distributor_id');
     }
 }

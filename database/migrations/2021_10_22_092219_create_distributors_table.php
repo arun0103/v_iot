@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateResellersTable extends Migration
+class CreateDistributorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateResellersTable extends Migration
      */
     public function up()
     {
-        Schema::create('resellers', function (Blueprint $table) {
+        Schema::create('distributors', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('distributor_id');
             $table->string('company_name');
             $table->string('email');
             $table->json('address');
@@ -32,6 +31,6 @@ class CreateResellersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resellers');
+        Schema::dropIfExists('distributors');
     }
 }

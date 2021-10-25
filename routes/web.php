@@ -40,11 +40,12 @@ Route::get('/profile', function () {
 
 Auth::routes();
 
+// Named routes : added to links in master page
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
 Route::get('/super-users',[App\Http\Controllers\SuperController::class,'getAllSuperUsers'])->middleware('auth')->name('superUsers');
-//Reseller
 Route::get('/reseller',[App\Http\Controllers\SuperController::class,'getAllResellers'])->middleware('auth')->name('resellers');
+Route::get('/distributor',[App\Http\Controllers\SuperController::class,'getAllDistributors'])->middleware('auth')->name('distributors');
 Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->middleware('auth')->name('devices');
 Route::get('/firmwares',[App\Http\Controllers\SuperController::class,'firmwares'])->middleware('auth')->name('firmwares');
 
@@ -71,7 +72,7 @@ Route::post('/upgradeFirmware/{device_id}/{firmware_id}', [App\Http\Controllers\
     // Route::resource('blog','BlogController'); //Make a CRUD controller
 
     Route::post('/changePassword',[App\Http\Controllers\HomeController::class,'changePassword'])->middleware('auth');
-
+    // Resseller
     Route::post('/addNewReseller',[App\Http\Controllers\ResellerController::class,'addNewReseller'])->middleware('auth');
     Route::put('/editReseller',[App\Http\Controllers\ResellerController::class,'editReseller'])->middleware('auth');
     Route::get('/reseller/{id}',[App\Http\Controllers\ResellerController::class,'getResellerById'])->middleware('auth');
@@ -82,6 +83,14 @@ Route::post('/upgradeFirmware/{device_id}/{firmware_id}', [App\Http\Controllers\
     // adding device to reseller only
     Route::post('/addNewResellerDevice',[App\Http\Controllers\ResellerController::class, 'addNewResellerDevice'])->middleware('auth');
     Route::get('/getAllResellersUser',[App\Http\Controllers\ResellerController::class, 'getAllResellersUser'])->middleware('auth');
+    Route::delete('/deleteDistributor',[App\Http\Controllers\DistributorController::class, 'deleteDistributor'])->middleware('auth');
+    Route::get('/distributor/{id}',[App\Http\Controllers\DistributorController::class,'getDistributorById'])->middleware('auth');
+    Route::get('/distributorResellers/{id}',[App\Http\Controllers\DistributorController::class, 'distributorResellers'])->middleware('auth');
+    Route::post('/addNewDistributorDevice',[App\Http\Controllers\DistributorController::class, 'addNewDistributorDevice'])->middleware('auth');
+
+    // Distributor
+    Route::post('/addNewDistributor',[App\Http\Controllers\DistributorController::class,'addNewDistributor'])->middleware('auth');
+    Route::put('/editDistributor',[App\Http\Controllers\DistributorController::class,'editDistributor'])->middleware('auth');
 
     Route::get('/users',[App\Http\Controllers\SuperController::class,'usersOnly'])->name('users')->middleware('auth');
 

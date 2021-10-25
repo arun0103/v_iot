@@ -15,7 +15,7 @@ class Device extends Model
         'model',
         'firmware',
         'installation_date',
-        'reseller_id',
+        'reseller_id','distributor_id',
         'created_by','last_online_at',
         'created_at','updated_at'
     ];
@@ -26,6 +26,9 @@ class Device extends Model
     }
     public function reseller(){
         return $this->belongsTo('App\Models\Reseller','reseller_id','id');
+    }
+    public function distributor(){
+        return $this->belongsTo('App\Models\Distributor','distributor_id','id');
     }
 
     public function userDevices(){

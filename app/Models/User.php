@@ -25,7 +25,7 @@ class User extends Authenticatable
         'password',
         'role',
         'avatar',
-        'reseller_id',
+        'reseller_id','distributor_id',
         'created_by',
     ];
 
@@ -56,6 +56,9 @@ class User extends Authenticatable
     }
     public function reseller(){
         return $this->belongsTo('App\Models\Reseller','reseller_id', 'id');
+    }
+    public function distributor(){
+        return $this->belongsTo('App\Models\Distributor','distributor_id', 'id');
     }
     public function created_devices(){
         return $this->hasMany('App\Models\Device','created_by','id');

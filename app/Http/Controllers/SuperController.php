@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Models;
 use App\Models\Reseller;
+use App\Models\Distributor;
 use App\Models\Device;
 use App\Models\UserProfile;
 use App\Models\UserDevices;
@@ -297,6 +298,12 @@ class SuperController extends Controller
 
             return view('reseller/devices')->with(['devices'=>$devices])->with(['users'=>$users])->with(['models'=>$models]);
         }
+        elseif($loggedInUser->role == 'D'){
+            $devices = Device::where('distributor_id',$loggedInUser->distributor_id)->get();
+            $models = Models::all();
+
+            return view('distributor/devices')->with(['devices'=>$devices])->with(['models'=>$models]);
+        }
         return view('home');
     }
     public function resellerDevices(){
@@ -496,6 +503,30 @@ class SuperController extends Controller
                 array_push($data, ['data'=>$reseller, 'device_count'=>$resellerDevicesCount]);
             }
             return view('super.resellers')->with(['resellers'=>$data]);
+        }elseif($loggedInUser->role == 'D'){
+            $resellers = Reseller::where('distributor_id',$loggedInUser->distributor->id)->get();
+            $data = [];
+            foreach($resellers as $reseller){
+                $resellerDevicesCount = Device::where('distributor_id',$reseller->id)->count();
+                array_push($data,['data'=>$reseller, 'device_count'=>$resellerDevicesCount]);
+            }
+            return view('distributor.resellers')->with(['resellers'=>$data]);
+        }
+        else{
+           return view('home');
+        }
+    }
+    public function getAllDistributors(){
+        $loggedInUser = Auth::user();
+        if($loggedInUser->role=='S'){
+            $distributors = Distributor::orderBy('created_at','desc')->with('resellers')->get();
+            // dd($resellers);
+            $data = [];
+            foreach($distributors as $distributor){
+                $resellerCount = Reseller::where('distributor_id',$distributor->id)->count();
+                array_push($data, ['data'=>$distributor, 'reseller_count'=>$resellerCount]);
+            }
+            return view('super.distributors')->with(['distributors'=>$data]);
         }else{
            return view('home');
         }
