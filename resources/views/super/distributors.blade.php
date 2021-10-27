@@ -47,18 +47,21 @@
                                                 <div class="form-group">
                                                     <label for="inputCompanyName" class="control-label">Company Name</label>
                                                     <input type="text" class="form-control" id="inputCompanyName" placeholder="Company Name" name="company_name" autocomplete="no">
+                                                    <span id="error-company_name"></span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-5">
                                                 <div class="form-group">
                                                     <label for="inputCompanyEmail" class="control-label">Company Email</label>
                                                     <input type="email" class="form-control" id="inputCompanyEmail" placeholder="Company Email" name="company_email" autocomplete="no">
+                                                    <span id="error-email"></span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label for="inputCompanyPhone" class="control-label">Phone</label>
                                                     <input type="number" class="form-control" id="inputCompanyPhone" placeholder="Company Phone" name="company_phone" autocomplete="no">
+                                                    <span id="error-phone"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -66,16 +69,16 @@
                                             <div class="col-sm-3">
                                                 <label for="select_county" class="control-label"> Country</label><br/>
                                                 <select class="form-control select2" id="select_country" name="select_country" style="width:100%" required>
-                                                    <option selected hidden>-- Select --</option>
+                                                    <option selected hidden disabled>-- Select --</option>
                                                 </select>
-                                                <span id="error_country"></span>
+                                                <span id="error-country"></span>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label for="select_state" class="control-label"> State/District</label><br/>
                                                 <select class="form-control select2" id="select_state" name="select_state" style="width:100%" required>
-                                                    <option hidden selected>-- Select --</option>
+                                                    <option hidden selected disabled>-- Select --</option>
                                                 </select>
-                                                <span id="error_state"></span>
+                                                <span id="error-state"></span>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
@@ -91,7 +94,7 @@
                                                         </a>
                                                     </div>
                                                     <input type="text" class="form-control" id="input_city" placeholder="City" name="city" autocomplete="no" required>
-                                                    <span id="error_city"></span>
+                                                    <span id="error-city"></span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -108,7 +111,7 @@
                                                         </a>
                                                     </div>
                                                     <input type="text" class="form-control" id="input_street_address" placeholder="Street address" name="street_address_1" autocomplete="no" required>
-                                                    <span id="error_street"></span>
+                                                    <span id="error-street_address"></span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
@@ -125,7 +128,7 @@
                                                         </a>
                                                     </div>
                                                     <input type="text" class="form-control" id="input_house_address" placeholder="House address" name="house_address_1" autocomplete="no" required>
-                                                    <span id="error_house"></span>
+                                                    <span id="error-house_address"></span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-2">
@@ -142,7 +145,7 @@
                                                         </a>
                                                     </div>
                                                     <input type="text" class="form-control" id="input_zip_code" placeholder="Zip code" name="zip_code" autocomplete="no" required>
-                                                    <span id="error_zip"></span>
+                                                    <span id="error-zip_code"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -291,72 +294,139 @@
         })
         $('#btn_confirm_add_distributor').on('click', function(e){
             e.preventDefault();
-            Swal.fire({
-                title: 'Please Wait!',
-                html: 'Creating Distributor\'s Profile.',
-                didOpen: () => {
-                    Swal.showLoading()
-                },
-                allowOutsideClick: false
-            })
-            let address = {
-                'country': $('#select_country').val(),
-                'state': $('#select_state').val(),
-                'city': $('#input_city').val(),
-                'street_address': $('#input_street_address').val(),
-                'house_address': $('#input_house_address').val(),
-                'zip_code': $('#input_zip_code').val()
-            }
-            var  formData = {
-                'company_name' : $('#inputCompanyName').val(),
-                'email' : $('#inputCompanyEmail').val(),
-                'phone' : $('#inputCompanyPhone').val(),
-                'address' : address
-            }
-            //alert(address.city)
-            $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "POST",
-                url: "/addNewDistributor",
-                data: formData,
-            })
-            .done(function( msg ) {
-                switch(msg['status']){
-                    case 'Error':
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something Went wrong! Sorry for trouble',
-                        })
-                        break;
-                    case 201:
-                        Swal.fire(
-                            'Added!',
-                            'Distributor has been added.',
-                            'success'
-                        );
-                        $('#modal-add').hide();
-                        location.reload(true);
-                        // $.noConflict();
-                        // var t = $('#distributorsTable').Datatable();
-                        // var address = msg.distributor['city']+ ', '+msg.distributor['state'] +', '+msg.distributor['country'];
-                        // t.row.add([msg.distributor['company_name'],msg.distributor['address'],address,msg.distributor['email'],msg.distributor['phone'],msg.distributor_device_count]).draw(false);
-                        break;
-                    case 500: // Duplicate email found
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Email is already registered in our database',
-                        })
-
-                    default:
-                        // console.log(msg);
-
+            if(validateAddEditDistributor()){
+                Swal.fire({
+                    title: 'Please Wait!',
+                    html: 'Creating Distributor\'s Profile.',
+                    didOpen: () => {
+                        Swal.showLoading()
+                    },
+                    allowOutsideClick: false
+                })
+                let address = {
+                    'country': $('#select_country').val(),
+                    'state': $('#select_state').val(),
+                    'city': $('#input_city').val(),
+                    'street_address': $('#input_street_address').val(),
+                    'house_address': $('#input_house_address').val(),
+                    'zip_code': $('#input_zip_code').val()
                 }
-                // console.log( msg );
-            });
+                var  formData = {
+                    'company_name' : $('#inputCompanyName').val(),
+                    'email' : $('#inputCompanyEmail').val(),
+                    'phone' : $('#inputCompanyPhone').val(),
+                    'address' : address
+                }
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "POST",
+                    url: "/addNewDistributor",
+                    data: formData,
+                })
+                .done(function( msg ) {
+                    switch(msg['status']){
+                        case 'Error':
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something Went wrong! Sorry for trouble',
+                            })
+                            break;
+                        case 201:
+                            Swal.fire(
+                                'Added!',
+                                'Distributor has been added.',
+                                'success'
+                            );
+                            $('#modal-add').hide();
+                            location.reload(true);
+                            // $.noConflict();
+                            // var t = $('#distributorsTable').Datatable();
+                            // var address = msg.distributor['city']+ ', '+msg.distributor['state'] +', '+msg.distributor['country'];
+                            // t.row.add([msg.distributor['company_name'],msg.distributor['address'],address,msg.distributor['email'],msg.distributor['phone'],msg.distributor_device_count]).draw(false);
+                            break;
+                        case 500: // Duplicate email found
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Email is already registered in our database',
+                            })
 
+                        default:
+                            // console.log(msg);
+
+                    }
+                    // console.log( msg );
+                });
+            }
         })
+        function validateAddEditDistributor(){
+            let validated = true;
+            let country = $('#select_country').val()
+            if(country == ""){
+                $('#error-country').text('Select a country').css('color','red')
+                validated = false
+            }else{
+                $('#error-country').text("")
+            }
+            let state = $('#select_state').val()
+            if(state == ""){
+                $('#error-state').text('Select a state').css('color','red')
+                validated = false
+            }else{
+                $('#error-state').text("")
+            }
+            let city =  $('#input_city').val()
+            if(city == ""){
+                $('#error-city').text('City cannot be blank').css('color','red')
+                validated = false
+            }else{
+                $('#error-city').text("")
+            }
+            let street_address =  $('#input_street_address').val()
+            if(street_address == ""){
+                $('#error-street_address').text('Street address cannot be blank').css('color','red')
+                validated = false
+            }else{
+                $('#error-street_address').text("")
+            }
+            let house_address =  $('#input_house_address').val()
+            if(house_address == ""){
+                $('#error-house_address').text('House address cannot be blank').css('color','red')
+                validated = false
+            }else{
+                $('#error-house_address').text("")
+            }
+            let zip_code =  $('#input_zip_code').val()
+            if(zip_code == ""){
+                $('#error-zip_code').text('Zip/Postal code cannot be blank').css('color','red')
+                validated = false
+            }else{
+                $('#error-zip_code').text("")
+            }
+            let company_name = $('#inputCompanyName').val()
+            if(company_name == ""){
+                $('#error-company_name').text('Company Name cannot be blank').css('color','red')
+                validated = false
+            }else{
+                $('#error-company_name').text("")
+            }
+            let email = $('#inputCompanyEmail').val()
+            if(email == ""){
+                $('#error-email').text('Email cannot be blank').css('color','red')
+                validated = false
+            }else{
+                $('#error-email').text("")
+            }
+            let phone = $('#inputCompanyPhone').val()
+            if(phone == ""){
+                $('#error-phone').text('Phone cannot be blank').css('color','red')
+                validated = false
+            }else{
+                $('#error-phone').text("")
+            }
+            return validated;
+        }
         $('.btn_delete').on('click',function(e){
             e.preventDefault();
             Swal.fire({

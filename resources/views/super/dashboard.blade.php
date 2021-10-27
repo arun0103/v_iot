@@ -1979,8 +1979,8 @@
         .done(function(response){
             $('.message_from_database').removeClass("linear-background");
             $('.display_body').css('visibility','visible')
-            // console.log("% % % %  Refreshing Dashboad Data :"+device_id + " % % % % %")
-            // console.log(response);
+            console.log("% % % %  Refreshing Dashboad Data :"+device_id + " % % % % %")
+            console.log(response);
             if(response['deviceDetails'].latest_log != null){
                 $('#btn_device_start_stop').removeAttr("hidden");
 
