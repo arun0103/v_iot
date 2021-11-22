@@ -775,7 +775,7 @@ class DataController extends Controller
         if($loggedInUser->role == "S"){
             $devices = Device::whereHas('latest_log', function ($query) {
                 $query->whereIn('step', [0,1,13]);
-            })->with(['model'])->with(['userDevices','setpoints'])->get();
+            })->with(['model','latest_log'])->with(['userDevices','setpoints'])->get();
             $response = [
                 'data'=>$devices
             ];

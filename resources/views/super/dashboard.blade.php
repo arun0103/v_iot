@@ -2049,19 +2049,15 @@
                         return data.length;
                     }
                 },
-                { "data": "latest_log.step",
+                { "data": "latest_log",
                     "render": function(data,type,row){
-                        console.log("Getting step")
-                        console.log(data)
-                        if(data > 0){
-                            switch(data){
-                                case 0:
-                                case 1:
-                                case 13:
-                                    return '<span style="color:yellow">IDLE</span>';break;
-                                default:
-                                    return '<span>-</span>'
-                            }
+                        switch(data.step){
+                            case 0:
+                            case 1:
+                            case 13:
+                                return '<span style="color:brown"><b>IDLE</b></span>';break;
+                            default:
+                                return '<span>-</span>'
                         }
                     },
                 },
