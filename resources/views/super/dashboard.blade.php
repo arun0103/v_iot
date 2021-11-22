@@ -908,7 +908,7 @@
                         <div class="col-lg-12 col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 id="card-title" class="device_list_title">Idle Devices List</h3>
+                                    <h3 id="card-title" class="device_list_title">Idle Device's List</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -2022,38 +2022,38 @@
     var data_pulled_number = 0;
     var showing_devices = "Idle";
     var table;
-    setInterval(function(){
-        if(view_mode == "dashboard"){
-            let table = $('#table_lists').DataTable();
-            table.rows().every(function(index, tableLoop, rowLoop){
-                var row = this.data()
-                console.log(row.id)
-            })
-            // console.log(showing_devices)
-            switch(showing_devices){
-                case "Idle": getIdleDevices();break;
-                case "Running": getRunningDevices();break;
-                case "Standby": getStandbyDevices();break;
-                case "Disconnected": getDisconnectedDevices();break;
-            }
-        }
-    },10000);
-    let grouped_devices_count = setInterval(function(){
-        console.log('groups:')
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "GET",
-            url: "/refreshDashboardCounts"
-        }).done(function(response){
-            console.log(response)
-            $('#count-idle_devices').text(response.idle)
-            $('#count-running_devices').text(response.running)
-            $('#count-standby_devices').text(response.standby)
-            $('#count-disconnected_devices').text(response.disconnected)
+    // setInterval(function(){
+    //     if(view_mode == "dashboard"){
+    //         let table = $('#table_lists').DataTable();
+    //         table.rows().every(function(index, tableLoop, rowLoop){
+    //             var row = this.data()
+    //             console.log(row.id)
+    //         })
+    //         // console.log(showing_devices)
+    //         switch(showing_devices){
+    //             case "Idle": getIdleDevices();break;
+    //             case "Running": getRunningDevices();break;
+    //             case "Standby": getStandbyDevices();break;
+    //             case "Disconnected": getDisconnectedDevices();break;
+    //         }
+    //     }
+    // },10000);
+    // let grouped_devices_count = setInterval(function(){
+    //     console.log('groups:')
+    //     $.ajax({
+    //         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+    //         type: "GET",
+    //         url: "/refreshDashboardCounts"
+    //     }).done(function(response){
+    //         console.log(response)
+    //         $('#count-idle_devices').text(response.idle)
+    //         $('#count-running_devices').text(response.running)
+    //         $('#count-standby_devices').text(response.standby)
+    //         $('#count-disconnected_devices').text(response.disconnected)
 
-        });
+    //     });
 
-    },30000)
+    // },30000)
     function getIdleDevices(){
         if ($.fn.DataTable.isDataTable('#table_lists')){
             // Destroy existing table
