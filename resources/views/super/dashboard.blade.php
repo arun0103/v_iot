@@ -2058,10 +2058,10 @@
                                 case 0:
                                 case 1:
                                 case 13:
-                                    return '<span style="color:yellow">IDLE</span>'
+                                    return '<span style="color:yellow">IDLE</span>';break;
+                                default:
+                                    return '<span>-</span>'
                             }
-                        }else{
-                            return '<span>-</span>'
                         }
                     },
                 },
