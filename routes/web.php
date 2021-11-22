@@ -48,6 +48,7 @@ Route::get('/reseller',[App\Http\Controllers\SuperController::class,'getAllResel
 Route::get('/distributor',[App\Http\Controllers\SuperController::class,'getAllDistributors'])->middleware('auth')->name('distributors');
 Route::get('/devices',[App\Http\Controllers\SuperController::class,'devices'])->middleware('auth')->name('devices');
 Route::get('/firmwares',[App\Http\Controllers\SuperController::class,'firmwares'])->middleware('auth')->name('firmwares');
+Route::get('/users',[App\Http\Controllers\SuperController::class,'usersOnly'])->name('users')->middleware('auth');
 
 //Contact us
 Route::get('/contact',[App\Http\Controllers\SuperController::class,'contactPage'])->middleware('auth')->name('contactPage');
@@ -92,7 +93,6 @@ Route::post('/upgradeFirmware/{device_id}/{firmware_id}', [App\Http\Controllers\
     Route::post('/addNewDistributor',[App\Http\Controllers\DistributorController::class,'addNewDistributor'])->middleware('auth');
     Route::put('/editDistributor',[App\Http\Controllers\DistributorController::class,'editDistributor'])->middleware('auth');
 
-    Route::get('/users',[App\Http\Controllers\SuperController::class,'usersOnly'])->name('users')->middleware('auth');
 
     Route::post('/assignUserDevice',[App\Http\Controllers\SuperController::class,'assignUserDevice'])->middleware('auth');//not used i guess
     Route::post('/assignUserDeviceByReseller',[App\Http\Controllers\ResellerController::class,'assignUserDeviceByReseller'])->middleware('auth');//not used i guess
@@ -138,6 +138,10 @@ Route::get('/changeUserPasswordOld',[App\Http\Controllers\UserProfileController:
 Route::get('/deviceDetail/{id}',[App\Http\Controllers\HomeController::class, 'getDeviceDetails'])->middleware('auth');
 Route::get('/getDeviceAlarms/{id}',[App\Http\Controllers\DataController::class, 'getDeviceAlarms'])->middleware('auth');
 Route::get('/deviceRelays/{id}',[App\Http\Controllers\DataController::class, 'getDeviceRelayStatus'])->middleware('auth');
+Route::get('/getIdleDevices',[App\Http\Controllers\DataController::class, 'getIdleDevices'])->middleware('auth');
+Route::get('/getRunningDevices',[App\Http\Controllers\DataController::class, 'getRunningDevices'])->middleware('auth');
+Route::get('/getStandByDevices',[App\Http\Controllers\DataController::class, 'getStandByDevices'])->middleware('auth');
+Route::get('/getDisconnectedDevices',[App\Http\Controllers\DataController::class, 'getDisconnectedDevices'])->middleware('auth');
 
 /////device settings
 Route::post('/saveCriticAcid/{id}',[App\Http\Controllers\DeviceController::class, 'saveCriticAcid'])->middleware('auth');
@@ -184,6 +188,7 @@ Route::get('/refreshDashboardData',[App\Http\Controllers\DataController::class, 
 Route::get('/refreshStatusData/{id}',[App\Http\Controllers\DataController::class, 'refreshStatusData'])->middleware('auth');
 Route::get('/refreshUserDashboardData',[App\Http\Controllers\DataController::class, 'refreshUserDashboardData'])->middleware('auth');
 Route::get('/refreshDashboardRows',[App\Http\Controllers\DataController::class, 'refreshDashboardRows'])->middleware('auth');
+Route::get('/refreshDashboardCounts',[App\Http\Controllers\DataController::class, 'refreshDashboardCounts'])->middleware('auth');
 
 //Setpoints
 Route::get('/getUserDevicesSetpointsForCalculation',[App\Http\Controllers\DataController::class, 'getUserDevicesSetpointsForCalculation'])->middleware('auth');

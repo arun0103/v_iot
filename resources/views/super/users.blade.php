@@ -66,6 +66,7 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                                 <a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>
+                                                <a class="dropdown-item option-assign_reseller" ><i class="fa fa-user-plus" aria-hidden="true"></i> Assign Reseller</a>
                                                 <a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a>
@@ -81,153 +82,184 @@
             </div>
         </div>
         <!-- /.container-fluid -->
-        <div class="modal fade" id="modal-add-new-user">
-            <form id="form_addUser" class="form-horizontal" method="post" action="/addNewUser" autocomplete="nope">
-                {{ csrf_field() }}
-                <div class="modal-dialog modal-lg" >
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="modal-title">Add New User</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row roundPadding20" id="addNewUser">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="inputName" class="control-label">Name</label>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Name" name="name" autocomplete="no">
-                                                <div class="error" id ="error_user_name"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label for="inputEmail" class="control-label">Email</label>
-                                                <input type="text" class="form-control" id="inputEmail" placeholder="Email" name="email" autocomplete="no">
-                                                <div class="error" id ="error_user_email"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                            <label for="selectRole" class="control-label">Role</label>
-                                                <select name="role" id="selectRole" class="form-control"  style="width:100%; height:100%" disabled>
-                                                    <option value="U" selected>User</option>
-                                                </select>
-                                                <div class="error" id ="error_user_role"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" id="div_reseller" hidden>
-                                        @if(Auth::user()->role == 'S')
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="selectResellerCompany" class="control-label">Reseller's Company</label>
-                                                <select name="resellerComapny" id="selectResellerCompany" class="form-control"  style="width:100%; height:100%"></select>
-                                                <div class="error" id ="error_user_company"></div>
-                                            </div>
-                                        </div>
-                                        @endif
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="inputResellerPostition" class="control-label">Position</label>
-                                                <input type="text" class="form-control" id="inputResellerPostition" placeholder="Position" name="position" autocomplete="no">
-                                                <div class="error" id ="error_user_position"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="btn_confirm_addNewUser" value="Add">Add</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->"
-            </form>
-        </div>
-        <!-- /.modal -->
-        <div class="modal fade" id="modal-edit-user" role="dialog">
-            <form id="form_editUser" class="form-horizontal" autocomplete="nope">
-                <div class="modal-dialog modal-lg" >
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="modal-title">Edit User</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row roundPadding20">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="inputName_edit" class="control-label">User's Name</label>
-                                                <input type="text" class="form-control" id="inputName_edit" placeholder="Full Name" name="name_edit" autocomplete="no">
-                                                <div class="error" id ="error_user_name_edit"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label for="inputEmail_edit" class="control-label">Email</label>
-                                                <input type="email" class="form-control" id="inputEmail_edit" placeholder="Email" name="email_edit" autocomplete="no">
-                                                <div class="error" id ="error_user_email_edit"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                            <label for="selectRole_edit" class="control-label">Role</label>
-                                                <select name="role" id="selectRole_edit" class="form-control" style="width:100%; height:100%">
-                                                <option value="" selected disabled hidden>Select item...</option>
-                                                <option value="R">Reseller</option>
-                                                    @if(Auth::user()->role == 'S')
-                                                        <option value="S">Super Admin</option>
-                                                    @endif
-                                                    <option value="U">User</option>
-                                                </select>
-                                                <div class="error" id ="error_user_role_edit"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" id="div_reseller_edit" hidden>
-                                        @if(Auth::user()->role == 'S')
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="selectResellerCompany_edit" class="control-label">Reseller's Company</label>
-                                                <select name="resellerComapny" id="selectResellerCompany_edit" class="form-control"  style="width:100%; height:100%"></select>
-                                                <div class="error" id ="error_user_company_edit"></div>
-                                            </div>
-                                        </div>
-                                        @endif
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="inputResellerPostition_edit" class="control-label">Position</label>
-                                                <input type="text" class="form-control" id="inputResellerPostition_edit" placeholder="Position" name="position" autocomplete="no">
-                                                <div class="error" id ="error_user_position_edit"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel & Close</button>
-                            <button type="submit" class="btn btn-primary" id="btn_confirm_editUser" value="save">Save</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->"
-            </form>
-        </div>
-        <!-- /.modal -->
+
     </div>
     <!-- /.content -->
-
+    <div class="modal fade" id="modal-add-new-user">
+        <form id="form_addUser" class="form-horizontal" method="post" action="/addNewUser" autocomplete="nope">
+            {{ csrf_field() }}
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">Add New User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20" id="addNewUser">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputName" class="control-label">Name</label>
+                                            <input type="text" class="form-control" id="inputName" placeholder="Name" name="name" autocomplete="no">
+                                            <div class="error" id ="error_user_name"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="control-label">Email</label>
+                                            <input type="text" class="form-control" id="inputEmail" placeholder="Email" name="email" autocomplete="no">
+                                            <div class="error" id ="error_user_email"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                        <label for="selectRole" class="control-label">Role</label>
+                                            <select name="role" id="selectRole" class="form-control"  style="width:100%; height:100%" disabled>
+                                                <option value="U" selected>User</option>
+                                            </select>
+                                            <div class="error" id ="error_user_role"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="div_reseller" hidden>
+                                    @if(Auth::user()->role == 'S')
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="selectResellerCompany" class="control-label">Reseller's Company</label>
+                                            <select name="resellerComapny" id="selectResellerCompany" class="form-control"  style="width:100%; height:100%"></select>
+                                            <div class="error" id ="error_user_company"></div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="inputResellerPostition" class="control-label">Position</label>
+                                            <input type="text" class="form-control" id="inputResellerPostition" placeholder="Position" name="position" autocomplete="no">
+                                            <div class="error" id ="error_user_position"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="btn_confirm_addNewUser" value="Add">Add</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->"
+        </form>
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="modal-edit-user" role="dialog">
+        <form id="form_editUser" class="form-horizontal" autocomplete="nope">
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">Edit User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputName_edit" class="control-label">User's Name</label>
+                                            <input type="text" class="form-control" id="inputName_edit" placeholder="Full Name" name="name_edit" autocomplete="no">
+                                            <div class="error" id ="error_user_name_edit"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="form-group">
+                                            <label for="inputEmail_edit" class="control-label">Email</label>
+                                            <input type="email" class="form-control" id="inputEmail_edit" placeholder="Email" name="email_edit" autocomplete="no">
+                                            <div class="error" id ="error_user_email_edit"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                        <label for="selectRole_edit" class="control-label">Role</label>
+                                            <select name="role" id="selectRole_edit" class="form-control" style="width:100%; height:100%">
+                                            <option value="" selected disabled hidden>Select item...</option>
+                                            <option value="R">Reseller</option>
+                                                @if(Auth::user()->role == 'S')
+                                                    <option value="S">Super Admin</option>
+                                                @endif
+                                                <option value="U">User</option>
+                                            </select>
+                                            <div class="error" id ="error_user_role_edit"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="div_reseller_edit" hidden>
+                                    @if(Auth::user()->role == 'S')
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="selectResellerCompany_edit" class="control-label">Reseller's Company</label>
+                                            <select name="resellerComapny" id="selectResellerCompany_edit" class="form-control"  style="width:100%; height:100%"></select>
+                                            <div class="error" id ="error_user_company_edit"></div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="inputResellerPostition_edit" class="control-label">Position</label>
+                                            <input type="text" class="form-control" id="inputResellerPostition_edit" placeholder="Position" name="position" autocomplete="no">
+                                            <div class="error" id ="error_user_position_edit"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel & Close</button>
+                        <button type="submit" class="btn btn-primary" id="btn_confirm_editUser" value="save">Save</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->"
+        </form>
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="modal-assign-reseller" role="dialog">
+        <form id="form_assign_reseller" class="form-horizontal" autocomplete="nope">
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">Choose Reseller</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row roundPadding20">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="selectResellerCompany_assign" class="control-label">Reseller's Company</label>
+                                    <select name="resellerComapny" id="selectResellerCompany_assign" class="form-control"  style="width:100%; height:100%"></select>
+                                    <div class="error" id ="selectResellerCompany_assign"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel & Close</button>
+                        <button type="submit" class="btn btn-primary" id="btn_confirm_assignReseller" value="save">Save</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->"
+        </form>
+    </div>
+    <!-- /.modal -->
 
     @endsection
     @section('scripts')
@@ -296,6 +328,15 @@
             }
         }
         $(document).on('click','a.option-edit-user',function(){
+            $('.loader').show();
+            user_id = $(this).closest('tr').attr('id'); // table row ID
+            $('#inputName_edit').val($('tr#'+user_id+' td:eq(0) span.user_name').text())
+            $('#inputEmail_edit').val($('tr#'+user_id+' td:eq(1)').text())
+            $('#selectRole_edit').val($('tr#'+user_id+' td#'+user_id +'_role').text().charAt(0)).trigger('change')
+            $('#modal-edit-user').modal('show');
+            $('.loader').hide();
+        })
+        $(document).on('click','a.option-assign_reseller',function(){
             $('.loader').show();
             user_id = $(this).closest('tr').attr('id'); // table row ID
             $('#inputName_edit').val($('tr#'+user_id+' td:eq(0) span.user_name').text())
@@ -390,6 +431,60 @@
                 }
                 $('.loader').hide();
             })
+            $('#btn_confirm_assignReseller').on('click', function(e){
+                e.preventDefault();
+                let reseller_id = $('#selectResellerCompany_assign').val();
+                    $('.loader').show()
+                    $('#modal-assign-reseller').modal('hide');
+                    $.ajax({
+                        headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                        type: "PATCH",
+                        url: "/super/assignResellerToUser",
+                        data: {
+                            "user_id":user_id,
+                            "reseller_id":reseller_id,
+                        },
+                    })
+                    .done(function(response){
+                        switch(response.status){
+                            case 'failed':
+                                Swal.fire(
+                                    'Failed!',
+                                    response.description,
+                                    'error'
+                                )
+                                break;
+                            case 'halted':
+                                Swal.fire(
+                                    'Skipped!',
+                                    response.description,
+                                    'question'
+                                )
+                                break;
+                            case 'success':
+                                $('tr#'+response.user.id+" td:eq(0)").text(response.user.name)
+                                $('tr#'+response.user.id+" td:eq(1)").text(response.user.email)
+                                $('tr#'+response.user.id+" td:eq(2)").text(response.user.role == 'U'?'User':(response.user.role == 'R'? 'Reseller':'Voltea'))
+                                $('tr#'+response.user.id+" td:eq(3)").text(response.user.user_devices_count)
+                                $('tr#'+response.user.id+" td:eq(4)").text(response.user.reseller!=null?response.user.reseller.company_name: '-')
+                                $('tr#'+response.user.id+" td:eq(5)").text(response.user.last_login!=null?response.user.last_login:'-')
+                                Swal.fire(
+                                    'Saved!',
+                                    'User modified! ',
+                                    'success'
+                                )
+                        }
+                    })
+                // }else{
+                //     $('#modal-edit-user').modal('show');
+                //     Swal.fire(
+                //         'Validation Failed!',
+                //         'Please correct the errors first!',
+                //         'error'
+                //         )
+                // }
+                $('.loader').hide();
+            })
 
             $(document).on('click','a.option-delete-user', function(){
                 var user_id = $(this).closest('tr').attr('id'); // table row ID
@@ -434,6 +529,7 @@
             })
 
             function validateNewUser(){
+                let validated = true;
             //Remove previous validations
                 $('#error_user_name p').remove();
                 $('#error_user_email p').remove();
@@ -445,9 +541,11 @@
                 if($('#inputName').val() == ''){
                     $('#error_user_name').append('<p style="color:red"> Name cannot be empty!</p>');
                     error_count++;
+                    validated = false;
                 }if($('#inputEmail').val() == ''){
                     $('#error_user_email').append('<p style="color:red"> Email cannot be empty!</p>');
                     error_count++;
+                    validated = false;
                 }else{
                     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                     if(re.test($('#inputEmail').val()))
@@ -455,43 +553,45 @@
                     else{
                         $('#error_user_email').append('<p style="color:red"> Email is invalid!</p>');
                         error_count++;
+                        validated = false;
                     }
                 }
-                switch($('#selectRole').val()){
-                    case 'R':
-                        // validate company and position
-                        switch($('#selectResellerCompany').val()){
-                            case '0': // user has not selected any value
-                                $('#error_user_company').append('<p style="color:red"> Company cannot be empty!</p>');
-                                error_count++;
-                                break;
-                        }
-                        if($('#inputResellerPostition').val() == ''){
-                            $('#error_user_position').append('<p style="color:red"> Position cannot be empty!</p>');
-                            error_count++;
-                        }break;
-                    case 'U':
-                    case 'S':
-                        $('#error_user_role p').remove();
-                        break;
-                    default:
-                        $('#error_user_role p').remove();
-                        $('#error_user_role').append('<p style="color:red"> Role cannot be empty!</p>');
-                        error_count++;
-                }
-                if(error_count >0){
-                    return false;
-                }
-                else{
-                    return true;
+                // switch($('#selectRole').val()){
+                //     case 'R':
+                //         // validate company and position
+                //         switch($('#selectResellerCompany').val()){
+                //             case '0': // user has not selected any value
+                //                 $('#error_user_company').append('<p style="color:red"> Company cannot be empty!</p>');
+                //                 error_count++;
+                //                 break;
+                //         }
+                //         if($('#inputResellerPostition').val() == ''){
+                //             $('#error_user_position').append('<p style="color:red"> Position cannot be empty!</p>');
+                //             error_count++;
+                //         }break;
+                //     case 'U':
+                //     case 'S':
+                //         $('#error_user_role p').remove();
+                //         break;
+                //     default:
+                //         $('#error_user_role p').remove();
+                //         $('#error_user_role').append('<p style="color:red"> Role cannot be empty!</p>');
+                //         error_count++;
+                // }
+                // if(error_count >0){
+                //     return false;
+                // }
+                // else{
+                //     return true;
 
-                }
+                // }
+                return validated;
             }
 
 
             $('#btn_confirm_addNewUser').on('click', function(e){
                 e.preventDefault();
-                if(validateNewUser()){ //validation succeded
+                if(validateNewUser() == true){ //validation succeded
                     $('#modal-add-new-user').modal('hide');
                     $('.loader').show()
                     console.log($('#selectResellerCompany').val())
@@ -553,6 +653,7 @@
                                         +'<i class="fas fa-angle-down"></i>'
                                         +'</a><div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">'
                                         +'<a class="dropdown-item option-edit-user" ><i class="fa fa-edit" aria-hidden="true"></i> Edit User</a>'
+                                        +'<a class="dropdown-item option-assign_reseller" ><i class="fa fa-user-plus" aria-hidden="true"></i> Assign Reseller</a>'
                                         +'<a class="dropdown-item option-view-user-devices" ><i class="fa fa-eye" aria-hidden="true"></i> View Devices</a>'
                                         +'<div class="dropdown-divider"></div>'
                                         +'<a class="dropdown-item option-delete-user"><i class="fas fa-trash"></i> Delete User</a></div></td></tr>')

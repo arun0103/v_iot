@@ -41,6 +41,7 @@
                                         <th>Device Serial #</th>
                                         <th>Device Name</th>
                                         <th>Model</th>
+                                        <th>Firmware</th>
                                         <th>Reseller</th>
                                         <th># Users</th>
                                         <!-- <th>Last Data @</th> -->
@@ -54,6 +55,7 @@
                                         <td>{{$device->device_number}}</td>
                                         <td id="device_name-{{$device->id}}">{{$device->device_name != null ?$device->device_name : "-"}}</td>
                                         <td>{{$device->model != null ? $device->model->name : "-"}}</td>
+                                        <td>{{$device->firmware}}</td>
                                         <td>{{$device->reseller != null ? $device->reseller->company_name : "-"}}</td>
                                         <td id="count_userDevices-{{$device->id}}">{{count($device->userDevices)}}</td>
                                         <!-- <td>

@@ -837,53 +837,128 @@
         </div>
         <section class="content">
             <div class="container-fluid">
-                @if(count($devices)>0)
-                    <div class="row" id="table-total-devices">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="table-responsive">
-                                <table class=" table-hover datatable" data-turbolinks="false">
-                                    <thead class="thead-dark">
-                                        <th>S.N</th>
-                                        <th>Device Name</th>
-                                        <th>Model</th>
-                                        <th>#Users</th>
-                                        <th>Status</th>
-                                        <th>Water Quality</th>
-                                        <th>Actions</th>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($devices as $device)
-                                            <tr class="table-info device-row" id="device-info-{{$device->id}}" >
-                                                <td id="device-serial-number_{{$device->id}}">{{$device->serial_number}}</td>
-                                                <td>{{$device->device_name !=null? $device->device_name:"-"}}</td>
-                                                <td>{{$device->model != null?$device->model->name: "-"}}</td>
-                                                <td>{{$device->userDevices->count()}}</td>
-                                                <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
-                                                <td><span class="ec" id="ec-{{$device->id}}">- - </span></td>
-                                                <td>
-                                                    <button class="btn btn-primary view_device_details" href="/{{$device->serial_number}}/status">View</button>
-                                                    <i class="btn fas fa-bell btn_notifications"></i>
-                                                    <!-- <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
-                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                        <a href="#" class="dropdown-item">
-                                                            <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                                        </a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a id="link_view_users" href="#" class="dropdown-item link_view_users"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
-                                                        <a id="link_view_data" href="#" class="dropdown-item"><i class="fas fa-database"></i> View Data</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
-                                                    </div> -->
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                <div class="row">
+                    <div class="col-lg-3 col-6" id="idle_block">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3 id="count-idle_devices">
+                                {{$counts['idle']}}
+                            </h3>
+                            <p>Idle</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-snowflake"></i>
+                        </div>
+                        <a href="#" class="small-box-footer" id="idle_info">More info <i id="idle_info_icon" class="fas fa-arrow-circle-down"></i></a>
                         </div>
                     </div>
-                @else
-                    <div class="row">
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6" id="running_block">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3 id ="count-running_devices">
+                                {{$counts['running']}}
+                            </h3>
+                            <p>Running</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <a href="#" class="small-box-footer" id="running_info">More info <i id="running_info_icon" class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6" id="standby_block">
+                        <!-- small box -->
+                        <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3 id="count-standby_devices">
+                                {{$counts['standby']}}
+                            </h3>
+                            <p>Stand By</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-stopwatch"></i>
+                        </div>
+                        <a href="#" class="small-box-footer" id="standby_info">More info <i id="standby_info_icon" class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6" id="disconnected_block">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3 id="count-disconnected_devices">
+                                {{$counts['disconnected']}}
+                            </h3>
+                            <p>Disconnected</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-low-vision"></i>
+                        </div>
+                        <a href="#" class="small-box-footer" id="disconnected_info">More info <i id="disconnected_info_icon" class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+
+                    <div class="row" id="table-total-devices">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 id="card-title" class="device_list_title">Idle Devices List</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="table_lists" class=" table-hover datatable" data-turbolinks="false">
+                                            <thead class="thead-dark">
+                                                <th>S.N</th>
+                                                <th>Device Name</th>
+                                                <th>Model</th>
+                                                <th># Users</th>
+                                                <th>Status</th>
+                                                <th>Water Quality</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($devices as $device)
+                                                    <tr class="table-info device-row" id="device-info-{{$device->id}}" >
+                                                        <td id="device-serial-number_{{$device->id}}">{{$device->serial_number}}</td>
+                                                        <td>{{$device->device_name !=null? $device->device_name:"-"}}</td>
+                                                        <td>{{$device->model != null?$device->model->name: "-"}}</td>
+                                                        <td>{{$device->userDevices->count()}}</td>
+                                                        <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
+                                                        <td><span class="ec" id="ec-{{$device->id}}">- - </span></td>
+                                                        <td>
+                                                            <button class="btn btn-primary view_device_details" href="/{{$device->serial_number}}/status">View</button>
+                                                            <button class="btn btn-primary btn_notifications" >Log Book</button>
+                                                            <!-- <i class="btn fas fa-bell btn_notifications"></i> -->
+                                                            <!-- <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
+                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                                                <a href="#" class="dropdown-item">
+                                                                    <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
+                                                                </a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a id="link_view_users" href="#" class="dropdown-item link_view_users"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
+                                                                <a id="link_view_data" href="#" class="dropdown-item"><i class="fas fa-database"></i> View Data</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
+                                                            </div> -->
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- <div class="row">
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
@@ -905,8 +980,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endif
+                    </div> -->
+
             </div>
         </section>
     </div>
@@ -1323,7 +1398,7 @@
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <div class="d-inline-flex p-0">
-                                                                            <h5>6. Contactor Coil 2 &nbsp; </h5>
+                                                                            <h5>6. Waste Coil &nbsp; </h5>
                                                                             <div class="float-right d-inline-flex">
                                                                                 OFF&nbsp;
                                                                                 <label class="switch">
@@ -1336,7 +1411,7 @@
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <div class="d-inline-flex p-0">
-                                                                            <h5>7. Contactor Coil 1 &nbsp;&nbsp; </h5>
+                                                                            <h5>7. Pure Coil &nbsp;&nbsp; </h5>
                                                                             <div class="float-right d-inline-flex">
                                                                                 OFF&nbsp;
                                                                                 <label class="switch">
@@ -1433,8 +1508,8 @@
                                                                                 <th>Pure Valve</th>
                                                                                 <th>Waste Valve</th>
                                                                                 <th>CIP Pump</th>
-                                                                                <th>Contactor Coil 2</th>
-                                                                                <th>Contactor Coil 1</th>
+                                                                                <th>Waste Coil</th>
+                                                                                <th>Pure Coil</th>
                                                                                 <th>Spare Relay</th>
                                                                                 <th>Buzzer</th>
                                                                             </tr>
@@ -1968,8 +2043,465 @@
     var device_data_created_at = null;
     var userDevices;
     var view_live_device = null; // to track whether user wants to view live data of particular device
-    var view_mode = "average";
+    var view_mode = "dashboard";
     var data_pulled_number = 0;
+    var showing_devices = "Idle";
+    var table;
+    setInterval(function(){
+        if(view_mode == "dashboard"){
+            let table = $('#table_lists').DataTable();
+            table.rows().every(function(index, tableLoop, rowLoop){
+                var row = this.data()
+                console.log(row.id)
+            })
+            // console.log(showing_devices)
+            switch(showing_devices){
+                case "Idle": getIdleDevices();break;
+                case "Running": getRunningDevices();break;
+                case "Standby": getStandbyDevices();break;
+                case "Disconnected": getDisconnectedDevices();break;
+            }
+        }
+    },10000);
+    let grouped_devices_count = setInterval(function(){
+        console.log('groups:')
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/refreshDashboardCounts"
+        }).done(function(response){
+            console.log(response)
+            $('#count-idle_devices').text(response.idle)
+            $('#count-running_devices').text(response.running)
+            $('#count-standby_devices').text(response.standby)
+            $('#count-disconnected_devices').text(response.disconnected)
+
+        });
+
+    },30000)
+    function getIdleDevices(){
+        if ($.fn.DataTable.isDataTable('#table_lists')){
+            // Destroy existing table
+            $('#table_lists').DataTable().destroy();
+        }
+        table = $('#table_lists').DataTable( {
+            "ajax": '/getIdleDevices',
+            "columns": [
+                { "data": "serial_number" },
+                { "data": "device_name",
+                    "render": function (data, type, row) {
+                        // console.log(data)
+                        if (data === null) {
+                            return '-';
+                        }
+                        else {
+                            return data;
+                        }
+                    }
+                },
+                { "data": "model.name" },
+                { "data": "user_devices",
+                    "render": function (data, type, row) {
+                        return data.length;
+                    }
+                },
+                { "data": "latest_log.step",
+                    "render": function(data,type,row){
+                        console.log("Getting step")
+                        console.log(data)
+                        if(data < 0){
+                            switch(data){
+                                case 0:
+                                case 1:
+                                case 13:
+                                    return '<span style="color:yellow">IDLE</span>'
+                            }
+                        }else{
+                            return '<span>-</span>'
+                        }
+                    },
+                },
+                { "data": "latest_log.ec",
+                    "render": function(data, type,row){
+                        let ec_target = row.setpoints.pure_EC_target;
+                        let diff = Math.abs(ec_target - data);
+                        let percentage = diff*100/ec_target;
+                        if(percentage <=10){
+                            return '<span style="color:green">On Target</span>'
+                        }
+                        else
+                            return '<span style="color:red>Needs Attention</span>'
+                    }
+                },
+            {"defaultContent": '<button class="btn btn-primary" id="view_device">View</button>&nbsp;<button class="btn btn-secondary" id="logBook_device">Log Book</button>'}
+            ],
+        } );
+    }
+    function getRunningDevices(){
+        if ($.fn.DataTable.isDataTable('#table_lists')){
+            // Destroy existing table
+            $('#table_lists').DataTable().destroy();
+        }
+        table = $('#table_lists').DataTable( {
+            "ajax": '/getRunningDevices',
+            "columns": [
+                { "data": "serial_number" },
+                { "data": "device_name",
+                    "render": function (data, type, row) {
+                        // console.log(data)
+                        if (data === null) {
+                            return '-';
+                        }
+                        else {
+                            return data;
+                        }
+                    }
+                },
+                { "data": "model.name" },
+                { "data": "user_devices",
+                    "render": function (data, type, row) {
+                        return data.length;
+                    }
+                },
+                { "data": "latest_log.step",
+                    "render": function(data,type,row){
+                        switch(data){
+                            case 0:
+                            case 1:
+                            case 13:
+                                return '<span style="color:yellow">IDLE</span>'
+                            case 6:
+                                return '<span style="color:blue">STANDBY</span>'
+                            default:
+                                return '<span style="color:black">-</span>'
+                        }
+                    } },
+                { "data": "latest_log.ec",
+                    "render": function(data, type,row){
+                        let ec_target = row.setpoints.pure_EC_target;
+                        // console.log(ec_target)
+                        let diff = Math.abs(ec_target - data);
+                        let percentage = diff*100/ec_target;
+                        if(percentage <=10){
+                            return '<span style="color:green">On Target</span>'
+                        }
+                        else
+                            return '<span style="color:red>Needs Attention</span>'
+                    }
+                },
+                {"defaultContent": '<button class="btn btn-primary" id="view_device">View</button>&nbsp;<button class="btn btn-secondary" id="logBook_device">Log Book</button>'}
+            ],
+        } );
+    }
+    function getStandbyDevices(){
+        if ($.fn.DataTable.isDataTable('#table_lists')){
+            // Destroy existing table
+            $('#table_lists').DataTable().destroy();
+        }
+        table = $('#table_lists').DataTable( {
+            "ajax": '/getStandByDevices',
+            "columns": [
+                { "data": "serial_number" },
+                { "data": "device_name",
+                    "render": function (data, type, row) {
+                        // console.log(data)
+                        if (data === null) {
+                            return '-';
+                        }
+                        else {
+                            return data;
+                        }
+                    }
+                },
+                { "data": "model.name" },
+                { "data": "user_devices",
+                    "render": function (data, type, row) {
+                        return data.length;
+                    }
+                },
+                { "data": "latest_log.step",
+                        "render": function(data,type,row){
+                            switch(data){
+                                case 0:
+                                case 1:
+                                case 13:
+                                    return '<span style="color:yellow">IDLE</span>'
+                                case 6:
+                                    return '<span style="color:blue">STANDBY</span>'
+                                default:
+                                    return '<span style="color:green">RUNNING</span>'
+                            }
+                        } },
+                { "data": "latest_log.ec",
+                    "render": function(data, type,row){
+                        let ec_target = row.setpoints.pure_EC_target;
+                        let diff = Math.abs(ec_target - data);
+                        let percentage = diff*100/ec_target;
+                        if(percentage <=10){
+                            return '<span style="color:green">On Target</span>'
+                        }
+                        else
+                            return '<span style="color:red>Needs Attention</span>'
+                    }
+                },
+            {"defaultContent": '<button class="btn btn-primary" id="view_device">View</button>&nbsp;<button class="btn btn-secondary" id="logBook_device">Log Book</button>'}
+            ],
+        } );
+    }
+    function getDisconnectedDevices(){
+        if ($.fn.DataTable.isDataTable('#table_lists')){
+            // Destroy existing table
+            $('#table_lists').DataTable().destroy();
+        }
+        table = $('#table_lists').DataTable( {
+            "ajax": '/getDisconnectedDevices',
+            "columns": [
+                { "data": "serial_number" },
+                { "data": "device_name",
+                    "render": function (data, type, row) {
+                        // console.log(data)
+                        if (data === null) {
+                            return '-';
+                        }
+                        else {
+                            return data;
+                        }
+                    }
+                },
+                { "data": "model.name" },
+                { "data": "user_devices",
+                    "render": function (data, type, row) {
+                        return data.length;
+                    }
+                },
+                { "data": "latest_log.step",
+                    "render": function(data,type,row){
+                        switch(data){
+                            case 0:
+                            case 1:
+                            case 13:
+                                return '<span style="color:yellow">IDLE</span>';break;
+                            case 6:
+                                return '<span style="color:blue">STANDBY</span>';break;
+                            default:
+                                return '<span style="color:green">-</span>';break;
+                        }
+                    }
+                },
+                { "data": "latest_log.ec",
+                    "render": function(data, type,row){
+                        let ec_target = row.setpoints.pure_EC_target;
+                        let diff = Math.abs(ec_target - data);
+                        let percentage = diff*100/ec_target;
+                        if(percentage <=10){
+                            return '<span style="color:green">On Target</span>'
+                        }
+                        else
+                            return '<span style="color:red>Needs Attention</span>'
+                    }
+                },
+                {"defaultContent": '<button class="btn btn-primary" id="view_device">View</button>&nbsp;<button class="btn btn-secondary" id="logBook_device">Log Book</button>'}
+            ],
+        } );
+    }
+    $('#idle_block').on('click', function(){
+        $('.device_list_title').text('Idle Devices\'s List');
+        $('#idle_info_icon').removeClass('fa-arrow-circle-right').addClass('fa-arrow-circle-down');
+        $('#running_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        $('#standby_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        $('#disconnected_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        if(showing_devices == "Idle"){
+            Swal.fire({
+                title: 'Refreshing',
+                html: '<b>Idle Devices</b>',
+                // timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
+        }else{
+            getIdleDevices();
+        }
+        showing_devices = "Idle";
+    })
+    $('#table_lists').on('click',"#view_device", function(){
+        var data = table.row( $(this).parents('tr') ).data();
+        // console.log(data)
+
+        $('.message_from_database').addClass('linear-background');
+        $('.display_body').css('visibility','hidden');
+        clearInterval(dashboard_data);
+        clearInterval(live_data);
+        let trid = data; // table row ID
+        //device_id = trid.replace("device-info-",'') // device id  from table row
+        //show average tab only
+        view_mode = "average";
+        view_live_device = null; // we are not in live mode
+        $('#tab_avg_data').show();
+        $('a[href="#tab_avg_data"]').tab('show');
+        $('.card-header-tabs li a').removeClass('active');
+        $('.nav_link-avg_data a').addClass('active');
+        $('#btn_refresh_live_data').attr('hidden', true);
+        $('#tab_live_data').hide();
+        $('#tab_control').hide();
+        $('#btn_edit_setpoints').attr('hidden',true);
+        $('#btn_save_setpoints').attr('hidden',true)
+        $('#btn_cancel_setpoints').attr('hidden',true)
+        $('#footer_maintenance').attr('hidden',false)
+        $('#modal-detail-title').text(data.device_name != null ? data.device_name : data.serial_number)
+        device_serial = data.serial_number;
+        device_id = data.id;
+
+        //get data from database every 5 seconds
+        data_pulled_number = 0;
+        avg_data = setInterval(pull_average_data,5000);
+        $('#modal-device-detail').modal('show');
+        // $('.view_device_details').click();
+    })
+    $('#table_lists').on('click',"#logBook_device", function(){
+        var data = table.row( $(this).parents('tr') ).data();
+        //console.log(data)
+
+        var trid = data.id; // table row ID
+        device_id = trid
+        $('#notifications_heading').text("Notifications: "+$('#device-serial-number_'+device_id).text())
+        $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getDeviceNotifications/"+device_id,
+        })
+        .done(function(response){
+            // console.log(response)
+            // If table is initialized
+            if ($.fn.DataTable.isDataTable('#maintenance_logs_table')){
+                // Destroy existing table
+                $('#maintenance_logs_table').DataTable().destroy();
+            }
+            // update maintenance logs table
+            $('#maintenance_logs_body').html('');
+            // if(response.maintenance.length == 0){
+            //     $('#maintenance_logs_table').attr('hidden', true);
+            // }else{
+            //     $('#maintenance_logs_table').attr('hidden', false);
+            // }
+            for(let i = 0; i<response.maintenance.length; i++){
+                let changer_details = response.maintenance[i].changer_details!= null?response.maintenance[i].changer_details.name:"-";
+                $('#maintenance_logs_body').append('<tr id="'+response.maintenance[i].id +'"><td>'+response.maintenance[i].parameter+'</td>'
+                    +'<td>'+response.maintenance[i].old_value +'</td>'
+                    +'<td>'+response.maintenance[i].new_value +'</td>'
+                    +'<td>'+ changer_details+'</td>'
+                    +'<td>'+ new Date(response.maintenance[i].created_at) +'</td>'
+                    +'</tr>'
+                )
+            }
+            // Initialize the table
+            $('#maintenance_logs_table').DataTable();
+            // If table is initialized
+            if ($.fn.DataTable.isDataTable('#control_logs_table')){
+                // Destroy existing table
+                $('#control_logs_table').DataTable().destroy();
+            }
+            // update controls logs table
+            $('#controls_logs_body').html('');
+            for(let i = 0; i<response.controls.length; i++){
+                let device_read_at = response.controls[i].device_read_at == null ? '-' : new Date(response.controls[i].device_read_at)
+                let device_response_data = response.controls[i].device_response_data == null ? '-': response.controls[i].device_response_data
+                let creator_details = response.controls[i].creator_details != null?response.controls[i].creator_details.name:"-";
+                $('#controls_logs_body').append('<tr id="'+response.controls[i].id +'"><td>'+response.controls[i].command+'</td>'
+                    +'<td>'+device_read_at +'</td>'
+                    +'<td>'+device_response_data+'</td>'
+                    +'<td>'+creator_details +'</td>'
+                    +'<td>'+ new Date(response.controls[i].created_at) +'</td>'
+                    +'</tr>'
+                )
+            }
+            // Initialize the table
+            $('#control_logs_table').DataTable();
+            // If table is initialized
+            if ($.fn.DataTable.isDataTable('#setpoints_logs_table')){
+                // Destroy existing table
+                $('#setpoints_logs_table').DataTable().destroy();
+            }
+            // update setpoints logs table
+            $('#setpoints_logs_body').html('');
+            for(let i = 0; i<response.setpoints.length; i++){
+                let changer_details = response.setpoints[i].changer_details!=null?response.setpoints[i].changer_details.name:"Device";
+                $('#setpoints_logs_body').append('<tr id="'+response.setpoints[i].id +'"><td>'+response.setpoints[i].parameter+'</td>'
+                    +'<td>'+response.setpoints[i].old_value +'</td>'
+                    +'<td>'+response.setpoints[i].new_value +'</td>'
+                    +'<td>'+changer_details +'</td>'
+                    +'<td>'+ new Date(response.setpoints[i].created_at) +'</td>'
+                    +'</tr>'
+                )
+            }
+            // Initialize the table
+            $('#setpoints_logs_table').DataTable();
+            $('#modal-device_notifications').modal('show');
+        });
+    })
+    $('#running_block').on('click', function(){
+        $('.device_list_title').text('Running Devices\'s List');
+        $('#running_info_icon').removeClass('fa-arrow-circle-right').addClass('fa-arrow-circle-down');
+        $('#idle_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        $('#standby_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        $('#disconnected_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        if(showing_devices == "Running"){
+            Swal.fire({
+                title: 'Refreshing',
+                html: '<b>Running Devices</b>',
+                // timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
+        }else{
+            getRunningDevices();
+            // console.log(table)
+
+        }showing_devices = "Running";
+    })
+    $('#standby_block').on('click', function(){
+        $('.device_list_title').text('StandBy Devices\'s List');
+        $('#standby_info_icon').removeClass('fa-arrow-circle-right').addClass('fa-arrow-circle-down');
+        $('#idle_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        $('#running_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        $('#disconnected_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        if(showing_devices == "Standby"){
+            Swal.fire({
+                title: 'Refreshing',
+                html: '<b>StandBy Devices</b>',
+                // timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
+        }else{
+            getStandbyDevices();
+        }showing_devices = "Standby";
+    })
+    $('#disconnected_block').on('click', function(){
+        $('.device_list_title').text('Disconnected Devices\'s List');
+        $('#idle_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        $('#running_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        $('#standby_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
+        $('#disconnected_info_icon').removeClass('fa-arrow-circle-right').addClass('fa-arrow-circle-down');
+        if(showing_devices == "Disconnected"){
+            Swal.fire({
+                title: 'Refreshing',
+                html: '<b>Disconnected Devices</b>',
+                // timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
+        }else{
+            getDisconnectedDevices();
+        }showing_devices = "Disconnected";
+    })
     function pull_average_data(){
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -2311,7 +2843,6 @@
                         if(response[i].latest_log.step == 0 || response[i].latest_log.step == 1 || response[i].latest_log.step == 13){
                             status = "IDLE";
                             color = "orange";
-
                         }else{
                             status = "RUNNING";
                             color = "green";
@@ -2336,7 +2867,7 @@
             .done(function(response){
                 // console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
                 // console.log(response);
-                if(device_data_created_at != response.created_at){
+                if(device_data_created_at == response.created_at){
                     device_data_created_at = response.created_at;
                     var recorded_date = new Date(response.created_at);
                     recorded_date = recorded_date.toString();
@@ -2350,7 +2881,7 @@
                     var step_name = "";
                     switch(response.step){
                         case 255: step_name = " PCB restart";break;
-                        case 0: step_name = " Free Run";break;
+                        case 0: step_name = " ";break; // Free run
                         case 1: step_name = " Idle";break;
                         case 2: step_name = " Prepurify";break;
                         case 3: step_name = " Purify";break;
@@ -2545,8 +3076,8 @@
                                                     '<th>Pure Valve</th>'+
                                                     '<th>Waste Valve</th>'+
                                                     '<th>CIP Pump</th>'+
-                                                    '<th>Contractor Coil 2</th>'+
-                                                    '<th>Contractor Coil 1</th>'+
+                                                    '<th>Waste Coil</th>'+
+                                                    '<th>Pure Coil</th>'+
                                                     '<th>Spare Relay</th>'+
                                                     '<th>Buzzer</th>'+
                                                 '</tr>'+
@@ -2633,7 +3164,7 @@
     }
     $(document).ready(function () {
         $('.datatable').dataTable();
-        dashboard_data = setInterval(pull_dashboard_data,5000);
+        // dashboard_data = setInterval(pull_dashboard_data,5000);
 
         $('.loader').hide();
         $('#btn_map_view').on('click', function(){
@@ -2657,7 +3188,9 @@
                 angle = 0
             angle += 3;
             $(".running").css('transform','rotate('+angle+'deg)');
+            // console.log(showing_devices)
         }, 50);
+
 
         //blink the icon while the device is idle
         (function blink(){
@@ -2809,6 +3342,7 @@
         element.scrollIntoView({behavior: "smooth", block: "end"})
     })
     $('.btn_close_modal').on('click', function(){
+        view_mode = "dashboard";
         clearInterval(avg_data);
         dashboard_data = setInterval(pull_dashboard_data,5000);
     })

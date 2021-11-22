@@ -41,9 +41,35 @@ class HomeController extends Controller
         $loggedInUser->save();
         if($loggedInUser->role == 'S'){
             // $users = User::all();
-            $devices = Device::with('device_settings','device_commands','setpoints')->get();
+            $devices = Device::with('device_settings','latest_log','setpoints')->get();
+            $idle_count =0;
+            $running_count = 0;
+            $standby_count =0;
+            $disconnected_count = 0;
+            $idle_devices = [];
+            foreach($devices as $device){
+                if($device->latest_log != null){
+                    if($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13){
+                        $idle_count++;
+                        array_push($idle_devices, $device);
+                    }else if($device->latest_log->step == 6){
+                        $standby_count++;
+                    }else
+                        $running_count++;
+                }else{
+                    $disconnected_count++;
+                }
+            }
+            $counts = [
+                'idle'=>$idle_count,
+                'running'=>$running_count,
+                'standby'=>$standby_count,
+                'disconnected'=>$disconnected_count
+            ];
 
-            return view('super/dashboard')->with(['devices'=>$devices]);
+
+            //dd($devices);
+            return view('super/dashboard')->with(['devices'=>$idle_devices])->with(['counts'=>$counts]);
         }elseif($loggedInUser->role =='R'){
             $users = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
             $devices = Device::where('reseller_id',$loggedInUser->reseller->id)->with('latest_log','device_settings','device_commands','setpoints')->get();

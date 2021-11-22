@@ -133,6 +133,46 @@ class DataController extends Controller
         return response()->json($devices);
 
     }
+    // for new dashboard super and resellers to count the devices and categorize
+    public function refreshDashboardCounts(){
+        $loggedInUser = Auth::user();
+        if($loggedInUser->role == "S"){
+            $devices = Device::with('latest_log:serial_number,log_dt,ec,step,alarm,created_at','setpoints:device_id,pure_EC_target')->get();
+            $grouped_data = [];
+            $idle_count = 0;
+            $running_count = 0;
+            $standby_count = 0;
+            $disconnected_count = 0;
+            foreach($devices as $device){
+                if($device->latest_log != null){
+                    switch($device->latest_log->step){
+                        case 0:
+                        case 1:
+                        case 13:
+                            $idle_count++;
+                            break;
+                        case 6:
+                            $standby_count++;break;
+                        default:
+                            $running_count++;
+                    }
+                }else{
+                    $disconnected_count++;
+                }
+            }
+            $counts = [
+                'idle'=>$idle_count,
+                'running'=>$running_count,
+                'standby'=>$standby_count,
+                'disconnected'=>$disconnected_count
+            ];
+            return response()->json($counts);
+        }else{
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log:serial_number,log_dt,ec,step,alarm,created_at','setpoints:device_id,pure_EC_target')->get();
+        }
+        return response()->json($devices);
+
+    }
     //for user
     public function refreshUserDashboardData(){
         $userDevicesIDs = UserDevices::where('user_id',Auth::user()->id)->pluck('device_id');
@@ -728,5 +768,52 @@ class DataController extends Controller
             return response()->json(65535);
 
 
+    }
+
+    public function getIdleDevices(){
+        $loggedInUser = Auth::user();
+        if($loggedInUser->role == "S"){
+            $devices = Device::whereHas('latest_log', function ($query) {
+                $query->whereIn('step', [0,1,13]);
+            })->with(['model'])->with(['userDevices','setpoints'])->get();
+            $response = [
+                'data'=>$devices
+            ];
+            return response()->json($response);
+        }
+    }
+    public function getRunningDevices(){
+        $loggedInUser = Auth::user();
+        if($loggedInUser->role == "S"){
+            $devices = Device::whereHas('latest_log',function($query){
+                $query->whereIn('step',[2,3,4,5,7,8,9,10,11,12,14,15]);
+            })->with(['model'])->with(['userDevices','setpoints'])->get();
+            $response = [
+                'data'=>$devices
+            ];
+            return response()->json($response);
+        }
+    }
+    public function getStandByDevices(){
+        $loggedInUser = Auth::user();
+        if($loggedInUser->role == "S"){
+            $devices = Device::whereHas('latest_log',function($query){
+                $query->where('step',6);
+            })->has('latest_log')->with(['model'])->with(['userDevices','setpoints'])->get();
+            $response = [
+                'data'=>$devices
+            ];
+            return response()->json($response);
+        }
+    }
+    public function getDisconnectedDevices(){
+        $loggedInUser = Auth::user();
+        if($loggedInUser->role == "S"){
+            $devices = Device::doesntHave('latest_log')->with(['model'])->with(['userDevices','setpoints'])->get();
+            $response = [
+                'data'=>$devices
+            ];
+            return response()->json($response);
+        }
     }
 }
