@@ -42,6 +42,7 @@ class HomeController extends Controller
         if($loggedInUser->role == 'S'){
             // $users = User::all();
             $devices = Device::with('device_settings','latest_log','setpoints')->get();
+            dd($devices);
             $idle_count =0;
             $running_count = 0;
             $standby_count =0;
