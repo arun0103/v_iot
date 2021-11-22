@@ -923,32 +923,7 @@
                                                 <th>Actions</th>
                                             </thead>
                                             <tbody>
-                                                @foreach($devices as $device)
-                                                    <tr class="table-info device-row" id="device-info-{{$device->id}}" >
-                                                        <td id="device-serial-number_{{$device->id}}">{{$device->serial_number}}</td>
-                                                        <td>{{$device->device_name !=null? $device->device_name:"-"}}</td>
-                                                        <td>{{$device->model != null?$device->model->name: "-"}}</td>
-                                                        <td>{{$device->userDevices->count()}}</td>
-                                                        <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
-                                                        <td><span class="ec" id="ec-{{$device->id}}">- - </span></td>
-                                                        <td>
-                                                            <button class="btn btn-primary view_device_details" href="/{{$device->serial_number}}/status">View</button>
-                                                            <button class="btn btn-primary btn_notifications" >Log Book</button>
-                                                            <!-- <i class="btn fas fa-bell btn_notifications"></i> -->
-                                                            <!-- <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                                <a href="#" class="dropdown-item">
-                                                                    <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                                                </a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <a id="link_view_users" href="#" class="dropdown-item link_view_users"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
-                                                                <a id="link_view_data" href="#" class="dropdown-item"><i class="fas fa-database"></i> View Data</a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
-                                                            </div> -->
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -3165,6 +3140,7 @@
     $(document).ready(function () {
         $('.datatable').dataTable();
         // dashboard_data = setInterval(pull_dashboard_data,5000);
+        getIdleDevices();
 
         $('.loader').hide();
         $('#btn_map_view').on('click', function(){
