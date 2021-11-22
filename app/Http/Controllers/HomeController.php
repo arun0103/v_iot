@@ -54,7 +54,8 @@ class HomeController extends Controller
                         case 0:
                         case 1:
                         case 13:$idle_count++;
-                            array_push($idle_devices, $device);break;
+                            // array_push($idle_devices, $device);
+                            break;
                         case 6: $standby_count++;break;
                         default: $running_count++;
                     }
@@ -71,7 +72,7 @@ class HomeController extends Controller
 
 
             // dd($devices);
-            return view('super/dashboard')->with(['devices'=>$idle_devices])->with(['counts'=>$counts]);
+            return view('super/dashboard')->with(['counts'=>$counts]);
         }elseif($loggedInUser->role =='R'){
             $users = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
             $devices = Device::where('reseller_id',$loggedInUser->reseller->id)->with('latest_log','device_settings','device_commands','setpoints')->get();
