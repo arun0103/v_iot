@@ -2053,7 +2053,7 @@
                     "render": function(data,type,row){
                         console.log("Getting step")
                         console.log(data)
-                        if(data < 0){
+                        if(data > 0){
                             switch(data){
                                 case 0:
                                 case 1:
@@ -3115,7 +3115,7 @@
                 let table = $('#table_lists').DataTable();
                 table.rows().every(function(index, tableLoop, rowLoop){
                     var row = this.data()
-                    console.log(row.id)
+                    // console.log(row.id)
                 })
                 // console.log(showing_devices)
                 switch(showing_devices){
