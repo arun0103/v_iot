@@ -68,7 +68,7 @@ class HomeController extends Controller
             ];
 
 
-            //dd($devices);
+            dd($devices);
             return view('super/dashboard')->with(['counts'=>$counts]);
         }elseif($loggedInUser->role =='R'){
             $users = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
