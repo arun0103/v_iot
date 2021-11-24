@@ -3365,7 +3365,7 @@
             })
         //
     });
-    //when user clicks on the device row
+    //when user clicks on the device row // not in use
     $('.view_device_details').on('click',function(){
         $('.message_from_database').addClass('linear-background');
         $('.display_body').css('visibility','hidden');
@@ -4051,7 +4051,7 @@
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
-            url: "/getDeviceSetpointsForCalculation/"+device_id,
+            url: "/getDeviceSetpointsForCalculation/"+device_serial,
         })
         .done(function(response){
             userDevices = response;
