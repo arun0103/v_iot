@@ -2172,10 +2172,10 @@
     var view_mode = "dashboard";
     var data_pulled_number = 0;
     var showing_devices = "Idle";
-    var table;
+
 
     function getIdleDevices(){
-        table = $('#table_lists_idle').DataTable();
+        var table = $('#table_lists_idle').DataTable();
         var data = table.rows().data();
         // console.log("Data: "+data[0][0])
         for(let i=0; i<data.length; i++){
@@ -2213,7 +2213,7 @@
         }
     }
     function getRunningDevices(){
-        table = $('#table_lists_running').DataTable();
+        var table = $('#table_lists_running').DataTable();
         var data = table.rows().data();
         console.log("Data: "+data[0][0])
         for(let i=0; i<data.length; i++){
