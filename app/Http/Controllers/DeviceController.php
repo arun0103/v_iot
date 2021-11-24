@@ -271,7 +271,10 @@ class DeviceController extends Controller
     }
 
     public function getLiveData($device_id){
-        $device_serial = Device::where('id',$device_id)->pluck('serial_number');
+        if(Auth::user()->role =="S")
+            $device_serial = $device_id;
+        else
+            $device_serial = Device::where('id',$device_id)->pluck('serial_number');
         $data = RawLogs::where('serial_number',$device_serial)->orderBy('log_dt','desc')->first();
         return response()->json($data);
     }

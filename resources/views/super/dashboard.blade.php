@@ -2336,14 +2336,13 @@
             case "Disconnected": table = $('#table_lists_disconnected').DataTable();break;
         }
         var data = table.row( $(this).parents('tr') ).data();
-        // console.log(data)
+        console.log("ROW data")
+         console.log(data)
 
         $('.message_from_database').addClass('linear-background');
         $('.display_body').css('visibility','hidden');
         clearInterval(dashboard_data);
         clearInterval(live_data);
-        let trid = data; // table row ID
-        //device_id = trid.replace("device-info-",'') // device id  from table row
         //show average tab only
         view_mode = "average";
         view_live_device = null; // we are not in live mode
@@ -2360,9 +2359,6 @@
         $('#footer_maintenance').attr('hidden',false)
         $('#modal-detail-title').text(data[1])
         device_serial = data[0];
-        device_id = data.id;
-        console.log(data)
-        console.log(device_id)
 
         //get data from database every 5 seconds
         data_pulled_number = 0;
@@ -2898,12 +2894,12 @@
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
-                url: "/deviceLiveData/"+ view_live_device,
+                url: "/deviceLiveData/"+ device_serial,
             })
             .done(function(response){
                 // console.log("LLLLLLLLLLL Live Data of id : " + view_live_device)
                 // console.log(response);
-                if(device_data_created_at == response.created_at){
+                if(device_data_created_at != response.created_at){
                     device_data_created_at = response.created_at;
                     var recorded_date = new Date(response.created_at);
                     recorded_date = recorded_date.toString();
@@ -3366,47 +3362,48 @@
         //
     });
     //when user clicks on the device row // not in use
-    $('.view_device_details').on('click',function(){
-        $('.message_from_database').addClass('linear-background');
-        $('.display_body').css('visibility','hidden');
-        clearInterval(dashboard_data);
-        clearInterval(live_data);
-        var trid = $(this).closest('tr').attr('id'); // table row ID
-        console.log("TRID: "+trid)
-        device_id = trid.replace("device-info-",'') // device id  from table row
-        //show average tab only
-        view_mode = "average";
-        view_live_device = null; // we are not in live mode
-        $('#tab_avg_data').show();
-        $('a[href="#tab_avg_data"]').tab('show');
-        $('.card-header-tabs li a').removeClass('active');
-        $('.nav_link-avg_data a').addClass('active');
-        $('#btn_refresh_live_data').attr('hidden', true);
-        $('#tab_live_data').hide();
-        $('#tab_control').hide();
-        $('#btn_edit_setpoints').attr('hidden',true);
-        $('#btn_save_setpoints').attr('hidden',true)
-        $('#btn_cancel_setpoints').attr('hidden',true)
-        $('#footer_maintenance').attr('hidden',false)
-        // get the setpoints from the database and save for future calculations
-        // CIP_cycle, volume unit are two setpoints that is needed to calculate live view data
-        var userDevices;
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "GET",
-            url: "/getDeviceSetpointsForCalculation/"+device_id,
-        })
-        .done(function(response){
-            userDevices = response;
-        });
-        $('#modal-detail-title').text($("#"+trid).find("td:eq(1)").text())
-        device_serial = $("#"+trid).find("td:first").html();
+        // $('.view_device_details').on('click',function(){
+        //     $('.message_from_database').addClass('linear-background');
+        //     $('.display_body').css('visibility','hidden');
+        //     clearInterval(dashboard_data);
+        //     clearInterval(live_data);
+        //     var trid = $(this).closest('tr').attr('id'); // table row ID
+        //     console.log("TRID: "+trid)
+        //     device_id = trid.replace("device-info-",'') // device id  from table row
+        //     //show average tab only
+        //     view_mode = "average";
+        //     view_live_device = null; // we are not in live mode
+        //     $('#tab_avg_data').show();
+        //     $('a[href="#tab_avg_data"]').tab('show');
+        //     $('.card-header-tabs li a').removeClass('active');
+        //     $('.nav_link-avg_data a').addClass('active');
+        //     $('#btn_refresh_live_data').attr('hidden', true);
+        //     $('#tab_live_data').hide();
+        //     $('#tab_control').hide();
+        //     $('#btn_edit_setpoints').attr('hidden',true);
+        //     $('#btn_save_setpoints').attr('hidden',true)
+        //     $('#btn_cancel_setpoints').attr('hidden',true)
+        //     $('#footer_maintenance').attr('hidden',false)
+        //     // get the setpoints from the database and save for future calculations
+        //     // CIP_cycle, volume unit are two setpoints that is needed to calculate live view data
+        //     var userDevices;
+        //     $.ajax({
+        //         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+        //         type: "GET",
+        //         url: "/getDeviceSetpointsForCalculation/"+device_id,
+        //     })
+        //     .done(function(response){
+        //         userDevices = response;
+        //     });
+        //     $('#modal-detail-title').text($("#"+trid).find("td:eq(1)").text())
+        //     device_serial = $("#"+trid).find("td:first").html();
 
-        //get data from database every 5 seconds
-        data_pulled_number = 0;
-        avg_data = setInterval(pull_average_data,5000);
-        $('#modal-device-detail').modal('show');
-    })
+        //     //get data from database every 5 seconds
+        //     data_pulled_number = 0;
+        //     avg_data = setInterval(pull_average_data,5000);
+        //     $('#modal-device-detail').modal('show');
+        // })
+    //
 
     $('.alarms-list').on('click','.goto_maintenance', function(){
         var element = document.getElementById("maintenance_tab");
