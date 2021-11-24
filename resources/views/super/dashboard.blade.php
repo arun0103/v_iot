@@ -908,7 +908,7 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Idle Device's List</h3>
+                                <h3 id="card-title" class="device_list_title">Idle Devices' List</h3>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -963,7 +963,7 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Running Device's List</h3>
+                                <h3 id="card-title" class="device_list_title">Running Devices' List</h3>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -989,17 +989,6 @@
                                                     <td>
                                                         <button class="btn btn-primary" id="view_device">View</button>&nbsp;
                                                         <button class="btn btn-secondary" id="logBook_device">Log Book</button>
-                                                        <!-- <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                            <a href="#" class="dropdown-item">
-                                                                <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                                            </a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a id="link_view_users" href="#" class="dropdown-item link_view_users"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
-                                                            <a id="link_view_data" href="#" class="dropdown-item"><i class="fas fa-database"></i> View Data</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
-                                                        </div> -->
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -1015,7 +1004,7 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">StandBy Device's List</h3>
+                                <h3 id="card-title" class="device_list_title">StandBy Devices' List</h3>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -1041,17 +1030,6 @@
                                                     <td>
                                                         <button class="btn btn-primary" id="view_device">View</button>&nbsp;
                                                         <button class="btn btn-secondary" id="logBook_device">Log Book</button>
-                                                        <!-- <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                            <a href="#" class="dropdown-item">
-                                                                <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                                            </a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a id="link_view_users" href="#" class="dropdown-item link_view_users"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
-                                                            <a id="link_view_data" href="#" class="dropdown-item"><i class="fas fa-database"></i> View Data</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
-                                                        </div> -->
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -1067,7 +1045,7 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Disconnected Device's List</h3>
+                                <h3 id="card-title" class="device_list_title">Disconnected Devices' List</h3>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -1093,17 +1071,6 @@
                                                     <td>
                                                         <button class="btn btn-primary" id="view_device">View</button>&nbsp;
                                                         <button class="btn btn-secondary" id="logBook_device">Log Book</button>
-                                                        <!-- <a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-angle-down"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                                            <a href="#" class="dropdown-item">
-                                                                <i class="fa fa-user-plus" aria-hidden="true" data-toggle="modal" data-target="#modal-assign-user"> Assign Users</i>
-                                                            </a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a id="link_view_users" href="#" class="dropdown-item link_view_users"><i class="fa fa-eye" aria-hidden="true"></i> View Users</a>
-                                                            <a id="link_view_data" href="#" class="dropdown-item"><i class="fas fa-database"></i> View Data</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a href="#" class="dropdown-item dropdown-footer"><i class="fas fa-gamepad"></i> Control Device</a>
-                                                        </div> -->
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -2210,7 +2177,7 @@
     function getIdleDevices(){
         table = $('#table_lists_idle').DataTable();
         var data = table.rows().data();
-        console.log("Data: "+data[0][0])
+        // console.log("Data: "+data[0][0])
         for(let i=0; i<data.length; i++){
             let device_serial = data[i][0]
             $.ajax({
@@ -2219,8 +2186,6 @@
                 url: "/getDeviceLatestLog/"+device_serial,
             })
             .done(function(response){
-                console.log(response)
-
                 //calculate status
                 //calculate water quality
                 let ec_target = response.setpoints.pure_EC_target;
@@ -2228,13 +2193,12 @@
                 let diff = Math.abs(ec_target - ec_avg);
                 let percentage = diff*100/ec_target;
                 let water_quality ;
-                console.log(response.logs[0].ec+ "%")
+                // console.log(response.logs[0].ec+ "%")
                 if(percentage <= 10){
                     water_quality = '<span style="color:green">On Target</span>'
                 }else{
                     water_quality = '<span style="color:brown">Needs Attention</span>'
                 }
-
                 let data_to_change = {
                     '0':data[i][0],
                     '1':data[i][1],
@@ -2522,7 +2486,8 @@
         });
     })
     $('#idle_block').on('click', function(){
-        $('.device_list_title').text('Idle Devices\'s List');
+        showing_devices = "Idle";
+        // $('.device_list_title').text('Idle Devices\'s List');
         $('#idle_info_icon').removeClass('fa-arrow-circle-right').addClass('fa-arrow-circle-down');
         $('#running_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
         $('#standby_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
@@ -2531,20 +2496,7 @@
         $('#table-running-devices').attr('hidden',true)
         $('#table-standby-devices').attr('hidden',true)
         $('#table-disconnected-devices').attr('hidden',true)
-        if(showing_devices == "Idle"){
-            Swal.fire({
-                title: 'Refreshing',
-                html: '<b>Idle Devices</b>',
-                // timer: 2000,
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.showLoading()
-                },
-            })
-        }else{
-            getIdleDevices();
-        }
-        showing_devices = "Idle";
+        getIdleDevices();
     })
     $('#running_block').on('click', function(){
         $('.device_list_title').text('Running Devices\'s List');
