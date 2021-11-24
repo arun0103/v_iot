@@ -2215,7 +2215,6 @@
     function getRunningDevices(){
         var table = $('#table_lists_running').DataTable();
         var data = table.rows().data();
-        console.log("Data: "+data[0][0])
         for(let i=0; i<data.length; i++){
             let device_serial = data[i][0]
             $.ajax({
@@ -2224,7 +2223,7 @@
                 url: "/getDeviceLatestLog/"+device_serial,
             })
             .done(function(response){
-                console.log(response)
+                // console.log(response)
 
                 //calculate status
                 //calculate water quality
@@ -2233,13 +2232,11 @@
                 let diff = Math.abs(ec_target - ec_avg);
                 let percentage = diff*100/ec_target;
                 let water_quality ;
-                console.log(response.logs[0].ec+ "%")
                 if(percentage <= 10){
                     water_quality = '<span style="color:green">On Target</span>'
                 }else{
                     water_quality = '<span style="color:brown">Needs Attention</span>'
                 }
-
                 let data_to_change = {
                     '0':data[i][0],
                     '1':data[i][1],
@@ -2254,118 +2251,80 @@
         }
     }
     function getStandbyDevices(){
-        if ($.fn.DataTable.isDataTable('#table_lists_standby')){
-            // Destroy existing table
-            $('#table_lists_standby').DataTable().destroy();
+        var table = $('#table_lists_standby').DataTable();
+        var data = table.rows().data();
+        for(let i=0; i<data.length; i++){
+            let device_serial = data[i][0]
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/getDeviceLatestLog/"+device_serial,
+            })
+            .done(function(response){
+                // console.log(response)
+
+                //calculate status
+                //calculate water quality
+                let ec_target = response.setpoints.pure_EC_target;
+                let ec_avg = response.logs[0].ec;
+                let diff = Math.abs(ec_target - ec_avg);
+                let percentage = diff*100/ec_target;
+                let water_quality ;
+                if(percentage <= 10){
+                    water_quality = '<span style="color:green">On Target</span>'
+                }else{
+                    water_quality = '<span style="color:brown">Needs Attention</span>'
+                }
+                let data_to_change = {
+                    '0':data[i][0],
+                    '1':data[i][1],
+                    '2':data[i][2],
+                    '3':data[i][3],
+                    '4':data[i][4],
+                    '5':water_quality,
+                    '6':data[i][6]
+                }
+                table.row(i).data(data_to_change).draw();
+            });
         }
-        table = $('#table_lists_standby').DataTable( {
-            "ajax": '/getStandByDevices',
-            "columns": [
-                { "data": "serial_number" },
-                { "data": "device_name",
-                    "render": function (data, type, row) {
-                        // console.log(data)
-                        if (data === null) {
-                            return '-';
-                        }
-                        else {
-                            return data;
-                        }
-                    }
-                },
-                { "data": "model.name" },
-                { "data": "user_devices",
-                    "render": function (data, type, row) {
-                        return data.length;
-                    }
-                },
-                { "data": "latest_log",
-                        "render": function(data,type,row){
-                            switch(data.step){
-                                case 0:
-                                case 1:
-                                case 13:
-                                    return '<span style="color:yellow">IDLE</span>'
-                                case 6:
-                                    return '<span style="color:blue">STANDBY</span>'
-                                default:
-                                    return '<span style="color:green">RUNNING</span>'
-                            }
-                        } },
-                { "data": "latest_log.ec",
-                    "render": function(data, type,row){
-                        let ec_target = row.setpoints.pure_EC_target;
-                        let diff = Math.abs(ec_target - data);
-                        let percentage = diff*100/ec_target;
-                        if(percentage <=10){
-                            return '<span style="color:green">On Target</span>'
-                        }
-                        else
-                            return '<span style="color:red>Needs Attention</span>'
-                    }
-                },
-            {"defaultContent": '<button class="btn btn-primary" id="view_device">View</button>&nbsp;<button class="btn btn-secondary" id="logBook_device">Log Book</button>'}
-            ],
-        } );
     }
     function getDisconnectedDevices(){
-        if ($.fn.DataTable.isDataTable('#table_lists_disconnected')){
-            // Destroy existing table
-            $('#table_lists_disconnected').DataTable().destroy();
+        var table = $('#table_lists_disconnected').DataTable();
+        var data = table.rows().data();
+        for(let i=0; i<data.length; i++){
+            let device_serial = data[i][0]
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/getDeviceLatestLog/"+device_serial,
+            })
+            .done(function(response){
+                // console.log(response)
+
+                //calculate status
+                //calculate water quality
+                let ec_target = response.setpoints.pure_EC_target;
+                let ec_avg = response.logs[0].ec;
+                let diff = Math.abs(ec_target - ec_avg);
+                let percentage = diff*100/ec_target;
+                let water_quality ;
+                if(percentage <= 10){
+                    water_quality = '<span style="color:green">On Target</span>'
+                }else{
+                    water_quality = '<span style="color:brown">Needs Attention</span>'
+                }
+                let data_to_change = {
+                    '0':data[i][0],
+                    '1':data[i][1],
+                    '2':data[i][2],
+                    '3':data[i][3],
+                    '4':data[i][4],
+                    '5':water_quality,
+                    '6':data[i][6]
+                }
+                table.row(i).data(data_to_change).draw();
+            });
         }
-        table = $('#table_lists_disconnected').DataTable( {
-            "ajax": '/getDisconnectedDevices',
-            "columns": [
-                { "data": "serial_number" },
-                { "data": "device_name",
-                    "render": function (data, type, row) {
-                        // console.log(data)
-                        if (data === null) {
-                            return '-';
-                        }
-                        else {
-                            return data;
-                        }
-                    }
-                },
-                { "data": "model.name" },
-                { "data": "user_devices",
-                    "render": function (data, type, row) {
-                        return data.length;
-                    }
-                },
-                { "data": "latest_log",
-                    "render": function(data,type,row){
-                        switch(data){
-                            case 0:
-                            case 1:
-                            case 13:
-                                return '<span style="color:yellow">IDLE</span>';break;
-                            case 6:
-                                return '<span style="color:blue">STANDBY</span>';break;
-                            default:
-                                return '<span style="color:green">-</span>';break;
-                        }
-                    }
-                },
-                { "data": "latest_log.ec",
-                    "render": function(data, type,row){
-                        let ec_target = row.setpoints.pure_EC_target;
-                        let diff = Math.abs(ec_target - data);
-                        let percentage = diff*100/ec_target;
-                        if(percentage <=10){
-                            return '<span style="color:green">On Target</span>'
-                        }
-                        else
-                            return '<span style="color:red>Needs Attention</span>'
-                    }
-                },
-                {"defaultContent": '<button class="btn btn-primary" id="view_device">View</button>&nbsp;<button class="btn btn-secondary" id="logBook_device">Log Book</button>'}
-            ],
-            "initComplete": function( settings, json ) {
-                console.log(json);
-            }
-        } );
     }
     $('.table-info').on('click','#view_device', function(){
         console.log("View Devices")
