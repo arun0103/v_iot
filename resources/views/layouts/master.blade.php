@@ -39,6 +39,8 @@
             min-height: 100vh;
             min-width:100vw;
         }
+        /* to change the cursor pointer on the divs */
+        .pointer {cursor: pointer;}
         /* h3.card-title{
             margin-top: 8px;
             margin-bottom: -8px;

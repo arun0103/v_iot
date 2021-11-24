@@ -310,8 +310,10 @@ class DataController extends Controller
         return response()->json($dataToSend);
     }
     public function getDeviceSetpointsForCalculation($device_id){
-
-        $device_setpoints = Device::where('id',$device_id)->with('setpoints')->first();
+        if(Auth::user()->role =='S')
+            $device_setpoints = Device::where('serial_number',$device_id)->with('setpoints')->first();
+        else
+            $device_setpoints = Device::where('id',$device_id)->with('setpoints')->first();
         $dataToSend = [
             'device_id'=>$device_setpoints->id,
             'volume_unit'=>$device_setpoints->setpoints->volume_unit,

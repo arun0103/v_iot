@@ -838,7 +838,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-3 col-6" id="idle_block">
+                    <div class="col-lg-3 col-6 pointer" id="idle_block">
                         <!-- small box -->
                         <div class="small-box bg-info">
                         <div class="inner">
@@ -854,7 +854,7 @@
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6" id="running_block">
+                    <div class="col-lg-3 col-6 pointer" id="running_block">
                         <!-- small box -->
                         <div class="small-box bg-success">
                         <div class="inner">
@@ -870,7 +870,7 @@
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6" id="standby_block">
+                    <div class="col-lg-3 col-6 pointer" id="standby_block">
                         <!-- small box -->
                         <div class="small-box bg-warning">
                         <div class="inner">
@@ -886,7 +886,7 @@
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6" id="disconnected_block">
+                    <div class="col-lg-3 col-6 pointer" id="disconnected_block">
                         <!-- small box -->
                         <div class="small-box bg-danger">
                         <div class="inner">
@@ -2329,7 +2329,7 @@
     $('.table-info').on('click','#view_device', function(){
         console.log("View Devices")
         var table;
-        switch(show_devices){
+        switch(showing_devices){
             case "Idle": table = $('#table_lists_idle').DataTable();break;
             case "Running": table = $('#table_lists_running').DataTable();break;
             case "Standby": table = $('#table_lists_standby').DataTable();break;
