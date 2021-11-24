@@ -123,6 +123,55 @@ class DataController extends Controller
         ];
         return response()->json($deviceData);
     }
+    public function refreshStatusData_super($id){
+        $device = Device::where('serial_number',$id)->with('latest_log:serial_number,log_dt,step,ec,tpv,alarm,pressure,created_at','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->first();
+        $today = date(Carbon::now());
+        $thirtyOnedays = date(Carbon::now()->subDays(31));
+        $previousDay = date(Carbon::now()->subDays(1));
+        $volume = [];
+        if($device->latest_log != null){
+            // calculate daily volume
+            $daily_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$previousDay,$today])->get();
+            $daily_logs_count = count($daily_logs);
+            $daily_volume = 0;
+            if($daily_logs_count !=0){
+                $latest_tpv = $daily_logs[$daily_logs_count -1]->tpv;
+                $last_tpv = $daily_logs[0]->tpv;
+                $daily_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+            }
+            $daily_logs =[];
+            //calculate monthly volume
+            $monthly_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$thirtyOnedays,$today])->get();
+            $monthly_logs_count = count($monthly_logs);
+            $monthly_volume = 0;
+            if($monthly_logs_count !=0){
+                $latest_tpv = $monthly_logs[$monthly_logs_count-1]->tpv;
+                $last_tpv = $monthly_logs[0]->tpv;
+                $monthly_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+            }
+            $monthly_logs = [];
+            //calculate total volume
+            $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
+            $total_volume = $last_record->tpv*0.2642007926;
+            if($monthly_volume > $total_volume || $monthly_volume < 0){
+                $monthly_volume = $total_volume;
+            }
+            if($daily_volume >$total_volume || $daily_volume <0){
+                $daily_volume = $total_volume;
+            }
+            $volume = [
+                'daily'=>round($daily_volume,2),
+                'monthly'=>round($monthly_volume,2),
+                'total'=>round($total_volume,2)
+            ];
+            $last_record = null;
+        }
+        $deviceData = [
+            'deviceDetails'=>$device,
+            'deviceVolume'=>$volume
+        ];
+        return response()->json($deviceData);
+    }
     public function refreshDashboardRows(){
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
@@ -769,13 +818,19 @@ class DataController extends Controller
 
 
     }
+    public function getDeviceLatestLog($id){
+        $deviceDetail = Device::where('serial_number',$id)->with(['logs' =>function($query){
+            $query->orderBy("id",'DESC')->first();
+        }])->with('setpoints')->first();
+        return response()->json($deviceDetail);
+    }
 
     public function getIdleDevices(){
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
             $devices = Device::whereHas('latest_log', function ($query) {
                 $query->whereIn('step', [0,1,13]);
-            })->with(['model','latest_log'])->with(['userDevices','setpoints'])->get();
+            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->get();
             $response = [
                 'data'=>$devices
             ];

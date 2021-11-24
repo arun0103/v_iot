@@ -142,6 +142,7 @@ Route::get('/getIdleDevices',[App\Http\Controllers\DataController::class, 'getId
 Route::get('/getRunningDevices',[App\Http\Controllers\DataController::class, 'getRunningDevices'])->middleware('auth');
 Route::get('/getStandByDevices',[App\Http\Controllers\DataController::class, 'getStandByDevices'])->middleware('auth');
 Route::get('/getDisconnectedDevices',[App\Http\Controllers\DataController::class, 'getDisconnectedDevices'])->middleware('auth');
+Route::get('/getDeviceLatestLog/{id}',[App\Http\Controllers\DataController::class, 'getDeviceLatestLog'])->middleware('auth');
 
 /////device settings
 Route::post('/saveCriticAcid/{id}',[App\Http\Controllers\DeviceController::class, 'saveCriticAcid'])->middleware('auth');
@@ -186,6 +187,7 @@ Route::post('/turn_relay_9_off/{id}',[App\Http\Controllers\CommandsController::c
 Route::get('/deviceLiveData/{id}',[App\Http\Controllers\DeviceController::class, 'getLiveData'])->middleware('auth');
 Route::get('/refreshDashboardData',[App\Http\Controllers\DataController::class, 'refreshDashboardData'])->middleware('auth');
 Route::get('/refreshStatusData/{id}',[App\Http\Controllers\DataController::class, 'refreshStatusData'])->middleware('auth');
+Route::get('/refreshStatusData_super/{id}',[App\Http\Controllers\DataController::class, 'refreshStatusData_super'])->middleware('auth');
 Route::get('/refreshUserDashboardData',[App\Http\Controllers\DataController::class, 'refreshUserDashboardData'])->middleware('auth');
 Route::get('/refreshDashboardRows',[App\Http\Controllers\DataController::class, 'refreshDashboardRows'])->middleware('auth');
 Route::get('/refreshDashboardCounts',[App\Http\Controllers\DataController::class, 'refreshDashboardCounts'])->middleware('auth');

@@ -48,19 +48,24 @@ class HomeController extends Controller
             $standby_count =0;
             $disconnected_count = 0;
             $idle_devices = [];
+            $running_devices = [];
+            $standby_devices = [];
+            $disconnected_devices = [];
             foreach($devices as $device){
                 if($device->latest_log != null){
                     switch($device->latest_log->step){
                         case 0:
                         case 1:
                         case 13:$idle_count++;
-                            // array_push($idle_devices, $device);
+                            array_push($idle_devices, $device);
                             break;
-                        case 6: $standby_count++;break;
-                        default: $running_count++;
+                        case 6: $standby_count++;
+                            array_push($standby_devices,$device);break;
+                        default: $running_count++; array_push($running_devices,$device);
                     }
                 }else{
                     $disconnected_count++;
+                    array_push($disconnected_devices,$device);
                 }
             }
             $counts = [
@@ -69,10 +74,16 @@ class HomeController extends Controller
                 'standby'=>$standby_count,
                 'disconnected'=>$disconnected_count
             ];
+            $grouped_devices = [
+                'idle'=>$idle_devices,
+                'running'=>$running_devices,
+                'standby'=>$standby_devices,
+                'disconnected'=>$disconnected_devices
+            ];
 
 
-            // dd($devices);
-            return view('super/dashboard')->with(['counts'=>$counts]);
+            //  dd($grouped_devices['idle']);
+            return view('super/dashboard')->with(['devices'=>$grouped_devices])->with(['counts'=>$counts]);
         }elseif($loggedInUser->role =='R'){
             $users = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
             $devices = Device::where('reseller_id',$loggedInUser->reseller->id)->with('latest_log','device_settings','device_commands','setpoints')->get();
