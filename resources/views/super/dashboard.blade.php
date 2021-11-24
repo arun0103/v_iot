@@ -3454,6 +3454,7 @@
         clearInterval(dashboard_data);
         clearInterval(live_data);
         var trid = $(this).closest('tr').attr('id'); // table row ID
+        console.log("TRID: "+trid)
         device_id = trid.replace("device-info-",'') // device id  from table row
         //show average tab only
         view_mode = "average";
