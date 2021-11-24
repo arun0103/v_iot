@@ -2303,23 +2303,23 @@
 
                 //calculate status
                 //calculate water quality
-                let ec_target = response.setpoints.pure_EC_target;
-                let ec_avg = response.logs[0].ec;
-                let diff = Math.abs(ec_target - ec_avg);
-                let percentage = diff*100/ec_target;
-                let water_quality ;
-                if(percentage <= 10){
-                    water_quality = '<span style="color:green">On Target</span>'
-                }else{
-                    water_quality = '<span style="color:brown">Needs Attention</span>'
-                }
+                // let ec_target = response.setpoints.pure_EC_target;
+                // let ec_avg = response.logs[0].ec;
+                // let diff = Math.abs(ec_target - ec_avg);
+                // let percentage = diff*100/ec_target;
+                // let water_quality ;
+                // if(percentage <= 10){
+                //     water_quality = '<span style="color:green">On Target</span>'
+                // }else{
+                //     water_quality = '<span style="color:brown">Needs Attention</span>'
+                // }
                 let data_to_change = {
                     '0':data[i][0],
                     '1':data[i][1],
                     '2':data[i][2],
                     '3':data[i][3],
                     '4':data[i][4],
-                    '5':water_quality,
+                    '5':"- -",
                     '6':data[i][6]
                 }
                 table.row(i).data(data_to_change).draw();
@@ -2328,6 +2328,13 @@
     }
     $('.table-info').on('click','#view_device', function(){
         console.log("View Devices")
+        var table;
+        switch(show_devices){
+            case "Idle": table = $('#table_lists_idle').DataTable();break;
+            case "Running": table = $('#table_lists_running').DataTable();break;
+            case "Standby": table = $('#table_lists_standby').DataTable();break;
+            case "Disconnected": table = $('#table_lists_disconnected').DataTable();break;
+        }
         var data = table.row( $(this).parents('tr') ).data();
         // console.log(data)
 
