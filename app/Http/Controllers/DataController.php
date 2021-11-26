@@ -186,27 +186,44 @@ class DataController extends Controller
     public function refreshDashboardCounts(){
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
-            $devices = Device::with('latest_log:serial_number,log_dt,ec,step,alarm,created_at','setpoints:device_id,pure_EC_target')->get();
+            $devices = Device::with('latest_log:serial_number,log_dt,ec,step,alarm,created_at','setpoints:device_id,pure_EC_target','model')->withCount('userDevices')->get();
             $grouped_data = [];
             $idle_count = 0;
             $running_count = 0;
             $standby_count = 0;
             $disconnected_count = 0;
+            $idle_data = [];
+            $running_data = [];
+            $standby_data = [];
+            $disconnected_data =[];
+            $now = Carbon::now();
             foreach($devices as $device){
                 if($device->latest_log != null){
-                    switch($device->latest_log->step){
-                        case 0:
-                        case 1:
-                        case 13:
-                            $idle_count++;
-                            break;
-                        case 6:
-                            $standby_count++;break;
-                        default:
-                            $running_count++;
+                    $log_dt = Carbon::parse($device->latest_log->log_dt);
+                    // return response()->json([$now->diffInSeconds($log_dt),$now, $log_dt]);
+                    if($now->diffInSeconds($log_dt) <= 30){
+                        switch($device->latest_log->step){
+                            case 0:
+                            case 1:
+                            case 13:
+                                $idle_count++;
+                                array_push($idle_data,$device);
+                                break;
+                            case 6:
+                                $standby_count++;
+                                array_push($standby_data,$device);
+                                break;
+                            default:
+                                $running_count++;
+                                array_push($running_data,$device);
+                        }
+                    }else{
+                        $disconnected_count++;
+                        array_push($disconnected_data,$device);
                     }
                 }else{
                     $disconnected_count++;
+                    array_push($disconnected_data,$device);
                 }
             }
             $counts = [
@@ -215,7 +232,17 @@ class DataController extends Controller
                 'standby'=>$standby_count,
                 'disconnected'=>$disconnected_count
             ];
-            return response()->json($counts);
+            $grouped_data = [
+                'idle'=>$idle_data,
+                'running'=>$running_data,
+                'standby'=>$standby_data,
+                'disconnected'=>$disconnected_data
+            ];
+            $data =[
+                'count'=>$counts,
+                'devices'=>$grouped_data
+            ];
+            return response()->json($data);
         }else{
             $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->with('latest_log:serial_number,log_dt,ec,step,alarm,created_at','setpoints:device_id,pure_EC_target')->get();
         }
@@ -828,10 +855,11 @@ class DataController extends Controller
     }
 
     public function getIdleDevices(){
+        $now = Carbon::now();
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
             $devices = Device::whereHas('latest_log', function ($query) {
-                $query->whereIn('step', [0,1,13]);
+                $query->where('log_dt','>=',$now)->whereIn('step', [0,1,13]);
             })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->get();
             $response = [
                 'data'=>$devices

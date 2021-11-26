@@ -2173,6 +2173,8 @@
     var data_pulled_number = 0;
     var showing_devices = "Idle";
 
+    var count_idle =0, count_running =0, count_standby = 0, count_disconnected = 0;
+
 
     function getIdleDevices(){
         var table = $('#table_lists_idle').DataTable();
@@ -2187,6 +2189,7 @@
             })
             .done(function(response){
                 //calculate status
+                console.log(response)
                 //calculate water quality
                 let ec_target = response.setpoints.pure_EC_target;
                 let ec_avg = response.logs[0].ec;
@@ -2327,7 +2330,6 @@
         }
     }
     $('.table-info').on('click','#view_device', function(){
-        console.log("View Devices")
         var table;
         switch(showing_devices){
             case "Idle": table = $('#table_lists_idle').DataTable();break;
@@ -2336,8 +2338,6 @@
             case "Disconnected": table = $('#table_lists_disconnected').DataTable();break;
         }
         var data = table.row( $(this).parents('tr') ).data();
-        console.log("ROW data")
-         console.log(data)
 
         $('.message_from_database').addClass('linear-background');
         $('.display_body').css('visibility','hidden');
@@ -2890,6 +2890,7 @@
             })
     }
     function pull_live_data(){
+        console.log("Pulling Live Data")
         if(view_live_device != null){
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -3153,6 +3154,7 @@
                     $('#device_run_sec').text(response.step_run_sec);
                     // $('#device_live_data').show()
                 }else{
+                    Swal.fire("Refreshing","Device has no new records!","warning")
                     $('.slider').addClass('inactive')
                     // $('#device_live_data').hide()
                 }
@@ -3200,12 +3202,12 @@
 
         setInterval(function(){
             if(view_mode == "dashboard"){
-                let table = $('#table_lists').DataTable();
-                table.rows().every(function(index, tableLoop, rowLoop){
-                    var row = this.data()
-                    // console.log(row.id)
-                })
-                // console.log(showing_devices)
+                // let table = $('#table_lists').DataTable();
+                // table.rows().every(function(index, tableLoop, rowLoop){
+                //     var row = this.data()
+                //     // console.log(row.id)
+                // })
+                console.log(showing_devices)
                 switch(showing_devices){
                     case "Idle": getIdleDevices();break;
                     case "Running": getRunningDevices();break;
@@ -3213,7 +3215,7 @@
                     case "Disconnected": getDisconnectedDevices();break;
                 }
             }
-        },10000);
+        },3000);
         let grouped_devices_count = setInterval(function(){
             console.log('groups:')
             $.ajax({
@@ -3222,15 +3224,81 @@
                 url: "/refreshDashboardCounts"
             }).done(function(response){
                 console.log(response)
-                $('#count-idle_devices').text(response.idle)
-                $('#count-running_devices').text(response.running)
-                $('#count-standby_devices').text(response.standby)
-                $('#count-disconnected_devices').text(response.disconnected)
+                $('#count-idle_devices').text(response.count.idle)
+                $('#count-running_devices').text(response.count.running)
+                $('#count-standby_devices').text(response.count.standby)
+                $('#count-disconnected_devices').text(response.count.disconnected)
+
+                // refresh tables if device changes its category
+                console.log("Refreshing tables")
+                let idle_table = $('#table_lists_idle').DataTable();
+                let count = idle_table.rows().count();
+                if(idle_table.count() != response.count.idle){
+                    console.log("Change of state found in devices")
+                    idle_table.clear();
+                    // console.log(response.devices.idle.length)
+                    for(let i=0; i<response.devices.idle.length; i++){
+                        //calculate status
+                        let status = "";
+                        switch(response.devices.idle[i].step){
+
+                        }
+                        //calculate water quality
+                        let ec_target = response.devices.idle[i].setpoints.pure_EC_target;
+                        let ec_avg = response.devices.idle[i].latest_log.ec;
+                        let diff = Math.abs(ec_target - ec_avg);
+                        let percentage = diff*100/ec_target;
+                        let water_quality ;
+                        // console.log(response.logs[0].ec+ "%")
+                        if(percentage <= 10){
+                            water_quality = '<span style="color:green">On Target</span>'
+                        }else{
+                            water_quality = '<span style="color:brown">Needs Attention</span>'
+                        }
+                        idle_table.row.add([
+                            response.devices.idle[i].serial_number,
+                            response.devices.idle[i].device_name,
+                            response.devices.idle[i].model.name,
+                            response.devices.idle[i].userDevices_count,
+                            response.devices.idle[i].serial_number,
+                            response.devices.idle[i].serial_number,
+                            response.devices.idle[i].serial_number,
+
+                        ]).draw(false)
+                        // data.draw();
+                    }
+                    idle_table.draw();
+                }
+                let running_table = $('#table_lists_running').DataTable();
+                count = running_table.rows().count();
+                if(running_table.count() != response.count.running){
+                    running_table.clear();
+                }
+                let standby_table = $('#table_lists_standby').DataTable();
+                count = standby_table.rows().count();
+                if(count != response.count.standby){
+                    standby_table.clear();
+                }
+                let disconnected_table = $('#table_lists_disconnected').DataTable();
+                count = disconnected_table.rows().count();
+                // console.log(data.count())
+                console.log(count)
+                if(count != response.count.disconnected){
+                    // disconnected_table.clear();
+                }else{
+                    console.log("No operation")
+                }
 
             });
 
-        },30000)
-        getIdleDevices();
+        },3000)
+
+        // switch(showing_devices){
+        //     case "Idle": getIdleDevices();break;
+        //     case "Running": getRunningDevices();break;
+        //     case "Standby": getStandbyDevices();break;
+        //     case "Disconnected": getDisconnectedDevices();break;
+        // }
 
         $('.loader').hide();
         $('#btn_map_view').on('click', function(){
@@ -3412,6 +3480,7 @@
     $('.btn_close_modal').on('click', function(){
         view_mode = "dashboard";
         clearInterval(avg_data);
+        clearInterval(live_data);
         dashboard_data = setInterval(pull_dashboard_data,5000);
     })
 // check status
@@ -4055,7 +4124,7 @@
         });
         // collect live data and display
         //its doing in every 5 sec when the document is ready
-        live_data = setInterval(pull_live_data,5000);
+        live_data = setInterval(pull_live_data,8000);
 
         function highlight(obj){
             var orig = obj.css('background');

@@ -41,7 +41,7 @@ class HomeController extends Controller
         $loggedInUser->save();
         if($loggedInUser->role == 'S'){
             // $users = User::all();
-            $devices = Device::with('device_settings','latest_log:serial_number,step','setpoints:id,pure_EC_target')->get();
+            $devices = Device::with('device_settings','latest_log:serial_number,step,log_dt','setpoints:id,pure_EC_target')->get();
             //dd($devices);
             $idle_count =0;
             $running_count = 0;
@@ -51,18 +51,27 @@ class HomeController extends Controller
             $running_devices = [];
             $standby_devices = [];
             $disconnected_devices = [];
+            $now = Carbon::now();
             foreach($devices as $device){
                 if($device->latest_log != null){
-                    switch($device->latest_log->step){
-                        case 0:
-                        case 1:
-                        case 13:$idle_count++;
-                            array_push($idle_devices, $device);
-                            break;
-                        case 6: $standby_count++;
-                            array_push($standby_devices,$device);break;
-                        default: $running_count++; array_push($running_devices,$device);
+                    $log_carbon = Carbon::parse($device->latest_log->log_dt);
+                    if($now->diffInSeconds($log_carbon) <=60){
+
+                        switch($device->latest_log->step){
+                            case 0:
+                            case 1:
+                            case 13:$idle_count++;
+                                array_push($idle_devices, $device);
+                                break;
+                            case 6: $standby_count++;
+                                array_push($standby_devices,$device);break;
+                            default: $running_count++; array_push($running_devices,$device);
+                        }
+                    }else{
+                        $disconnected_count++;
+                        array_push($disconnected_devices,$device);
                     }
+                    // dd($now->diffInSeconds($log_carbon));
                 }else{
                     $disconnected_count++;
                     array_push($disconnected_devices,$device);
