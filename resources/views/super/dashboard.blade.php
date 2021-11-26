@@ -3215,7 +3215,7 @@
                     case "Disconnected": getDisconnectedDevices();break;
                 }
             }
-        },3000);
+        },10000);
         let grouped_devices_count = setInterval(function(){
             console.log('groups:')
             $.ajax({
@@ -3261,7 +3261,7 @@
                             response.devices.idle[i].model.name,
                             response.devices.idle[i].userDevices_count,
                             response.devices.idle[i].serial_number,
-                            response.devices.idle[i].serial_number,
+                            water_quality,
                             response.devices.idle[i].serial_number,
 
                         ]).draw(false)
@@ -3291,7 +3291,7 @@
 
             });
 
-        },3000)
+        },30000)
 
         // switch(showing_devices){
         //     case "Idle": getIdleDevices();break;
