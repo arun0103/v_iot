@@ -3259,11 +3259,11 @@
                             response.devices.idle[i].serial_number,
                             response.devices.idle[i].device_name,
                             response.devices.idle[i].model.name,
-                            response.devices.idle[i].userDevices_count,
+                            response.devices.idle[i].user_devices_count,
                             response.devices.idle[i].serial_number,
                             water_quality,
-                            response.devices.idle[i].serial_number,
-
+                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
                         ]).draw(false)
                         // data.draw();
                     }
