@@ -4124,7 +4124,7 @@
         });
         // collect live data and display
         //its doing in every 5 sec when the document is ready
-        live_data = setInterval(pull_live_data,8000);
+        live_data = setInterval(pull_live_data,10000);
 
         function highlight(obj){
             var orig = obj.css('background');
