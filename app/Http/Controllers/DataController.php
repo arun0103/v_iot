@@ -202,7 +202,7 @@ class DataController extends Controller
                 if($device->latest_log != null){
                     $log_dt = Carbon::parse($device->latest_log->log_dt);
                     // return response()->json([$now->diffInSeconds($log_dt),$now, $log_dt]);
-                    if($now->diffInSeconds($log_dt) <= 30){
+                    if($now->diffInSeconds($log_dt) <= 60){
                         switch($device->latest_log->step){
                             case 0:
                             case 1:
