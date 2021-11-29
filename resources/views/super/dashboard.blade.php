@@ -2189,55 +2189,56 @@
     }
     function getDisconnectedDevices(){
         $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "GET",
-                url: "/getDisconnectedDevices",
-            })
-            .done(function(response){
-                //calculate status
-                console.log("Refreshing disconnected dashboard")
-                console.log(response)
-                if(count_disconnected == response.data.length){
-                    console.log("No changes in disconnected devices")
-                }else{
-                    if ( $.fn.dataTable.isDataTable( '#table_lists_disconnected' ) ) {
-                        $('#table_lists_disconnected').DataTable().destroy();
-                        console.log("Table Destroyed")
-                    }
-                    table_disconnected = $('#table_lists_disconnected').DataTable( {
-                        "ajax": "/getDisconnectedDevices",
-                        "columns": [
-                            { "data": "serial_number" },
-                            { "data": "device_name" },
-                            { "data": "model.name" },
-                            {
-                                "data": "user_devices",
-                                "render": function ( data, type, row, meta ) {
-                                    return data.length;
-                                }
-                            },
-                            { "data": 'logs' },
-                            { "data": "logs" },
-                            { "data": "salary",
-                                "render": function ( data, type, row, meta ) {
-                                return'<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                                    '<button class="btn btn-secondary" id="logBook_device">Log Book</button>' ;
-                                } }
-                        ]
-                    } );
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getDisconnectedDevices",
+        })
+        .done(function(response){
+            //calculate status
+            console.log("Refreshing disconnected dashboard")
+            console.log(response)
+            if(count_disconnected == response.length){
+                console.log("No changes in disconnected devices")
+            }else{
+                if ( $.fn.dataTable.isDataTable( '#table_lists_disconnected' ) ) {
+                    $('#table_lists_disconnected').DataTable().destroy();
+                    console.log("Table Destroyed.. Re-initializing new table...")
                 }
-            })
+                table_disconnected = $('#table_lists_disconnected').DataTable( {
+                    "ajax": "/getDisconnectedDevices_ajax",
+                    "columns": [
+                        { "data": "serial_number" },
+                        { "data": "device_name" },
+                        { "data": "model.name" },
+                        {
+                            "data": "user_devices",
+                            "render": function ( data, type, row, meta ) {
+
+                                return data;
+                            }
+                        },
+                        { "data": 'logs' },
+                        { "data": "logs" },
+                        { "data": "salary",
+                            "render": function ( data, type, row, meta ) {
+                            return'<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                '<button class="btn btn-secondary" id="logBook_device">Log Book</button>' ;
+                            } }
+                    ]
+                } );
+            }
+        })
     }
     function getRunningDevices(){
         $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "GET",
-                url: "/getRunningDevices",
-            })
-            .done(function(response){
-                //calculate status
-                console.log(response)
-            })
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/getRunningDevices",
+        })
+        .done(function(response){
+            //calculate status
+            console.log(response)
+        })
     }
     function getStandbyDevices(){
         $.ajax({
@@ -2624,11 +2625,12 @@
         // }else{
         //     getDisconnectedDevice_logs();
         // }
-        //getDisconnectedDevices();
+        getDisconnectedDevices();
         showing_devices = "Disconnected";
     })
     function pull_average_data(){
         clearInterval(dashboard_data)
+        clearInterval(grouped_devices_count)
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
@@ -2986,6 +2988,7 @@
     function pull_live_data(){
         clearInterval(dashboard_data)
         clearInterval(avg_data);
+        clearInterval(grouped_devices_count);
         console.log("Pulling Live Data")
         if(view_live_device != null){
             $.ajax({
@@ -3295,6 +3298,9 @@
     $(document).ready(function () {
         $('.datatable').dataTable();
         count_idle = $('#count-idle_devices').text();
+        count_running = $('#count-running_devices').text();
+        count_standby = $('#count-standby_devices').text();
+        count_disconnected = $('#count-disconnected_devices').text();
 
         // dashboard_data = setInterval(pull_dashboard_data,5000);
 
@@ -3321,6 +3327,7 @@
                 type: "GET",
                 url: "/refreshDashboardCounts"
             }).done(function(response){
+                console.log("Refreshing Dashboard counts and tables started")
                 console.log(response)
                 $('#count-idle_devices').text(response.count.idle)
                 $('#count-running_devices').text(response.count.running)
@@ -3411,7 +3418,7 @@
                 }
                 let standby_table = $('#table_lists_standby').DataTable();
                 count = standby_table.rows().count();
-                if(count != response.count.standby){
+                // if(count != response.count.standby){
                     standby_table.clear();
                     for(let i=0; i<response.devices.standby.length; i++){
                         //calculate status
@@ -3444,7 +3451,7 @@
                         // data.draw();
                     }
                     standby_table.draw();
-                }
+                // }
                 let disconnected_table = $('#table_lists_disconnected').DataTable();
                 count = disconnected_table.rows().count();
                 // console.log(data.count())
@@ -3479,7 +3486,7 @@
                                 water_quality,
                                 '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
                                 '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                            ]).draw(false)
+                            ]).draw(true)
                         }
                     }
                     disconnected_table.draw();
@@ -3679,7 +3686,8 @@
         view_mode = "dashboard";
         clearInterval(avg_data);
         clearInterval(live_data);
-        dashboard_data = setInterval(pull_dashboard_data,10000);
+
+        // dashboard_data = setInterval(pull_dashboard_data,10000);
     })
 // check status
 

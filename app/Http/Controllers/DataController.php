@@ -906,4 +906,17 @@ class DataController extends Controller
             return response()->json($devices);
         }
     }
+    public function getDisconnectedDevices_ajax(){
+        $loggedInUser = Auth::user();
+        $now = Carbon::now();
+        if($loggedInUser->role == "S"){
+            $devices = Device::with(['logs'=> function($query) use($now){
+                $query->where('log_dt','>=',$now->subSeconds(60))->orderBy('log_dt','DESC')->first();
+            }])->with(['model'])->with(['userDevices','setpoints'])->get();
+            $response = [
+                'data'=>$devices
+            ];
+            return response()->json($response);
+        }
+    }
 }

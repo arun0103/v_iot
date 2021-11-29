@@ -57,7 +57,7 @@ h2.card-title{float:left; text-align:left}
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary btn-submit">
                                     {{ __('Login') }}
                                 </button>
 
@@ -77,9 +77,10 @@ h2.card-title{float:left; text-align:left}
 @endsection
 @section('scripts')
 <script>
-    $('.submit').on('click',function(){
+    ($('.btn-submit').on('click',function(){
+        alert("Logging in")
         console.log("Logging In...")
         Swal.fire("info","Logging in","INFO")
-    })
+    }))
 </script>
 @endsection

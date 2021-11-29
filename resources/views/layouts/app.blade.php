@@ -102,5 +102,6 @@
         <!-- Default to the left -->
         <strong>Copyright &copy; 2021 <a href="https://voltea.com">Voltea</a>.</strong> All rights reserved.
     </footer>
+    @yield('scripts')
 </body>
 </html>

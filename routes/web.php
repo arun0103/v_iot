@@ -142,6 +142,7 @@ Route::get('/getIdleDevices',[App\Http\Controllers\DataController::class, 'getId
 Route::get('/getRunningDevices',[App\Http\Controllers\DataController::class, 'getRunningDevices'])->middleware('auth');
 Route::get('/getStandByDevices',[App\Http\Controllers\DataController::class, 'getStandByDevices'])->middleware('auth');
 Route::get('/getDisconnectedDevices',[App\Http\Controllers\DataController::class, 'getDisconnectedDevices'])->middleware('auth');
+Route::get('/getDisconnectedDevices_ajax',[App\Http\Controllers\DataController::class, 'getDisconnectedDevices_ajax'])->middleware('auth');
 Route::get('/getDeviceLatestLog/{id}',[App\Http\Controllers\DataController::class, 'getDeviceLatestLog'])->middleware('auth');
 
 /////device settings
