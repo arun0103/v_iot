@@ -187,7 +187,7 @@ class DataController extends Controller
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
             $devices = Device::with('latest_log:serial_number,log_dt,ec,step,alarm,created_at','setpoints:device_id,pure_EC_target','model')->withCount('userDevices')->get();
-            $grouped_data = [];
+            // $grouped_data = [];
             $idle_count = 0;
             $running_count = 0;
             $standby_count = 0;

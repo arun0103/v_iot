@@ -929,7 +929,7 @@
                                                     <td>{{$device->device_name !=null? $device->device_name:"-"}}</td>
                                                     <td>{{$device->model != null?$device->model->name: "-"}}</td>
                                                     <td>{{$device->userDevices->count()}}</td>
-                                                    <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
+                                                    <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : ($device->latest_log->step == 6 ? "Standby":"RUNNING") ) : "No Data"}}</td>
                                                     <td><span class="ec" id="ec-{{$device->id}}">- - </span></td>
                                                     <td>
                                                         <button class="btn btn-primary" id="view_device">View</button>&nbsp;
@@ -984,7 +984,7 @@
                                                     <td>{{$device->device_name !=null? $device->device_name:"-"}}</td>
                                                     <td>{{$device->model != null?$device->model->name: "-"}}</td>
                                                     <td>{{$device->userDevices->count()}}</td>
-                                                    <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
+                                                    <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : ($device->latest_log->step == 6 ? "Standby":"RUNNING") )  : "No Data"}}</td>
                                                     <td><span class="ec" id="ec-{{$device->id}}">- - </span></td>
                                                     <td>
                                                         <button class="btn btn-primary" id="view_device">View</button>&nbsp;
@@ -1025,7 +1025,7 @@
                                                     <td>{{$device->device_name !=null? $device->device_name:"-"}}</td>
                                                     <td>{{$device->model != null?$device->model->name: "-"}}</td>
                                                     <td>{{$device->userDevices->count()}}</td>
-                                                    <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
+                                                    <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" :($device->latest_log->step == 6 ? "Standby":"RUNNING") ) : "No Data"}}</td>
                                                     <td><span class="ec" id="ec-{{$device->id}}">- - </span></td>
                                                     <td>
                                                         <button class="btn btn-primary" id="view_device">View</button>&nbsp;
@@ -1066,7 +1066,7 @@
                                                     <td>{{$device->device_name !=null? $device->device_name:"-"}}</td>
                                                     <td>{{$device->model != null?$device->model->name: "-"}}</td>
                                                     <td>{{$device->userDevices->count()}}</td>
-                                                    <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : "RUNNING") : "No Data"}}</td>
+                                                    <td class="status" id="status-{{$device->id}}">{{$device->latest_log != null ? ($device->latest_log->step == 0 || $device->latest_log->step == 1 || $device->latest_log->step == 13 ?"IDLE" : ($device->latest_log->step == 6 ? "Standby":"RUNNING") ) : "No Data"}}</td>
                                                     <td><span class="ec" id="ec-{{$device->id}}">- - </span></td>
                                                     <td>
                                                         <button class="btn btn-primary" id="view_device">View</button>&nbsp;
@@ -2377,27 +2377,43 @@
                 url: "/getDeviceLatestLog/"+device_serial,
             })
             .done(function(response){
-                // console.log(response)
+                console.log(response)
 
                 //calculate status
+                let status ="";
+                if(response.logs != null){
+                    switch(response.logs[0].step){
+                        case 0:
+                        case 1:
+                        case 13:
+                            status = '<span style="color:black">IDLE</span>';break;
+                        case 6:
+                            status = '<span style="color:orange">STANDBY</span>';break;
+                        default:
+                            status = '<span style="color:green">RUNNING</span>';break;
+                    }
+                }else{
+                    status = '<span style="color:red">No Data</span>';
+                }
+
                 //calculate water quality
-                // let ec_target = response.setpoints.pure_EC_target;
-                // let ec_avg = response.logs[0].ec;
-                // let diff = Math.abs(ec_target - ec_avg);
-                // let percentage = diff*100/ec_target;
-                // let water_quality ;
-                // if(percentage <= 10){
-                //     water_quality = '<span style="color:green">On Target</span>'
-                // }else{
-                //     water_quality = '<span style="color:brown">Needs Attention</span>'
-                // }
+                let ec_target = response.setpoints.pure_EC_target;
+                let ec_avg = response.logs[0].ec;
+                let diff = Math.abs(ec_target - ec_avg);
+                let percentage = diff*100/ec_target;
+                let water_quality ;
+                if(percentage <= 10){
+                    water_quality = '<span style="color:green">On Target</span>'
+                }else{
+                    water_quality = '<span style="color:brown">Needs Attention</span>'
+                }
                 let data_to_change = {
                     '0':data[i][0],
                     '1':data[i][1],
                     '2':data[i][2],
                     '3':data[i][3],
-                    '4':data[i][4],
-                    '5':"-",
+                    '4':status,
+                    '5':water_quality,
                     '6':data[i][6]
                 }
                 table_disconnected.row(i).data(data_to_change).draw();
@@ -3442,28 +3458,29 @@
 
                         }
                         //calculate water quality
-                        let ec_target = response.devices.disconnected[i].setpoints.pure_EC_target;
-                        let ec_avg = response.devices.disconnected[i].latest_log.ec;
-                        let diff = Math.abs(ec_target - ec_avg);
-                        let percentage = diff*100/ec_target;
-                        let water_quality ;
-                        // console.log(response.logs[0].ec+ "%")
-                        if(percentage <= 10){
-                            water_quality = '<span style="color:green">On Target</span>'
-                        }else{
-                            water_quality = '<span style="color:brown">Needs Attention</span>'
+                        if(response.devices.disconnected[i].setpoints != null && response.devices.disconnected[i].latest_log != null){
+                            let ec_target = response.devices.disconnected[i].setpoints.pure_EC_target;
+                            let ec_avg = response.devices.disconnected[i].latest_log.ec;
+                            let diff = Math.abs(ec_target - ec_avg);
+                            let percentage = diff*100/ec_target;
+                            let water_quality ;
+                            // console.log(response.logs[0].ec+ "%")
+                            if(percentage <= 10){
+                                water_quality = '<span style="color:green">On Target</span>'
+                            }else{
+                                water_quality = '<span style="color:brown">Needs Attention</span>'
+                            }
+                            idle_table.row.add([
+                                response.devices.disconnected[i].serial_number,
+                                response.devices.disconnected[i].device_name,
+                                response.devices.disconnected[i].model.name,
+                                response.devices.disconnected[i].user_devices_count,
+                                response.devices.disconnected[i].serial_number,
+                                water_quality,
+                                '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                            ]).draw(false)
                         }
-                        idle_table.row.add([
-                            response.devices.disconnected[i].serial_number,
-                            response.devices.disconnected[i].device_name,
-                            response.devices.disconnected[i].model.name,
-                            response.devices.disconnected[i].user_devices_count,
-                            response.devices.disconnected[i].serial_number,
-                            water_quality,
-                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                        ]).draw(false)
-                        // data.draw();
                     }
                     disconnected_table.draw();
                 }else{
