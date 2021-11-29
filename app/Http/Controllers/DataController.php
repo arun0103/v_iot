@@ -864,7 +864,7 @@ class DataController extends Controller
             $response = [
                 'data'=>$devices
             ];
-            return response()->json($response);
+            return response()->json($devices);
         }
     }
     public function getRunningDevices(){
@@ -877,7 +877,7 @@ class DataController extends Controller
             $response = [
                 'data'=>$devices
             ];
-            return response()->json($response);
+            return response()->json($devices);
         }
     }
     public function getStandByDevices(){
@@ -890,7 +890,7 @@ class DataController extends Controller
             $response = [
                 'data'=>$devices
             ];
-            return response()->json($response);
+            return response()->json($devices);
         }
     }
     public function getDisconnectedDevices(){
