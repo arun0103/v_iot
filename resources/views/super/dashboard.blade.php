@@ -1195,7 +1195,7 @@
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #87bde6">
                     <h4 class="modal-title" id="modal-detail-title"></h4><br>
-                    <button type="button" class="close btn_close_modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close pointer btn_close_modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body" style="background-color: #3979a9">
                     <section class="device-info">
@@ -2059,7 +2059,7 @@
                         <h5 class="modal-title" id="notifications_heading">Notifications</h5>
                     </div>
                 </div>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class=" pointer close btn_close_modal" data-dismiss="modal" aria-label="Close" id="btn_close_notifications"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-content" style="background-color: #3979a9; min-width:99vw">
                 <div class="card">
@@ -2175,7 +2175,7 @@
 
     var count_idle =0, count_running =0, count_standby = 0, count_disconnected = 0;
     var table_idle, table_running, table_standby, table_disconnected;
-    var grouped_devices_count;
+    var grouped_devices_count, device_latest_data; // for timer data
 
     function getIdleDevices(){
         $.ajax({
@@ -2626,6 +2626,10 @@
         // $('.view_device_details').click();
     })
     $('.table-info').on('click',"#logBook_device", function(){
+        $('.loader').show();
+        view_mode = "logbook";
+        clearInterval(grouped_devices_count);
+        clearInterval(device_latest_data);
         var table;
         switch(showing_devices){
             case "Idle": table = $('#table_lists_idle').DataTable();break;
@@ -2636,13 +2640,12 @@
         var data = table.row( $(this).parents('tr') ).data();
         //console.log(data)
 
-        var trid = data.id; // table row ID
-        device_id = trid
-        $('#notifications_heading').text("Notifications: "+$('#device-serial-number_'+device_id).text())
+        device_serial = data[0];
+        $('#notifications_heading').text("Notifications: "+$('#device-serial-number_'+device_serial).text())
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
-            url: "/getDeviceNotifications/"+device_id,
+            url: "/super/getDeviceNotifications/"+device_serial,
         })
         .done(function(response){
             // console.log(response)
@@ -2710,6 +2713,7 @@
             }
             // Initialize the table
             $('#setpoints_logs_table').DataTable();
+            $('.loader').hide();
             $('#modal-device_notifications').modal('show');
         });
     })
@@ -3618,6 +3622,16 @@
         });
 
     }
+    function pull_latest_data(){
+        if(view_mode == "dashboard"){
+            switch(showing_devices){
+                case "Idle": getIdleDevice_logs();break;
+                case "Running": getRunningDevice_logs();break;
+                case "Standby": getStandbyDevice_logs();break;
+                case "Disconnected": getDisconnectedDevice_logs();break;
+            }
+        }
+    }
     function pull_relay_data(){
         clearInterval(avg_data);
         clearInterval(dashboard_data);
@@ -3660,36 +3674,14 @@
 
         // dashboard_data = setInterval(pull_dashboard_data,5000);
 
-        setInterval(function(){
-            if(view_mode == "dashboard"){
-                // let table = $('#table_lists').DataTable();
-                // table.rows().every(function(index, tableLoop, rowLoop){
-                //     var row = this.data()
-                //     // console.log(row.id)
-                // })
-                // console.log(showing_devices)
-                switch(showing_devices){
-                    case "Idle": getIdleDevice_logs();break;
-                    case "Running": getRunningDevice_logs();break;
-                    case "Standby": getStandbyDevice_logs();break;
-                    case "Disconnected": getDisconnectedDevice_logs();break;
-                }
-            }
-        },10000);
+        device_latest_data = setInterval(pull_latest_data,10000);
         grouped_devices_count = setInterval(pull_grouped_devices_data,30000)
 
-        // switch(showing_devices){
-        //     case "Idle": getIdleDevice_logs();break;
-        //     case "Running": getRunningDevice_logs();break;
-        //     case "Standby": getStandbyDevice_logs();break;
-        //     case "Disconnected": getDisconnectedDevice_logs();break;
-        // }
-
         $('.loader').hide();
-        $('#btn_map_view').on('click', function(){
-            $('#modal-map_view').modal("show")
-            GetMap();
-        })
+        // $('#btn_map_view').on('click', function(){
+        //     $('#modal-map_view').modal("show")
+        //     GetMap();
+        // })
         // to show modal inside a modal
             $(document).on('show.bs.modal', '.modal', function (event) {
                 var zIndex = 1040 + (10 * $('.modal:visible').length);
@@ -3701,102 +3693,103 @@
         //working codes..to show modal inside a modal
 
         // rotation of icon while the device is running
-        var angle=0;
-        setInterval(function(){
-            if(angle==360)
-                angle = 0
-            angle += 3;
-            $(".running").css('transform','rotate('+angle+'deg)');
-            // console.log(showing_devices)
-        }, 50);
+            var angle=0;
+            setInterval(function(){
+                if(angle==360)
+                    angle = 0
+                angle += 3;
+                $(".running").css('transform','rotate('+angle+'deg)');
+                // console.log(showing_devices)
+            }, 50);
+        //end rotation
 
+        //testing
+            //blink the icon while the device is idle
+            (function blink(){
+                $(".idle").fadeOut(1000).fadeIn(1000, blink);
+            })();
 
-        //blink the icon while the device is idle
-        (function blink(){
-            $(".idle").fadeOut(1000).fadeIn(1000, blink);
-        })();
-
-        //shake
+            //shake
 
         //Notifications
-            $('.btn_notifications').on('click',function(){
-                var trid = $(this).closest('tr').attr('id'); // table row ID
-                device_id = trid.replace("device-info-",'') // device id  from table row
-                $('#notifications_heading').text("Notifications: "+$('#device-serial-number_'+device_id).text())
-                $.ajax({
-                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                    type: "GET",
-                    url: "/getDeviceNotifications/"+device_id,
-                })
-                .done(function(response){
-                    // console.log(response)
-                    // If table is initialized
-                    if ($.fn.DataTable.isDataTable('#maintenance_logs_table')){
-                        // Destroy existing table
-                        $('#maintenance_logs_table').DataTable().destroy();
-                    }
-                    // update maintenance logs table
-                    $('#maintenance_logs_body').html('');
-                    // if(response.maintenance.length == 0){
-                    //     $('#maintenance_logs_table').attr('hidden', true);
-                    // }else{
-                    //     $('#maintenance_logs_table').attr('hidden', false);
-                    // }
-                    for(let i = 0; i<response.maintenance.length; i++){
-                        let changer_details = response.maintenance[i].changer_details!= null?response.maintenance[i].changer_details.name:"-";
-                        $('#maintenance_logs_body').append('<tr id="'+response.maintenance[i].id +'"><td>'+response.maintenance[i].parameter+'</td>'
-                            +'<td>'+response.maintenance[i].old_value +'</td>'
-                            +'<td>'+response.maintenance[i].new_value +'</td>'
-                            +'<td>'+ changer_details+'</td>'
-                            +'<td>'+ new Date(response.maintenance[i].created_at) +'</td>'
-                            +'</tr>'
-                        )
-                    }
-                    // Initialize the table
-                    $('#maintenance_logs_table').DataTable();
-                    // If table is initialized
-                    if ($.fn.DataTable.isDataTable('#control_logs_table')){
-                        // Destroy existing table
-                        $('#control_logs_table').DataTable().destroy();
-                    }
-                    // update controls logs table
-                    $('#controls_logs_body').html('');
-                    for(let i = 0; i<response.controls.length; i++){
-                        let device_read_at = response.controls[i].device_read_at == null ? '-' : new Date(response.controls[i].device_read_at)
-                        let device_response_data = response.controls[i].device_response_data == null ? '-': response.controls[i].device_response_data
-                        let creator_details = response.controls[i].creator_details != null?response.controls[i].creator_details.name:"-";
-                        $('#controls_logs_body').append('<tr id="'+response.controls[i].id +'"><td>'+response.controls[i].command+'</td>'
-                            +'<td>'+device_read_at +'</td>'
-                            +'<td>'+device_response_data+'</td>'
-                            +'<td>'+creator_details +'</td>'
-                            +'<td>'+ new Date(response.controls[i].created_at) +'</td>'
-                            +'</tr>'
-                        )
-                    }
-                    // Initialize the table
-                    $('#control_logs_table').DataTable();
-                    // If table is initialized
-                    if ($.fn.DataTable.isDataTable('#setpoints_logs_table')){
-                        // Destroy existing table
-                        $('#setpoints_logs_table').DataTable().destroy();
-                    }
-                    // update setpoints logs table
-                    $('#setpoints_logs_body').html('');
-                    for(let i = 0; i<response.setpoints.length; i++){
-                        let changer_details = response.setpoints[i].changer_details!=null?response.setpoints[i].changer_details.name:"Device";
-                        $('#setpoints_logs_body').append('<tr id="'+response.setpoints[i].id +'"><td>'+response.setpoints[i].parameter+'</td>'
-                            +'<td>'+response.setpoints[i].old_value +'</td>'
-                            +'<td>'+response.setpoints[i].new_value +'</td>'
-                            +'<td>'+changer_details +'</td>'
-                            +'<td>'+ new Date(response.setpoints[i].created_at) +'</td>'
-                            +'</tr>'
-                        )
-                    }
-                    // Initialize the table
-                    $('#setpoints_logs_table').DataTable();
-                    $('#modal-device_notifications').modal('show');
-                });
-            })
+            // $('.btn_notifications').on('click',function(){
+            //     var trid = $(this).closest('tr').attr('id'); // table row ID
+            //     device_id = trid.replace("device-info-",'') // device id  from table row
+            //     $('#notifications_heading').text("Notifications: "+$('#device-serial-number_'+device_id).text())
+            //     $.ajax({
+            //         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            //         type: "GET",
+            //         url: "/getDeviceNotifications/"+device_id,
+            //     })
+            //     .done(function(response){
+            //         // console.log(response)
+            //         // If table is initialized
+            //         if ($.fn.DataTable.isDataTable('#maintenance_logs_table')){
+            //             // Destroy existing table
+            //             $('#maintenance_logs_table').DataTable().destroy();
+            //         }
+            //         // update maintenance logs table
+            //         $('#maintenance_logs_body').html('');
+            //         // if(response.maintenance.length == 0){
+            //         //     $('#maintenance_logs_table').attr('hidden', true);
+            //         // }else{
+            //         //     $('#maintenance_logs_table').attr('hidden', false);
+            //         // }
+            //         for(let i = 0; i<response.maintenance.length; i++){
+            //             let changer_details = response.maintenance[i].changer_details!= null?response.maintenance[i].changer_details.name:"-";
+            //             $('#maintenance_logs_body').append('<tr id="'+response.maintenance[i].id +'"><td>'+response.maintenance[i].parameter+'</td>'
+            //                 +'<td>'+response.maintenance[i].old_value +'</td>'
+            //                 +'<td>'+response.maintenance[i].new_value +'</td>'
+            //                 +'<td>'+ changer_details+'</td>'
+            //                 +'<td>'+ new Date(response.maintenance[i].created_at) +'</td>'
+            //                 +'</tr>'
+            //             )
+            //         }
+            //         // Initialize the table
+            //         $('#maintenance_logs_table').DataTable();
+            //         // If table is initialized
+            //         if ($.fn.DataTable.isDataTable('#control_logs_table')){
+            //             // Destroy existing table
+            //             $('#control_logs_table').DataTable().destroy();
+            //         }
+            //         // update controls logs table
+            //         $('#controls_logs_body').html('');
+            //         for(let i = 0; i<response.controls.length; i++){
+            //             let device_read_at = response.controls[i].device_read_at == null ? '-' : new Date(response.controls[i].device_read_at)
+            //             let device_response_data = response.controls[i].device_response_data == null ? '-': response.controls[i].device_response_data
+            //             let creator_details = response.controls[i].creator_details != null?response.controls[i].creator_details.name:"-";
+            //             $('#controls_logs_body').append('<tr id="'+response.controls[i].id +'"><td>'+response.controls[i].command+'</td>'
+            //                 +'<td>'+device_read_at +'</td>'
+            //                 +'<td>'+device_response_data+'</td>'
+            //                 +'<td>'+creator_details +'</td>'
+            //                 +'<td>'+ new Date(response.controls[i].created_at) +'</td>'
+            //                 +'</tr>'
+            //             )
+            //         }
+            //         // Initialize the table
+            //         $('#control_logs_table').DataTable();
+            //         // If table is initialized
+            //         if ($.fn.DataTable.isDataTable('#setpoints_logs_table')){
+            //             // Destroy existing table
+            //             $('#setpoints_logs_table').DataTable().destroy();
+            //         }
+            //         // update setpoints logs table
+            //         $('#setpoints_logs_body').html('');
+            //         for(let i = 0; i<response.setpoints.length; i++){
+            //             let changer_details = response.setpoints[i].changer_details!=null?response.setpoints[i].changer_details.name:"Device";
+            //             $('#setpoints_logs_body').append('<tr id="'+response.setpoints[i].id +'"><td>'+response.setpoints[i].parameter+'</td>'
+            //                 +'<td>'+response.setpoints[i].old_value +'</td>'
+            //                 +'<td>'+response.setpoints[i].new_value +'</td>'
+            //                 +'<td>'+changer_details +'</td>'
+            //                 +'<td>'+ new Date(response.setpoints[i].created_at) +'</td>'
+            //                 +'</tr>'
+            //             )
+            //         }
+            //         // Initialize the table
+            //         $('#setpoints_logs_table').DataTable();
+            //         $('#modal-device_notifications').modal('show');
+            //     });
+            // })
             $('.nav_maintenance_logs').on('click',function(){
                 $('#tab_maintenance_logs').show();
                 $('#tab_controls_logs').hide();
@@ -3857,15 +3850,26 @@
         //     $('#modal-device-detail').modal('show');
         // })
     //
+    // Dashboard buttons
+    // log book
+    // $('.close').on('click','#btn_close_notifications',function(){
+    //     console.log("Closing notifications modal");
+    //     view_mode = "dashboard";
+    //     grouped_devices_count = setInterval(pull_grouped_devices_data,30000);
+    // })
+
 
     $('.alarms-list').on('click','.goto_maintenance', function(){
         var element = document.getElementById("maintenance_tab");
         element.scrollIntoView({behavior: "smooth", block: "end"})
     })
     $('.btn_close_modal').on('click', function(){
+        console.log("Modal closed")
         view_mode = "dashboard";
         clearInterval(avg_data);
         clearInterval(live_data);
+        device_latest_data = setInterval(pull_latest_data,10000);
+        grouped_devices_count = setInterval(pull_grouped_devices_data,60000);
 
         // dashboard_data = setInterval(pull_dashboard_data,10000);
     })

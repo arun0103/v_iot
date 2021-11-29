@@ -118,6 +118,7 @@ Route::get('/viewDeviceUsers/{id}', [App\Http\Controllers\DeviceController::clas
 Route::patch('/saveEditedDevice/{id}',[App\Http\Controllers\DeviceController::class,'saveEditedDevice'])->middleware('auth');
 
 //Device notifications
+Route::get('/super/getDeviceNotifications/{serial_number}', [App\Http\Controllers\DeviceController::class, 'getDeviceNotifications_super'])->middleware('auth');
 Route::get('/getDeviceNotifications/{id}', [App\Http\Controllers\DeviceController::class, 'getDeviceNotifications'])->middleware('auth');
 
 //Mails
