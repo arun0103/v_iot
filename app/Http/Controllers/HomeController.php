@@ -31,6 +31,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(){
+        ini_set('max_execution_time', 180); //3 minutes
         //Get user info
         $loggedInUser = Auth::user();
         // redirect new user to change password
