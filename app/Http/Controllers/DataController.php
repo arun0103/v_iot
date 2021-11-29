@@ -184,6 +184,7 @@ class DataController extends Controller
     }
     // for new dashboard super and resellers to count the devices and categorize
     public function refreshDashboardCounts(){
+        ini_set('max_execution_time', 180); //3 minutes
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
             $devices = Device::with('latest_log:serial_number,log_dt,ec,step,alarm,created_at','setpoints:device_id,pure_EC_target','model')->withCount('userDevices')->get();
