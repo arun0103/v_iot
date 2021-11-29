@@ -77,10 +77,12 @@ h2.card-title{float:left; text-align:left}
 @endsection
 @section('scripts')
 <script>
-    // ($('.btn-submit').on('click',function(){
-    //     alert("Logging in")
-    //     console.log("Logging In...")
-    //     Swal.fire("info","Logging in","INFO")
-    // }))
+    $(document).ready(function() {
+        $('.btn-submit').on('click',function(){
+            // alert("Logging in")
+            console.log("Logging In...")
+            Swal.fire("Info","Logging in","attention")
+        })
+    });
 </script>
 @endsection

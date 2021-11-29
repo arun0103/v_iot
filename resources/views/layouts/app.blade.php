@@ -18,6 +18,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
     <style>.nav-link{font-size:1.5em}</style>
 </head>
 <body style="background:#47c5ee">
@@ -102,6 +104,7 @@
         <!-- Default to the left -->
         <strong>Copyright &copy; 2021 <a href="https://voltea.com">Voltea</a>.</strong> All rights reserved.
     </footer>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('scripts')
 </body>
 </html>
