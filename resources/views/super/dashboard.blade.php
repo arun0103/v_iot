@@ -3436,7 +3436,7 @@
         clearInterval(avg_data);
         console.log('groups:')
         $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            headers: {'X-CSRF-Token': $('[name="csrf-token"]').val()},
             type: "GET",
             url: "/refreshDashboardCounts"
         }).done(function(response){
