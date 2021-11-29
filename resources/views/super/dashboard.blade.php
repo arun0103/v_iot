@@ -2458,7 +2458,7 @@
         for(let i=0; i<data.length; i++){
             let device_serial = data[i][0]
             $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                headers: {'X-CSRF-Token': $('[name="csrf-token"]').val()},
                 type: "GET",
                 url: "/getDeviceLatestLog/"+device_serial,
             })
