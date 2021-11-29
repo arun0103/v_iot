@@ -2778,7 +2778,7 @@
         $('#table-standby-devices').attr('hidden',true)
         $('#table-disconnected-devices').attr('hidden',false)
 
-        getDisconnectedDevices();
+        //getDisconnectedDevices();
     })
     function pull_average_data(){
         clearInterval(dashboard_data)
