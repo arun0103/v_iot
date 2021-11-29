@@ -81,7 +81,17 @@ h2.card-title{float:left; text-align:left}
         $('.btn-submit').on('click',function(){
             // alert("Logging in")
             console.log("Logging In...")
-            Swal.fire("Info","Logging in","attention")
+            Swal.fire({
+                title: 'Logging In',
+                html: '<b>Please Wait!</b>',
+                // timer: 2000,
+                timerProgressBar: true,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
         })
     });
 </script>
