@@ -2463,7 +2463,8 @@
                 url: "/getDeviceLatestLog/"+device_serial,
             })
             .done(function(response){
-                // console.log(response)
+                console.log("getting running devices logs")
+                console.log(response)
 
                 //calculate status
                 //calculate water quality

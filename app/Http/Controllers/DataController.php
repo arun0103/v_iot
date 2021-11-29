@@ -851,7 +851,7 @@ class DataController extends Controller
     public function getDeviceLatestLog($id){
         $deviceDetail = Device::where('serial_number',$id)->with(['logs' =>function($query){
             $query->orderBy("id",'DESC')->first();
-        }])->with('setpoints')->first();
+        }])->with('setpoints')->withCount('userDevices')->first();
         return response()->json($deviceDetail);
     }
 
