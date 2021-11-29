@@ -2256,42 +2256,44 @@
                 //     console.log("Table Destroyed.. Re-initializing new table...")
                 // }
                 for(let i=0; i<response.length; i++){
-                    //calculate status
                     let status = "No Data";
-                    switch(response[i].logs[0].step){
-                        case 0:
-                        case 1:
-                        case 13:
-                            status = '<span style="color:black">IDLE</span>';break;
-                        case 6:
-                            status = '<span style="color:orange">STANDBY</span>';break;
-                        default:
-                            status = '<span style="color:green">RUNNING</span>';break;
-                    }
-                    //calculate water quality
-                    if(response[i].setpoints != null && response[i].logs != null){
-                        let ec_target = response[i].setpoints.pure_EC_target;
-                        let ec_avg = response[i].logs[0].ec;
-                        let diff = Math.abs(ec_target - ec_avg);
-                        let percentage = diff*100/ec_target;
-                        let water_quality ;
-                        // console.log(response.logs[0].ec+ "%")
-                        if(percentage <= 10){
-                            water_quality = '<span style="color:green">On Target</span>'
-                        }else{
-                            water_quality = '<span style="color:brown">Needs Attention</span>'
+                    let water_quality = "No Data";
+                    if(response[i].logs.length >0){
+                        //calculate status
+                        switch(response[i].logs[0].step){
+                            case 0:
+                            case 1:
+                            case 13:
+                                status = '<span style="color:black">IDLE</span>';break;
+                            case 6:
+                                status = '<span style="color:orange">STANDBY</span>';break;
+                            default:
+                                status = '<span style="color:green">RUNNING</span>';break;
                         }
-                        table_disconnected.row.add([
-                            response[i].serial_number,
-                            response[i].device_name,
-                            response[i].model.name,
-                            response[i].user_devices_count,
-                            status,
-                            water_quality,
-                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                        ]).draw(true)
+                        //calculate water quality
+                        if(response[i].setpoints != null){
+                            let ec_target = response[i].setpoints.pure_EC_target;
+                            let ec_avg = response[i].logs[0].ec;
+                            let diff = Math.abs(ec_target - ec_avg);
+                            let percentage = diff*100/ec_target;
+                            if(percentage <= 10){
+                                water_quality = '<span style="color:green">On Target</span>'
+                            }else{
+                                water_quality = '<span style="color:brown">Needs Attention</span>'
+                            }
+                        }
                     }
+                    table_disconnected.row.add([
+                        response[i].serial_number,
+                        response[i].device_name,
+                        response[i].model.name,
+                        response[i].user_devices_count,
+                        status,
+                        water_quality,
+                        '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                        '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                    ]).draw(true)
+
                 }
                 table_disconnected.draw();
             }
