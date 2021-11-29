@@ -2397,7 +2397,7 @@
                     '2':data[i][2],
                     '3':data[i][3],
                     '4':data[i][4],
-                    '5':"- Changed -",
+                    '5':"-",
                     '6':data[i][6]
                 }
                 table_disconnected.row(i).data(data_to_change).draw();
@@ -2608,7 +2608,7 @@
         // }else{
         //     getDisconnectedDevice_logs();
         // }
-        getDisconnectedDevices();
+        //getDisconnectedDevices();
         showing_devices = "Disconnected";
     })
     function pull_average_data(){
@@ -3278,6 +3278,8 @@
     }
     $(document).ready(function () {
         $('.datatable').dataTable();
+        count_idle = $('#count-idle_devices').text();
+
         // dashboard_data = setInterval(pull_dashboard_data,5000);
 
         setInterval(function(){
@@ -3358,18 +3360,112 @@
                 count = running_table.rows().count();
                 if(running_table.count() != response.count.running){
                     running_table.clear();
+                    for(let i=0; i<response.devices.running.length; i++){
+                        //calculate status
+                        let status = "";
+                        switch(response.devices.running[i].step){
+
+                        }
+                        //calculate water quality
+                        let ec_target = response.devices.running[i].setpoints.pure_EC_target;
+                        let ec_avg = response.devices.running[i].latest_log.ec;
+                        let diff = Math.abs(ec_target - ec_avg);
+                        let percentage = diff*100/ec_target;
+                        let water_quality ;
+                        // console.log(response.logs[0].ec+ "%")
+                        if(percentage <= 10){
+                            water_quality = '<span style="color:green">On Target</span>'
+                        }else{
+                            water_quality = '<span style="color:brown">Needs Attention</span>'
+                        }
+                        running_table.row.add([
+                            response.devices.running[i].serial_number,
+                            response.devices.running[i].device_name,
+                            response.devices.running[i].model.name,
+                            response.devices.running[i].user_devices_count,
+                            response.devices.running[i].serial_number,
+                            water_quality,
+                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                        ]).draw(false)
+                        // data.draw();
+                    }
+                    running_table.draw();
+
                 }
                 let standby_table = $('#table_lists_standby').DataTable();
                 count = standby_table.rows().count();
                 if(count != response.count.standby){
                     standby_table.clear();
+                    for(let i=0; i<response.devices.standby.length; i++){
+                        //calculate status
+                        let status = "";
+                        switch(response.devices.standby[i].step){
+
+                        }
+                        //calculate water quality
+                        let ec_target = response.devices.standby[i].setpoints.pure_EC_target;
+                        let ec_avg = response.devices.standby[i].latest_log.ec;
+                        let diff = Math.abs(ec_target - ec_avg);
+                        let percentage = diff*100/ec_target;
+                        let water_quality ;
+                        // console.log(response.logs[0].ec+ "%")
+                        if(percentage <= 10){
+                            water_quality = '<span style="color:green">On Target</span>'
+                        }else{
+                            water_quality = '<span style="color:brown">Needs Attention</span>'
+                        }
+                        idle_table.row.add([
+                            response.devices.standby[i].serial_number,
+                            response.devices.standby[i].device_name,
+                            response.devices.standby[i].model.name,
+                            response.devices.standby[i].user_devices_count,
+                            response.devices.standby[i].serial_number,
+                            water_quality,
+                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                        ]).draw(false)
+                        // data.draw();
+                    }
+                    standby_table.draw();
                 }
                 let disconnected_table = $('#table_lists_disconnected').DataTable();
                 count = disconnected_table.rows().count();
                 // console.log(data.count())
-                console.log(count)
+                console.log("DISCONNECTED COUNT : "+count)
                 if(count != response.count.disconnected){
-                    // disconnected_table.clear();
+                    disconnected_table.clear();
+                    for(let i=0; i<response.devices.disconnected.length; i++){
+                        //calculate status
+                        let status = "";
+                        switch(response.devices.disconnected[i].step){
+
+                        }
+                        //calculate water quality
+                        let ec_target = response.devices.disconnected[i].setpoints.pure_EC_target;
+                        let ec_avg = response.devices.disconnected[i].latest_log.ec;
+                        let diff = Math.abs(ec_target - ec_avg);
+                        let percentage = diff*100/ec_target;
+                        let water_quality ;
+                        // console.log(response.logs[0].ec+ "%")
+                        if(percentage <= 10){
+                            water_quality = '<span style="color:green">On Target</span>'
+                        }else{
+                            water_quality = '<span style="color:brown">Needs Attention</span>'
+                        }
+                        idle_table.row.add([
+                            response.devices.disconnected[i].serial_number,
+                            response.devices.disconnected[i].device_name,
+                            response.devices.disconnected[i].model.name,
+                            response.devices.disconnected[i].user_devices_count,
+                            response.devices.disconnected[i].serial_number,
+                            water_quality,
+                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                        ]).draw(false)
+                        // data.draw();
+                    }
+                    disconnected_table.draw();
                 }else{
                     console.log("No operation")
                 }

@@ -903,7 +903,7 @@ class DataController extends Controller
             $response = [
                 'data'=>$devices
             ];
-            return response()->json($response);
+            return response()->json($devices);
         }
     }
 }
