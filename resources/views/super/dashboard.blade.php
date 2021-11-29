@@ -2542,63 +2542,63 @@
         }
     }
     function getDisconnectedDevice_logs(){
-        console.log("Getting Disconnected device logs")
-        table_disconnected = $('#table_lists_disconnected').DataTable();
-        var data = table_disconnected.rows().data();
-        for(let i=0; i<data.length; i++){
-            let device_serial = data[i][0]
-            $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "GET",
-                url: "/getDeviceLatestLog/"+device_serial,
-            })
-            .done(function(response){
-                console.log("Latest log  of : "+device_serial)
-                console.log(response)
-                if(response != null){
-                    //calculate status
-                    let status ="";
-                    if(response.logs != null){
-                        switch(response.logs[0].step){
-                            case 0:
-                            case 1:
-                            case 13:
-                                status = '<span style="color:black">IDLE</span>';break;
-                            case 6:
-                                status = '<span style="color:orange">STANDBY</span>';break;
-                            default:
-                                status = '<span style="color:green">RUNNING</span>';break;
-                        }
-                    }else{
-                        status = '<span style="color:red">No Data</span>';
-                    }
+        // console.log("Getting Disconnected device logs")
+        // table_disconnected = $('#table_lists_disconnected').DataTable();
+        // var data = table_disconnected.rows().data();
+        // for(let i=0; i<data.length; i++){
+        //     let device_serial = data[i][0]
+        //     $.ajax({
+        //         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+        //         type: "GET",
+        //         url: "/getDeviceLatestLog/"+device_serial,
+        //     })
+        //     .done(function(response){
+        //         console.log("Latest log  of : "+device_serial)
+        //         console.log(response)
+        //         if(response != null){
+        //             //calculate status
+        //             let status ="No Data";
+        //             let water_quality = "No Data"
+        //             if(response.logs != null){
+        //                 switch(response.logs[0].step){
+        //                     case 0:
+        //                     case 1:
+        //                     case 13:
+        //                         status = '<span style="color:black">IDLE</span>';break;
+        //                     case 6:
+        //                         status = '<span style="color:orange">STANDBY</span>';break;
+        //                     default:
+        //                         status = '<span style="color:green">RUNNING</span>';break;
+        //                 }
+        //                 //calculate water quality
+        //                 let ec_target = response.setpoints.pure_EC_target;
+        //                 let ec_avg = response.logs[0].ec;
+        //                 let diff = Math.abs(ec_target - ec_avg);
+        //                 let percentage = diff*100/ec_target;
+        //                 if(percentage <= 10){
+        //                     water_quality = '<span style="color:green">On Target</span>'
+        //                 }else{
+        //                     water_quality = '<span style="color:brown">Needs Attention</span>'
+        //                 }
+        //             }else{
+        //                 status = '<span style="color:red">No Data</span>';
+        //             }
 
-                    //calculate water quality
-                    let ec_target = response.setpoints.pure_EC_target;
-                    let ec_avg = response.logs[0].ec;
-                    let diff = Math.abs(ec_target - ec_avg);
-                    let percentage = diff*100/ec_target;
-                    let water_quality ;
-                    if(percentage <= 10){
-                        water_quality = '<span style="color:green">On Target</span>'
-                    }else{
-                        water_quality = '<span style="color:brown">Needs Attention</span>'
-                    }
-                    let data_to_change = {
-                        '0':data[i][0],
-                        '1':data[i][1],
-                        '2':data[i][2],
-                        '3':data[i][3],
-                        '4':status,
-                        '5':water_quality,
-                        '6':data[i][6]
-                    }
-                    table_disconnected.row(i).data(data_to_change).draw();
+        //             let data_to_change = {
+        //                 '0':data[i][0],
+        //                 '1':data[i][1],
+        //                 '2':data[i][2],
+        //                 '3':data[i][3],
+        //                 '4':status,
+        //                 '5':water_quality,
+        //                 '6':data[i][6]
+        //             }
+        //             table_disconnected.row(i).data(data_to_change).draw();
 
-                }
+        //         }
 
-            });
-        }
+        //     });
+        // }
     }
     $('.table-info').on('click','#view_device', function(){
         var table;
