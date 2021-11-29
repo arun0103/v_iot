@@ -75,3 +75,11 @@ h2.card-title{float:left; text-align:left}
     </div>
 </div>
 @endsection
+@section('scripts')
+<script>
+    $('.submit').on('click',function(){
+        console.log("Logging In...")
+        Swal.fire("info","Logging in","INFO")
+    })
+</script>
+@endsection

@@ -858,8 +858,8 @@ class DataController extends Controller
         $now = Carbon::now();
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
-            $devices = Device::whereHas('latest_log', function ($query) {
-                $query->where('log_dt','>=',$now)->whereIn('step', [0,1,13]);
+            $devices = Device::whereHas('latest_log', function ($query) use($now) {
+                $query->where('log_dt','>=',$now->subSeconds(60))->whereIn('step', [0,1,13]);
             })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->get();
             $response = [
                 'data'=>$devices
@@ -869,10 +869,11 @@ class DataController extends Controller
     }
     public function getRunningDevices(){
         $loggedInUser = Auth::user();
+        $now = Carbon::now();
         if($loggedInUser->role == "S"){
-            $devices = Device::whereHas('latest_log',function($query){
-                $query->whereIn('step',[2,3,4,5,7,8,9,10,11,12,14,15]);
-            })->with(['model'])->with(['userDevices','setpoints'])->get();
+            $devices = Device::whereHas('latest_log',function($query) use($now){
+                $query->where('log_dt','>=',$now->subSeconds(60))->whereIn('step',[2,3,4,5,7,8,9,10,11,12,14,15]);
+            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->get();
             $response = [
                 'data'=>$devices
             ];
@@ -881,9 +882,10 @@ class DataController extends Controller
     }
     public function getStandByDevices(){
         $loggedInUser = Auth::user();
+        $now = Carbon::now();
         if($loggedInUser->role == "S"){
-            $devices = Device::whereHas('latest_log',function($query){
-                $query->where('step',6);
+            $devices = Device::whereHas('latest_log',function($query) use($now){
+                $query->where([['step',6],['log_dt','>=',$now->subSeconds(60)]]);
             })->has('latest_log')->with(['model'])->with(['userDevices','setpoints'])->get();
             $response = [
                 'data'=>$devices
@@ -893,8 +895,11 @@ class DataController extends Controller
     }
     public function getDisconnectedDevices(){
         $loggedInUser = Auth::user();
+        $now = Carbon::now();
         if($loggedInUser->role == "S"){
-            $devices = Device::doesntHave('latest_log')->with(['model'])->with(['userDevices','setpoints'])->get();
+            $devices = Device::with(['logs'=> function($query) use($now){
+                $query->where('log_dt','>=',$now->subSeconds(60))->orderBy('log_dt','DESC')->first();
+            }])->with(['model'])->with(['userDevices','setpoints'])->get();
             $response = [
                 'data'=>$devices
             ];

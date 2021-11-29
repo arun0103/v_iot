@@ -2174,11 +2174,85 @@
     var showing_devices = "Idle";
 
     var count_idle =0, count_running =0, count_standby = 0, count_disconnected = 0;
-
+    var table_idle, table_running, table_standby, table_disconnected;
 
     function getIdleDevices(){
-        var table = $('#table_lists_idle').DataTable();
-        var data = table.rows().data();
+        $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/getIdleDevices",
+            })
+            .done(function(response){
+                //calculate status
+                console.log(response)
+            })
+    }
+    function getDisconnectedDevices(){
+        $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/getDisconnectedDevices",
+            })
+            .done(function(response){
+                //calculate status
+                console.log("Refreshing disconnected dashboard")
+                console.log(response)
+                if(count_disconnected == response.data.length){
+                    console.log("No changes in disconnected devices")
+                }else{
+                    if ( $.fn.dataTable.isDataTable( '#table_lists_disconnected' ) ) {
+                        $('#table_lists_disconnected').DataTable().destroy();
+                        console.log("Table Destroyed")
+                    }
+                    table_disconnected = $('#table_lists_disconnected').DataTable( {
+                        "ajax": "/getDisconnectedDevices",
+                        "columns": [
+                            { "data": "serial_number" },
+                            { "data": "device_name" },
+                            { "data": "model.name" },
+                            {
+                                "data": "user_devices",
+                                "render": function ( data, type, row, meta ) {
+                                    return data.length;
+                                }
+                            },
+                            { "data": 'logs' },
+                            { "data": "logs" },
+                            { "data": "salary",
+                                "render": function ( data, type, row, meta ) {
+                                return'<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                    '<button class="btn btn-secondary" id="logBook_device">Log Book</button>' ;
+                                } }
+                        ]
+                    } );
+                }
+            })
+    }
+    function getRunningDevices(){
+        $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/getRunningDevices",
+            })
+            .done(function(response){
+                //calculate status
+                console.log(response)
+            })
+    }
+    function getStandbyDevices(){
+        $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/getStandbyDevices",
+            })
+            .done(function(response){
+                //calculate status
+                console.log(response)
+            })
+    }
+    function getIdleDevice_logs(){
+        table_idle = $('#table_lists_idle').DataTable();
+        var data = table_idle.rows().data();
         // console.log("Data: "+data[0][0])
         for(let i=0; i<data.length; i++){
             let device_serial = data[i][0]
@@ -2211,11 +2285,11 @@
                     '5':water_quality,
                     '6':data[i][6]
                 }
-                table.row(i).data(data_to_change).draw();
+                table_idle.row(i).data(data_to_change).draw();
             });
         }
     }
-    function getRunningDevices(){
+    function getRunningDevice_logs(){
         var table = $('#table_lists_running').DataTable();
         var data = table.rows().data();
         for(let i=0; i<data.length; i++){
@@ -2253,7 +2327,7 @@
             });
         }
     }
-    function getStandbyDevices(){
+    function getStandbyDevice_logs(){
         var table = $('#table_lists_standby').DataTable();
         var data = table.rows().data();
         for(let i=0; i<data.length; i++){
@@ -2291,9 +2365,10 @@
             });
         }
     }
-    function getDisconnectedDevices(){
-        var table = $('#table_lists_disconnected').DataTable();
-        var data = table.rows().data();
+    function getDisconnectedDevice_logs(){
+        console.log("Getting Disconnected device logs")
+        table_disconnected = $('#table_lists_disconnected').DataTable();
+        var data = table_disconnected.rows().data();
         for(let i=0; i<data.length; i++){
             let device_serial = data[i][0]
             $.ajax({
@@ -2322,10 +2397,10 @@
                     '2':data[i][2],
                     '3':data[i][3],
                     '4':data[i][4],
-                    '5':"- -",
+                    '5':"- Changed -",
                     '6':data[i][6]
                 }
-                table.row(i).data(data_to_change).draw();
+                table_disconnected.row(i).data(data_to_change).draw();
             });
         }
     }
@@ -2449,7 +2524,7 @@
     })
     $('#idle_block').on('click', function(){
         showing_devices = "Idle";
-        // $('.device_list_title').text('Idle Devices\'s List');
+        // $('.device_list_title').text('Idle Devices\' List');
         $('#idle_info_icon').removeClass('fa-arrow-circle-right').addClass('fa-arrow-circle-down');
         $('#running_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
         $('#standby_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
@@ -2461,7 +2536,7 @@
         getIdleDevices();
     })
     $('#running_block').on('click', function(){
-        $('.device_list_title').text('Running Devices\'s List');
+        // $('.device_list_title').text('Running Devices\' List');
         $('#running_info_icon').removeClass('fa-arrow-circle-right').addClass('fa-arrow-circle-down');
         $('#idle_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
         $('#standby_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
@@ -2481,13 +2556,13 @@
                 },
             })
         }else{
-            getRunningDevices();
+            getRunningDevice_logs();
             // console.log(table)
 
         }showing_devices = "Running";
     })
     $('#standby_block').on('click', function(){
-        $('.device_list_title').text('StandBy Devices\'s List');
+        // $('.device_list_title').text('StandBy Devices\' List');
         $('#standby_info_icon').removeClass('fa-arrow-circle-right').addClass('fa-arrow-circle-down');
         $('#idle_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
         $('#running_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
@@ -2507,11 +2582,11 @@
                 },
             })
         }else{
-            getStandbyDevices();
+            getStandbyDevice_logs();
         }showing_devices = "Standby";
     })
     $('#disconnected_block').on('click', function(){
-        $('.device_list_title').text('Disconnected Devices\'s List');
+        // $('.device_list_title').text('Disconnected Devices\' List');
         $('#idle_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
         $('#running_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
         $('#standby_info_icon').removeClass('fa-arrow-circle-down').addClass('fa-arrow-circle-right');
@@ -2520,21 +2595,24 @@
         $('#table-running-devices').attr('hidden',true)
         $('#table-standby-devices').attr('hidden',true)
         $('#table-disconnected-devices').attr('hidden',false)
-        if(showing_devices == "Disconnected"){
-            Swal.fire({
-                title: 'Refreshing',
-                html: '<b>Disconnected Devices</b>',
-                // timer: 2000,
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.showLoading()
-                },
-            })
-        }else{
-            getDisconnectedDevices();
-        }showing_devices = "Disconnected";
+        // if(showing_devices == "Disconnected"){
+        //     Swal.fire({
+        //         title: 'Refreshing',
+        //         html: '<b>Disconnected Devices</b>',
+        //         // timer: 2000,
+        //         timerProgressBar: true,
+        //         didOpen: () => {
+        //             Swal.showLoading()
+        //         },
+        //     })
+        // }else{
+        //     getDisconnectedDevice_logs();
+        // }
+        getDisconnectedDevices();
+        showing_devices = "Disconnected";
     })
     function pull_average_data(){
+        clearInterval(dashboard_data)
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
@@ -2544,7 +2622,7 @@
             $('.message_from_database').removeClass("linear-background");
             $('.display_body').css('visibility','visible')
             console.log("% % % %  Refreshing Dashboad Data :"+device_id + " % % % % %")
-            console.log(response);
+            // console.log(response);
             if(response['deviceDetails'].latest_log != null){
                 $('#btn_device_start_stop').removeAttr("hidden");
 
@@ -2890,6 +2968,8 @@
             })
     }
     function pull_live_data(){
+        clearInterval(dashboard_data)
+        clearInterval(avg_data);
         console.log("Pulling Live Data")
         if(view_live_device != null){
             $.ajax({
@@ -3209,10 +3289,10 @@
                 // })
                 console.log(showing_devices)
                 switch(showing_devices){
-                    case "Idle": getIdleDevices();break;
-                    case "Running": getRunningDevices();break;
-                    case "Standby": getStandbyDevices();break;
-                    case "Disconnected": getDisconnectedDevices();break;
+                    case "Idle": getIdleDevice_logs();break;
+                    case "Running": getRunningDevice_logs();break;
+                    case "Standby": getStandbyDevice_logs();break;
+                    case "Disconnected": getDisconnectedDevice_logs();break;
                 }
             }
         },10000);
@@ -3228,6 +3308,11 @@
                 $('#count-running_devices').text(response.count.running)
                 $('#count-standby_devices').text(response.count.standby)
                 $('#count-disconnected_devices').text(response.count.disconnected)
+
+                count_idle = response.count.idle;
+                count_running = response.count.running;
+                count_standby = response.count.standby;
+                count_disconnected = response.count.disconnected;
 
                 // refresh tables if device changes its category
                 console.log("Refreshing tables")
@@ -3294,10 +3379,10 @@
         },30000)
 
         // switch(showing_devices){
-        //     case "Idle": getIdleDevices();break;
-        //     case "Running": getRunningDevices();break;
-        //     case "Standby": getStandbyDevices();break;
-        //     case "Disconnected": getDisconnectedDevices();break;
+        //     case "Idle": getIdleDevice_logs();break;
+        //     case "Running": getRunningDevice_logs();break;
+        //     case "Standby": getStandbyDevice_logs();break;
+        //     case "Disconnected": getDisconnectedDevice_logs();break;
         // }
 
         $('.loader').hide();
@@ -3481,7 +3566,7 @@
         view_mode = "dashboard";
         clearInterval(avg_data);
         clearInterval(live_data);
-        dashboard_data = setInterval(pull_dashboard_data,5000);
+        dashboard_data = setInterval(pull_dashboard_data,10000);
     })
 // check status
 
