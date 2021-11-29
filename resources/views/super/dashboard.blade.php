@@ -2458,7 +2458,7 @@
         for(let i=0; i<data.length; i++){
             let device_serial = data[i][0]
             $.ajax({
-                headers: {'X-CSRF-Token': $('[name="csrf-token"]').val()},
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
                 url: "/getDeviceLatestLog/"+device_serial,
             })
@@ -2626,6 +2626,13 @@
         // $('.view_device_details').click();
     })
     $('.table-info').on('click',"#logBook_device", function(){
+        var table;
+        switch(showing_devices){
+            case "Idle": table = $('#table_lists_idle').DataTable();break;
+            case "Running": table = $('#table_lists_running').DataTable();break;
+            case "Standby": table = $('#table_lists_standby').DataTable();break;
+            case "Disconnected": table = $('#table_lists_disconnected').DataTable();break;
+        }
         var data = table.row( $(this).parents('tr') ).data();
         //console.log(data)
 
@@ -3437,7 +3444,7 @@
         clearInterval(avg_data);
         console.log('groups:')
         $.ajax({
-            headers: {'X-CSRF-Token': $('[name="csrf-token"]').val()},
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
             url: "/refreshDashboardCounts"
         }).done(function(response){
@@ -4903,7 +4910,7 @@
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/command/stop/"+ device_id,
+                        url: "/super/command/stop/"+ device_serial, // previous device_id
                     })
                     .done(function(response){
                         //console.log(response);
@@ -4924,7 +4931,7 @@
                     $.ajax({
                         headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                         type: "POST",
-                        url: "/command/start/"+ device_id,
+                        url: "/super/command/start/"+ device_serial,
                     })
                     .done(function(response){
                         Swal.fire('Success','Command recorded.','success')

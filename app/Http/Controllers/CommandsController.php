@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Device_commands;
 use App\Models\Firmware;
+use App\Models\Device;
 use Auth;
 
 class CommandsController extends Controller
@@ -65,6 +66,26 @@ class CommandsController extends Controller
         $command->save();
         return response()->json($command);
     }
+    // super start stop commands
+        public function stopDevice_super($device_serial){
+            $id = Device::where('serial_number',$device_serial)->pluck('id')->first();
+            $command = new Device_commands();
+            $command->device_id = $id;
+            $command->command = "Stop";
+            $command->created_by = Auth::user()->id;
+            $command->save();
+            return response()->json($command);
+        }
+        public function startDevice_super($device_serial){
+            $id = Device::where('serial_number',$device_serial)->pluck('id')->first();
+            $command = new Device_commands();
+            $command->device_id = $id;
+            $command->command = "Start";
+            $command->created_by = Auth::user()->id;
+            $command->save();
+            return response()->json($command);
+        }
+    //
     public function getSetpointsFromDevice($id){
         $command = new Device_commands();
         $command->device_id = $id;

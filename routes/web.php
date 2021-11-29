@@ -152,6 +152,8 @@ Route::post('/savePostFilter/{id}',[App\Http\Controllers\DeviceController::class
 Route::post('/saveGeneralService/{id}',[App\Http\Controllers\DeviceController::class, 'saveGeneralService'])->middleware('auth');
 
 //device commands
+Route::post('/super/command/stop/{device_serial}',[App\Http\Controllers\CommandsController::class, 'stopDevice_super'])->middleware('auth');
+Route::post('/super/command/start/{device_serial}',[App\Http\Controllers\CommandsController::class, 'StartDevice_super'])->middleware('auth');
 Route::get('/deviceCommands/{id}',[App\Http\Controllers\CommandsController::class, 'getDeviceCommands'])->middleware('auth');
 Route::delete('/deleteCommand/{id}',[App\Http\controllers\CommandsController::class, 'deleteCommand'])->middleware('auth');
 Route::post('/flush_module/{id}',[App\Http\Controllers\CommandsController::class, 'flush_module'])->middleware('auth');
