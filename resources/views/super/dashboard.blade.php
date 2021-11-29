@@ -2175,6 +2175,7 @@
 
     var count_idle =0, count_running =0, count_standby = 0, count_disconnected = 0;
     var table_idle, table_running, table_standby, table_disconnected;
+    var grouped_devices_count;
 
     function getIdleDevices(){
         $.ajax({
@@ -3485,7 +3486,7 @@
                 }
             }
         },10000);
-        let grouped_devices_count = setInterval(function(){
+        grouped_devices_count = setInterval(function(){
             console.log('groups:')
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -3506,7 +3507,7 @@
 
                 // refresh tables if device changes its category
                 console.log("Refreshing tables")
-                let table_idle = $('#table_lists_idle').DataTable();
+                table_idle = $('#table_lists_idle').DataTable();
                 let count = table_idle.rows().count();
                 if(table_idle.count() != response.count.idle){
                     console.log("Change of state found in devices")
@@ -3539,7 +3540,7 @@
                             water_quality,
                             '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
                             '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                        ]).draw(false)
+                        ]).draw(true)
                         // data.draw();
                     }
                     table_idle.draw();
@@ -3581,7 +3582,7 @@
                     table_running.draw();
 
                 }
-                let table_standby = $('#table_lists_standby').DataTable();
+                table_standby = $('#table_lists_standby').DataTable();
                 count = table_standby.rows().count();
                 if(count != response.count.standby){
                     table_standby.clear();
