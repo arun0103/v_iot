@@ -3418,9 +3418,10 @@
         clearInterval(avg_data);
         console.log('groups:')
         $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            // headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
-            url: "/refreshDashboardCounts"
+            url: "/refreshDashboardCounts",
+            "_token": "{{ csrf_token() }}"
         }).done(function(response){
             console.log("Refreshing Dashboard counts and tables started")
             console.log(response)
@@ -3629,7 +3630,8 @@
                 case "Idle": getIdleDevice_logs();break;
                 case "Running": getRunningDevice_logs();break;
                 case "Standby": getStandbyDevice_logs();break;
-                case "Disconnected": getDisconnectedDevice_logs();break;
+                case "Disconnected":
+                // getDisconnectedDevice_logs();break;
             }
         }
     }
