@@ -2257,8 +2257,8 @@
                 // }
                 for(let i=0; i<response.length; i++){
                     //calculate status
-                    let status = "";
-                    switch(response[i].step){
+                    let status = "No Data";
+                    switch(response[i].logs[0].step){
                         case 0:
                         case 1:
                         case 13:
@@ -2269,9 +2269,9 @@
                             status = '<span style="color:green">RUNNING</span>';break;
                     }
                     //calculate water quality
-                    if(response[i].setpoints != null && response[i].latest_log != null){
+                    if(response[i].setpoints != null && response[i].logs != null){
                         let ec_target = response[i].setpoints.pure_EC_target;
-                        let ec_avg = response[i].latest_log.ec;
+                        let ec_avg = response[i].logs[0].ec;
                         let diff = Math.abs(ec_target - ec_avg);
                         let percentage = diff*100/ec_target;
                         let water_quality ;
