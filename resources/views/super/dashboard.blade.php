@@ -3574,16 +3574,19 @@
                 table_disconnected.clear();
                 for(let i=0; i<response.devices.disconnected.length; i++){
                     //calculate status
-                    let status = "";
-                    switch(response.devices.disconnected[i].step){
-                        case 0:
-                        case 1:
-                        case 13:
-                            status = '<span style="color:black">IDLE</span>';break;
-                        case 6:
-                            status = '<span style="color:orange">STANDBY</span>';break;
-                        default:
-                            status = '<span style="color:green">RUNNING</span>';break;
+                    let status = "No Data";
+                    console.log(response.devices.disconnected)
+                    if(response.devices.disconnected[i].latest_log != null){
+                        switch(response.devices.disconnected[i].latest_log.step){
+                            case 0:
+                            case 1:
+                            case 13:
+                                status = '<span style="color:black">IDLE</span>';break;
+                            case 6:
+                                status = '<span style="color:orange">STANDBY</span>';break;
+                            default:
+                                status = '<span style="color:green">RUNNING</span>';break;
+                        }
                     }
                     //calculate water quality
                     if(response.devices.disconnected[i].setpoints != null && response.devices.disconnected[i].latest_log != null){
