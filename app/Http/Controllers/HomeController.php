@@ -91,6 +91,8 @@ class HomeController extends Controller
                 'disconnected'=>$disconnected_devices
             ];
 
+            //test
+            return view('super/v2/dashboard');
 
             //  dd($grouped_devices['idle']);
             return view('super/dashboard')->with(['devices'=>$grouped_devices])->with(['counts'=>$counts]);
