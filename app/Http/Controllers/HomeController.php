@@ -41,6 +41,9 @@ class HomeController extends Controller
         $loggedInUser->last_login = Carbon::now();
         $loggedInUser->save();
         if($loggedInUser->role == 'S'){
+            //test
+            return view('super/v2/dashboard');
+
             // $users = User::all();
             $devices = Device::with('device_settings','latest_log:serial_number,step,log_dt','setpoints:id,pure_EC_target')->get();
             //dd($devices);
@@ -91,8 +94,7 @@ class HomeController extends Controller
                 'disconnected'=>$disconnected_devices
             ];
 
-            //test
-            return view('super/v2/dashboard');
+
 
             //  dd($grouped_devices['idle']);
             return view('super/dashboard')->with(['devices'=>$grouped_devices])->with(['counts'=>$counts]);
