@@ -2266,7 +2266,7 @@
                     console.log("change detected")
                     table_standby = $('#table_lists_standby').DataTable();
                     table_standby.clear();
-                    for(let i=0; i<response.length; i++){
+                    for(let i=0; i<count_standby; i++){
                         //calculate status
                         let status = "";
                         switch(response[i].step){
@@ -2292,17 +2292,17 @@
                             }else{
                                 water_quality = '<span style="color:brown">Needs Attention</span>'
                             }
-                            table_standby.row.add([
-                                response[i].serial_number,
-                                response[i].device_name,
-                                response[i].model.name,
-                                response[i].user_devices_count,
-                                status,
-                                water_quality,
-                                '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                                '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                            ]).draw(true)
                         }
+                        table_standby.row.add([
+                            response[i].serial_number,
+                            response[i].device_name,
+                            response[i].model.name,
+                            response[i].user_devices_count,
+                            status,
+                            water_quality,
+                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                        ]).draw(true)
                     }
                     table_standby.draw();
                 }
