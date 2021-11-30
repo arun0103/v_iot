@@ -2145,10 +2145,6 @@
                 console.log("change detected")
                 table_disconnected = $('#table_lists_disconnected').DataTable();
                 table_disconnected.clear();
-                // if ( $.fn.dataTable.isDataTable( '#table_lists_disconnected' ) ) {
-                //     $('#table_lists_disconnected').DataTable().destroy();
-                //     console.log("Table Destroyed.. Re-initializing new table...")
-                // }
                 for(let i=0; i<response.length; i++){
                     let status = "No Data";
                     let water_quality = "No Data";
@@ -2187,7 +2183,6 @@
                         '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
                         '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
                     ]).draw(true)
-
                 }
                 table_disconnected.draw();
             }
@@ -3476,7 +3471,6 @@
                 for(let i=0; i<response.devices.disconnected.length; i++){
                     //calculate status
                     let status = "No Data";
-                    console.log(response.devices.disconnected)
                     if(response.devices.disconnected[i].latest_log != null){
                         switch(response.devices.disconnected[i].latest_log.step){
                             case 0:
@@ -3496,7 +3490,6 @@
                         let diff = Math.abs(ec_target - ec_avg);
                         let percentage = diff*100/ec_target;
                         let water_quality ;
-                        // console.log(response.logs[0].ec+ "%")
                         if(percentage <= 10){
                             water_quality = '<span style="color:green">On Target</span>'
                         }else{
