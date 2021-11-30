@@ -2493,7 +2493,7 @@
         //     });
         // }
     }
-    $('.table-responsive').on('click','table#view_device', function(){
+    $('.datatable').on('click','#view_device', function(){
         var table;
         switch(showing_devices){
             case "Idle": table = $('#table_lists_idle').DataTable();break;
@@ -2530,7 +2530,7 @@
         $('#modal-device-detail').modal('show');
         // $('.view_device_details').click();
     })
-    $('.table-responsive').on('click',"table#logBook_device", function(){
+    $('.datatable').on('click',"#logBook_device", function(){
         $('.loader').show();
         view_mode = "logbook";
         clearInterval(grouped_devices_count);
