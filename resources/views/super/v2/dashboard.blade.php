@@ -2268,7 +2268,8 @@
                     table_standby.clear();
                     for(let i=0; i<count_standby; i++){
                         //calculate status
-                        let status = "";
+                        let status = "No Data";
+                        let water_quality = "No Data" ;
                         switch(response[i].step){
                             case 0:
                             case 1:
@@ -2285,7 +2286,7 @@
                             let ec_avg = response[i].latest_log.ec;
                             let diff = Math.abs(ec_target - ec_avg);
                             let percentage = diff*100/ec_target;
-                            let water_quality ;
+
                             // console.log(response.logs[0].ec+ "%")
                             if(percentage <= 10){
                                 water_quality = '<span style="color:green">On Target</span>'
