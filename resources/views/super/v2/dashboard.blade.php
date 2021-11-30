@@ -824,7 +824,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard <sub>v2</sub>&nbsp;<!-- <button type="button" class="btn btn-info" id="btn_map_view">Map View</button> --></h1>
+                        <h1 class="m-0">Dashboard <sup>v2</sup>&nbsp;<!-- <button type="button" class="btn btn-info" id="btn_map_view">Map View</button> --></h1>
                     </div>
                     <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
