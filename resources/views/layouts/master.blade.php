@@ -185,7 +185,7 @@
             </li>
             @if(Auth::user()->role == 'S' || Auth::user()->role == 'R' || Auth::user()->role == 'D')
                 <li class="nav-item nav-item-routes">
-                    <a href="{{route('devices')}}" class="nav-link">
+                    <a href="{{route('devices')}}" class="nav-link" id="view_devices_page">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Devices
@@ -196,16 +196,6 @@
             @endif
             @if(Auth::user()->role == 'S')
             <li class="nav-item nav-item-routes">
-                <a href="{{route('distributors')}}" class="nav-link">
-                    <i class="nav-icon fas fa-users"></i>
-                    <p>
-                        Distributors
-                    </p>
-                </a>
-            </li>
-            @endif
-            @if(Auth::user()->role == 'S' || Auth::user()->role == 'D')
-            <li class="nav-item nav-item-routes">
                 <a href="{{route('resellers')}}" class="nav-link">
                 <i class="nav-icon fas fa-user-friends"></i>
                     <p>
@@ -215,6 +205,17 @@
             </li>
             @endif
             @if(Auth::user()->role == 'S' || Auth::user()->role == 'R')
+            <li class="nav-item nav-item-routes">
+                <a href="{{route('distributors')}}" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Distributors
+                    </p>
+                </a>
+            </li>
+            @endif
+
+            @if(Auth::user()->role == 'S' || Auth::user()->role == 'R'|| Auth::user()->role == 'D')
             <li class="nav-item nav-item-routes">
                 <a href="{{route('users')}}" class="nav-link">
                     <i class="nav-icon fas fa-user"></i>

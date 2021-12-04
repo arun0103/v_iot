@@ -2677,6 +2677,7 @@
     function pull_average_data(){
         clearInterval(dashboard_data)
         clearInterval(grouped_devices_count)
+        clearInterval(device_latest_data)
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
@@ -2685,11 +2686,11 @@
         .done(function(response){
             $('.message_from_database').removeClass("linear-background");
             $('.display_body').css('visibility','visible')
-            console.log("% % % %  Refreshing Dashboad Data :"+device_id + " % % % % %")
+            console.log("% % % %  Refreshing Dashboad Data SN#:"+device_serial + " % % % % %")
             console.log(response);
+            device_id = response.deviceDetails.id;
             if(response['deviceDetails'].latest_log != null){
                 $('#btn_device_start_stop').removeAttr("hidden");
-                device_id = response.deviceDetails.id;
                 //change the status if new data is available
                 if(start_stop_command_sent != true && +new Date(response['deviceDetails'].latest_log.created_at) >= command_sent_time){
                     var status = "";
@@ -5308,6 +5309,12 @@
         }
     //
 
+//test
+$('#view_devices_page').on('click',function(){
+    // alert('IT works')
+    clearInterval(grouped_devices_count)
+    clearInterval(device_latest_data)
+})
 </script>
 
 @endsection
