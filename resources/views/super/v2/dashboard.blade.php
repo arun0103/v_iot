@@ -4,6 +4,29 @@
 <!-- <script src="{{asset('js/require.js')}}"></script> -->
 <!-- <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiNdCuOv2SfFYbx2Bl0PhUGtvOgwAC762wyq7NZtQ8ISA98uAlaHJa5X3vLeNp6r' async defer></script> -->
 <style>
+     .spin {
+        display: inline-block;
+        position: absolute;
+        top:30%;
+        left:40%;
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(255, 255, 255, .3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+        -webkit-animation: spin 1s ease-in-out infinite;
+      }
+      @keyframes spin {
+        to {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+      @-webkit-keyframes spin {
+        to {
+          -webkit-transform: rotate(360deg);
+        }
+      }
     .modal-body {
         max-height: calc(100vh - 60px);
         overflow-y: auto;
@@ -845,6 +868,7 @@
                             <h3 id="count-idle_devices">0</h3>
                             <p>Idle</p>
                         </div>
+                        <div id="idle-loading"></div>
                         <div class="icon">
                             <i class="fas fa-snowflake"></i>
                         </div>
@@ -859,6 +883,7 @@
                             <h3 id ="count-running_devices">0</h3>
                             <p>Running</p>
                         </div>
+                        <div id="running-loading"></div>
                         <div class="icon">
                             <i class="fas fa-cog"></i>
                         </div>
@@ -873,6 +898,7 @@
                             <h3 id="count-standby_devices">0</h3>
                             <p>Stand By</p>
                         </div>
+                        <div id="standby-loading"></div>
                         <div class="icon">
                             <i class="fas fa-stopwatch"></i>
                         </div>
@@ -887,6 +913,7 @@
                             <h3 id="count-disconnected_devices">0</h3>
                             <p>Disconnected</p>
                         </div>
+                        <div id="disconnected-loading"></div>
                         <div class="icon">
                             <i class="fas fa-low-vision"></i>
                         </div>
@@ -2068,6 +2095,7 @@
     var grouped_devices_count, device_latest_data; // for timer data
 
     function getIdleDevices(){
+        $('#idle-loading').addClass('spin');
         $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
@@ -2125,9 +2153,11 @@
                     }
                     table_idle.draw();
                 }
+                $('#idle-loading').removeClass('spin');
             })
     }
     function getDisconnectedDevices(){
+        $('#disconnected-loading').addClass('spin');
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
@@ -2186,9 +2216,11 @@
                 }
                 table_disconnected.draw();
             }
+            $('#disconnected-loading').removeClass('spin');
         })
     }
     function getRunningDevices(){
+        $('#running-loading').addClass('spin');
         $.ajax({
             headers: {'X-CSRF-Token': $('[name="_token"]').val()},
             type: "GET",
@@ -2246,9 +2278,11 @@
                 }
                 table_running.draw();
             }
+            $('#running-loading').removeClass('spin');
         })
     }
     function getStandbyDevices(){
+        $('#standby-loading').addClass('spin');
         $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
@@ -2307,6 +2341,7 @@
                     }
                     table_standby.draw();
                 }
+                $('#standby-loading').removeClass('spin');
             })
     }
     function getIdleDevice_logs(){
