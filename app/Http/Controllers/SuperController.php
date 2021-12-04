@@ -287,7 +287,7 @@ class SuperController extends Controller
         $loggedInUser = Auth::user();
         if($loggedInUser->role == 'S'){
             $devices = Device::with('model:id,name', 'reseller:id,company_name')->get();
-            $users = User::where('role','U')->get();
+            // $users = User::where('role','U')->get();
             $models = Models::all();
             return view('super/v2/devices')->with(['devices'=>$devices])->with(['models'=>$models]);
             return view('super/devices')->with(['devices'=>$devices])->with(['users'=>$users])->with(['models'=>$models]);
