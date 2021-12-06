@@ -34,6 +34,7 @@ class DistributorController extends Controller
         $distributor->email = $req->email;
         $distributor->address = $req->address;
         $distributor->phone = $req->phone;
+        $distributor->reseller_id = $loggedInUser->reseller_id;
         $distributor->created_by = $loggedInUser->id;
 
         $user = new User();

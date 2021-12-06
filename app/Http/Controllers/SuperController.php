@@ -287,9 +287,10 @@ class SuperController extends Controller
         $loggedInUser = Auth::user();
         if($loggedInUser->role == 'S'){
             $devices = Device::with('model:id,name', 'reseller:id,company_name')->get();
-            // $users = User::where('role','U')->get();
             $models = Models::all();
             return view('super/v2/devices')->with(['devices'=>$devices])->with(['models'=>$models]);
+
+            // $users = User::where('role','U')->get();
             return view('super/devices')->with(['devices'=>$devices])->with(['users'=>$users])->with(['models'=>$models]);
         }
         elseif($loggedInUser->role == 'R'){
@@ -530,7 +531,7 @@ class SuperController extends Controller
             return view('super.distributors')->with(['distributors'=>$data]);
         }else if($loggedInUser->role =  'R'){
             $distributor = Distributor::where('reseller_id',$loggedInUser->reseller_id)->get();
-            return view('super.distributor')->with(['distributors'=>$distributor]);
+            return view('reseller.distributors')->with(['distributors'=>$distributor]);
         }
         else{
            return view('home');
