@@ -849,7 +849,6 @@ class DataController extends Controller
 
     }
     public function getDeviceLatestLog($id){
-        ini_set('max_execution_time', 180); //3 minutes
         $deviceDetail = Device::where('serial_number',$id)->with(['logs' =>function($query){
             $query->orderBy("id",'DESC')->first();
         }])->with('setpoints')->withCount('userDevices')->first();
@@ -876,7 +875,7 @@ class DataController extends Controller
         $now = Carbon::now();
         if($loggedInUser->role == "S"){
             $devices = Device::whereHas('latest_log',function($query) use($now){
-                $query->where('created_at','>=',$now->subSeconds(60))->whereIn('step',[2,3,4,5,7,8,9,10,11,12,14,15]);
+                $query->where('created_at','>=',$now->subSeconds(60))->whereNotIn('step',[0,1,13,6]);
             })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
@@ -903,7 +902,9 @@ class DataController extends Controller
         $loggedInUser = Auth::user();
         $now = Carbon::now();
         if($loggedInUser->role == "S"){
-            $devices = Device::with('latest_log')->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            $devices = Device::with(['logs'=> function($query) use($now){
+                $query->orderBy('created_at','DESC')->first();
+            }])->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
             // ];
