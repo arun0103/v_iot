@@ -862,9 +862,9 @@ class DataController extends Controller
             $devices = Device::whereHas('latest_log', function ($query) use($now) {
                 $query->where('created_at','>=',$now->subSeconds(60))->whereIn('step', [0,1,13]);
             })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
-            $response = [
-                'data'=>$devices
-            ];
+            // $response = [
+            //     'data'=>$devices
+            // ];
             return response()->json($devices);
         }
     }
@@ -875,9 +875,9 @@ class DataController extends Controller
             $devices = Device::whereHas('latest_log',function($query) use($now){
                 $query->where('created_at','>=',$now->subSeconds(60))->whereIn('step',[2,3,4,5,7,8,9,10,11,12,14,15]);
             })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
-            $response = [
-                'data'=>$devices
-            ];
+            // $response = [
+            //     'data'=>$devices
+            // ];
             return response()->json($devices);
         }
     }
@@ -888,9 +888,9 @@ class DataController extends Controller
             $devices = Device::whereHas('latest_log',function($query) use($now){
                 $query->where([['step',6],['created_at','>=',$now->subSeconds(60)]]);
             })->has('latest_log')->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
-            $response = [
-                'data'=>$devices
-            ];
+            // $response = [
+            //     'data'=>$devices
+            // ];
             return response()->json($devices);
         }
     }
@@ -898,12 +898,10 @@ class DataController extends Controller
         $loggedInUser = Auth::user();
         $now = Carbon::now();
         if($loggedInUser->role == "S"){
-            $devices = Device::with(['logs'=> function($query) use($now){
-                $query->where('created_at','<=',$now->subSeconds(60))->orderBy('created_at','DESC')->first();
-            }])->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
-            $response = [
-                'data'=>$devices
-            ];
+            $devices = Device::with('latest_log')->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            // $response = [
+            //     'data'=>$devices
+            // ];
             return response()->json($devices);
         }
     }

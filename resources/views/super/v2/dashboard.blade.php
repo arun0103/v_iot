@@ -2167,30 +2167,38 @@
             //calculate status
             console.log("Refreshing disconnected dashboard")
             console.log(response)
-            if(count_disconnected == response.length){
-                console.log("No changes in disconnected devices")
-            }else{
+            // if(count_disconnected == response.length){
+            //     console.log("No changes in disconnected devices")
+            // }else{
                 count_disconnected = response.length;
-                $('#count-disconnected_devices').text(count_disconnected);
-                console.log("change detected")
+                // console.log("change detected")
                 table_disconnected = $('#table_lists_disconnected').DataTable();
                 table_disconnected.clear();
+                let now = new Date(Date.now()-60000);
+                // let now_utc = now.getUTCDate();
+                console.log("Now: "+now);
                 for(let i=0; i<response.length; i++){
                     let status = "No Data";
                     let water_quality = "No Data";
                     if(response[i].latest_log != null){
+                        console.log("Not null")
+                        console.log(new Date(response[i].latest_log.created_at))
+                        if(+new Date(response[i].latest_log.created_at) >= +now){
+                            count_disconnected--;
+                            continue;
+                        }
                         //calculate status
                         switch(response[i].latest_log.step){
                             case 0:
-                            case 1:
-                            case 13:
-                                status = '<span style="color:black">IDLE</span>';break;
+                                case 1:
+                                    case 13:
+                                        status = '<span style="color:black">IDLE</span>';break;
                             case 6:
                                 status = '<span style="color:orange">STANDBY</span>';break;
                             default:
                                 status = '<span style="color:green">RUNNING</span>';break;
-                        }
-                        //calculate water quality
+                            }
+                            //calculate water quality
                         if(response[i].setpoints != null){
                             let ec_target = response[i].setpoints.pure_EC_target;
                             let ec_avg = response[i].latest_log.ec;
@@ -2215,9 +2223,10 @@
                     ]).draw(true)
                 }
                 table_disconnected.draw();
-            }
-            $('#disconnected-loading').removeClass('spin');
-        })
+                // }
+                $('#count-disconnected_devices').text(count_disconnected);
+                $('#disconnected-loading').removeClass('spin');
+            })
     }
     function getRunningDevices(){
         $('#running-loading').addClass('spin');
