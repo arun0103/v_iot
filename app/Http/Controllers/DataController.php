@@ -849,6 +849,7 @@ class DataController extends Controller
 
     }
     public function getDeviceLatestLog($id){
+        ini_set('max_execution_time', 180); //3 minutes
         $deviceDetail = Device::where('serial_number',$id)->with(['logs' =>function($query){
             $query->orderBy("id",'DESC')->first();
         }])->with('setpoints')->withCount('userDevices')->first();
@@ -856,6 +857,7 @@ class DataController extends Controller
     }
 
     public function getIdleDevices(){
+        ini_set('max_execution_time', 180); //3 minutes
         $now = Carbon::now();
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
@@ -869,6 +871,7 @@ class DataController extends Controller
         }
     }
     public function getRunningDevices(){
+        ini_set('max_execution_time', 180); //3 minutes
         $loggedInUser = Auth::user();
         $now = Carbon::now();
         if($loggedInUser->role == "S"){
@@ -882,6 +885,7 @@ class DataController extends Controller
         }
     }
     public function getStandByDevices(){
+        ini_set('max_execution_time', 180); //3 minutes
         $loggedInUser = Auth::user();
         $now = Carbon::now();
         if($loggedInUser->role == "S"){
@@ -895,6 +899,7 @@ class DataController extends Controller
         }
     }
     public function getDisconnectedDevices(){
+        ini_set('max_execution_time', 180); //3 minutes
         $loggedInUser = Auth::user();
         $now = Carbon::now();
         if($loggedInUser->role == "S"){

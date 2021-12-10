@@ -3618,8 +3618,8 @@
         getStandbyDevices();
         getDisconnectedDevices();
 
-        device_latest_data = setInterval(pull_latest_data,10000);
-        grouped_devices_count = setInterval(pull_grouped_devices_data,30000)
+        device_latest_data = setInterval(pull_latest_data,30000);
+        grouped_devices_count = setInterval(pull_grouped_devices_data,60000)
 
         $('.loader').hide();
         // $('#btn_map_view').on('click', function(){
