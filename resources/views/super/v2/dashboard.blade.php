@@ -2094,9 +2094,12 @@
     var table_idle, table_running, table_standby, table_disconnected;
     var grouped_devices_count, device_latest_data; // for timer data
 
+    var idle_query_flag = false;
     function getIdleDevices(){
-        $('#idle-loading').addClass('spin');
-        $.ajax({
+        if(idle_query_flag == false){
+            idle_query_flag = true;
+            $('#idle-loading').addClass('spin');
+            $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
                 url: "/getIdleDevices",
@@ -2154,126 +2157,68 @@
                     table_idle.draw();
                 }
                 $('#idle-loading').removeClass('spin');
+                idle_query_flag = false;
             })
+        }
     }
+    var disconnected_query_flag = false;
     function getDisconnectedDevices(){
-        $('#disconnected-loading').addClass('spin');
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "GET",
-            url: "/getDisconnectedDevices",
-        })
-        .done(function(response){
-            //calculate status
-            console.log("Refreshing disconnected dashboard")
-            console.log(response)
-            // if(count_disconnected == response.length){
-            //     console.log("No changes in disconnected devices")
-            // }else{
-                count_disconnected = response.length;
-                // console.log("change detected")
-                table_disconnected = $('#table_lists_disconnected').DataTable();
-                table_disconnected.clear();
-                let now = new Date(Date.now()-60000);
-                // let now_utc = now.getUTCDate();
-                console.log("Now: "+now);
-                for(let i=0; i<response.length; i++){
-                    let status = "No Data";
-                    let water_quality = "No Data";
-                    if(response[i].latest_log != null){
-                        console.log("Not null")
-                        console.log(new Date(response[i].latest_log.created_at))
-                        if(+new Date(response[i].latest_log.created_at) >= +now){
-                            count_disconnected--;
-                            continue;
-                        }
-                        //calculate status
-                        switch(response[i].latest_log.step){
-                            case 0:
-                                case 1:
-                                    case 13:
-                                        status = '<span style="color:black">IDLE</span>';break;
-                            case 6:
-                                status = '<span style="color:orange">STANDBY</span>';break;
-                            default:
-                                status = '<span style="color:green">RUNNING</span>';break;
-                            }
-                            //calculate water quality
-                        if(response[i].setpoints != null){
-                            let ec_target = response[i].setpoints.pure_EC_target;
-                            let ec_avg = response[i].latest_log.ec;
-                            let diff = Math.abs(ec_target - ec_avg);
-                            let percentage = diff*100/ec_target;
-                            if(percentage <= 10){
-                                water_quality = '<span style="color:green">On Target</span>'
-                            }else{
-                                water_quality = '<span style="color:brown">Needs Attention</span>'
-                            }
-                        }
-                    }
-                    table_disconnected.row.add([
-                        response[i].serial_number,
-                        response[i].device_name,
-                        response[i].model.name,
-                        response[i].user_devices_count,
-                        status,
-                        water_quality,
-                        '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                        '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                    ]).draw(true)
-                }
-                table_disconnected.draw();
-                // }
-                $('#count-disconnected_devices').text(count_disconnected);
-                $('#disconnected-loading').removeClass('spin');
+        if(disconnected_query_flag == false){
+            disconnected_query_flag = true;
+            $('#disconnected-loading').addClass('spin');
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/getDisconnectedDevices",
             })
-    }
-    function getRunningDevices(){
-        $('#running-loading').addClass('spin');
-        $.ajax({
-            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            type: "GET",
-            url: "/getRunningDevices",
-        })
-        .done(function(response){
-            //calculate status
-            console.log("Refreshing running dashboard")
-            console.log(response)
-            if(count_running == response.length){
-                console.log("No changes in running devices")
-            }else{
-                count_running = response.length;
-                $('#count-running_devices').text(count_running)
-                console.log("change detected")
-                table_running = $('#table_lists_running').DataTable();
-                table_running.clear();
-                for(let i=0; i<count_running; i++){
-                    //calculate status
-                    let status = "";
-                    switch(response[i].step){
-                        case 0:
-                        case 1:
-                        case 13:
-                            status = '<span style="color:black">IDLE</span>';break;
-                        case 6:
-                            status = '<span style="color:orange">STANDBY</span>';break;
-                        default:
-                            status = '<span style="color:green">RUNNING</span>';break;
-                    }
-                    //calculate water quality
-                    if(response[i].setpoints != null && response[i].latest_log != null){
-                        let ec_target = response[i].setpoints.pure_EC_target;
-                        let ec_avg = response[i].latest_log.ec;
-                        let diff = Math.abs(ec_target - ec_avg);
-                        let percentage = diff*100/ec_target;
-                        let water_quality ;
-                        // console.log(response.logs[0].ec+ "%")
-                        if(percentage <= 10){
-                            water_quality = '<span style="color:green">On Target</span>'
-                        }else{
-                            water_quality = '<span style="color:brown">Needs Attention</span>'
+            .done(function(response){
+                //calculate status
+                console.log("Refreshing disconnected dashboard @" + new Date())
+                console.log(response)
+                // if(count_disconnected == response.length){
+                //     console.log("No changes in disconnected devices")
+                // }else{
+                    count_disconnected = response.length;
+                    // console.log("change detected")
+                    table_disconnected = $('#table_lists_disconnected').DataTable();
+                    table_disconnected.clear();
+                    let now = new Date(Date.now()-60000);
+                    // let now_utc = now.getUTCDate();
+                    console.log("Now: "+now);
+                    for(let i=0; i<response.length; i++){
+                        let status = "No Data";
+                        let water_quality = "No Data";
+                        if(response[i].logs.length > 0){
+                            console.log("Not null")
+                            console.log(new Date(response[i].logs[0].created_at))
+                            if(+new Date(response[i].logs[0].created_at) >= +now){
+                                count_disconnected--;
+                                continue;
+                            }
+                            //calculate status
+                            switch(response[i].logs[0].step){
+                                case 0:
+                                    case 1:
+                                        case 13:
+                                            status = '<span style="color:black">IDLE</span>';break;
+                                case 6:
+                                    status = '<span style="color:orange">STANDBY</span>';break;
+                                default:
+                                    status = '<span style="color:green">RUNNING</span>';break;
+                            s
+                            if(response[i].setpoints != null){
+                                let ec_target = response[i].setpoints.pure_EC_target;
+                                let ec_avg = response[i].logs[0].ec;
+                                let diff = Math.abs(ec_target - ec_avg);
+                                let percentage = diff*100/ec_target;
+                                if(percentage <= 10){
+                                    water_quality = '<span style="color:green">On Target</span>'
+                                }else{
+                                    water_quality = '<span style="color:brown">Needs Attention</span>'
+                                }
+                            }
                         }
-                        table_running.row.add([
+                        table_disconnected.row.add([
                             response[i].serial_number,
                             response[i].device_name,
                             response[i].model.name,
@@ -2284,12 +2229,82 @@
                             '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
                         ]).draw(true)
                     }
-                }
-                table_running.draw();
-            }
-            $('#running-loading').removeClass('spin');
-        })
+                    table_disconnected.draw();
+                    // }
+                    $('#count-disconnected_devices').text(count_disconnected);
+                    $('#disconnected-loading').removeClass('spin');
+                    disconnected_query_flag = false;
+            })
+        }
     }
+    var running_query_flag = false;
+    function getRunningDevices(){
+        if(running_query_flag == false){
+            running_query_flag = true;
+            $('#running-loading').addClass('spin');
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "GET",
+                url: "/getRunningDevices",
+            })
+            .done(function(response){
+                //calculate status
+                console.log("Refreshing running dashboard")
+                console.log(response)
+                if(count_running == response.length){
+                    console.log("No changes in running devices")
+                }else{
+                    count_running = response.length;
+                    $('#count-running_devices').text(count_running)
+                    console.log("change detected")
+                    table_running = $('#table_lists_running').DataTable();
+                    table_running.clear();
+                    for(let i=0; i<count_running; i++){
+                        //calculate status
+                        let status = "";
+                        switch(response[i].step){
+                            case 0:
+                            case 1:
+                            case 13:
+                                status = '<span style="color:black">IDLE</span>';break;
+                            case 6:
+                                status = '<span style="color:orange">STANDBY</span>';break;
+                            default:
+                                status = '<span style="color:green">RUNNING</span>';break;
+                        }
+                        //calculate water quality
+                        if(response[i].setpoints != null && response[i].latest_log != null){
+                            let ec_target = response[i].setpoints.pure_EC_target;
+                            let ec_avg = response[i].latest_log.ec;
+                            let diff = Math.abs(ec_target - ec_avg);
+                            let percentage = diff*100/ec_target;
+                            let water_quality ;
+                            // console.log(response.logs[0].ec+ "%")
+                            if(percentage <= 10){
+                                water_quality = '<span style="color:green">On Target</span>'
+                            }else{
+                                water_quality = '<span style="color:brown">Needs Attention</span>'
+                            }
+                            table_running.row.add([
+                                response[i].serial_number,
+                                response[i].device_name,
+                                response[i].model.name,
+                                response[i].user_devices_count,
+                                status,
+                                water_quality,
+                                '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                            ]).draw(true)
+                        }
+                    }
+                    table_running.draw();
+                }
+                $('#running-loading').removeClass('spin');
+                running_query_flag = false;
+            })
+        }
+    }
+
     function getStandbyDevices(){
         $('#standby-loading').addClass('spin');
         $.ajax({
@@ -3355,212 +3370,212 @@
     function pull_grouped_devices_data(){
         clearInterval(dashboard_data)
         clearInterval(avg_data);
-        console.log('groups:')
+        console.log('groups: @ '+ new Date())
         getIdleDevices();
         getRunningDevices();
         getStandbyDevices();
         getDisconnectedDevices();
         // $.ajax({
-        //     // headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-        //     type: "GET",
-        //     url: "/refreshDashboardCounts",
-        //     "_token": "{{ csrf_token() }}"
-        // }).done(function(response){
-        //     console.log("Refreshing Dashboard counts and tables started")
-        //     console.log(response)
-        //     $('#count-idle_devices').text(response.count.idle)
-        //     $('#count-running_devices').text(response.count.running)
-        //     $('#count-standby_devices').text(response.count.standby)
-        //     $('#count-disconnected_devices').text(response.count.disconnected)
+            //     // headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            //     type: "GET",
+            //     url: "/refreshDashboardCounts",
+            //     "_token": "{{ csrf_token() }}"
+            // }).done(function(response){
+            //     console.log("Refreshing Dashboard counts and tables started")
+            //     console.log(response)
+            //     $('#count-idle_devices').text(response.count.idle)
+            //     $('#count-running_devices').text(response.count.running)
+            //     $('#count-standby_devices').text(response.count.standby)
+            //     $('#count-disconnected_devices').text(response.count.disconnected)
 
-        //     count_idle = response.count.idle;
-        //     count_running = response.count.running;
-        //     count_standby = response.count.standby;
-        //     count_disconnected = response.count.disconnected;
+            //     count_idle = response.count.idle;
+            //     count_running = response.count.running;
+            //     count_standby = response.count.standby;
+            //     count_disconnected = response.count.disconnected;
 
-        //     // refresh tables if device changes its category
-        //     console.log("Refreshing tables")
-        //     table_idle = $('#table_lists_idle').DataTable();
-        //     let count = table_idle.rows().count();
-        //     if(table_idle.count() != response.count.idle){
-        //         console.log("Change of state found in devices")
-        //         table_idle.clear();
-        //         // console.log(response.devices.idle.length)
-        //         for(let i=0; i<response.devices.idle.length; i++){
-        //             //calculate status
-        //             let status = "";
-        //             switch(response.devices.idle[i].step){
-        //                 case 0:
-        //                 case 1:
-        //                 case 13:
-        //                     status = '<span style="color:black">IDLE</span>';break;
-        //                 case 6:
-        //                     status = '<span style="color:orange">STANDBY</span>';break;
-        //                 default:
-        //                     status = '<span style="color:green">RUNNING</span>';break;
-        //             }
-        //             //calculate water quality
-        //             let ec_target = response.devices.idle[i].setpoints.pure_EC_target;
-        //             let ec_avg = response.devices.idle[i].latest_log.ec;
-        //             let diff = Math.abs(ec_target - ec_avg);
-        //             let percentage = diff*100/ec_target;
-        //             let water_quality ;
-        //             // console.log(response.logs[0].ec+ "%")
-        //             if(percentage <= 10){
-        //                 water_quality = '<span style="color:green">On Target</span>'
-        //             }else{
-        //                 water_quality = '<span style="color:brown">Needs Attention</span>'
-        //             }
-        //             table_idle.row.add([
-        //                 response.devices.idle[i].serial_number,
-        //                 response.devices.idle[i].device_name,
-        //                 response.devices.idle[i].model.name,
-        //                 response.devices.idle[i].user_devices_count,
-        //                 status,
-        //                 water_quality,
-        //                 '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-        //                 '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-        //             ]).draw(true)
-        //             // data.draw();
-        //         }
-        //         table_idle.draw();
-        //     }
-        //     table_running = $('#table_lists_running').DataTable();
-        //     count = table_running.rows().count();
-        //     if(table_running.count() != response.count.running){
-        //         table_running.clear();
-        //         for(let i=0; i<response.devices.running.length; i++){
-        //             //calculate status
-        //             let status = "";
-        //             switch(response.devices.running[i].step){
-        //                 case 0:
-        //                 case 1:
-        //                 case 13:
-        //                     status = '<span style="color:black">IDLE</span>';break;
-        //                 case 6:
-        //                     status = '<span style="color:orange">STANDBY</span>';break;
-        //                 default:
-        //                     status = '<span style="color:green">RUNNING</span>';break;
-        //             }
-        //             //calculate water quality
-        //             let ec_target = response.devices.running[i].setpoints.pure_EC_target;
-        //             let ec_avg = response.devices.running[i].latest_log.ec;
-        //             let diff = Math.abs(ec_target - ec_avg);
-        //             let percentage = diff*100/ec_target;
-        //             let water_quality ;
-        //             // console.log(response.logs[0].ec+ "%")
-        //             if(percentage <= 10){
-        //                 water_quality = '<span style="color:green">On Target</span>'
-        //             }else{
-        //                 water_quality = '<span style="color:brown">Needs Attention</span>'
-        //             }
-        //             table_running.row.add([
-        //                 response.devices.running[i].serial_number,
-        //                 response.devices.running[i].device_name,
-        //                 response.devices.running[i].model.name,
-        //                 response.devices.running[i].user_devices_count,
-        //                 status,
-        //                 water_quality,
-        //                 '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-        //                 '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-        //             ]).draw(false)
-        //             // data.draw();
-        //         }
-        //         table_running.draw();
+            //     // refresh tables if device changes its category
+            //     console.log("Refreshing tables")
+            //     table_idle = $('#table_lists_idle').DataTable();
+            //     let count = table_idle.rows().count();
+            //     if(table_idle.count() != response.count.idle){
+            //         console.log("Change of state found in devices")
+            //         table_idle.clear();
+            //         // console.log(response.devices.idle.length)
+            //         for(let i=0; i<response.devices.idle.length; i++){
+            //             //calculate status
+            //             let status = "";
+            //             switch(response.devices.idle[i].step){
+            //                 case 0:
+            //                 case 1:
+            //                 case 13:
+            //                     status = '<span style="color:black">IDLE</span>';break;
+            //                 case 6:
+            //                     status = '<span style="color:orange">STANDBY</span>';break;
+            //                 default:
+            //                     status = '<span style="color:green">RUNNING</span>';break;
+            //             }
+            //             //calculate water quality
+            //             let ec_target = response.devices.idle[i].setpoints.pure_EC_target;
+            //             let ec_avg = response.devices.idle[i].latest_log.ec;
+            //             let diff = Math.abs(ec_target - ec_avg);
+            //             let percentage = diff*100/ec_target;
+            //             let water_quality ;
+            //             // console.log(response.logs[0].ec+ "%")
+            //             if(percentage <= 10){
+            //                 water_quality = '<span style="color:green">On Target</span>'
+            //             }else{
+            //                 water_quality = '<span style="color:brown">Needs Attention</span>'
+            //             }
+            //             table_idle.row.add([
+            //                 response.devices.idle[i].serial_number,
+            //                 response.devices.idle[i].device_name,
+            //                 response.devices.idle[i].model.name,
+            //                 response.devices.idle[i].user_devices_count,
+            //                 status,
+            //                 water_quality,
+            //                 '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+            //                 '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+            //             ]).draw(true)
+            //             // data.draw();
+            //         }
+            //         table_idle.draw();
+            //     }
+            //     table_running = $('#table_lists_running').DataTable();
+            //     count = table_running.rows().count();
+            //     if(table_running.count() != response.count.running){
+            //         table_running.clear();
+            //         for(let i=0; i<response.devices.running.length; i++){
+            //             //calculate status
+            //             let status = "";
+            //             switch(response.devices.running[i].step){
+            //                 case 0:
+            //                 case 1:
+            //                 case 13:
+            //                     status = '<span style="color:black">IDLE</span>';break;
+            //                 case 6:
+            //                     status = '<span style="color:orange">STANDBY</span>';break;
+            //                 default:
+            //                     status = '<span style="color:green">RUNNING</span>';break;
+            //             }
+            //             //calculate water quality
+            //             let ec_target = response.devices.running[i].setpoints.pure_EC_target;
+            //             let ec_avg = response.devices.running[i].latest_log.ec;
+            //             let diff = Math.abs(ec_target - ec_avg);
+            //             let percentage = diff*100/ec_target;
+            //             let water_quality ;
+            //             // console.log(response.logs[0].ec+ "%")
+            //             if(percentage <= 10){
+            //                 water_quality = '<span style="color:green">On Target</span>'
+            //             }else{
+            //                 water_quality = '<span style="color:brown">Needs Attention</span>'
+            //             }
+            //             table_running.row.add([
+            //                 response.devices.running[i].serial_number,
+            //                 response.devices.running[i].device_name,
+            //                 response.devices.running[i].model.name,
+            //                 response.devices.running[i].user_devices_count,
+            //                 status,
+            //                 water_quality,
+            //                 '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+            //                 '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+            //             ]).draw(false)
+            //             // data.draw();
+            //         }
+            //         table_running.draw();
 
-        //     }
-        //     table_standby = $('#table_lists_standby').DataTable();
-        //     count = table_standby.rows().count();
-        //     if(count != response.count.standby){
-        //         table_standby.clear();
-        //         for(let i=0; i<response.devices.standby.length; i++){
-        //             //calculate status
-        //             let status = "";
-        //             switch(response.devices.standby[i].step){
-        //                 case 0:
-        //                 case 1:
-        //                 case 13:
-        //                     status = '<span style="color:black">IDLE</span>';break;
-        //                 case 6:
-        //                     status = '<span style="color:orange">STANDBY</span>';break;
-        //                 default:
-        //                     status = '<span style="color:green">RUNNING</span>';break;
-        //             }
-        //             //calculate water quality
-        //             let ec_target = response.devices.standby[i].setpoints.pure_EC_target;
-        //             let ec_avg = response.devices.standby[i].latest_log.ec;
-        //             let diff = Math.abs(ec_target - ec_avg);
-        //             let percentage = diff*100/ec_target;
-        //             let water_quality ;
-        //             // console.log(response.logs[0].ec+ "%")
-        //             if(percentage <= 10){
-        //                 water_quality = '<span style="color:green">On Target</span>'
-        //             }else{
-        //                 water_quality = '<span style="color:brown">Needs Attention</span>'
-        //             }
-        //             table_idle.row.add([
-        //                 response.devices.standby[i].serial_number,
-        //                 response.devices.standby[i].device_name,
-        //                 response.devices.standby[i].model.name,
-        //                 response.devices.standby[i].user_devices_count,
-        //                 status,
-        //                 water_quality,
-        //                 '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-        //                 '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-        //             ]).draw(false)
-        //             // data.draw();
-        //         }
-        //         table_standby.draw();
-        //     }
-        //     table_disconnected = $('#table_lists_disconnected').DataTable();
-        //     count = table_disconnected.rows().count();
-        //     // console.log(data.count())
-        //     console.log("DISCONNECTED COUNT : "+count)
-        //     if(count != response.count.disconnected){
-        //         table_disconnected.clear();
-        //         for(let i=0; i<response.devices.disconnected.length; i++){
-        //             //calculate status
-        //             let status = "No Data";
-        //             if(response.devices.disconnected[i].latest_log != null){
-        //                 switch(response.devices.disconnected[i].latest_log.step){
-        //                     case 0:
-        //                     case 1:
-        //                     case 13:
-        //                         status = '<span style="color:black">IDLE</span>';break;
-        //                     case 6:
-        //                         status = '<span style="color:orange">STANDBY</span>';break;
-        //                     default:
-        //                         status = '<span style="color:green">RUNNING</span>';break;
-        //                 }
-        //             }
-        //             //calculate water quality
-        //             if(response.devices.disconnected[i].setpoints != null && response.devices.disconnected[i].latest_log != null){
-        //                 let ec_target = response.devices.disconnected[i].setpoints.pure_EC_target;
-        //                 let ec_avg = response.devices.disconnected[i].latest_log.ec;
-        //                 let diff = Math.abs(ec_target - ec_avg);
-        //                 let percentage = diff*100/ec_target;
-        //                 let water_quality ;
-        //                 if(percentage <= 10){
-        //                     water_quality = '<span style="color:green">On Target</span>'
-        //                 }else{
-        //                     water_quality = '<span style="color:brown">Needs Attention</span>'
-        //                 }
-        //                 table_disconnected.row.add([
-        //                     response.devices.disconnected[i].serial_number,
-        //                     response.devices.disconnected[i].device_name,
-        //                     response.devices.disconnected[i].model.name,
-        //                     response.devices.disconnected[i].user_devices_count,
-        //                     status,
-        //                     water_quality,
-        //                     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-        //                     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-        //                 ]).draw(true)
-        //             }
-        //         }
-        //         table_disconnected.draw();
-        //     }else{
-        //         console.log("No operation")
-        //     }
+            //     }
+            //     table_standby = $('#table_lists_standby').DataTable();
+            //     count = table_standby.rows().count();
+            //     if(count != response.count.standby){
+            //         table_standby.clear();
+            //         for(let i=0; i<response.devices.standby.length; i++){
+            //             //calculate status
+            //             let status = "";
+            //             switch(response.devices.standby[i].step){
+            //                 case 0:
+            //                 case 1:
+            //                 case 13:
+            //                     status = '<span style="color:black">IDLE</span>';break;
+            //                 case 6:
+            //                     status = '<span style="color:orange">STANDBY</span>';break;
+            //                 default:
+            //                     status = '<span style="color:green">RUNNING</span>';break;
+            //             }
+            //             //calculate water quality
+            //             let ec_target = response.devices.standby[i].setpoints.pure_EC_target;
+            //             let ec_avg = response.devices.standby[i].latest_log.ec;
+            //             let diff = Math.abs(ec_target - ec_avg);
+            //             let percentage = diff*100/ec_target;
+            //             let water_quality ;
+            //             // console.log(response.logs[0].ec+ "%")
+            //             if(percentage <= 10){
+            //                 water_quality = '<span style="color:green">On Target</span>'
+            //             }else{
+            //                 water_quality = '<span style="color:brown">Needs Attention</span>'
+            //             }
+            //             table_idle.row.add([
+            //                 response.devices.standby[i].serial_number,
+            //                 response.devices.standby[i].device_name,
+            //                 response.devices.standby[i].model.name,
+            //                 response.devices.standby[i].user_devices_count,
+            //                 status,
+            //                 water_quality,
+            //                 '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+            //                 '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+            //             ]).draw(false)
+            //             // data.draw();
+            //         }
+            //         table_standby.draw();
+            //     }
+            //     table_disconnected = $('#table_lists_disconnected').DataTable();
+            //     count = table_disconnected.rows().count();
+            //     // console.log(data.count())
+            //     console.log("DISCONNECTED COUNT : "+count)
+            //     if(count != response.count.disconnected){
+            //         table_disconnected.clear();
+            //         for(let i=0; i<response.devices.disconnected.length; i++){
+            //             //calculate status
+            //             let status = "No Data";
+            //             if(response.devices.disconnected[i].latest_log != null){
+            //                 switch(response.devices.disconnected[i].latest_log.step){
+            //                     case 0:
+            //                     case 1:
+            //                     case 13:
+            //                         status = '<span style="color:black">IDLE</span>';break;
+            //                     case 6:
+            //                         status = '<span style="color:orange">STANDBY</span>';break;
+            //                     default:
+            //                         status = '<span style="color:green">RUNNING</span>';break;
+            //                 }
+            //             }
+            //             //calculate water quality
+            //             if(response.devices.disconnected[i].setpoints != null && response.devices.disconnected[i].latest_log != null){
+            //                 let ec_target = response.devices.disconnected[i].setpoints.pure_EC_target;
+            //                 let ec_avg = response.devices.disconnected[i].latest_log.ec;
+            //                 let diff = Math.abs(ec_target - ec_avg);
+            //                 let percentage = diff*100/ec_target;
+            //                 let water_quality ;
+            //                 if(percentage <= 10){
+            //                     water_quality = '<span style="color:green">On Target</span>'
+            //                 }else{
+            //                     water_quality = '<span style="color:brown">Needs Attention</span>'
+            //                 }
+            //                 table_disconnected.row.add([
+            //                     response.devices.disconnected[i].serial_number,
+            //                     response.devices.disconnected[i].device_name,
+            //                     response.devices.disconnected[i].model.name,
+            //                     response.devices.disconnected[i].user_devices_count,
+            //                     status,
+            //                     water_quality,
+            //                     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+            //                     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+            //                 ]).draw(true)
+            //             }
+            //         }
+            //         table_disconnected.draw();
+            //     }else{
+            //         console.log("No operation")
+            //     }
 
         // });
 
