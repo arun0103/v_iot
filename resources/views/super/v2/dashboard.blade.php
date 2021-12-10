@@ -2178,9 +2178,9 @@
                 for(let i=0; i<response.length; i++){
                     let status = "No Data";
                     let water_quality = "No Data";
-                    if(response[i].logs.length >0){
+                    if(response[i].latest_log != null){
                         //calculate status
-                        switch(response[i].logs[0].step){
+                        switch(response[i].latest_log.step){
                             case 0:
                             case 1:
                             case 13:
@@ -2193,7 +2193,7 @@
                         //calculate water quality
                         if(response[i].setpoints != null){
                             let ec_target = response[i].setpoints.pure_EC_target;
-                            let ec_avg = response[i].logs[0].ec;
+                            let ec_avg = response[i].latest_log.ec;
                             let diff = Math.abs(ec_target - ec_avg);
                             let percentage = diff*100/ec_target;
                             if(percentage <= 10){
