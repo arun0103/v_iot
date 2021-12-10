@@ -2179,6 +2179,9 @@
                 //     console.log("No changes in disconnected devices")
                 // }else{
                     count_disconnected = response.length;
+                    count_running =0;
+                    count_idle = 0;
+                    count_standby = 0;
                     // console.log("change detected")
                     table_disconnected = $('#table_lists_disconnected').DataTable();
                     table_disconnected.clear();
@@ -2257,6 +2260,10 @@
                                         ]).draw(true)
                                         break;
                                 }
+                                $('#count-disconnected_devices').text(count_disconnected);
+                                $('#count-idle_devices').text(count_idle);
+                                $('#count-running_devices').text(count_running);
+                                $('#count-standby_devices').text(count_standby);
                                 continue;
                             }
 
@@ -2278,10 +2285,7 @@
                     table_running.draw();
                     table_idle.draw();
                     // }
-                $('#count-disconnected_devices').text(count_disconnected);
-                $('#count-idle_devices').text(count_idle);
-                $('#count-running_devices').text(count_running);
-                $('#count-standby_devices').text(count_standby);
+
                 $('#disconnected-loading').removeClass('spin');
                 disconnected_query_flag = false;
             })
