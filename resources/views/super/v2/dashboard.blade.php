@@ -2205,7 +2205,7 @@
                                     status = '<span style="color:orange">STANDBY</span>';break;
                                 default:
                                     status = '<span style="color:green">RUNNING</span>';break;
-                            s
+                            }
                             if(response[i].setpoints != null){
                                 let ec_target = response[i].setpoints.pure_EC_target;
                                 let ec_avg = response[i].logs[0].ec;
@@ -2231,9 +2231,9 @@
                     }
                     table_disconnected.draw();
                     // }
-                    $('#count-disconnected_devices').text(count_disconnected);
-                    $('#disconnected-loading').removeClass('spin');
-                    disconnected_query_flag = false;
+                $('#count-disconnected_devices').text(count_disconnected);
+                $('#disconnected-loading').removeClass('spin');
+                disconnected_query_flag = false;
             })
         }
     }
