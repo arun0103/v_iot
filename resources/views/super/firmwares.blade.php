@@ -272,7 +272,7 @@
                     },
                     error: function(response){
                         // console.log("error")
-                        // console.log(response);
+                        console.log(response);
                         Swal.fire("Error","Something's wrong while uploading firmware","error")
                     }
                 });
