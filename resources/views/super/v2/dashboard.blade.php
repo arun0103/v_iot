@@ -2182,6 +2182,12 @@
                     // console.log("change detected")
                     table_disconnected = $('#table_lists_disconnected').DataTable();
                     table_disconnected.clear();
+                    table_running = $('#table_lists_running').DataTable();
+                    table_running.clear();
+                    table_standby = $('#table_lists_standby').DataTable();
+                    table_standby.clear();
+                    table_idle = $('#table_lists_idle').DataTable();
+                    table_idle.clear();
                     let now = new Date(Date.now()-60000);
                     // let now_utc = now.getUTCDate();
                     console.log("Now: "+now);
@@ -2190,22 +2196,6 @@
                         let water_quality = "No Data";
                         if(response[i].logs.length > 0){
                             console.log("Not null")
-                            console.log(new Date(response[i].logs[0].created_at))
-                            if(+new Date(response[i].logs[0].created_at) >= +now){
-                                count_disconnected--;
-                                continue;
-                            }
-                            //calculate status
-                            switch(response[i].logs[0].step){
-                                case 0:
-                                    case 1:
-                                        case 13:
-                                            status = '<span style="color:black">IDLE</span>';break;
-                                case 6:
-                                    status = '<span style="color:orange">STANDBY</span>';break;
-                                default:
-                                    status = '<span style="color:green">RUNNING</span>';break;
-                            }
                             if(response[i].setpoints != null){
                                 let ec_target = response[i].setpoints.pure_EC_target;
                                 let ec_avg = response[i].logs[0].ec;
@@ -2217,6 +2207,60 @@
                                     water_quality = '<span style="color:brown">Needs Attention</span>'
                                 }
                             }
+                            console.log(new Date(response[i].logs[0].created_at))
+                            if(+new Date(response[i].logs[0].created_at) >= +now){
+                                count_disconnected--;
+                                //calculate status
+                                switch(response[i].logs[0].step){
+                                    case 0:
+                                    case 1:
+                                    case 13:
+                                        status = '<span style="color:black">IDLE</span>';
+                                        count_idle++;
+                                        table_idle.row.add([
+                                            response[i].serial_number,
+                                            response[i].device_name,
+                                            response[i].model.name,
+                                            response[i].user_devices_count,
+                                            status,
+                                            water_quality,
+                                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                                        ]).draw(true)
+                                        break;
+                                    case 6:
+                                        status = '<span style="color:orange">STANDBY</span>';
+                                        count_standby++;
+                                        table_standby.row.add([
+                                            response[i].serial_number,
+                                            response[i].device_name,
+                                            response[i].model.name,
+                                            response[i].user_devices_count,
+                                            status,
+                                            water_quality,
+                                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                                        ]).draw(true)
+                                        break;
+                                    default:
+                                        status = '<span style="color:green">RUNNING</span>';
+                                        count_running++;
+                                        table_running.row.add([
+                                            response[i].serial_number,
+                                            response[i].device_name,
+                                            response[i].model.name,
+                                            response[i].user_devices_count,
+                                            status,
+                                            water_quality,
+                                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                                        ]).draw(true)
+                                        break;
+                                }
+                                continue;
+                            }
+
+
                         }
                         table_disconnected.row.add([
                             response[i].serial_number,
@@ -2230,8 +2274,14 @@
                         ]).draw(true)
                     }
                     table_disconnected.draw();
+                    table_standby.draw();
+                    table_running.draw();
+                    table_idle.draw();
                     // }
                 $('#count-disconnected_devices').text(count_disconnected);
+                $('#count-idle_devices').text(count_idle);
+                $('#count-running_devices').text(count_running);
+                $('#count-standby_devices').text(count_standby);
                 $('#disconnected-loading').removeClass('spin');
                 disconnected_query_flag = false;
             })
@@ -3371,9 +3421,9 @@
         clearInterval(dashboard_data)
         clearInterval(avg_data);
         console.log('groups: @ '+ new Date())
-        getIdleDevices();
-        getRunningDevices();
-        getStandbyDevices();
+        // getIdleDevices();
+        // getRunningDevices();
+        // getStandbyDevices();
         getDisconnectedDevices();
         // $.ajax({
             //     // headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -3628,9 +3678,9 @@
         $('.datatable').dataTable();
 
         // get devices according to category
-        getIdleDevices();
-        getRunningDevices();
-        getStandbyDevices();
+        // getIdleDevices();
+        // getRunningDevices();
+        // getStandbyDevices();
         getDisconnectedDevices();
 
         device_latest_data = setInterval(pull_latest_data,30000);
