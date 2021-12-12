@@ -2354,6 +2354,9 @@
                 $('#running-loading').removeClass('spin');
                 running_query_flag = false;
             })
+            .error(function(error)[
+                console.log(error)
+            ])
         }
     }
 
