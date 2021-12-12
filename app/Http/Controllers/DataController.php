@@ -904,7 +904,7 @@ class DataController extends Controller
         if($loggedInUser->role == "S"){
             $devices = Device::with(['logs'=> function($query) use($now){
                 $query->orderBy('created_at','DESC')->first();
-            }])->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            }])->with(['model','userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
             // ];
