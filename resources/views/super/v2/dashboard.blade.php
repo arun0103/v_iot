@@ -2291,8 +2291,8 @@
     }
     var running_query_flag = false;
     function getRunningDevices(){
-        if(running_query_flag == false){
-            running_query_flag = true;
+        // if(running_query_flag == false){
+        //     running_query_flag = true;
             $('#running-loading').addClass('spin');
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -2354,10 +2354,8 @@
                 $('#running-loading').removeClass('spin');
                 running_query_flag = false;
             })
-            .error(function(error){
-                console.log(error)
-            })
-        }
+
+        // }
     }
 
     function getStandbyDevices(){
