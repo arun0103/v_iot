@@ -2193,7 +2193,7 @@
                     // table_idle.clear();
                     let now = new Date(Date.now()-60000);
                     // let now_utc = now.getUTCDate();
-                    console.log("Now: "+now);
+                    console.log("Now: "+ +now);
                     for(let i=0; i<response.length; i++){
                         let status = "No Data";
                         let water_quality = "No Data";
@@ -2261,7 +2261,7 @@
                                         // ]).draw(true)
                                         break;
                                 }
-                                $('#count-disconnected_devices').text(count_disconnected);
+
                                 // $('#count-idle_devices').text(count_idle);
                                 // $('#count-running_devices').text(count_running);
                                 // $('#count-standby_devices').text(count_standby);
@@ -2284,7 +2284,7 @@
                     // table_running.draw();
                     // table_idle.draw();
                     // }
-
+                $('#count-disconnected_devices').text(count_disconnected);
                 $('#disconnected-loading').removeClass('spin');
                 disconnected_query_flag = false;
             })
