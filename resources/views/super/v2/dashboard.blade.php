@@ -2268,6 +2268,9 @@
                                 continue;
                             }
                         }
+                        else{
+                            console.log("NULL")
+                        }
                         table_disconnected.row.add([
                             response[i].serial_number,
                             response[i].device_name,
