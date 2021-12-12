@@ -2211,7 +2211,7 @@
                                     water_quality = '<span style="color:brown">Needs Attention</span>'
                                 }
                             }
-                            console.log(new Date(response[i].latest_log.created_at))
+                            console.log(+new Date(response[i].latest_log.created_at))
                             if(+new Date(response[i].latest_log.created_at) >= +now){
                                 count_disconnected--;
                                 //calculate status
