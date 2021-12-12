@@ -2266,8 +2266,6 @@
                                 $('#count-standby_devices').text(count_standby);
                                 continue;
                             }
-
-
                         }
                         table_disconnected.row.add([
                             response[i].serial_number,
