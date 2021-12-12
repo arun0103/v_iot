@@ -2096,8 +2096,8 @@
 
     var idle_query_flag = false;
     function getIdleDevices(){
-        if(idle_query_flag == false){
-            idle_query_flag = true;
+        // if(idle_query_flag == false){
+        //     idle_query_flag = true;
             $('#idle-loading').addClass('spin');
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -2159,12 +2159,12 @@
                 $('#idle-loading').removeClass('spin');
                 idle_query_flag = false;
             })
-        }
+        // }
     }
     var disconnected_query_flag = false;
     function getDisconnectedDevices(){
-        if(disconnected_query_flag == false){
-            disconnected_query_flag = true;
+        // if(disconnected_query_flag == false){
+        //     disconnected_query_flag = true;
             $('#disconnected-loading').addClass('spin');
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -2179,18 +2179,18 @@
                 //     console.log("No changes in disconnected devices")
                 // }else{
                     count_disconnected = response.length;
-                    count_running =0;
-                    count_idle = 0;
-                    count_standby = 0;
+                    // count_running =0;
+                    // count_idle = 0;
+                    // count_standby = 0;
                     // console.log("change detected")
                     table_disconnected = $('#table_lists_disconnected').DataTable();
                     table_disconnected.clear();
-                    table_running = $('#table_lists_running').DataTable();
-                    table_running.clear();
-                    table_standby = $('#table_lists_standby').DataTable();
-                    table_standby.clear();
-                    table_idle = $('#table_lists_idle').DataTable();
-                    table_idle.clear();
+                    // table_running = $('#table_lists_running').DataTable();
+                    // table_running.clear();
+                    // table_standby = $('#table_lists_standby').DataTable();
+                    // table_standby.clear();
+                    // table_idle = $('#table_lists_idle').DataTable();
+                    // table_idle.clear();
                     let now = new Date(Date.now()-60000);
                     // let now_utc = now.getUTCDate();
                     console.log("Now: "+now);
@@ -2220,51 +2220,51 @@
                                     case 1:
                                     case 13:
                                         status = '<span style="color:black">IDLE</span>';
-                                        count_idle++;
-                                        table_idle.row.add([
-                                            response[i].serial_number,
-                                            response[i].device_name,
-                                            response[i].model.name,
-                                            response[i].user_devices_count,
-                                            status,
-                                            water_quality,
-                                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                                        ]).draw(true)
+                                        // count_idle++;
+                                        // table_idle.row.add([
+                                        //     response[i].serial_number,
+                                        //     response[i].device_name,
+                                        //     response[i].model.name,
+                                        //     response[i].user_devices_count,
+                                        //     status,
+                                        //     water_quality,
+                                        //     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                        //     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                                        // ]).draw(true)
                                         break;
                                     case 6:
                                         status = '<span style="color:orange">STANDBY</span>';
-                                        count_standby++;
-                                        table_standby.row.add([
-                                            response[i].serial_number,
-                                            response[i].device_name,
-                                            response[i].model.name,
-                                            response[i].user_devices_count,
-                                            status,
-                                            water_quality,
-                                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                                        ]).draw(true)
+                                        // count_standby++;
+                                        // table_standby.row.add([
+                                        //     response[i].serial_number,
+                                        //     response[i].device_name,
+                                        //     response[i].model.name,
+                                        //     response[i].user_devices_count,
+                                        //     status,
+                                        //     water_quality,
+                                        //     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                        //     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                                        // ]).draw(true)
                                         break;
                                     default:
                                         status = '<span style="color:green">RUNNING</span>';
-                                        count_running++;
-                                        table_running.row.add([
-                                            response[i].serial_number,
-                                            response[i].device_name,
-                                            response[i].model.name,
-                                            response[i].user_devices_count,
-                                            status,
-                                            water_quality,
-                                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                                        ]).draw(true)
+                                        // count_running++;
+                                        // table_running.row.add([
+                                        //     response[i].serial_number,
+                                        //     response[i].device_name,
+                                        //     response[i].model.name,
+                                        //     response[i].user_devices_count,
+                                        //     status,
+                                        //     water_quality,
+                                        //     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                        //     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                                        // ]).draw(true)
                                         break;
                                 }
                                 $('#count-disconnected_devices').text(count_disconnected);
-                                $('#count-idle_devices').text(count_idle);
-                                $('#count-running_devices').text(count_running);
-                                $('#count-standby_devices').text(count_standby);
+                                // $('#count-idle_devices').text(count_idle);
+                                // $('#count-running_devices').text(count_running);
+                                // $('#count-standby_devices').text(count_standby);
                                 continue;
                             }
                         }
@@ -2280,15 +2280,15 @@
                         ]).draw(true)
                     }
                     table_disconnected.draw();
-                    table_standby.draw();
-                    table_running.draw();
-                    table_idle.draw();
+                    // table_standby.draw();
+                    // table_running.draw();
+                    // table_idle.draw();
                     // }
 
                 $('#disconnected-loading').removeClass('spin');
                 disconnected_query_flag = false;
             })
-        }
+        // }
     }
     var running_query_flag = false;
     function getRunningDevices(){
@@ -3425,9 +3425,9 @@
         clearInterval(dashboard_data)
         clearInterval(avg_data);
         console.log('groups: @ '+ new Date())
-        // getIdleDevices();
-        // getRunningDevices();
-        // getStandbyDevices();
+        getIdleDevices();
+        getRunningDevices();
+        getStandbyDevices();
         getDisconnectedDevices();
         // $.ajax({
             //     // headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -3682,9 +3682,9 @@
         $('.datatable').dataTable();
 
         // get devices according to category
-        // getIdleDevices();
-        // getRunningDevices();
-        // getStandbyDevices();
+        getIdleDevices();
+        getRunningDevices();
+        getStandbyDevices();
         getDisconnectedDevices();
 
         device_latest_data = setInterval(pull_latest_data,30000);
