@@ -2957,7 +2957,7 @@
                 }else{
                     $('#device-info' ).css("color","black")
                     $('#device_connection_status').text("Disconnected").css("color","red")
-                }$('#last_data_received').text(new Date(response['deviceDetails']['latest_log'].updated_at))
+                }$('#last_data_received').text(new Date(response['deviceDetails'].latest_log.updated_at))
                 // change volume
                 switch(select_view_volume_by){
                     case "gallons":
