@@ -124,7 +124,7 @@ class DataController extends Controller
         return response()->json($deviceData);
     }
     public function refreshStatusData_super($id){
-        $device = Device::where('serial_number',$id)->with('latest_log:serial_number,log_dt,step,ec,tpv,alarm,pressure,created_at','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->first();
+        $device = Device::where('serial_number',$id)->with('latest_log:serial_number,log_dt,step,ec,tpv,alarm,pressure,updated_at','setpoints','latest_maintenance_critic_acid','latest_maintenance_pre_filter','latest_maintenance_post_filter','latest_maintenance_general_service','device_settings')->first();
         $today = date(Carbon::now());
         $thirtyOnedays = date(Carbon::now()->subDays(31));
         $previousDay = date(Carbon::now()->subDays(1));
