@@ -903,9 +903,7 @@ class DataController extends Controller
         $loggedInUser = Auth::user();
         $now = Carbon::now();
         if($loggedInUser->role == "S"){
-            $devices = Device::with(['logs'=> function($query) use($now){
-                $query->orderBy('created_at','DESC')->first();
-            }])->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            $devices = Device::with(['latest_log'])->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
             // ];
