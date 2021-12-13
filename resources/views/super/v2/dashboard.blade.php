@@ -2809,7 +2809,7 @@
             if(response['deviceDetails'].latest_log != null){
                 $('#btn_device_start_stop').removeAttr("hidden");
                 //change the status if new data is available
-                if(start_stop_command_sent != true && +new Date(response['deviceDetails'].latest_log.created_at) >= command_sent_time){
+                if(start_stop_command_sent != true && +new Date(response['deviceDetails'].latest_log.updated_at) >= command_sent_time){
                     var status = "";
                     var color = "";
                     if(response['deviceDetails'].latest_log.step == 0 || response['deviceDetails'].latest_log.step == 1 || response['deviceDetails'].latest_log.step == 13){
@@ -2949,7 +2949,7 @@
                 // console.log(pressure_percentage)
                 // change device connection status
                 var now = new Date();
-                var created_at = new Date(response['deviceDetails'].latest_log.created_at);
+                var created_at = new Date(response['deviceDetails'].latest_log.updated_at);
                 var dd = now - created_at;
                 if(dd < 60*1000){ // 60 seconds
                     $('#device_connection_status' ).text("Connected").css("color","green")
@@ -2957,7 +2957,7 @@
                 }else{
                     $('#device-info' ).css("color","black")
                     $('#device_connection_status').text("Disconnected").css("color","red")
-                }$('#last_data_received').text(new Date(response['deviceDetails']['latest_log'].created_at))
+                }$('#last_data_received').text(new Date(response['deviceDetails']['latest_log'].updated_at))
                 // change volume
                 switch(select_view_volume_by){
                     case "gallons":
