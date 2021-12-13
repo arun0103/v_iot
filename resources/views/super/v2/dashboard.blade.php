@@ -2949,7 +2949,7 @@
                 // console.log(pressure_percentage)
                 // change device connection status
                 var now = new Date();
-                var created_at = new Date(response['deviceDetails'].latest_log.created_at);
+                var created_at = new Date(response['deviceDetails'].latest_log.updated_at);
                 var dd = now - created_at;
                 if(dd < 60*1000){ // 60 seconds
                     $('#device_connection_status' ).text("Connected").css("color","green")
@@ -2957,7 +2957,7 @@
                 }else{
                     $('#device-info' ).css("color","black")
                     $('#device_connection_status').text("Disconnected").css("color","red")
-                }$('#last_data_received').text(new Date(response['deviceDetails']['latest_log'].created_at))
+                }$('#last_data_received').text(new Date(response['deviceDetails']['latest_log'].updated_at))
                 // change volume
                 switch(select_view_volume_by){
                     case "gallons":
