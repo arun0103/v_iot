@@ -865,7 +865,7 @@ class DataController extends Controller
             })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
-            // ];
+            // ];// useful for datatables
             return response()->json($devices);
         }
     }
@@ -880,7 +880,7 @@ class DataController extends Controller
             })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
-            // ];
+            // ];// useful for datatables
             return response()->json($devices);
         }
     }
@@ -894,7 +894,7 @@ class DataController extends Controller
             })->has('latest_log')->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
-            // ];
+            // ];// useful for datatables
             return response()->json($devices);
         }
     }
@@ -903,10 +903,12 @@ class DataController extends Controller
         $loggedInUser = Auth::user();
         $now = Carbon::now();
         if($loggedInUser->role == "S"){
-            $devices = Device::with(['latest_log'])->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            $devices = Device::whereDoesntHave('latest_log', function ($query) use($now){
+                $query->where('updated_at', '<', $now->subSeconds(60));
+            })->with(['model','latest_log'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
-            // ];
+            // ];// useful for datatables
             return response()->json($devices);
         }
     }
