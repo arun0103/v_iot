@@ -860,9 +860,11 @@ class DataController extends Controller
         $now = Carbon::now();
         $loggedInUser = Auth::user();
         if($loggedInUser->role == "S"){
-            $devices = Device::whereHas('latest_log', function ($query) use($now) {
-                $query->where('created_at','>=',$now->subSeconds(60))->whereIn('step', [0,1,13]);
-            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            $devices = Devices::with('latest_log')->where('latest_log.created_at','>=',$now->subSeconds(60))->whereIn('latest_log.step'.[0,1,13])
+            ->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            // $devices = Device::whereHas('latest_log', function ($query) use($now) {
+            //     $query->where('created_at','>=',$now->subSeconds(60))->whereIn('step', [0,1,13]);
+            // })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
             // ];
