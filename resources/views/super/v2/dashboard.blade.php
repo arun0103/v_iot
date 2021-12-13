@@ -2643,6 +2643,7 @@
 
         //get data from database every 5 seconds
         data_pulled_number = 0;
+        pull_average_data();
         avg_data = setInterval(pull_average_data,5000);
         $('#modal-device-detail').modal('show');
         // $('.view_device_details').click();
@@ -3102,52 +3103,7 @@
             }
         });
     }
-    function pull_dashboard_data(){
-        $.ajax({
-                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-                type: "GET",
-                url: "/refreshDashboardRows"
-            }).done(function(response){
-                // console.log(response)
-                for(let i= 0; i<response.length; i++){
-                    let d_id = response[i].id;
-                    if(response[i].latest_log != null){
-                        // change the water quality
-                        let water_quality ="";
-                        let color;
-                        let setpoint_pure_EC_target = response[i].setpoints.pure_EC_target;
-                        let avg_EC_target = response[i].latest_log.ec;
-                        let difference_ec = setpoint_pure_EC_target - avg_EC_target;
-                        if(difference_ec<0){
-                            difference_ec = difference_ec * (-1);
-                        }
-                        var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
-                        if(percentage_EC_target <= 10){
-                            water_quality = "On Target";
-                            color = "green";
-                        }else{
-                            water_quality = "Needs Attention";
-                            color = "red"
-                        }
-                        $('#ec-'+response[i].id).text(water_quality).css('color',color);
-                        // change status
-                        if(response[i].latest_log.step == 0 || response[i].latest_log.step == 1 || response[i].latest_log.step == 13){
-                            status = "IDLE";
-                            color = "orange";
-                        }else{
-                            status = "RUNNING";
-                            color = "green";
-                        }
-                        $('#status-'+d_id).text(status).css("color", color); // row status
-                        // check if device is connected or not
-                        if(+new Date()- +new Date(response[i].latest_log.created_at) <30000  )
-                            $('#device-serial-number_'+response[i].id).css('color','green')
-                        else
-                            $('#device-serial-number_'+response[i].id).css('color','black')
-                    }
-                }
-            })
-    }
+
     function pull_live_data(){
         clearInterval(dashboard_data)
         clearInterval(avg_data);
@@ -4530,6 +4486,7 @@
         });
         // collect live data and display
         //its doing in every 5 sec when the document is ready
+        pull_live_data();
         live_data = setInterval(pull_live_data,10000);
 
         function highlight(obj){
@@ -5431,6 +5388,53 @@ $('#view_devices_page').on('click',function(){
     clearInterval(grouped_devices_count)
     clearInterval(device_latest_data)
 })
+
+function pull_dashboard_data(){
+    $.ajax({
+            headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+            type: "GET",
+            url: "/refreshDashboardRows"
+        }).done(function(response){
+            // console.log(response)
+            for(let i= 0; i<response.length; i++){
+                let d_id = response[i].id;
+                if(response[i].latest_log != null){
+                    // change the water quality
+                    let water_quality ="";
+                    let color;
+                    let setpoint_pure_EC_target = response[i].setpoints.pure_EC_target;
+                    let avg_EC_target = response[i].latest_log.ec;
+                    let difference_ec = setpoint_pure_EC_target - avg_EC_target;
+                    if(difference_ec<0){
+                        difference_ec = difference_ec * (-1);
+                    }
+                    var percentage_EC_target = (difference_ec *100)/setpoint_pure_EC_target
+                    if(percentage_EC_target <= 10){
+                        water_quality = "On Target";
+                        color = "green";
+                    }else{
+                        water_quality = "Needs Attention";
+                        color = "red"
+                    }
+                    $('#ec-'+response[i].id).text(water_quality).css('color',color);
+                    // change status
+                    if(response[i].latest_log.step == 0 || response[i].latest_log.step == 1 || response[i].latest_log.step == 13){
+                        status = "IDLE";
+                        color = "orange";
+                    }else{
+                        status = "RUNNING";
+                        color = "green";
+                    }
+                    $('#status-'+d_id).text(status).css("color", color); // row status
+                    // check if device is connected or not
+                    if(+new Date()- +new Date(response[i].latest_log.created_at) <30000  )
+                        $('#device-serial-number_'+response[i].id).css('color','green')
+                    else
+                        $('#device-serial-number_'+response[i].id).css('color','black')
+                }
+            }
+        })
+}
 </script>
 
 @endsection

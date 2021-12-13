@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Devices</h1>
+                    <h1 class="m-0">Devices <sup>v2</sup></h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -158,8 +158,6 @@
             <!-- /.modal-dialog -->"
         </form>
     </div>
-
-
     <!-- /.modal -->
     <div class="modal fade" id="modal-edit-device">
         <form id="form_editDevice" class="form-horizontal" autocomplete="no">

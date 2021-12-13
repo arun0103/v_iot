@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRawDataTable extends Migration
+class CreateLatestLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateRawDataTable extends Migration
      */
     public function up()
     {
-        Schema::create('raw_data', function (Blueprint $table) {
+        Schema::create('latest_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('serial_number',9);
+            $table->string('serial_number',9)->unique();
             $table->timestamp('log_dt');
             $table->integer('cycle');
             $table->integer('step');
@@ -33,12 +33,11 @@ class CreateRawDataTable extends Migration
             $table->integer('output');
             $table->string('percentage_recovery',3);
             $table->string('mode',1);
-            // added 12/12/2021
             $table->integer('live_ec')->nullable();
             $table->float('pae_current')->nullable();
             $table->timestamps();
 
-            $table->unique(['serial_number', 'log_dt', 'step']);
+            // $table->unique(['serial_number']);
         });
     }
 
@@ -49,6 +48,6 @@ class CreateRawDataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('raw_data');
+        Schema::dropIfExists('latest_logs');
     }
 }
