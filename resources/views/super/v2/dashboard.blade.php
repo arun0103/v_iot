@@ -3359,7 +3359,7 @@
                     $('#device_run_sec').text(response.step_run_sec);
                     // $('#device_live_data').show()
                 }else{
-                    Swal.fire("Refreshing","Device has no new records!","warning")
+                    // Swal.fire("Refreshing","Device has no new records!","warning")
                     $('.slider').addClass('inactive')
                     // $('#device_live_data').hide()
                 }
