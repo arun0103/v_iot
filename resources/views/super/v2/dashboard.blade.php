@@ -2180,7 +2180,7 @@
 
                     if(response[i].latest_log != null){
                         console.log("Not null")
-                        last_online_at = response[i].latest_log.updated_at;
+                        last_online_at = new Date(response[i].latest_log.updated_at);
                         if(response[i].setpoints != null){
                             let ec_target = response[i].setpoints.pure_EC_target;
                             let ec_avg = response[i].latest_log.ec;
