@@ -1023,6 +1023,7 @@
                                             <th># Users</th>
                                             <th>Status</th>
                                             <th>Water Quality</th>
+                                            <th>Last Online</th>
                                             <th>Actions</th>
                                         </thead>
                                         <tbody>
@@ -2168,31 +2169,18 @@
             //calculate status
             console.log("Refreshing disconnected dashboard @" + new Date())
             console.log(response)
-            // if(count_disconnected == response.length){
-            //     console.log("No changes in disconnected devices")
-            // }else{
                 count_disconnected = response.length;
-                // count_running =0;
-                // count_idle = 0;
-                // count_standby = 0;
-                // console.log("change detected")
                 table_disconnected = $('#table_lists_disconnected').DataTable();
                 table_disconnected.clear();
-                // table_running = $('#table_lists_running').DataTable();
-                // table_running.clear();
-                // table_standby = $('#table_lists_standby').DataTable();
-                // table_standby.clear();
-                // table_idle = $('#table_lists_idle').DataTable();
-                // table_idle.clear();
                 let now = new Date(Date.now()-60000);
-                // let now_utc = now.getUTCDate();
-                console.log("Now: "+ +now);
                 for(let i=0; i<response.length; i++){
                     let status = "No Data";
                     let water_quality = "No Data";
+                    let last_online_at = "No Data";
 
                     if(response[i].latest_log != null){
                         console.log("Not null")
+                        last_online_at = response[i].latest_log.updated_at;
                         if(response[i].setpoints != null){
                             let ec_target = response[i].setpoints.pure_EC_target;
                             let ec_avg = response[i].latest_log.ec;
@@ -2254,10 +2242,6 @@
                                     // ]).draw(true)
                                     break;
                             }
-
-                            // $('#count-idle_devices').text(count_idle);
-                            // $('#count-running_devices').text(count_running);
-                            // $('#count-standby_devices').text(count_standby);
                             continue;
                         }
                     }
@@ -2271,6 +2255,7 @@
                         response[i].user_devices_count,
                         status,
                         water_quality,
+                        last_online_at,
                         '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
                         '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
                     ]).draw(true)
