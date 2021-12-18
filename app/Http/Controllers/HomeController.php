@@ -60,7 +60,6 @@ class HomeController extends Controller
                 if($device->latest_log != null){
                     $log_carbon = Carbon::parse($device->latest_log->log_dt);
                     if($now->diffInSeconds($log_carbon) <=60){
-
                         switch($device->latest_log->step){
                             case 0:
                             case 1:
@@ -75,7 +74,6 @@ class HomeController extends Controller
                         $disconnected_count++;
                         array_push($disconnected_devices,$device);
                     }
-                    // dd($now->diffInSeconds($log_carbon));
                 }else{
                     $disconnected_count++;
                     array_push($disconnected_devices,$device);
@@ -93,12 +91,10 @@ class HomeController extends Controller
                 'standby'=>$standby_devices,
                 'disconnected'=>$disconnected_devices
             ];
-
-
-
-            //  dd($grouped_devices['idle']);
             return view('super/dashboard')->with(['devices'=>$grouped_devices])->with(['counts'=>$counts]);
         }elseif($loggedInUser->role =='R'){
+            //test
+            return view('reseller/v2/dashboard');
             $users = User::where([['reseller_id',$loggedInUser->reseller->id],['role','U']])->get();
             $devices = Device::where('reseller_id',$loggedInUser->reseller->id)->with('latest_log','device_settings','device_commands','setpoints')->get();
 
@@ -107,7 +103,7 @@ class HomeController extends Controller
         }elseif($loggedInUser->role == 'D'){
             $devices = Device::where('distributor_id',$loggedInUser->distributor_id)->get();
             // dd($devices);
-
+            return view('distributor/v2/dashboard');
             return view('distributor/dashboard')->with(['devices'=>$devices]);
         }
         else{ // logged in user is user

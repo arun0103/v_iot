@@ -867,6 +867,16 @@ class DataController extends Controller
             //     'data'=>$devices
             // ];// useful for datatables
             return response()->json($devices);
+        }elseif($loggedInUser->role == "R"){
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->whereHas('latest_log', function ($query) use($now) {
+                $query->where('updated_at','>=',$now->subSeconds(60))->whereIn('step', [0,1,13]);
+            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            return response()->json($devices);
+        }elseif($loggedInUser->role == "D"){
+            $devices = Device::where('distributor_id',$loggedInUser->distributor_id)->whereHas('latest_log', function ($query) use($now) {
+                $query->where('updated_at','>=',$now->subSeconds(60))->whereIn('step', [0,1,13]);
+            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            return response()->json($devices);
         }
     }
     public function getRunningDevices(){
@@ -882,6 +892,18 @@ class DataController extends Controller
             //     'data'=>$devices
             // ];// useful for datatables
             return response()->json($devices);
+        }elseif($loggedInUser->role == "R"){
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->whereHas('latest_log',function($query) use($now){
+                $query->where('updated_at','>=',$now->subSeconds(60))->whereIn('step',[2,3,4,5,7,8,9,10,11,12,14,15]);
+                // $query->where('created_at','>=',$now->subSeconds(60))->whereNotIn('step',[0,1,13,6]);
+            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            return response()->json($devices);
+        }elseif($loggedInUser->role == "D"){
+            $devices = Device::where('distributor_id',$loggedInUser->distributor_id)->whereHas('latest_log',function($query) use($now){
+                $query->where('updated_at','>=',$now->subSeconds(60))->whereIn('step',[2,3,4,5,7,8,9,10,11,12,14,15]);
+                // $query->where('created_at','>=',$now->subSeconds(60))->whereNotIn('step',[0,1,13,6]);
+            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            return response()->json($devices);
         }
     }
     public function getStandByDevices(){
@@ -896,6 +918,16 @@ class DataController extends Controller
             //     'data'=>$devices
             // ];// useful for datatables
             return response()->json($devices);
+        }elseif($loggedInUser->role == "R"){
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->whereHas('latest_log',function($query) use($now){
+                $query->where([['step',6],['updated_at','>=',$now->subSeconds(60)]]);
+            })->has('latest_log')->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            return response()->json($devices);
+        }elseif($loggedInUser->role == "D"){
+            $devices = Device::where('distributor_id',$loggedInUser->distributor_id)->whereHas('latest_log',function($query) use($now){
+                $query->where([['step',6],['updated_at','>=',$now->subSeconds(60)]]);
+            })->has('latest_log')->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            return response()->json($devices);
         }
     }
     public function getDisconnectedDevices(){
@@ -909,6 +941,16 @@ class DataController extends Controller
             // $response = [
             //     'data'=>$devices
             // ];// useful for datatables
+            return response()->json($devices);
+        }elseif($loggedInUser->role == "R"){
+            $devices = Device::where('reseller_id',$loggedInUser->reseller_id)->whereDoesntHave('latest_log', function ($query) use($now){
+                $query->where('updated_at', '>', $now->subSeconds(60));
+            })->with(['model','latest_log'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            return response()->json($devices);
+        }elseif($loggedInUser->role == "D"){
+            $devices = Device::where('distributor_id',$loggedInUser->distributor_id)->whereDoesntHave('latest_log', function ($query) use($now){
+                $query->where('updated_at', '>', $now->subSeconds(60));
+            })->with(['model','latest_log'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             return response()->json($devices);
         }
     }
