@@ -111,6 +111,9 @@
                                             <label for="selectModel" class="control-label">Model</label>
                                             <select name="model" id="selectModel" class="form-control" title="Select Model">
                                                 <option value="-1" selected hidden>-- Select --</option>
+                                                @foreach($models as $model)
+                                                <option value ="{{$model->id}}">{{$model->name}}</option>
+                                                @endforeach
                                                 <!--  -->
                                             </select>
                                             <span id="error_model"></span>
