@@ -289,6 +289,15 @@ class DeviceController extends Controller
         else
             return response()->json("error");
     }
+    // function to delete access of reseller to a device
+    public function deleteResellerAccessFromDevice($serial_number){
+        $resellerDevice = Device::where('serial_number',$serial_number)->first();
+        $resellerDevice->reseller_id = null;
+        if($resellerDevice->save())
+            return response()->json(["deleted",$resellerDevice->id]);
+        else
+            return response()->json("error");
+    }
 
     //function to reset general service of device
     public function resetGeneralService($device_id, $volume){

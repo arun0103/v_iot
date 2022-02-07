@@ -228,8 +228,6 @@ $('#btn_edit_user_info').on('click',function(){
 
             }).done(function(response){
                 console.log(response)
-            }).error(function(message){
-                console.log(message)
             })
         }
 

@@ -98,6 +98,14 @@ class CommandsController extends Controller
         $commands = Device_commands::where([['device_id',$id],['command',$command]])->orderBy('id','desc')->first();
         return response()->json($commands);
     }
+    public function resetFactorySettings($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Reset-factory-settings";
+        $command->created_by = Auth::user()->id;
+        $command->save();
+        return response()->json($command);
+    }
     public function resetAllAlarms($device_id){
         $command = new Device_commands();
         $command->device_id = $device_id;

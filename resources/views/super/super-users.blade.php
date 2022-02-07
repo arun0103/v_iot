@@ -6,7 +6,7 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Users</h1>
+            <h1 class="m-0">Super Users</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -49,7 +49,7 @@
                                     <tr id="{{$user->id}}">
                                         <td><span class="user_name">{{$user->name}}</span>
                                             @if($user->last_login==null)
-                                            <span class="badge bg-danger">NEW</span>
+                                                <span class="badge bg-danger">NEW</span>
                                             @endif
                                         </td>
                                         <td>{{$user->email}}</td>

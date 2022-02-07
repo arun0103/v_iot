@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Auth;
+use Hash;
 
 class UserProfileController extends Controller
 {
@@ -100,7 +101,7 @@ class UserProfileController extends Controller
         $loggedInUserProfile->address = $request->address;
         $loggedInUserProfile->save();
 
-        $user = User::where(["id",Auth::user()->id])->with('profile')->get();
+        $user = User::where("id",Auth::user()->id)->with('profile')->get();
         return $user;
 
     }
@@ -118,12 +119,22 @@ class UserProfileController extends Controller
     }
 
     public function verifyOldPassword(Request $req){
-        $loggedInUser = Auth::user();
+        $loggedInUser = Auth::user()->makeVisible(['password']);
         $authentication ="";
-        if($req->old_password == $loggedInUser->password){
+        if(Hash::check($req->old_password, $loggedInUser->password)){
             $authentication = "pass";
-            return response()->json($authentication,200);
         }else
-            return response()->json("error",404);
+            $authentication = "failed";
+        return response()->json($authentication);
+    }
+
+    public function confirmChangePassword(Request $req){
+        $loggedInUser = Auth::user();
+        $loggedInUser->password = Hash::make($req->data);
+        if($loggedInUser->save()){
+            return response("changed");
+        }else{
+            return response("error");
+        }
     }
 }

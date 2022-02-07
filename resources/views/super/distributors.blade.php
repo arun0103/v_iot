@@ -258,6 +258,11 @@
         <!-- /.modal-dialog -->"
     </div>
 
+
+
+@endsection
+
+@section('scripts')
     <!-- Document Script -->
     <script src="{{asset('js/countries.js')}}"></script>
     <script type="text/javascript">
@@ -608,6 +613,4 @@
             }
         })
     </script>
-
 @endsection
-

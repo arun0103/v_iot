@@ -860,7 +860,7 @@
         </div>
         <section class="content">
             <div class="container-fluid">
-                <div class="row">
+                <div class="row" style="z-index:-1 !important">
                     <div class="col-lg-3 col-6 pointer" id="idle_block">
                         <!-- small box -->
                         <div class="small-box bg-info">
@@ -872,7 +872,7 @@
                         <div class="icon">
                             <i class="fas fa-snowflake"></i>
                         </div>
-                        <a href="#" class="small-box-footer" id="idle_info">More info <i id="idle_info_icon" class="fas fa-arrow-circle-down"></i></a>
+                        <a href="#" class="small-box-footer" style="z-index:0 !important" id="idle_info">More info <i id="idle_info_icon" class="fas fa-arrow-circle-down"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -893,7 +893,7 @@
                     <!-- ./col -->
                     <div class="col-lg-3 col-6 pointer" id="standby_block">
                         <!-- small box -->
-                        <div class="small-box bg-warning">
+                        <div class="small-box bg-success">
                         <div class="inner">
                             <h3 id="count-standby_devices">0</h3>
                             <p>Stand By</p>
@@ -1370,6 +1370,7 @@
                                                     <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_flush_module" id="btn_flush_module">Flush Module</button></div>
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_start_CIP" id="btn_start_CIP">Start CIP</button></div>
+                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-danger btn_reset_factory_settings" id="btn_reset_factory_settings">Reset Factory Settings</button></div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -4135,6 +4136,19 @@
             .done(function(response){
                 Swal.fire('Success','Command recorded.','success')
                 var date = new Date(response.created_at)
+                $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+            });
+        })
+        $('.btn_reset_factory_settings').on('click', function(){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/reset-factory-settings/"+ device_id,
+            })
+            .done(function(response){
+                console.log(response)
+                Swal.fire('Success','Command recorded.','success')
+                let date = new Date(response.created_at)
                 $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
             });
         })

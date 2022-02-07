@@ -356,9 +356,43 @@
                         .done(function(response){
                             console.log(response)
                             if(response == "pass"){
-                                alert("hi")
+                                let new_password_1, new_password_2;
+                                if(response == "pass"){
+                                    let new_password_1, new_password_2;
+                                    Swal.fire({
+                                        title: "Change Password",
+                                        text: "Provide your new password",
+                                        input: 'password',
+                                        showCancelButton: true
+                                    }).then((result) => {
+                                        new_password_1 = result.value;
+                                        console.log(new_password_1)
+                                        Swal.fire({
+                                        title: "Re-type Password",
+                                            text: "Provide your new password",
+                                            input: 'password',
+                                            showCancelButton: true
+                                        }).then((result) => {
+                                            new_password_2 = result.value;
+                                            if(new_password_1===new_password_2){
+                                                $.ajax({
+                                                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                                                    type: "get",
+                                                    url: "/changeNewUserPassword",
+                                                    data: {'data':new_password_2},
+                                                })
+                                                .done(function(response){
+                                                    Swal.fire("Success","Password changed successfully!","success")
+                                                })
+                                            }else{
+                                                Swal.fire('Error',"Confirm password doesn't match!",'error')
+                                            }
+                                        });
+
+                                    });
+                                }
                             }else{
-                                alert("bye");
+                                Swal.fire("Error","Password doesn't match!","error")
                             }
                         });
                     }

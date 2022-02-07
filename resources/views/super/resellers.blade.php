@@ -202,7 +202,7 @@
                                         </td>
                                         <td>{{$reseller['data']->email}}</td>
                                         <td>{{$reseller['data']->phone}}</td>
-                                        <td> {{$reseller['device_count']}}
+                                        <td id="count_reseller_device-{{$reseller['data']->id}}"> {{$reseller['device_count']}}
                                         </td>
                                         <td>
                                             <a class="nav-link" data-toggle="dropdown" href="#">
@@ -265,6 +265,10 @@
         <!-- /.modal-dialog -->"
     </div>
 
+
+
+@endsection
+@section('scripts')
     <!-- Document Script -->
     <script src="{{asset('js/countries.js')}}"></script>
     <script type="text/javascript">
@@ -545,7 +549,44 @@
                 }
             });
         })
+        $('#reseller_device_table_body').on('click','.delete_device_from_reseller',function(){
+            swal.fire({
+            title: 'Are you sure to delete?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                let reseller_device_id = $(this).closest('tr').attr('id'); // table row ID
+                $.ajax({
+                    headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                    type: "PATCH",
+                    url: "/deleteResellerAccessFromDevice/"+reseller_device_id,
+                })
+                .done(function(response){
+                    console.log(response)
+                    if(response[0] == "deleted"){
+                        $('#reseller_device_table_body #'+reseller_device_id).remove();
+                        var count = parseInt($('#count_reseller_device-'+response[1]).text());
+                        $('#count_reseller_device-'+response[1]).text(count -1);
+                        Swal.fire({title: 'Success!',
+                        text: 'Deleted!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'})
+                    }
+                    else{
+                        Swal.fire({title: 'Error!',
+                            text: 'Unable to delete!',
+                            icon: 'error',
+                            confirmButtonText: 'OK'})
+                    }
+                })
+            }
+        })
+        })
     </script>
-
 @endsection
 

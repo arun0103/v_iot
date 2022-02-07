@@ -113,7 +113,8 @@ Route::post('/addNewDevice',[App\Http\Controllers\DeviceController::class,'creat
 Route::get('/getMyDevicesSetpoints', [App\Http\Controllers\DeviceController::class, 'getMyDevicesSetpoints'])->middleware('auth');
 Route::get('/device_detail/{id}', [App\Http\Controllers\DeviceController::class, 'getDeviceDetails'])->middleware('auth');
 Route::delete('/deleteUserDevice/{id}', [App\Http\Controllers\DeviceController::class, 'deleteUserDevice'])->middleware('auth');
-Route::delete('/deleteUserAccessFromDevice/{user_device_id}', [App\Http\Controllers\DeviceController::class, 'deleteUserAccessFromDevice'])->middleware('auth');
+Route::patch('/deleteUserAccessFromDevice/{user_device_id}', [App\Http\Controllers\DeviceController::class, 'deleteUserAccessFromDevice'])->middleware('auth');
+Route::delete('/deleteResellerAccessFromDevice/{user_device_id}', [App\Http\Controllers\DeviceController::class, 'deleteResellerAccessFromDevice'])->middleware('auth');
 Route::get('/viewDeviceUsers/{id}', [App\Http\Controllers\DeviceController::class, 'viewDeviceUsers'])->middleware('auth');
 Route::patch('/saveEditedDevice/{id}',[App\Http\Controllers\DeviceController::class,'saveEditedDevice'])->middleware('auth');
 
@@ -134,6 +135,7 @@ Route::patch('/super/editSuperUser/{id}',[App\Http\Controllers\SuperController::
 Route::get('/getResellersList',[App\Http\Controllers\SuperController::class, 'getResellersList'])->middleware('auth');
 
 Route::get('/changeUserPasswordOld',[App\Http\Controllers\UserProfileController::class, 'verifyOldPassword'])->middleware('auth');
+Route::get('/changeNewUserPassword',[App\Http\Controllers\UserProfileController::class, 'confirmChangePassword'])->middleware('auth');
 
 //Dashboard routes
 Route::get('/deviceDetail/{id}',[App\Http\Controllers\HomeController::class, 'getDeviceDetails'])->middleware('auth');
@@ -159,6 +161,7 @@ Route::get('/deviceCommands/{id}',[App\Http\Controllers\CommandsController::clas
 Route::delete('/deleteCommand/{id}',[App\Http\controllers\CommandsController::class, 'deleteCommand'])->middleware('auth');
 Route::post('/flush_module/{id}',[App\Http\Controllers\CommandsController::class, 'flush_module'])->middleware('auth');
 Route::post('/start_CIP/{id}',[App\Http\Controllers\CommandsController::class, 'start_CIP'])->middleware('auth');
+Route::post('/reset-factory-settings/{id}',[App\Http\Controllers\CommandsController::class, 'resetFactorySettings'])->middleware('auth');
 Route::post('/current_date/{id}',[App\Http\Controllers\CommandsController::class, 'current_date'])->middleware('auth');
 Route::post('/current_time/{id}',[App\Http\Controllers\CommandsController::class, 'current_time'])->middleware('auth');
 Route::post('/command/stop/{id}',[App\Http\Controllers\CommandsController::class, 'stopDevice'])->middleware('auth');
