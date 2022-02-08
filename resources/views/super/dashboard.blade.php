@@ -5351,6 +5351,7 @@
                 url: "/getDeviceAlarms/"+device_serial,
             })
             .done(function(response){
+                console.log("GETTING DEVICE ALARMS OF: "+device_serial)
                 console.log(response);
                 $('#alarms_history_row').html('');
                 for(var i=0 ;i< response.length; i++){
