@@ -5310,8 +5310,10 @@
                 console.log("GETTING ALARMS HISTORY FOR: "+device_serial)
                 console.log(response)
                 $('#alarms_history_row').html('');
+                let alarm_count = 0;
                 for(var i=0 ;i< response.length; i++){
                     if(response[i].alarms != 0){
+                        alarm_count++;
                         var alarm_names = calculateAlarm(response[i].alarms);
                         $('#alarms_history_row').prepend('<li><div class="timeline-time"><span class="time">'+ new Date(response[i].start)+'</span></div>'+
                             '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
@@ -5325,6 +5327,9 @@
                             '</div>'+
                         '</li>');
                     }
+                }
+                if(alarm_count<1){
+                    $('#alarms_history_row').prepend('<h3>No alarms in past 31 days</h3>')
                 }
             })
             $('#modal-view_alarms_history').modal('show');
