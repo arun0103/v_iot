@@ -352,10 +352,12 @@ class DataController extends Controller
     }
     public function getDeviceAlarms($device_id){
         $device = Device::where('id',$device_id)->first();
-        $allAlarms = RawLogs::where('serial_number',$device->serial_number)
-                        ->groupBy(['id','log_dt','alarm'])->orderBy('log_dt','desc')->get(['id','log_dt','alarm']);
+        $allAlarms = RawLogs::where('serial_number',$device->serial_number)->where('created_at','>=',Carbon::today()->subDays(31))
+                        ->groupBy(['id','log_dt','alarm'])->orderBy('log_dt','desc')->get(['id','log_dt','alarm','created_at']);
         //return response()->json($allAlarms);
         $dataToSend =[];
+        if(count($allAlarms)<=0)
+            return null;
 
         $alarm_start_timestamp = $allAlarms[count($allAlarms)-1]->log_dt;
         $alarm_end_timestamp = $alarm_start_timestamp;

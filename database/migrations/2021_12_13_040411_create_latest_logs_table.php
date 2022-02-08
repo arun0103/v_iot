@@ -35,6 +35,7 @@ class CreateLatestLogsTable extends Migration
             $table->string('mode',1);
             $table->integer('live_ec')->nullable();
             $table->float('pae_current')->nullable();
+            $table->integer('last_alarmed_cycle')->nullable();
             $table->timestamps();
 
             // $table->unique(['serial_number']);
