@@ -1047,7 +1047,7 @@
                     <button type="button" class="close close_alarms_history btn btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row" id="alarm_history_body">
                         <div class="col-lg-12 col-md-12 col-sm-12 ">
                             <ul class="timeline" id="alarms_history_row">
 
@@ -5301,6 +5301,8 @@
         // alarms history logs
         $('#info_device_alarms_table').on('click', function(){
             $('#modal-alarms_history-title').text("Alarms' History : " + device_serial)
+            $('#alarms_history_row').html('');
+            $('#alarm_history_body').prepend('<div id="loading_message" style="margin:0 auto"><h3>Generating alarms history... Please Wait!</h3></div>');
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
@@ -5309,27 +5311,33 @@
             .done(function(response){
                 console.log("GETTING ALARMS HISTORY FOR: "+device_serial)
                 console.log(response)
-                $('#alarms_history_row').html('');
-                let alarm_count = 0;
-                for(var i=0 ;i< response.length; i++){
-                    if(response[i].alarms != 0){
-                        alarm_count++;
-                        var alarm_names = calculateAlarm(response[i].alarms);
-                        $('#alarms_history_row').prepend('<li><div class="timeline-time"><span class="time">'+ new Date(response[i].start)+'</span></div>'+
-                            '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
-                            '<div class="timeline-body">'+
-                                '<div class="timeline-header">'+
-                                    '<span class="username">'+response[i].start +' - '+response[i].end+'</span>'+
+                $('#alarm_history_body div#loading_message').attr('hidden',true);
+                if(response != "no-data"){
+                    $('#alarms_history_row').html('');
+
+                    let alarm_count = 0;
+                    for(var i=0 ;i< response.length; i++){
+                        if(response[i].alarms != 0){
+                            alarm_count++;
+                            var alarm_names = calculateAlarm(response[i].alarms);
+                            $('#alarms_history_row').prepend('<li><div class="timeline-time"><span class="time">'+ new Date(response[i].start)+'</span></div>'+
+                                '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
+                                '<div class="timeline-body">'+
+                                    '<div class="timeline-header">'+
+                                        '<span class="username">'+response[i].start +' - '+response[i].end+'</span>'+
+                                    '</div>'+
+                                    '<div class="timeline-content">'+
+                                        alarm_names+
+                                    '</div>'+
                                 '</div>'+
-                                '<div class="timeline-content">'+
-                                    alarm_names+
-                                '</div>'+
-                            '</div>'+
-                        '</li>');
+                            '</li>');
+                        }
                     }
-                }
-                if(alarm_count<1){
-                    $('#alarms_history_row').prepend('<h3>No alarms in past 31 days</h3>')
+                    // if(alarm_count<1){
+                    //     $('#alarms_history_row').prepend('<h3>No alarms in past 31 days</h3>')
+                    // }
+                }else{
+                    $('#alarm_history_body').prepend('<div id="loading_message_error" style="margin:0 auto; color:red"><h3>No alarms history found. Please check the status of the device</h3></div>');
                 }
             })
             $('#modal-view_alarms_history').modal('show');
