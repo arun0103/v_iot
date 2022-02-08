@@ -358,7 +358,7 @@ class DataController extends Controller
         //return response()->json($allAlarms);
         $dataToSend =[];
         if(count($allAlarms)<=0)
-            return null;
+            return "no-data";
 
         $alarm_start_timestamp = $allAlarms[count($allAlarms)-1]->log_dt;
         $alarm_end_timestamp = $alarm_start_timestamp;
