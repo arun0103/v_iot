@@ -350,10 +350,10 @@ class DataController extends Controller
         ];
         return response()->json($dataToSend);
     }
-    public function getDeviceAlarms($device_id){
+    public function getDeviceAlarms($device_serial){
         ini_set('max_execution_time', 180); //3 minutes
-        $device = Device::where('id',$device_id)->first();
-        $allAlarms = RawLogs::where('serial_number',$device->serial_number)->where('created_at','>=',Carbon::today()->subDays(31))
+        // $device = Device::where('id',$device_id)->first();
+        $allAlarms = RawLogs::where('serial_number',$device_serial)->where('created_at','>=',Carbon::today()->subDays(31))
                         ->groupBy(['id','log_dt','alarm'])->orderBy('log_dt','desc')->get(['id','log_dt','alarm','created_at']);
         //return response()->json($allAlarms);
         $dataToSend =[];
