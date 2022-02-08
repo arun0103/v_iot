@@ -139,7 +139,7 @@ Route::get('/changeNewUserPassword',[App\Http\Controllers\UserProfileController:
 
 //Dashboard routes
 Route::get('/deviceDetail/{id}',[App\Http\Controllers\HomeController::class, 'getDeviceDetails'])->middleware('auth');
-Route::get('/getDeviceAlarms/{id}',[App\Http\Controllers\DataController::class, 'getDeviceAlarms'])->middleware('auth');
+Route::get('/getDeviceAlarms/{device_serial}',[App\Http\Controllers\DataController::class, 'getDeviceAlarms'])->middleware('auth');
 Route::get('/deviceRelays/{id}',[App\Http\Controllers\DataController::class, 'getDeviceRelayStatus'])->middleware('auth');
 Route::get('/getIdleDevices',[App\Http\Controllers\DataController::class, 'getIdleDevices'])->middleware('auth');
 Route::get('/getRunningDevices',[App\Http\Controllers\DataController::class, 'getRunningDevices'])->middleware('auth');

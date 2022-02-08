@@ -1402,7 +1402,7 @@
                                                             <div class="card-header">
                                                                 <h3 class="card-title">Alarms</h3>
                                                                 <div class="card-tools">
-                                                                    <i id="" class="btn fas fa-table info_device_alarms_table" data-toggle="modal" data-target="#modal-view_alarms_history" href="#modal-view_alarms_history"></i>
+                                                                    <i id="info_device_alarms_table" class="btn fas fa-table " data-toggle="modal" data-target="#modal-view_alarms_history" href="#modal-view_alarms_history"></i>
                                                                 </div>
                                                             </div>
                                                             <div class="card-body message_from_database">
@@ -5343,7 +5343,8 @@
             })
         })
         // alarms history logs
-        $('.info_device_alarms_table').on('click', function(){
+        $('#info_device_alarms_table').on('click', function(){
+            console.log("GETTING DEVICE ALARMS OF: "+device_serial)
             $('#modal-alarms_history-title').text("Alarms' History : " + device_serial)
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
@@ -5351,7 +5352,7 @@
                 url: "/getDeviceAlarms/"+device_serial,
             })
             .done(function(response){
-                console.log("GETTING DEVICE ALARMS OF: "+device_serial)
+
                 console.log(response);
                 $('#alarms_history_row').html('');
                 for(var i=0 ;i< response.length; i++){

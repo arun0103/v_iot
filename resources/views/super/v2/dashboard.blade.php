@@ -2595,7 +2595,7 @@
 
         $('.message_from_database').addClass('linear-background');
         $('.display_body').css('visibility','hidden');
-        clearInterval(dashboard_data);
+        // clearInterval(dashboard_data);
         clearInterval(live_data);
         //show average tab only
         view_mode = "average";
@@ -2765,7 +2765,7 @@
         //getDisconnectedDevices();
     })
     function pull_average_data(){
-        clearInterval(dashboard_data)
+        // clearInterval(dashboard_data)
         clearInterval(grouped_devices_count)
         clearInterval(device_latest_data)
         $.ajax({
@@ -3078,7 +3078,7 @@
     }
 
     function pull_live_data(){
-        clearInterval(dashboard_data)
+        // clearInterval(dashboard_data)
         clearInterval(avg_data);
         clearInterval(grouped_devices_count);
         console.log("Pulling Live Data")
@@ -3354,7 +3354,7 @@
 
     }
     function pull_grouped_devices_data(){
-        clearInterval(dashboard_data)
+        // clearInterval(dashboard_data)
         clearInterval(avg_data);
         console.log('groups: @ '+ new Date())
         getIdleDevices();
@@ -3579,7 +3579,7 @@
     }
     function pull_relay_data(){
         clearInterval(avg_data);
-        clearInterval(dashboard_data);
+        // clearInterval(dashboard_data);
         // console.log("Pulling relay data")
         // get the device relay values
         $.ajax({
@@ -5304,7 +5304,7 @@
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
-                url: "/getDeviceAlarms/"+device_id,
+                url: "/getDeviceAlarms/"+device_serial,
             })
             .done(function(response){
                 $('#alarms_history_row').html('');
