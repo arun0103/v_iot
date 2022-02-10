@@ -53548,11 +53548,92 @@ table {
     margin: 0 auto;
   }
 }
-@media (maxiwdth: 480px) {
+@media (max-width: 786px) {
   div.card-header {
     margin: 1px !important;
   }
+
+  .content, .content-wrapper, .main-footer {
+    display: block;
+    width: 100vw;
+  }
+
+  .blocks {
+    max-width: 25vw !important;
+  }
 }
+@media (max-width: 480px) {
+  div.card-header {
+    margin: 1px !important;
+  }
+
+  .content, .content-wrapper, .main-footer {
+    display: block;
+    width: 100vw;
+  }
+
+  .blocks {
+    max-width: 24vw;
+  }
+
+  #disconnected_block {
+    max-width: 27vw;
+  }
+
+  .col-sm-12 {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+}
+@media (max-width: 375px) {
+  div.card-header {
+    margin: 1px !important;
+  }
+
+  .content, .content-wrapper, .main-footer {
+    display: block;
+    width: 161vw;
+  }
+
+  .blocks {
+    max-width: 40vw !important;
+  }
+
+  .col-sm-12 {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+}
+@media (max-width: 320px) {
+  .blocks {
+    max-width: 47.5vw !important;
+  }
+
+  div.card-header {
+    margin: 1px !important;
+  }
+
+  .content, .content-wrapper, .main-footer {
+    display: block;
+    width: 190vw;
+  }
+
+  .col-sm-12 {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+}
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+  border-top-left-radius: calc(0.3rem - 1px);
+  border-top-right-radius: calc(0.3rem - 1px);
+  margin: 0;
+}
+
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors

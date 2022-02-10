@@ -861,7 +861,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row" style="z-index:-1 !important">
-                    <div class="col-lg-3 col-6 pointer" id="idle_block">
+                    <div class="col-lg-3 col-md-6 col-sm-12 pointer blocks" id="idle_block">
                         <!-- small box -->
                         <div class="small-box bg-info">
                         <div class="inner">
@@ -876,7 +876,7 @@
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6 pointer" id="running_block">
+                    <div class="col-lg-3 col-md-6 col-sm-12 pointer blocks" id="running_block">
                         <!-- small box -->
                         <div class="small-box bg-success">
                         <div class="inner">
@@ -891,7 +891,7 @@
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6 pointer" id="standby_block">
+                    <div class="col-lg-3 col-md-6 col-sm-12 pointer blocks" id="standby_block">
                         <!-- small box -->
                         <div class="small-box bg-success">
                         <div class="inner">
@@ -906,7 +906,7 @@
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6 pointer" id="disconnected_block">
+                    <div class="col-lg-3 col-md-6 col-sm-12 pointer blocks" id="disconnected_block">
                         <!-- small box -->
                         <div class="small-box bg-danger">
                         <div class="inner">
@@ -922,119 +922,118 @@
                     </div>
                     <!-- ./col -->
                 </div>
+            </div>
+            <div class="row" id="table-idle-devices">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 id="card-title" class="device_list_title">Idle Devices' List</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="table_lists_idle" class=" table-hover datatable" data-turbolinks="false">
+                                    <thead class="thead-dark">
+                                        <th>S.N</th>
+                                        <th>Device Name</th>
+                                        <th>Model</th>
+                                        <th># Users</th>
+                                        <th>Status</th>
+                                        <th>Water Quality</th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody>
 
-                <div class="row" id="table-idle-devices">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Idle Devices' List</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_idle" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th># Users</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
-                <div class="row" id="table-running-devices" hidden>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Running Devices' List</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_running" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th># Users</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
+            </div>
+            <div class="row" id="table-running-devices" hidden>
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 id="card-title" class="device_list_title">Running Devices' List</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="table_lists_running" class=" table-hover datatable" data-turbolinks="false">
+                                    <thead class="thead-dark">
+                                        <th>S.N</th>
+                                        <th>Device Name</th>
+                                        <th>Model</th>
+                                        <th># Users</th>
+                                        <th>Status</th>
+                                        <th>Water Quality</th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody>
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
-                <div class="row" id="table-standby-devices" hidden>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">StandBy Devices' List</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_standby" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th># Users</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
+            </div>
+            <div class="row" id="table-standby-devices" hidden>
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 id="card-title" class="device_list_title">StandBy Devices' List</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="table_lists_standby" class=" table-hover datatable" data-turbolinks="false">
+                                    <thead class="thead-dark">
+                                        <th>S.N</th>
+                                        <th>Device Name</th>
+                                        <th>Model</th>
+                                        <th># Users</th>
+                                        <th>Status</th>
+                                        <th>Water Quality</th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody>
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
-                <div class="row" id="table-disconnected-devices" hidden>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Disconnected Devices' List</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_disconnected" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th># Users</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Last Online</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
+            </div>
+            <div class="row" id="table-disconnected-devices" hidden>
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 id="card-title" class="device_list_title">Disconnected Devices' List</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="table_lists_disconnected" class=" table-hover datatable" data-turbolinks="false">
+                                    <thead class="thead-dark">
+                                        <th>S.N</th>
+                                        <th>Device Name</th>
+                                        <th>Model</th>
+                                        <th># Users</th>
+                                        <th>Status</th>
+                                        <th>Water Quality</th>
+                                        <th>Last Online</th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody>
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </section>
@@ -1156,7 +1155,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane fade show active" role="tabpanel" id="tab_avg_data">
                                                 <div class="row">
-                                                    <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                    <div class="col-lg-3 col-md-6 col-sm-12 box">
                                                         <div class="card card-outline card-success">
                                                             <h3 class="card-header">
                                                                 <div class="card-title">Status </div>
