@@ -53585,6 +53585,29 @@ table {
     padding-right: 5px !important;
   }
 }
+@media (max-width: 425px) {
+  div.card-header {
+    margin: 1px !important;
+  }
+
+  .content, .content-wrapper, .main-footer {
+    display: block;
+    width: 100vw !important;
+  }
+
+  .blocks {
+    max-width: 24vw;
+  }
+
+  #disconnected_block {
+    max-width: 27vw;
+  }
+
+  .col-sm-12 {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+}
 @media (max-width: 375px) {
   div.card-header {
     margin: 1px !important;
