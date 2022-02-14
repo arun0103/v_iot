@@ -24,7 +24,7 @@ class MaintenanceUpdate extends Notification implements ShouldQueue
         $this->maintenance_type = $maintenance_type;
         $this->user = $user;
         $this->device_detail = $device_detail;
-        $this->device_name = $device_name;
+
     }
 
     /**
