@@ -16,7 +16,7 @@ class CreateDeviceVolumesTable extends Migration
         Schema::create('device_volumes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('device_id');
-            $table->date('date');
+            $table->date('date')->unique();
             $table->double('first_tpv');
             $table->double('last_tpv');
             $table->timestamps();

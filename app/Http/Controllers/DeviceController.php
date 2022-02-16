@@ -374,6 +374,8 @@ class DeviceController extends Controller
                 $user->notify(new MaintenanceUpdate('Critic Acid',$user, $device_detail));
             }
         }
+        //notify super admins
+        //$super_admins
         return response()->json($maintenance);
     }
     public function resetPreFilter($device_id, $volume){
