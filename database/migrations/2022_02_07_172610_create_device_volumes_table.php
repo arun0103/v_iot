@@ -17,9 +17,8 @@ class CreateDeviceVolumesTable extends Migration
             $table->id();
             $table->bigInteger('device_id');
             $table->date('date');
-            $table->integer('daily_volume');
-            $table->integer('monthly_volume');
-            $table->integer('total_volume');
+            $table->double('first_tpv');
+            $table->double('last_tpv');
             $table->timestamps();
         });
     }

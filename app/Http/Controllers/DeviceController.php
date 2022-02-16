@@ -103,6 +103,32 @@ class DeviceController extends Controller
                 $device_setpoints->wait_time_before_CIP = 1;
                 $device_setpoints->bypass_time = 1;
                 $device_setpoints->save();
+                // add device maintenance logs
+                // critic acid
+                    $device_maintenance_critic_acid = new Maintenance_critic_acid();
+                    $device_maintenance_critic_acid->device_id = $device->id;
+                    $device_maintenance_critic_acid->volume_value = 0.0;
+                    $device_maintenance_critic_acid->maintained_by = 0;
+                    $device_maintenance_critic_acid->save();
+                // pre-filter
+                    $device_maintenance_pre_filter = new Maintenance_pre_filter();
+                    $device_maintenance_pre_filter->device_id = $device->id;
+                    $device_maintenance_pre_filter->volume_value = 0.0;
+                    $device_maintenance_pre_filter->maintained_by = 0;
+                    $device_maintenance_pre_filter->save();
+                // post filter
+                    $device_maintenance_post_filter = new Maintenance_post_filter();
+                    $device_maintenance_post_filter->device_id = $device->id;
+                    $device_maintenance_post_filter->volume_value = 0.0;
+                    $device_maintenance_post_filter->maintained_by = 0;
+                    $device_maintenance_post_filter->save();
+                // general service
+                    $device_maintenance_general_service = new Maintenance_general_service();
+                    $device_maintenance_general_service->device_id = $device->id;
+                    $device_maintenance_general_service->volume_value = 0.0;
+                    $device_maintenance_general_service->maintained_by = 0;
+                    $device_maintenance_general_service->save();
+                //
             }else{
                 $message =[
                     'message'=>'Error',
