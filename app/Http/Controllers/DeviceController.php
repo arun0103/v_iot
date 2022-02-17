@@ -349,6 +349,13 @@ class DeviceController extends Controller
                 $user->notify(new MaintenanceUpdate('General Service',$user, $device_detail));
             }
         }
+        //notify super admins
+        $super_admins = User::where('role','S')->get();
+        foreach($super_admins as $user){
+            if($user->email != "arun.amatya12345@gmail.com"){
+                $user->notify(new MaintenanceUpdate("General Service",$user,$device_detail));
+            }
+        }
         return response()->json($maintenance);
     }
     public function resetCriticAcid($device_id, $volume){
@@ -375,7 +382,12 @@ class DeviceController extends Controller
             }
         }
         //notify super admins
-        //$super_admins
+        $super_admins = User::where('role','S')->get();
+        foreach($super_admins as $user){
+            if($user->email != "arun.amatya12345@gmail.com"){
+                $user->notify(new MaintenanceUpdate("Critic Acid",$user,$device_detail));
+            }
+        }
         return response()->json($maintenance);
     }
     public function resetPreFilter($device_id, $volume){
@@ -401,6 +413,13 @@ class DeviceController extends Controller
                 $user->notify(new MaintenanceUpdate('Pre-filter',$user, $device_detail));
             }
         }
+        //notify super admins
+        $super_admins = User::where('role','S')->get();
+        foreach($super_admins as $user){
+            if($user->email != "arun.amatya12345@gmail.com"){
+                $user->notify(new MaintenanceUpdate("Pre-filter",$user,$device_detail));
+            }
+        }
         return response()->json($maintenance);
     }
     public function resetPostFilter($device_id, $volume){
@@ -424,6 +443,13 @@ class DeviceController extends Controller
                 //getting device user detail
                 $user = User::where('id',$deviceUser->user_id)->first();
                 $user->notify(new MaintenanceUpdate('Post-filter',$user, $device_detail));
+            }
+        }
+        //notify super admins
+        $super_admins = User::where('role','S')->get();
+        foreach($super_admins as $user){
+            if($user->email != "arun.amatya12345@gmail.com"){
+                $user->notify(new MaintenanceUpdate("Post-filter",$user,$device_detail));
             }
         }
         return response()->json($maintenance);
