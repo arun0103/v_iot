@@ -43,6 +43,9 @@ class Device extends Model
     public function device_settings(){
         return $this->hasOne('App\Models\Device_settings','device_id','id');
     }
+    public function device_volumes(){
+        return $this->hasMany('App\Models\Device_volumes','device_id','id');
+    }
     public function device_commands(){
         return $this->hasOne('App\Models\Device_commands','device_id','id');
     }

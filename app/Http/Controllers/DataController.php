@@ -9,6 +9,7 @@ use App\Models\UserDevices;
 use App\Models\Setpoints;
 use App\Models\RawLogs;
 use App\Models\Device_commands;
+use App\Models\Device_volumes;
 use App\Models\DeviceSetpointsChangeLog;
 use Carbon\Carbon;
 use Auth;
@@ -128,37 +129,52 @@ class DataController extends Controller
         $today = date(Carbon::now());
         $thirtyOnedays = date(Carbon::now()->subDays(31));
         $previousDay = date(Carbon::now()->subDays(1));
+        $date_today = Carbon::now()->toDateString();
         $volume = [];
         if($device->latest_log != null){
-            // calculate daily volume
-            $daily_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$previousDay,$today])->get();
-            $daily_logs_count = count($daily_logs);
             $daily_volume = 0;
-            if($daily_logs_count !=0){
-                $latest_tpv = $daily_logs[$daily_logs_count -1]->tpv;
-                $last_tpv = $daily_logs[0]->tpv;
-                $daily_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+            $daily_volume_data = Device_volumes::where([['device_id',$device->id],['date',$date_today]])->first();
+            if($daily_volume_data != null){
+                $daily_volume = ($daily_volume_data->last_tpv - $daily_volume_data->first_tpv)*0.2642007926;
             }
-            $daily_logs =[];
-            //calculate monthly volume
-            $monthly_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$thirtyOnedays,$today])->get();
-            $monthly_logs_count = count($monthly_logs);
             $monthly_volume = 0;
-            if($monthly_logs_count !=0){
-                $latest_tpv = $monthly_logs[$monthly_logs_count-1]->tpv;
-                $last_tpv = $monthly_logs[0]->tpv;
-                $monthly_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+            $total_volume = 0;
+            $monthly_volume_data = Device_volumes::where('device_id',$device->id)->whereBetween('date',[$thirtyOnedays,$today])->get();
+            if(count($monthly_volume_data) != 0){
+                $first_tpv = $monthly_volume_data[0]->first_tpv;
+                $last_tpv = $monthly_volume_data[count($monthly_volume_data)-1]->last_tpv;
+                $monthly_volume = ($last_tpv - $first_tpv)*0.2642007926;
+                $total_volume = $last_tpv*0.2642007926;
             }
-            $monthly_logs = [];
+            // calculate daily volume
+            // $daily_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$previousDay,$today])->get();
+            // $daily_logs_count = count($daily_logs);
+            // $daily_volume = 0;
+            // if($daily_logs_count !=0){
+            //     $latest_tpv = $daily_logs[$daily_logs_count -1]->tpv;
+            //     $last_tpv = $daily_logs[0]->tpv;
+            //     $daily_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+            // }
+            // $daily_logs =[];
+            //calculate monthly volume
+            // $monthly_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$thirtyOnedays,$today])->get();
+            // $monthly_logs_count = count($monthly_logs);
+            // $monthly_volume = 0;
+            // if($monthly_logs_count !=0){
+            //     $latest_tpv = $monthly_logs[$monthly_logs_count-1]->tpv;
+            //     $last_tpv = $monthly_logs[0]->tpv;
+            //     $monthly_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+            // }
+            // $monthly_logs = [];
             //calculate total volume
-            $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
-            $total_volume = $last_record->tpv*0.2642007926;
-            if($monthly_volume > $total_volume || $monthly_volume < 0){
-                $monthly_volume = $total_volume;
-            }
-            if($daily_volume >$total_volume || $daily_volume <0){
-                $daily_volume = $total_volume;
-            }
+            // $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
+            // $total_volume = $last_record->tpv*0.2642007926;
+            // if($monthly_volume > $total_volume || $monthly_volume < 0){
+            //     $monthly_volume = $total_volume;
+            // }
+            // if($daily_volume >$total_volume || $daily_volume <0){
+            //     $daily_volume = $total_volume;
+            // }
             $volume = [
                 'daily'=>round($daily_volume,2),
                 'monthly'=>round($monthly_volume,2),
@@ -168,7 +184,8 @@ class DataController extends Controller
         }
         $deviceData = [
             'deviceDetails'=>$device,
-            'deviceVolume'=>$volume
+            'deviceVolume'=>$volume,
+            'today'=>$date_today
         ];
         return response()->json($deviceData);
     }
