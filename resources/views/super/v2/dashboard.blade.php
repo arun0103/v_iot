@@ -2775,7 +2775,7 @@
         .done(function(response){
             $('.message_from_database').removeClass("linear-background");
             $('.display_body').css('visibility','visible')
-            console.log("% % % %  Refreshing Dashboad Data SN#:"+device_serial + " % % % % %")
+            console.log("% % % %  Refreshing Status Data SN#:"+device_serial + " % % % % %")
             console.log(response);
             device_id = response.deviceDetails.id;
             if(response['deviceDetails'].latest_log != null){

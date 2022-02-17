@@ -146,41 +146,44 @@ class DataController extends Controller
                 $monthly_volume = ($last_tpv - $first_tpv)*0.2642007926;
                 $total_volume = $last_tpv*0.2642007926;
             }
-            // calculate daily volume
-            // $daily_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$previousDay,$today])->get();
-            // $daily_logs_count = count($daily_logs);
-            // $daily_volume = 0;
-            // if($daily_logs_count !=0){
-            //     $latest_tpv = $daily_logs[$daily_logs_count -1]->tpv;
-            //     $last_tpv = $daily_logs[0]->tpv;
-            //     $daily_volume = ($latest_tpv -$last_tpv)*0.2642007926;
-            // }
-            // $daily_logs =[];
-            //calculate monthly volume
-            // $monthly_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$thirtyOnedays,$today])->get();
-            // $monthly_logs_count = count($monthly_logs);
-            // $monthly_volume = 0;
-            // if($monthly_logs_count !=0){
-            //     $latest_tpv = $monthly_logs[$monthly_logs_count-1]->tpv;
-            //     $last_tpv = $monthly_logs[0]->tpv;
-            //     $monthly_volume = ($latest_tpv -$last_tpv)*0.2642007926;
-            // }
-            // $monthly_logs = [];
-            //calculate total volume
-            // $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
-            // $total_volume = $last_record->tpv*0.2642007926;
-            // if($monthly_volume > $total_volume || $monthly_volume < 0){
-            //     $monthly_volume = $total_volume;
-            // }
-            // if($daily_volume >$total_volume || $daily_volume <0){
-            //     $daily_volume = $total_volume;
-            // }
             $volume = [
                 'daily'=>round($daily_volume,2),
                 'monthly'=>round($monthly_volume,2),
                 'total'=>round($total_volume,2)
             ];
             $last_record = null;
+            //
+                // calculate daily volume
+                // $daily_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$previousDay,$today])->get();
+                // $daily_logs_count = count($daily_logs);
+                // $daily_volume = 0;
+                // if($daily_logs_count !=0){
+                //     $latest_tpv = $daily_logs[$daily_logs_count -1]->tpv;
+                //     $last_tpv = $daily_logs[0]->tpv;
+                //     $daily_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+                // }
+                // $daily_logs =[];
+                //calculate monthly volume
+                // $monthly_logs = RawLogs::where('serial_number',$device->serial_number)->whereBetween('log_dt',[$thirtyOnedays,$today])->get();
+                // $monthly_logs_count = count($monthly_logs);
+                // $monthly_volume = 0;
+                // if($monthly_logs_count !=0){
+                //     $latest_tpv = $monthly_logs[$monthly_logs_count-1]->tpv;
+                //     $last_tpv = $monthly_logs[0]->tpv;
+                //     $monthly_volume = ($latest_tpv -$last_tpv)*0.2642007926;
+                // }
+                // $monthly_logs = [];
+                //calculate total volume
+                // $last_record = RawLogs::where('serial_number',$device->serial_number)->orderBy('id','Desc')->first();
+                // $total_volume = $last_record->tpv*0.2642007926;
+                // if($monthly_volume > $total_volume || $monthly_volume < 0){
+                //     $monthly_volume = $total_volume;
+                // }
+                // if($daily_volume >$total_volume || $daily_volume <0){
+                //     $daily_volume = $total_volume;
+                // }
+            //
+
         }
         $deviceData = [
             'deviceDetails'=>$device,

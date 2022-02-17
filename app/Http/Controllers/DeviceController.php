@@ -339,21 +339,21 @@ class DeviceController extends Controller
             //getting device reseller detail
             $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
             // send email
-            $reseller->notify(new MaintenanceUpdate("General Service",$reseller, $device_detail));
+            $reseller->notify(new MaintenanceUpdate("General Service",$reseller, $device_detail, Auth::user()));
         }
         if($device_detail->userDevices != null){
             $DeviceUsers = UserDevices::where('device_id',$device_id)->with('userDetails')->get();
             foreach($DeviceUsers as $deviceUser){
                 //getting device user detail
                 $user = User::where('id',$deviceUser->user_id)->first();
-                $user->notify(new MaintenanceUpdate('General Service',$user, $device_detail));
+                $user->notify(new MaintenanceUpdate('General Service',$user, $device_detail, Auth::user()));
             }
         }
         //notify super admins
         $super_admins = User::where('role','S')->get();
         foreach($super_admins as $user){
             if($user->email != "arun.amatya12345@gmail.com"){
-                $user->notify(new MaintenanceUpdate("General Service",$user,$device_detail));
+                $user->notify(new MaintenanceUpdate("General Service",$user,$device_detail, Auth::user()));
             }
         }
         return response()->json($maintenance);
@@ -371,21 +371,21 @@ class DeviceController extends Controller
             //getting device reseller detail
             $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
             // send email
-            $reseller->notify(new MaintenanceUpdate("Critic Acid",$reseller, $device_detail));
+            $reseller->notify(new MaintenanceUpdate("Critic Acid",$reseller, $device_detail, Auth::user()));
         }
         if($device_detail->userDevices != null){
             $DeviceUsers = UserDevices::where('device_id',$device_id)->with('userDetails')->get();
             foreach($DeviceUsers as $deviceUser){
                 //getting device user detail
                 $user = User::where('id',$deviceUser->user_id)->first();
-                $user->notify(new MaintenanceUpdate('Critic Acid',$user, $device_detail));
+                $user->notify(new MaintenanceUpdate('Critic Acid',$user, $device_detail, Auth::user()));
             }
         }
         //notify super admins
         $super_admins = User::where('role','S')->get();
         foreach($super_admins as $user){
             if($user->email != "arun.amatya12345@gmail.com"){
-                $user->notify(new MaintenanceUpdate("Critic Acid",$user,$device_detail));
+                $user->notify(new MaintenanceUpdate("Critic Acid",$user,$device_detail, Auth::user()));
             }
         }
         return response()->json($maintenance);
@@ -403,21 +403,21 @@ class DeviceController extends Controller
             //getting device reseller detail
             $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
             // send email
-            $reseller->notify(new MaintenanceUpdate("Pre-filter",$reseller, $device_detail));
+            $reseller->notify(new MaintenanceUpdate("Pre-filter",$reseller, $device_detail, Auth::user()));
         }
         if($device_detail->userDevices != null){
             $DeviceUsers = UserDevices::where('device_id',$device_id)->with('userDetails')->get();
             foreach($DeviceUsers as $deviceUser){
                 //getting device user detail
                 $user = User::where('id',$deviceUser->user_id)->first();
-                $user->notify(new MaintenanceUpdate('Pre-filter',$user, $device_detail));
+                $user->notify(new MaintenanceUpdate('Pre-filter',$user, $device_detail, Auth::user()));
             }
         }
         //notify super admins
         $super_admins = User::where('role','S')->get();
         foreach($super_admins as $user){
             if($user->email != "arun.amatya12345@gmail.com"){
-                $user->notify(new MaintenanceUpdate("Pre-filter",$user,$device_detail));
+                $user->notify(new MaintenanceUpdate("Pre-filter",$user,$device_detail, Auth::user()));
             }
         }
         return response()->json($maintenance);
@@ -435,21 +435,21 @@ class DeviceController extends Controller
             //getting device reseller detail
             $reseller = User::where([['reseller_id',$device_detail->reseller_id],['role','R']])->first();
             // send email
-            $reseller->notify(new MaintenanceUpdate("Post-filter",$reseller, $device_detail));
+            $reseller->notify(new MaintenanceUpdate("Post-filter",$reseller, $device_detail, Auth::user()));
         }
         if($device_detail->userDevices != null){
             $DeviceUsers = UserDevices::where('device_id',$device_id)->with('userDetails')->get();
             foreach($DeviceUsers as $deviceUser){
                 //getting device user detail
                 $user = User::where('id',$deviceUser->user_id)->first();
-                $user->notify(new MaintenanceUpdate('Post-filter',$user, $device_detail));
+                $user->notify(new MaintenanceUpdate('Post-filter',$user, $device_detail, Auth::user()));
             }
         }
         //notify super admins
         $super_admins = User::where('role','S')->get();
         foreach($super_admins as $user){
             if($user->email != "arun.amatya12345@gmail.com"){
-                $user->notify(new MaintenanceUpdate("Post-filter",$user,$device_detail));
+                $user->notify(new MaintenanceUpdate("Post-filter",$user,$device_detail, Auth::user()));
             }
         }
         return response()->json($maintenance);
