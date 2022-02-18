@@ -2434,7 +2434,6 @@
     function getIdleDevice_logs(){
         table_idle = $('#table_lists_idle').DataTable();
         var data = table_idle.rows().data();
-        // console.log("Data: "+data[0][0])
         for(let i=0; i<data.length; i++){
             let device_serial = data[i][0]
             $.ajax({
@@ -2449,7 +2448,6 @@
                 let diff = Math.abs(ec_target - ec_avg);
                 let percentage = diff*100/ec_target;
                 let water_quality ;
-                // console.log(response.logs[0].ec+ "%")
                 if(percentage <= 10){
                     water_quality = '<span style="color:green">On Target</span>'
                 }else{
@@ -2464,8 +2462,7 @@
                     '5':data[i][5],
                     '6':data[i][6],
                     '7':water_quality,
-                    '8':'<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                        '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                    '8':data[i][8]
 
                 }
                 table_idle.row(i).data(data_to_change).draw();
@@ -2509,14 +2506,15 @@
                     water_quality = '<span style="color:brown">Needs Attention</span>'
                 }
                 let data_to_change = {
-                    // '0':data[i][0],
-                    // '1':data[i][1],
-                    // '2':data[i][2],
-                    // '3':data[i][3],
+                    '0':data[i][0],
+                    '1':data[i][1],
+                    '2':data[i][2],
+                    '3':data[i][3],
+                    '4':data[i][4],
                     '5':status,
-                    // '5':data[i][5],
+                    '6':data[i][6],
                     '7':water_quality,
-                    // '7':data[i][7]
+                    '8':data[i][8]
                 }
                 table.row(i).data(data_to_change).draw();
             });
@@ -2545,14 +2543,15 @@
                     water_quality = '<span style="color:brown">Needs Attention</span>'
                 }
                 let data_to_change = {
-                    // '0':data[i][0],
-                    // '1':data[i][1],
-                    // '2':data[i][2],
-                    // '3':data[i][3],
-                    // '4':data[i][4],
-                    // '5':data[i][5],
+                    '0':data[i][0],
+                    '1':data[i][1],
+                    '2':data[i][2],
+                    '3':data[i][3],
+                    '4':data[i][4],
+                    '5':data[i][5],
+                    '6':data[i][6],
                     '7':water_quality,
-                    // '7':data[i][7]
+                    '8':data[i][8]
                 }
                 table.row(i).data(data_to_change).draw();
             });
