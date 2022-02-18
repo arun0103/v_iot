@@ -45,6 +45,12 @@
             margin-top: 8px;
             margin-bottom: -8px;
         } */
+        @media (max-width: 768px){
+            // Show hamburgur icon
+            li#ham-burger-icon{
+                display: block;
+            }
+        }
     </style>
     @yield('head')
 
@@ -57,7 +63,7 @@
   <nav class="main-header navbar navbar-expand navbar-white navbar-light fixed" style="z-index:1">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
-      <li class="nav-item">
+      <li class="nav-item" id="ham-burger-icon" style="display:none">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
@@ -236,9 +242,9 @@
             </li>
             <li class="nav-item nav-item-routes">
                 <a href="{{route('firmwares')}}" class="nav-link">
-                &nbsp;&nbsp;<i class="fas fa-microchip"></i>
+                &nbsp;<i class="fas fa-microchip fa-lg"></i>
                     <p>
-                    &nbsp;Firmwares
+                    &nbsp;Firmware
                     </p>
                 </a>
             </li>
@@ -310,16 +316,13 @@
   <!-- Control Sidebar -->
   <aside id="control_sidebar_main" class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
-    <div class="p-3 flex justify-content-center">
+    <!-- <div class="p-3 flex justify-content-center">
         <div class="row">
             <div class="col-sm-12">
                 <a href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;Logout</a>
             </div>
         </div>
-
-
-
-    </div>
+    </div> -->
   </aside>
   <!-- /.control-sidebar -->
 
@@ -340,7 +343,7 @@
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{asset('js/app.js')}}"></script>
-<script>
+<!-- <script>
     $(".content-wrapper").click(function() {
         if($("#control_sidebar_main").hasClass("control-sidebar-open")) {
             $("#control_sidebar_main").removeClass("control-sidebar-open");
@@ -356,7 +359,7 @@
         $('.loader').show();
     })
 
-</script>
+</script> -->
 @yield('scripts')
 </body>
 </html>

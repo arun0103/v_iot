@@ -885,7 +885,7 @@ class DataController extends Controller
         if($loggedInUser->role == "S"){
             $devices = Device::whereHas('latest_log', function ($query) use($now) {
                 $query->where('updated_at','>=',$now->subSeconds(60))->whereIn('step', [0,1,13]);
-            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints','reseller','distributor'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
             // ];// useful for datatables
@@ -910,7 +910,7 @@ class DataController extends Controller
             $devices = Device::whereHas('latest_log',function($query) use($now){
                 $query->where('updated_at','>=',$now->subSeconds(60))->whereIn('step',[2,3,4,5,7,8,9,10,11,12,14,15]);
                 // $query->where('created_at','>=',$now->subSeconds(60))->whereNotIn('step',[0,1,13,6]);
-            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            })->with(['model'])->with('latest_log')->with(['userDevices','setpoints','reseller','distributor'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
             // ];// useful for datatables
@@ -936,7 +936,7 @@ class DataController extends Controller
         if($loggedInUser->role == "S"){
             $devices = Device::whereHas('latest_log',function($query) use($now){
                 $query->where([['step',6],['updated_at','>=',$now->subSeconds(60)]]);
-            })->has('latest_log')->with(['model'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            })->has('latest_log')->with(['model','reseller','distributor'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
             // ];// useful for datatables
@@ -960,7 +960,7 @@ class DataController extends Controller
         if($loggedInUser->role == "S"){
             $devices = Device::whereDoesntHave('latest_log', function ($query) use($now){
                 $query->where('updated_at', '>', $now->subSeconds(60));
-            })->with(['model','latest_log'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
+            })->with(['model','latest_log','reseller','distributor'])->with(['userDevices','setpoints'])->withCount('userDevices')->get();
             // $response = [
             //     'data'=>$devices
             // ];// useful for datatables
