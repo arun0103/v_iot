@@ -2164,8 +2164,8 @@
                         response[i].device_name,
                         firmware,
                         response[i].model.name,
-                        response[i].reseller.name,
-                        response[i].distributor.name,
+                        response[i].reseller != null? response[i].reseller.company_name: '-',
+                        response[i].distributor!= null? response[i].distributor.company_name: '-',
                         status,
                         water_quality,
                         '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
