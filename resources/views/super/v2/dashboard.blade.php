@@ -2464,6 +2464,8 @@
                     '5':data[i][5],
                     '6':data[i][6],
                     '7':water_quality,
+                    '8':'<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                        '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
 
                 }
                 table_idle.row(i).data(data_to_change).draw();
