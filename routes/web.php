@@ -162,6 +162,7 @@ Route::delete('/deleteCommand/{id}',[App\Http\controllers\CommandsController::cl
 Route::post('/flush_module/{id}',[App\Http\Controllers\CommandsController::class, 'flush_module'])->middleware('auth');
 Route::post('/start_CIP/{id}',[App\Http\Controllers\CommandsController::class, 'start_CIP'])->middleware('auth');
 Route::post('/reset-factory-settings/{id}',[App\Http\Controllers\CommandsController::class, 'resetFactorySettings'])->middleware('auth');
+Route::post('/reset-volume/{id}',[App\Http\Controllers\CommandsController::class, 'resetVolume'])->middleware('auth');
 Route::post('/current_date/{id}',[App\Http\Controllers\CommandsController::class, 'current_date'])->middleware('auth');
 Route::post('/current_time/{id}',[App\Http\Controllers\CommandsController::class, 'current_time'])->middleware('auth');
 Route::post('/command/stop/{id}',[App\Http\Controllers\CommandsController::class, 'stopDevice'])->middleware('auth');

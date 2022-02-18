@@ -1383,6 +1383,7 @@
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_flush_module" id="btn_flush_module">Flush Module</button></div>
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_start_CIP" id="btn_start_CIP">Start CIP</button></div>
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-danger btn_reset_factory_settings" id="btn_reset_factory_settings">Reset Factory Settings</button></div>
+                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-danger btn_reset_volume" id="btn_reset_volume">Reset Volume</button></div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -4177,6 +4178,19 @@
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "POST",
                 url: "/reset-factory-settings/"+ device_id,
+            })
+            .done(function(response){
+                console.log(response)
+                Swal.fire('Success','Command recorded.','success')
+                let date = new Date(response.created_at)
+                $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+            });
+        })
+        $('.btn_reset_volume').on('click', function(){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/reset-volume/"+ device_id,
             })
             .done(function(response){
                 console.log(response)

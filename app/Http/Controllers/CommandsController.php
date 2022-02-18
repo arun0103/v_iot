@@ -106,6 +106,14 @@ class CommandsController extends Controller
         $command->save();
         return response()->json($command);
     }
+    public function resetVolume($device_id){
+        $command = new Device_commands();
+        $command->device_id = $device_id;
+        $command->command = "Reset-volume";
+        $command->created_by = Auth::user()->id;
+        $command->save();
+        return response()->json($command);
+    }
     public function resetAllAlarms($device_id){
         $command = new Device_commands();
         $command->device_id = $device_id;
