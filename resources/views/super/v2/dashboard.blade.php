@@ -2456,14 +2456,15 @@
                     water_quality = '<span style="color:brown">Needs Attention</span>'
                 }
                 let data_to_change = {
-                    // '0':data[i][0],
-                    // '1':data[i][1],
-                    // '2':data[i][2],
-                    // '3':data[i][3],
-                    // '4':data[i][4],
-                    // '5':data[i][5],
+                    '0':data[i][0],
+                    '1':data[i][1],
+                    '2':data[i][2],
+                    '3':data[i][3],
+                    '4':data[i][4],
+                    '5':data[i][5],
+                    '6':data[i][6],
                     '7':water_quality,
-                    // '7':data[i][7]
+
                 }
                 table_idle.row(i).data(data_to_change).draw();
             });
