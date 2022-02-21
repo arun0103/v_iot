@@ -56,9 +56,9 @@
     .alarms-list{
         color:red;
     }
-    tr.device-info{
+    /* tr.device-info{
         position:relative;
-    }
+    } */
     .loader {
         position: fixed;
         left: 0px;
@@ -838,6 +838,9 @@
         overflow: hidden;
         z-index: 10000;
     }
+    .units{
+        position:absolute;top:10px;right:20px;z-index:1;font-style: italic;color: grey;
+    }
 </style>
 
 @endsection
@@ -888,7 +891,7 @@
                             <div class="icon">
                                 <i class="fas fa-cog"></i>
                             </div>
-                            <a href="#" class="small-box-footer" id="running_info">More info <i id="running_info_icon" class="fas fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer" style="z-index:0 !important" id="running_info">More info <i id="running_info_icon" class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -903,7 +906,7 @@
                             <div class="icon">
                                 <i class="fas fa-stopwatch"></i>
                             </div>
-                            <a href="#" class="small-box-footer" id="standby_info">More info <i id="standby_info_icon" class="fas fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer" style="z-index:0 !important" id="standby_info">More info <i id="standby_info_icon" class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -918,136 +921,138 @@
                             <div class="icon">
                                 <i class="fas fa-low-vision"></i>
                             </div>
-                            <a href="#" class="small-box-footer" id="disconnected_info">More info <i id="disconnected_info_icon" class="fas fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer" style="z-index:0 !important" id="disconnected_info">More info <i id="disconnected_info_icon" class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
                     </div>
                 <!-- end of device status -->
             </div>
-            <div class="container-fluid">
-                <div class="row" id="table-idle-devices">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Idle Devices' List</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_idle" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th>Firmware</th>
-                                            <th>Reseller</th>
-                                            <th>Distributor</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
+            <!-- Tables -->
+                <div class="container-fluid">
+                    <div class="row" id="table-idle-devices">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 id="card-title" class="device_list_title">Idle Devices' List</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="table_lists_idle" class=" table-hover datatable" data-turbolinks="false">
+                                            <thead class="thead-dark">
+                                                <th>S.N</th>
+                                                <th>Device Name</th>
+                                                <th>Model</th>
+                                                <th>Firmware</th>
+                                                <th>Reseller</th>
+                                                <th>Distributor</th>
+                                                <th>Status</th>
+                                                <th>Water Quality</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
-
                     </div>
-                </div>
-                <div class="row" id="table-running-devices" hidden>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Running Devices' List</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_running" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th>Firmware</th>
-                                            <th>Reseller</th>
-                                            <th>Distributor</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
+                    <div class="row" id="table-running-devices" hidden>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 id="card-title" class="device_list_title">Running Devices' List</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="table_lists_running" class=" table-hover datatable" data-turbolinks="false">
+                                            <thead class="thead-dark">
+                                                <th>S.N</th>
+                                                <th>Device Name</th>
+                                                <th>Model</th>
+                                                <th>Firmware</th>
+                                                <th>Reseller</th>
+                                                <th>Distributor</th>
+                                                <th>Status</th>
+                                                <th>Water Quality</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
-
                     </div>
-                </div>
-                <div class="row" id="table-standby-devices" hidden>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">StandBy Devices' List</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_standby" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th>Firmware</th>
-                                            <th>Reseller</th>
-                                            <th>Distributor</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
+                    <div class="row" id="table-standby-devices" hidden>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 id="card-title" class="device_list_title">StandBy Devices' List</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="table_lists_standby" class=" table-hover datatable" data-turbolinks="false">
+                                            <thead class="thead-dark">
+                                                <th>S.N</th>
+                                                <th>Device Name</th>
+                                                <th>Model</th>
+                                                <th>Firmware</th>
+                                                <th>Reseller</th>
+                                                <th>Distributor</th>
+                                                <th>Status</th>
+                                                <th>Water Quality</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
-
                     </div>
-                </div>
-                <div class="row" id="table-disconnected-devices" hidden>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Disconnected Devices' List</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_disconnected" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th>Firmware</th>
-                                            <th>Reseller</th>
-                                            <th>Distributor</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Last Online</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
+                    <div class="row" id="table-disconnected-devices" hidden>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 id="card-title" class="device_list_title">Disconnected Devices' List</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="table_lists_disconnected" class=" table-hover datatable" data-turbolinks="false">
+                                            <thead class="thead-dark">
+                                                <th>S.N</th>
+                                                <th>Device Name</th>
+                                                <th>Model</th>
+                                                <th>Firmware</th>
+                                                <th>Reseller</th>
+                                                <th>Distributor</th>
+                                                <th>Status</th>
+                                                <th>Water Quality</th>
+                                                <th>Last Online</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
+            <!-- End of tables -->
 
         </section>
     </div>
@@ -1623,12 +1628,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-pure_EC_target" id="input-pure_EC_target" value=""/>
+                                                                <span class="units">us/cm</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-p_flow_target">Pure Flow Target</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-p_flow_target" id="input-p_flow_target" value=""/>
+                                                                <span class="units">L/Min</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1646,12 +1653,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-low_flow_purify_alarm" id="input-low_flow_purify_alarm" value=""/>
+                                                                <span class="units">L/Min</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-low_flow_waste_alarm">Low Flow Waste Alarm</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-low_flow_waste_alarm" id="input-low_flow_waste_alarm" value=""/>
+                                                                <span class="units">L/Min</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1659,13 +1668,19 @@
                                                                 <label for="input-bypass_option">Bypass Option</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-bypass_option" id="input-bypass_option" value=""/>
+                                                                <select class="form-control input-setpoints"  id="input-bypass_option">
+                                                                    <option value="0">-</option>
+                                                                    <option value="1">External NC</option>
+                                                                    <option value="2">External NO</option>
+                                                                </select>
+
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-bypass_pressure">Bypass Pressure</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-bypass_pressure" id="input-bypass_pressure" value=""/>
+                                                                <span class="units">BAR</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1674,12 +1689,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-start_pressure" id="input-start_pressure" value=""/>
+                                                                <span class="units">BAR</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-stop_pressure">Stop Pressure</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-stop_pressure" id="input-stop_pressure" value=""/>
+                                                                <span class="units">BAR</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1688,6 +1705,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-bypass_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1704,12 +1722,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-pre_purify_time" id="input-pre_purify_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-purify_time">Purify Time</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-purify_time" id="input-purify_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1718,12 +1738,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-waste_time" id="input-waste_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-HF_waste_time">HF Waste Time</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-HF_waste_time" id="input-HF_waste_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1732,12 +1754,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_dose" id="input-CIP_dose" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-CIP_dose_rec">CIP Dose Rec</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_dose_rec" id="input-CIP_dose_rec" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1760,6 +1784,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_flow_flush" id="input-CIP_flow_flush" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-CIP_flow_rec">CIP Flow Rec</label>
@@ -1774,6 +1799,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_flush_time" id="input-CIP_flush_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1782,12 +1808,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-WV_check_time" id="input-WV_check_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-wait_HT_time">Wait HT Time</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-wait_HT_time" id="input-wait_HT_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1796,12 +1824,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-temperature_alarm" id="input-temperature_alarm" value=""/>
+                                                                <span class="units">C</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-max_CIP_prt">Max CIP P.R.T</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-max_CIP_prt" id="input-max_CIP_prt" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1830,6 +1860,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-w_max_volt" id="input-w_max_volt" value=""/>
+                                                                <span class="units">Volts</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1865,12 +1896,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_pressure" id="input-CIP_pressure" value=""/>
+                                                                <span class="units">BAR</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-wait_time_before_CIP">Wait Time Before CIP</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-wait_time_before_CIP" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2645,7 +2678,7 @@
         $('#btn_save_setpoints').attr('hidden',true)
         $('#btn_cancel_setpoints').attr('hidden',true)
         $('#footer_maintenance').attr('hidden',false)
-        $('#modal-detail-title').text(data[1])
+        $('#modal-detail-title').text(data[1]!=null?data[1]:data[0])
         device_serial = data[0];
 
         //get data from database every 5 seconds
