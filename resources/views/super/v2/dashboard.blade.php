@@ -1767,10 +1767,11 @@
                                                         <div class="row">
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-CIP_dose_total">CIP Dose Total</label>
-                                                                <span class="units">Secs</span>
+
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_dose_total" id="input-CIP_dose_total" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-CIP_flow_total">CIP Flow Total</label>
