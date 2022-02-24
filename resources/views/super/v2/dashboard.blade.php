@@ -1628,7 +1628,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-pure_EC_target" id="input-pure_EC_target" value=""/>
-                                                                <span class="units">us/cm</span>
+                                                                <span class="units">&micro;s/cm</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-p_flow_target">Pure Flow Target</label>
@@ -1669,7 +1669,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <select class="form-control input-setpoints"  id="input-bypass_option">
-                                                                    <option value="0">-</option>
+                                                                    <option value="0">Internal NO</option>
                                                                     <option value="1">External NC</option>
                                                                     <option value="2">External NO</option>
                                                                 </select>
@@ -1680,7 +1680,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-bypass_pressure" id="input-bypass_pressure" value=""/>
-                                                                <span class="units">BAR</span>
+                                                                <span class="units">Bar</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1689,14 +1689,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-start_pressure" id="input-start_pressure" value=""/>
-                                                                <span class="units">BAR</span>
+                                                                <span class="units">Bar</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-stop_pressure">Stop Pressure</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-stop_pressure" id="input-stop_pressure" value=""/>
-                                                                <span class="units">BAR</span>
+                                                                <span class="units">Bar</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1767,6 +1767,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-CIP_dose_total">CIP Dose Total</label>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_dose_total" id="input-CIP_dose_total" value=""/>
@@ -1776,6 +1777,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_flow_total" id="input-CIP_flow_total" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1791,6 +1793,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_flow_rec" id="input-CIP_flow_rec" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1854,13 +1857,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-p_max_volt" id="input-p_max_volt" value=""/>
+                                                                <span class="units">V</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-w_max_volt">W.Max Volt</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-w_max_volt" id="input-w_max_volt" value=""/>
-                                                                <span class="units">Volts</span>
+                                                                <span class="units">V</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1896,7 +1900,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_pressure" id="input-CIP_pressure" value=""/>
-                                                                <span class="units">BAR</span>
+                                                                <span class="units">Bar</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-wait_time_before_CIP">Wait Time Before CIP</label>
