@@ -1934,7 +1934,7 @@
                                                             </tr>
                                                             <tbody class="message_from_database">
                                                                 <tr>
-                                                                    <th style="line-height: 2.5em">Critic Acid</th>
+                                                                    <th style="line-height: 2.5em">Citric Acid</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="critic_acid_details">
                                                                             <b><span id="critic_acid_volume_left"></span></b> <span class="volume_unit">gal</span> left before next service
@@ -2179,8 +2179,8 @@
                     }
                     // calculate firmware
                     let firmware = response[i].firmware.split(".");
-                    if(firmware.length == 5)
-                        firmware = firmware[4]
+                    if(firmware.length == 6)
+                        firmware = firmware[4]+"."+firmware[5]
                     else
                         firmware = response[i].firmware
                     //calculate water quality
@@ -2201,8 +2201,8 @@
                     table_idle.row.add([
                         response[i].serial_number,
                         response[i].device_name,
-                        firmware,
                         response[i].model.name,
+                        firmware,
                         response[i].reseller != null? response[i].reseller.company_name: '-',
                         response[i].distributor!= null? response[i].distributor.company_name: '-',
                         status,
@@ -2307,8 +2307,8 @@
                 }
                 // calculate firmware
                 let firmware = response[i].firmware.split(".");
-                if(firmware.length ==5)
-                    firmware = firmware[4]
+                if(firmware.length == 6)
+                    firmware = firmware[4]+"."+firmware[5]
                 else
                     firmware = response[i].firmware
                 //Update table
@@ -2364,8 +2364,8 @@
                     }
                     // calculate firmware
                     let firmware = response[i].firmware.split(".");
-                    if(firmware.length ==5)
-                        firmware = firmware[4]
+                    if(firmware.length == 6)
+                        firmware = firmware[4]+"."+firmware[5]
                     else
                         firmware = response[i].firmware
                     //calculate water quality
@@ -2435,8 +2435,8 @@
                         }
                         // calculate firmware
                         let firmware = response[i].firmware.split(".");
-                        if(firmware.length ==5)
-                            firmware = firmware[4]
+                        if(firmware.length == 6)
+                            firmware = firmware[4]+"."+firmware[5]
                         else
                             firmware = response[i].firmware
                         //calculate water quality
@@ -3104,7 +3104,7 @@
                     volume_left_critic_acid = 0;
                     is_maintenance_needed = true;
                     $('#critic_acid_details').attr("hidden","true");
-                    $('#critic_acid_error').text("Critic acid refill needed!").css("color","red");
+                    $('#critic_acid_error').text("Citric acid refill needed!").css("color","red");
                     $('#btn_reset_critic_acid').attr('disabled',false);
                 }
                 if(volume_left_pre_filter < 0){
@@ -3927,7 +3927,7 @@
 
                 })
                 .done(function(response){
-                    Swal.fire('Success','Critic Acid Updated','success')
+                    Swal.fire('Success','Citric Acid Updated','success')
                     $('#btn_save_critic_acid').attr("hidden", true);
                 });
             }else{
@@ -4000,7 +4000,7 @@
                 }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
-                        title: 'Resetting Critic Acid!',
+                        title: 'Resetting Citric Acid!',
                         html: 'Please Wait!',
                         allowOutsideClick: false,
                         allowEscapeKey: false,
@@ -4020,7 +4020,7 @@
                         $('#critic_acid_error').text("").trigger("change");
                         $('#critic_acid_details').removeAttr("hidden");
                         $('#critic_acid_volume_left').text(critic_acid_reset_value);
-                        Swal.fire('Done!','Critic acid refilled.','success')
+                        Swal.fire('Done!','Citric acid refilled.','success')
                         $('#btn_reset_critic_acid').attr('disabled',true);
                     })
                 }

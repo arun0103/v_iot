@@ -49,10 +49,10 @@ class MaintenanceUpdate extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Voltea IOT Maintenance Alert : '.$this->device_detail->serial_number.'('.$this->device_detail->name.')')
+                    ->subject('Voltea IOT Maintenance Alert : '.$this->device_detail->serial_number.'('.$this->device_detail->device_name.')')
                     ->greeting('Hello! '.$this->user->name)
                     ->line('You have reset the maintenance: '.$this->maintenance_type)
-                    ->line('for device : '.$this->device_detail->serial_number.'('.$this->device_detail->name.')')
+                    ->line('for device : '.$this->device_detail->serial_number.'('.$this->device_detail->device_name.')')
                     ->line('performed by '.$this->performer_detail->email)
                     ->line('Thank you');
     }
