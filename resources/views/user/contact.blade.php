@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <h4 class="card-header">
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 @endsection
@@ -103,41 +103,41 @@
     $(document).ready(function(){
         $('.loader').hide()
     })
-    $('#btn_send_message_super').on('click', function(){
-       // validate inputs
-       let subject = $('#inputSubject_super').val()
-       let message = $('#inputMessage_super').val()
-       let validated = true
+    // $('#btn_send_message_super').on('click', function(){
+    //    // validate inputs
+    //    let subject = $('#inputSubject_super').val()
+    //    let message = $('#inputMessage_super').val()
+    //    let validated = true
 
-       if(subject == ""){
-            validated = false;
-            $('#error_subject_super').text("Please enter the subject!").css('color','red')
-       }else{
-        $('#error_subject_super').text("")
-       }
-       if(message ==""){
-           validated = false;
-           $('#error_message_super').text("Please enter the message!").css('color','red')
-       }else{
-        $('#error_message_super').text("")
-       }
+    //    if(subject == ""){
+    //         validated = false;
+    //         $('#error_subject_super').text("Please enter the subject!").css('color','red')
+    //    }else{
+    //     $('#error_subject_super').text("")
+    //    }
+    //    if(message ==""){
+    //        validated = false;
+    //        $('#error_message_super').text("Please enter the message!").css('color','red')
+    //    }else{
+    //     $('#error_message_super').text("")
+    //    }
 
-       if(validated){
-            let formData = {
-                'subject' : subject,
-                'message' : message,
-                '_token': '{{ csrf_token() }}'
-            }
-            $.ajax({
-                type: "POST",
-                url: "/sendQueryToSuperAdmins",
-                data: formData
-            })
-            .done(function(response){
-                console.log(response);
-            })
-       }
-    })
+    //    if(validated){
+    //         let formData = {
+    //             'subject' : subject,
+    //             'message' : message,
+    //             '_token': '{{ csrf_token() }}'
+    //         }
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "/sendQueryToSuperAdmins",
+    //             data: formData
+    //         })
+    //         .done(function(response){
+    //             console.log(response);
+    //         })
+    //    }
+    // })
     $('#btn_send_message_reseller').on('click', function(){
        // validate inputs
        let subject = $('#inputSubject_reseller').val()
@@ -158,6 +158,19 @@
        }
 
        if(validated){
+            console.log("Sending emails")
+            $('#btn_send_message').attr('disabled',true)
+            Swal.fire({
+                title: 'Sending emails',
+                html: '<b>Please Wait!</b>',
+                // timer: 2000,
+                timerProgressBar: true,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
         let formData = {
                 'subject' : subject,
                 'message' : message,
@@ -170,6 +183,10 @@
             })
             .done(function(response){
                 console.log(response);
+                if(response.message == "sent")
+                    Swal.fire("Success","Thank you for contacting","success")
+                else
+                    Swal.fire('Error',"Unable to contact",'error')
             })
        }
     })
