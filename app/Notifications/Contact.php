@@ -45,15 +45,13 @@ class Contact extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
-    {
+    {   $sender_role = $this->sender->role=="R"?"Reseller":($this->sender->role=="D"?"Distributor":"User");
         return (new MailMessage)//->view('emailTemplates.contact');
-                    ->subject("Query for". $this->subject)
+                    ->subject($sender_role."'s query for ". $this->subject)
                     ->greeting('Hello! '.$this->receiver->name)
                     ->line('You have received a query from :'.$this->sender->name." (".$this->sender->email.")")
                     ->line('Subject : '.$this->subject)
-                    ->line('')
-                    ->line('Message : ')
-                    ->line($this->message);
+                    ->line('Message : '.$this->message);
     }
 
     /**
