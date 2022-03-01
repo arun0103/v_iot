@@ -85,6 +85,11 @@ class ResellerController extends Controller
     public function delete(Request $request){
         $reseller = Reseller::where('id',$request->id)->first();
         $resellerUser = User::where([['reseller_id', $request->id],['role','R']])->delete();
+        $resellerDevices = Devices::where('reseller_id',$reseller->id)->get();
+        foreach($resellerDevices as $device){
+            $device->reseller_id = null;
+            $device->save();
+        }
         $data = [
             'status'=>200,
             'data'=>$reseller->delete(),

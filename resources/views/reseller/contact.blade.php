@@ -87,7 +87,36 @@
        }
 
        if(validated){
-           alert("Sending emails")
+           console.log("Sending emails")
+           $('#btn_send_message').attr('disabled',true)
+           Swal.fire({
+                title: 'Sending emails',
+                html: '<b>Please Wait!</b>',
+                // timer: 2000,
+                timerProgressBar: true,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
+            let formData = {
+                'subject' : subject,
+                'message' : message,
+                '_token': '{{ csrf_token() }}'
+            }
+            $.ajax({
+                type: "POST",
+                url: "/sendQueryToSuperAdmins",
+                data: formData
+            })
+            .done(function(response){
+                console.log(response);
+                if(response.message == "sent")
+                    Swal.fire("Success","Thank you for contacting","success")
+                else
+                    Swal.fire('Error',"Unable to contact",'error')
+            })
        }
     })
 </script>

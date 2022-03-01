@@ -124,6 +124,7 @@ Route::get('/getDeviceNotifications/{id}', [App\Http\Controllers\DeviceControlle
 
 //Mails
 Route::post('/sendQueryToSuperAdmins',[App\Http\Controllers\MailController::class, 'sendQueryToSuperAdmins'])->middleware('auth');
+Route::post('/sendQueryToResellers',[App\Http\Controllers\MailController::class, 'sendQueryToResellers'])->middleware('auth');
 
 //user
 Route::delete('/deleteUser/{id}',[App\Http\Controllers\SuperController::class, 'deleteUserById'])->middleware('auth');

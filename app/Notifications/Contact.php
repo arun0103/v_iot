@@ -46,12 +46,14 @@ class Contact extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->view('emailTemplates.contact');
-                    // ->subject($this->subject)
-                    // ->greeting('Hello! '.$this->receiver->name)
-                    // ->line('You have received a query from :'.$this->sender->name."(".$this->sender->email.")")
-                    // ->line('Message is as below:')
-                    // ->line($this->message);
+        return (new MailMessage)//->view('emailTemplates.contact');
+                    ->subject("Query for". $this->subject)
+                    ->greeting('Hello! '.$this->receiver->name)
+                    ->line('You have received a query from :'.$this->sender->name." (".$this->sender->email.")")
+                    ->line('Subject : '.$this->subject)
+                    ->line('')
+                    ->line('Message : ')
+                    ->line($this->message);
     }
 
     /**

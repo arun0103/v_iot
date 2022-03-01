@@ -158,7 +158,19 @@
        }
 
        if(validated){
-           alert("Sending emails")
+        let formData = {
+                'subject' : subject,
+                'message' : message,
+                '_token': '{{ csrf_token() }}'
+            }
+            $.ajax({
+                type: "POST",
+                url: "/sendQueryToResellers",
+                data: formData
+            })
+            .done(function(response){
+                console.log(response);
+            })
        }
     })
 </script>

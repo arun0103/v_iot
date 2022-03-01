@@ -30,4 +30,12 @@ class MailController extends Controller
         }
         return response()->json(['message'=>'sent']);
     }
+    public function sendQueryToResellers(Request $req){
+        $loggedInUser = Auth::user();
+        $resellers = User::where([['role','R'],['reseller_id',$loggedInUser->reseller_id]])->get();
+        foreach($resellers as $reseller){
+            $reseller->notify(new Contact($reseller,$req->subject,$req->message, $loggedInUser));
+        }
+        return response()->json(['message'=>'sent']);
+    }
 }
