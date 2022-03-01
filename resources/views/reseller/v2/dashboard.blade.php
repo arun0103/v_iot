@@ -56,9 +56,9 @@
     .alarms-list{
         color:red;
     }
-    tr.device-info{
+    /* tr.device-info{
         position:relative;
-    }
+    } */
     .loader {
         position: fixed;
         left: 0px;
@@ -838,6 +838,9 @@
         overflow: hidden;
         z-index: 10000;
     }
+    .units{
+        position:absolute;top:10px;right:20px;z-index:1;font-style: italic;color: grey;
+    }
 </style>
 
 @endsection
@@ -847,7 +850,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard <sup>v2</sup>&nbsp;<!-- <button type="button" class="btn btn-info" id="btn_map_view">Map View</button> --></h1>
+                        <h1 class="m-0">Dashboard <!-- <button type="button" class="btn btn-info" id="btn_map_view">Map View</button> --></h1>
                     </div>
                     <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -860,183 +863,197 @@
         </div>
         <section class="content">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-3 col-6 pointer" id="idle_block">
-                        <!-- small box -->
-                        <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3 id="count-idle_devices">0</h3>
-                            <p>Idle</p>
-                        </div>
-                        <div id="idle-loading"></div>
-                        <div class="icon">
-                            <i class="fas fa-snowflake"></i>
-                        </div>
-                        <a href="#" class="small-box-footer" id="idle_info">More info <i id="idle_info_icon" class="fas fa-arrow-circle-down"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6 pointer" id="running_block">
-                        <!-- small box -->
-                        <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3 id ="count-running_devices">0</h3>
-                            <p>Running</p>
-                        </div>
-                        <div id="running-loading"></div>
-                        <div class="icon">
-                            <i class="fas fa-cog"></i>
-                        </div>
-                        <a href="#" class="small-box-footer" id="running_info">More info <i id="running_info_icon" class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6 pointer" id="standby_block">
-                        <!-- small box -->
-                        <div class="small-box bg-warning">
-                        <div class="inner">
-                            <h3 id="count-standby_devices">0</h3>
-                            <p>Stand By</p>
-                        </div>
-                        <div id="standby-loading"></div>
-                        <div class="icon">
-                            <i class="fas fa-stopwatch"></i>
-                        </div>
-                        <a href="#" class="small-box-footer" id="standby_info">More info <i id="standby_info_icon" class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6 pointer" id="disconnected_block">
-                        <!-- small box -->
-                        <div class="small-box bg-danger">
-                        <div class="inner">
-                            <h3 id="count-disconnected_devices">0</h3>
-                            <p>Disconnected</p>
-                        </div>
-                        <div id="disconnected-loading"></div>
-                        <div class="icon">
-                            <i class="fas fa-low-vision"></i>
-                        </div>
-                        <a href="#" class="small-box-footer" id="disconnected_info">More info <i id="disconnected_info_icon" class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                </div>
-
-                <div class="row" id="table-idle-devices">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Idle Devices' List</h3>
+                <!-- device status  -->
+                    <div class="row" style="z-index:-1 !important">
+                        <div class="col-lg-3 col-md-6 col-sm-12 pointer blocks" id="idle_block">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3 id="count-idle_devices">0</h3>
+                                <p>Idle</p>
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_idle" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th># Users</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div id="idle-loading"></div>
+                            <div class="icon">
+                                <i class="fas fa-snowflake"></i>
+                            </div>
+                            <a href="#" class="small-box-footer" style="z-index:0 !important" id="idle_info">More info <i id="idle_info_icon" class="fas fa-arrow-circle-down"></i></a>
                             </div>
                         </div>
-
-                    </div>
-                </div>
-                <div class="row" id="table-running-devices" hidden>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Running Devices' List</h3>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-md-6 col-sm-12 pointer blocks" id="running_block">
+                            <!-- small box -->
+                            <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3 id ="count-running_devices">0</h3>
+                                <p>Running</p>
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_running" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th># Users</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div id="running-loading"></div>
+                            <div class="icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <a href="#" class="small-box-footer" style="z-index:0 !important" id="running_info">More info <i id="running_info_icon" class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-
-                    </div>
-                </div>
-                <div class="row" id="table-standby-devices" hidden>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">StandBy Devices' List</h3>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-md-6 col-sm-12 pointer blocks" id="standby_block">
+                            <!-- small box -->
+                            <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3 id="count-standby_devices">0</h3>
+                                <p>Stand By</p>
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_standby" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th># Users</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div id="standby-loading"></div>
+                            <div class="icon">
+                                <i class="fas fa-stopwatch"></i>
+                            </div>
+                            <a href="#" class="small-box-footer" style="z-index:0 !important" id="standby_info">More info <i id="standby_info_icon" class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-
-                    </div>
-                </div>
-                <div class="row" id="table-disconnected-devices" hidden>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 id="card-title" class="device_list_title">Disconnected Devices' List</h3>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-md-6 col-sm-12 pointer blocks" id="disconnected_block">
+                            <!-- small box -->
+                            <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3 id="count-disconnected_devices">0</h3>
+                                <p>Disconnected</p>
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table_lists_disconnected" class=" table-hover datatable" data-turbolinks="false">
-                                        <thead class="thead-dark">
-                                            <th>S.N</th>
-                                            <th>Device Name</th>
-                                            <th>Model</th>
-                                            <th># Users</th>
-                                            <th>Status</th>
-                                            <th>Water Quality</th>
-                                            <th>Last Online</th>
-                                            <th>Actions</th>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div id="disconnected-loading"></div>
+                            <div class="icon">
+                                <i class="fas fa-low-vision"></i>
+                            </div>
+                            <a href="#" class="small-box-footer" style="z-index:0 !important" id="disconnected_info">More info <i id="disconnected_info_icon" class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-
+                        <!-- ./col -->
                     </div>
-                </div>
+                <!-- end of device status -->
             </div>
+            <!-- Tables -->
+                <div class="container-fluid">
+                    <div class="row" id="table-idle-devices">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 id="card-title" class="device_list_title">Idle Devices' List</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="table_lists_idle" class=" table-hover datatable" data-turbolinks="false">
+                                            <thead class="thead-dark">
+                                                <th>S.N</th>
+                                                <th>Device Name</th>
+                                                <th>Model</th>
+                                                <th>Firmware</th>
+                                                <th>Reseller</th>
+                                                <th>Distributor</th>
+                                                <th>Status</th>
+                                                <th>Water Quality</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row" id="table-running-devices" hidden>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 id="card-title" class="device_list_title">Running Devices' List</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="table_lists_running" class=" table-hover datatable" data-turbolinks="false">
+                                            <thead class="thead-dark">
+                                                <th>S.N</th>
+                                                <th>Device Name</th>
+                                                <th>Model</th>
+                                                <th>Firmware</th>
+                                                <th>Reseller</th>
+                                                <th>Distributor</th>
+                                                <th>Status</th>
+                                                <th>Water Quality</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row" id="table-standby-devices" hidden>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 id="card-title" class="device_list_title">StandBy Devices' List</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="table_lists_standby" class=" table-hover datatable" data-turbolinks="false">
+                                            <thead class="thead-dark">
+                                                <th>S.N</th>
+                                                <th>Device Name</th>
+                                                <th>Model</th>
+                                                <th>Firmware</th>
+                                                <th>Reseller</th>
+                                                <th>Distributor</th>
+                                                <th>Status</th>
+                                                <th>Water Quality</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row" id="table-disconnected-devices" hidden>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 id="card-title" class="device_list_title">Disconnected Devices' List</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="table_lists_disconnected" class=" table-hover datatable" data-turbolinks="false">
+                                            <thead class="thead-dark">
+                                                <th>S.N</th>
+                                                <th>Device Name</th>
+                                                <th>Model</th>
+                                                <th>Firmware</th>
+                                                <th>Reseller</th>
+                                                <th>Distributor</th>
+                                                <th>Status</th>
+                                                <th>Water Quality</th>
+                                                <th>Last Online</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            <!-- End of tables -->
+
         </section>
     </div>
     <div class="modal fade modal-view_alarms_history" id="modal-view_alarms_history">
@@ -1047,7 +1064,7 @@
                     <button type="button" class="close close_alarms_history btn btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row" id="alarm_history_body">
                         <div class="col-lg-12 col-md-12 col-sm-12 ">
                             <ul class="timeline" id="alarms_history_row">
 
@@ -1156,7 +1173,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane fade show active" role="tabpanel" id="tab_avg_data">
                                                 <div class="row">
-                                                    <div class="col-lg-3 col-md-6 col-sm-6 box">
+                                                    <div class="col-lg-3 col-md-6 col-sm-12 box">
                                                         <div class="card card-outline card-success">
                                                             <h3 class="card-header">
                                                                 <div class="card-title">Status </div>
@@ -1370,6 +1387,8 @@
                                                     <div class="col-lg-12 col-md-12 col-sm-12 ">
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_flush_module" id="btn_flush_module">Flush Module</button></div>
                                                         <div class="d-inline-flex p-2"><button class="btn btn-outline-primary btn_start_CIP" id="btn_start_CIP">Start CIP</button></div>
+                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-danger btn_reset_factory_settings" id="btn_reset_factory_settings">Reset Factory Settings</button></div>
+                                                        <div class="d-inline-flex p-2"><button class="btn btn-outline-danger btn_reset_volume" id="btn_reset_volume">Reset Volume</button></div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -1609,12 +1628,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-pure_EC_target" id="input-pure_EC_target" value=""/>
+                                                                <span class="units">&micro;s/cm</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-p_flow_target">Pure Flow Target</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-p_flow_target" id="input-p_flow_target" value=""/>
+                                                                <span class="units">L/Min</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1632,12 +1653,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-low_flow_purify_alarm" id="input-low_flow_purify_alarm" value=""/>
+                                                                <span class="units">L/Min</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-low_flow_waste_alarm">Low Flow Waste Alarm</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-low_flow_waste_alarm" id="input-low_flow_waste_alarm" value=""/>
+                                                                <span class="units">L/Min</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1645,13 +1668,19 @@
                                                                 <label for="input-bypass_option">Bypass Option</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
-                                                                <input class="form-control input-setpoints" type="number" name="input-bypass_option" id="input-bypass_option" value=""/>
+                                                                <select class="form-control input-setpoints"  id="input-bypass_option">
+                                                                    <option value="0">Internal NO</option>
+                                                                    <option value="1">External NC</option>
+                                                                    <option value="2">External NO</option>
+                                                                </select>
+
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-bypass_pressure">Bypass Pressure</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-bypass_pressure" id="input-bypass_pressure" value=""/>
+                                                                <span class="units">Bar</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1660,12 +1689,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-start_pressure" id="input-start_pressure" value=""/>
+                                                                <span class="units">Bar</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-stop_pressure">Stop Pressure</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-stop_pressure" id="input-stop_pressure" value=""/>
+                                                                <span class="units">Bar</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1674,6 +1705,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-bypass_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1690,12 +1722,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-pre_purify_time" id="input-pre_purify_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-purify_time">Purify Time</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-purify_time" id="input-purify_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1704,12 +1738,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-waste_time" id="input-waste_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-HF_waste_time">HF Waste Time</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-HF_waste_time" id="input-HF_waste_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1718,26 +1754,31 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_dose" id="input-CIP_dose" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-CIP_dose_rec">CIP Dose Rec</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_dose_rec" id="input-CIP_dose_rec" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-CIP_dose_total">CIP Dose Total</label>
+
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_dose_total" id="input-CIP_dose_total" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-CIP_flow_total">CIP Flow Total</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_flow_total" id="input-CIP_flow_total" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1746,12 +1787,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_flow_flush" id="input-CIP_flow_flush" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-CIP_flow_rec">CIP Flow Rec</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_flow_rec" id="input-CIP_flow_rec" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1760,6 +1803,7 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_flush_time" id="input-CIP_flush_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1768,12 +1812,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-WV_check_time" id="input-WV_check_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-wait_HT_time">Wait HT Time</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-wait_HT_time" id="input-wait_HT_time" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1782,12 +1828,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-temperature_alarm" id="input-temperature_alarm" value=""/>
+                                                                <span class="units">C</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-max_CIP_prt">Max CIP P.R.T</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-max_CIP_prt" id="input-max_CIP_prt" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1810,12 +1858,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-p_max_volt" id="input-p_max_volt" value=""/>
+                                                                <span class="units">V</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-w_max_volt">W.Max Volt</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-w_max_volt" id="input-w_max_volt" value=""/>
+                                                                <span class="units">V</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1851,12 +1901,14 @@
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-CIP_pressure" id="input-CIP_pressure" value=""/>
+                                                                <span class="units">Bar</span>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <label for="input-wait_time_before_CIP">Wait Time Before CIP</label>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-3 ">
                                                                 <input class="form-control input-setpoints" type="number" name="input-wait_time_before_CIP" id="input-wait_time_before_CIP" value=""/>
+                                                                <span class="units">Secs</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1882,7 +1934,7 @@
                                                             </tr>
                                                             <tbody class="message_from_database">
                                                                 <tr>
-                                                                    <th style="line-height: 2.5em">Critic Acid</th>
+                                                                    <th style="line-height: 2.5em">Citric Acid</th>
                                                                     <td style="line-height: 2.5em;text-align:right">
                                                                         <span id="critic_acid_details">
                                                                             <b><span id="critic_acid_volume_left"></span></b> <span class="volume_unit">gal</span> left before next service
@@ -2104,14 +2156,12 @@
         })
         .done(function(response){
             //calculate status
-            console.log("Refreshing idle dashboard")
-            console.log(response)
             if(count_idle == response.length){
-                console.log("No changes in idle devices")
+                // console.log("No changes in idle devices")
             }else{
                 count_idle = response.length;
                 $('#count-idle_devices').text(count_idle);
-                console.log("change detected")
+                // console.log("change detected")
                 table_idle = $('#table_lists_idle').DataTable();
                 table_idle.clear()
                 for(let i=0; i<response.length; i++){
@@ -2127,7 +2177,14 @@
                         default:
                             status = '<span style="color:green">RUNNING</span>';break;
                     }
+                    // calculate firmware
+                    let firmware = response[i].firmware.split(".");
+                    if(firmware.length == 6)
+                        firmware = firmware[4]+"."+firmware[5]
+                    else
+                        firmware = response[i].firmware
                     //calculate water quality
+                    let water_quality = "-";
                     if(response[i].setpoints != null && response[i].latest_log != null){
                         let ec_target = response[i].setpoints.pure_EC_target;
                         let ec_avg = response[i].latest_log.ec;
@@ -2140,17 +2197,19 @@
                         }else{
                             water_quality = '<span style="color:brown">Needs Attention</span>'
                         }
-                        table_idle.row.add([
-                            response[i].serial_number,
-                            response[i].device_name,
-                            response[i].model.name,
-                            response[i].user_devices_count,
-                            status,
-                            water_quality,
-                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                        ]).draw(true)
                     }
+                    table_idle.row.add([
+                        response[i].serial_number,
+                        response[i].device_name,
+                        response[i].model.name,
+                        firmware,
+                        response[i].reseller != null? response[i].reseller.company_name: '-',
+                        response[i].distributor!= null? response[i].distributor.company_name: '-',
+                        status,
+                        water_quality,
+                        '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                        '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                    ]).draw(true)
                 }
                 table_idle.draw();
             }
@@ -2166,105 +2225,108 @@
             url: "/getDisconnectedDevices",
         })
         .done(function(response){
-            //calculate status
-            console.log("Refreshing disconnected dashboard @" + new Date())
-            console.log(response)
-                count_disconnected = response.length;
-                table_disconnected = $('#table_lists_disconnected').DataTable();
-                table_disconnected.clear();
-                let now = new Date(Date.now()-60000);
-                for(let i=0; i<response.length; i++){
-                    let status = "No Data";
-                    let water_quality = "No Data";
-                    let last_online_at = "No Data";
+            // console.log("Refreshing disconnected dashboard @" + new Date())
+            // console.log(response)
 
-                    if(response[i].latest_log != null){
-                        console.log("Not null")
-                        last_online_at = new Date(response[i].latest_log.updated_at);
-                        if(response[i].setpoints != null){
-                            let ec_target = response[i].setpoints.pure_EC_target;
-                            let ec_avg = response[i].latest_log.ec;
-                            let diff = Math.abs(ec_target - ec_avg);
-                            let percentage = diff*100/ec_target;
-                            if(percentage <= 10){
-                                water_quality = '<span style="color:green">On Target</span>'
-                            }else{
-                                water_quality = '<span style="color:brown">Needs Attention</span>'
-                            }
-                        }
-                        console.log(+new Date(response[i].latest_log.created_at))
-                        if(+new Date(response[i].latest_log.created_at) >= +now){
-                            count_disconnected--;
-                            //calculate status
-                            switch(response[i].latest_log.step){
-                                case 0:
-                                case 1:
-                                case 13:
-                                    status = '<span style="color:black">IDLE</span>';
-                                    // count_idle++;
-                                    // table_idle.row.add([
-                                    //     response[i].serial_number,
-                                    //     response[i].device_name,
-                                    //     response[i].model.name,
-                                    //     response[i].user_devices_count,
-                                    //     status,
-                                    //     water_quality,
-                                    //     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                                    //     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                                    // ]).draw(true)
-                                    break;
-                                case 6:
-                                    status = '<span style="color:orange">STANDBY</span>';
-                                    // count_standby++;
-                                    // table_standby.row.add([
-                                    //     response[i].serial_number,
-                                    //     response[i].device_name,
-                                    //     response[i].model.name,
-                                    //     response[i].user_devices_count,
-                                    //     status,
-                                    //     water_quality,
-                                    //     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                                    //     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                                    // ]).draw(true)
-                                    break;
-                                default:
-                                    status = '<span style="color:green">RUNNING</span>';
-                                    // count_running++;
-                                    // table_running.row.add([
-                                    //     response[i].serial_number,
-                                    //     response[i].device_name,
-                                    //     response[i].model.name,
-                                    //     response[i].user_devices_count,
-                                    //     status,
-                                    //     water_quality,
-                                    //     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                                    //     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                                    // ]).draw(true)
-                                    break;
-                            }
-                            continue;
+            count_disconnected = response.length;
+            table_disconnected = $('#table_lists_disconnected').DataTable();
+            table_disconnected.clear();
+            let now = new Date(Date.now()-60000);
+            for(let i=0; i<response.length; i++){
+                //calculate status
+                let status = "No Data";
+                let water_quality = "No Data";
+                let last_online_at = "No Data";
+                if(response[i].latest_log != null){
+                    last_online_at = new Date(response[i].latest_log.updated_at);
+                    if(response[i].setpoints != null){
+                        let ec_target = response[i].setpoints.pure_EC_target;
+                        let ec_avg = response[i].latest_log.ec;
+                        let diff = Math.abs(ec_target - ec_avg);
+                        let percentage = diff*100/ec_target;
+                        if(percentage <= 10){
+                            water_quality = '<span style="color:green">On Target</span>'
+                        }else{
+                            water_quality = '<span style="color:brown">Needs Attention</span>'
                         }
                     }
-                    else{
-                        console.log("NULL")
+                    if(+new Date(response[i].latest_log.created_at) >= +now){
+                        count_disconnected--;
+                        //calculate status
+                        switch(response[i].latest_log.step){
+                            case 0:
+                            case 1:
+                            case 13:
+                                status = '<span style="color:black">IDLE</span>';
+                                // count_idle++;
+                                // table_idle.row.add([
+                                //     response[i].serial_number,
+                                //     response[i].device_name,
+                                //     response[i].model.name,
+                                //     response[i].user_devices_count,
+                                //     status,
+                                //     water_quality,
+                                //     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                //     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                                // ]).draw(true)
+                                break;
+                            case 6:
+                                status = '<span style="color:orange">STANDBY</span>';
+                                // count_standby++;
+                                // table_standby.row.add([
+                                //     response[i].serial_number,
+                                //     response[i].device_name,
+                                //     response[i].model.name,
+                                //     response[i].user_devices_count,
+                                //     status,
+                                //     water_quality,
+                                //     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                //     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                                // ]).draw(true)
+                                break;
+                            default:
+                                status = '<span style="color:green">RUNNING</span>';
+                                // count_running++;
+                                // table_running.row.add([
+                                //     response[i].serial_number,
+                                //     response[i].device_name,
+                                //     response[i].model.name,
+                                //     response[i].user_devices_count,
+                                //     status,
+                                //     water_quality,
+                                //     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                                //     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                                // ]).draw(true)
+                                break;
+                        }
+                        continue;
                     }
-                    table_disconnected.row.add([
-                        response[i].serial_number,
-                        response[i].device_name,
-                        response[i].model.name,
-                        response[i].user_devices_count,
-                        status,
-                        water_quality,
-                        last_online_at,
-                        '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                        '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                    ]).draw(true)
                 }
-                table_disconnected.draw();
-                // table_standby.draw();
-                // table_running.draw();
-                // table_idle.draw();
-                // }
+                else{
+                    // console.log("NULL : No latest log found !!!! "+response[i].serial_number)
+                }
+                // calculate firmware
+                let firmware = response[i].firmware.split(".");
+                if(firmware.length == 6)
+                    firmware = firmware[4]+"."+firmware[5]
+                else
+                    firmware = response[i].firmware
+                //Update table
+                table_disconnected.row.add([
+                    response[i].serial_number,
+                    response[i].device_name,
+                    response[i].model.name,
+                    firmware,
+                    response[i].reseller != null? response[i].reseller.company_name: '-',
+                    response[i].distributor!= null? response[i].distributor.company_name: '-',
+                    status,
+                    water_quality,
+                    last_online_at,
+                    '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                    '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                ]).draw(true)
+            }
+            table_disconnected.draw();
             $('#count-disconnected_devices').text(count_disconnected);
             $('#disconnected-loading').removeClass('spin');
             disconnected_query_flag = false;
@@ -2279,14 +2341,12 @@
         })
         .done(function(response){
             //calculate status
-            console.log("Refreshing running dashboard")
-            console.log(response)
             if(count_running == response.length){
-                console.log("No changes in running devices")
+                // console.log("No changes in running devices")
             }else{
                 count_running = response.length;
                 $('#count-running_devices').text(count_running)
-                console.log("change detected")
+                // console.log("change detected")
                 table_running = $('#table_lists_running').DataTable();
                 table_running.clear();
                 for(let i=0; i<count_running; i++){
@@ -2302,30 +2362,38 @@
                         default:
                             status = '<span style="color:green">RUNNING</span>';break;
                     }
+                    // calculate firmware
+                    let firmware = response[i].firmware.split(".");
+                    if(firmware.length == 6)
+                        firmware = firmware[4]+"."+firmware[5]
+                    else
+                        firmware = response[i].firmware
                     //calculate water quality
+                    let water_quality = "-";
                     if(response[i].setpoints != null && response[i].latest_log != null){
                         let ec_target = response[i].setpoints.pure_EC_target;
                         let ec_avg = response[i].latest_log.ec;
                         let diff = Math.abs(ec_target - ec_avg);
                         let percentage = diff*100/ec_target;
-                        let water_quality ;
-                        // console.log(response.logs[0].ec+ "%")
                         if(percentage <= 10){
                             water_quality = '<span style="color:green">On Target</span>'
                         }else{
                             water_quality = '<span style="color:brown">Needs Attention</span>'
                         }
-                        table_running.row.add([
-                            response[i].serial_number,
-                            response[i].device_name,
-                            response[i].model.name,
-                            response[i].user_devices_count,
-                            status,
-                            water_quality,
-                            '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-                            '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-                        ]).draw(true)
                     }
+                    //Add row in a table
+                    table_running.row.add([
+                        response[i].serial_number,
+                        response[i].device_name,
+                        response[i].model.name,
+                        firmware,
+                        response[i].reseller != null? response[i].reseller.company_name: '-',
+                        response[i].distributor!= null? response[i].distributor.company_name: '-',
+                        status,
+                        water_quality,
+                        '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
+                        '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
+                    ]).draw(true)
                 }
                 table_running.draw();
             }
@@ -2343,14 +2411,12 @@
             })
             .done(function(response){
                 //calculate status
-                console.log("Refreshing standby dashboard")
-                console.log(response)
-                if(count_standby == response.length){
-                    console.log("No changes in standby devices")
+               if(count_standby == response.length){
+                    // console.log("No changes in standby devices")
                 }else{
                     count_standby = response.length;
                     $('#count-standby_devices').text(count_standby);
-                    console.log("change detected")
+                    // console.log("change detected")
                     table_standby = $('#table_lists_standby').DataTable();
                     table_standby.clear();
                     for(let i=0; i<count_standby; i++){
@@ -2367,14 +2433,19 @@
                             default:
                                 status = '<span style="color:green">RUNNING</span>';break;
                         }
+                        // calculate firmware
+                        let firmware = response[i].firmware.split(".");
+                        if(firmware.length == 6)
+                            firmware = firmware[4]+"."+firmware[5]
+                        else
+                            firmware = response[i].firmware
                         //calculate water quality
+                        water_quality = "-";
                         if(response[i].setpoints != null && response[i].latest_log != null){
                             let ec_target = response[i].setpoints.pure_EC_target;
                             let ec_avg = response[i].latest_log.ec;
                             let diff = Math.abs(ec_target - ec_avg);
                             let percentage = diff*100/ec_target;
-
-                            // console.log(response.logs[0].ec+ "%")
                             if(percentage <= 10){
                                 water_quality = '<span style="color:green">On Target</span>'
                             }else{
@@ -2385,7 +2456,9 @@
                             response[i].serial_number,
                             response[i].device_name,
                             response[i].model.name,
-                            response[i].user_devices_count,
+                            firmware,
+                            response[i].reseller != null? response[i].reseller.company_name: '-',
+                            response[i].distributor!= null? response[i].distributor.company_name: '-',
                             status,
                             water_quality,
                             '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
@@ -2400,7 +2473,6 @@
     function getIdleDevice_logs(){
         table_idle = $('#table_lists_idle').DataTable();
         var data = table_idle.rows().data();
-        // console.log("Data: "+data[0][0])
         for(let i=0; i<data.length; i++){
             let device_serial = data[i][0]
             $.ajax({
@@ -2409,15 +2481,12 @@
                 url: "/getDeviceLatestLog/"+device_serial,
             })
             .done(function(response){
-                //calculate status
-                console.log(response)
                 //calculate water quality
                 let ec_target = response.setpoints.pure_EC_target;
                 let ec_avg = response.logs[0].ec;
                 let diff = Math.abs(ec_target - ec_avg);
                 let percentage = diff*100/ec_target;
                 let water_quality ;
-                // console.log(response.logs[0].ec+ "%")
                 if(percentage <= 10){
                     water_quality = '<span style="color:green">On Target</span>'
                 }else{
@@ -2429,8 +2498,11 @@
                     '2':data[i][2],
                     '3':data[i][3],
                     '4':data[i][4],
-                    '5':water_quality,
-                    '6':data[i][6]
+                    '5':data[i][5],
+                    '6':data[i][6],
+                    '7':water_quality,
+                    '8':data[i][8]
+
                 }
                 table_idle.row(i).data(data_to_change).draw();
             });
@@ -2447,8 +2519,8 @@
                 url: "/getDeviceLatestLog/"+device_serial,
             })
             .done(function(response){
-                console.log("getting running devices logs")
-                console.log(response)
+                // console.log("getting running devices logs")
+                // console.log(response)
                 //calculate status
                     let status = "";
                     switch(response.logs[0].step){
@@ -2477,9 +2549,11 @@
                     '1':data[i][1],
                     '2':data[i][2],
                     '3':data[i][3],
-                    '4':status,
-                    '5':water_quality,
-                    '6':data[i][6]
+                    '4':data[i][4],
+                    '5':status,
+                    '6':data[i][6],
+                    '7':water_quality,
+                    '8':data[i][8]
                 }
                 table.row(i).data(data_to_change).draw();
             });
@@ -2496,9 +2570,6 @@
                 url: "/getDeviceLatestLog/"+device_serial,
             })
             .done(function(response){
-                // console.log(response)
-
-                //calculate status
                 //calculate water quality
                 let ec_target = response.setpoints.pure_EC_target;
                 let ec_avg = response.logs[0].ec;
@@ -2516,8 +2587,10 @@
                     '2':data[i][2],
                     '3':data[i][3],
                     '4':data[i][4],
-                    '5':water_quality,
-                    '6':data[i][6]
+                    '5':data[i][5],
+                    '6':data[i][6],
+                    '7':water_quality,
+                    '8':data[i][8]
                 }
                 table.row(i).data(data_to_change).draw();
             });
@@ -2594,7 +2667,7 @@
 
         $('.message_from_database').addClass('linear-background');
         $('.display_body').css('visibility','hidden');
-        clearInterval(dashboard_data);
+        // clearInterval(dashboard_data);
         clearInterval(live_data);
         //show average tab only
         view_mode = "average";
@@ -2610,7 +2683,7 @@
         $('#btn_save_setpoints').attr('hidden',true)
         $('#btn_cancel_setpoints').attr('hidden',true)
         $('#footer_maintenance').attr('hidden',false)
-        $('#modal-detail-title').text(data[1])
+        $('#modal-detail-title').text(data[1]!=null?data[1]:data[0])
         device_serial = data[0];
 
         //get data from database every 5 seconds
@@ -2764,7 +2837,7 @@
         //getDisconnectedDevices();
     })
     function pull_average_data(){
-        clearInterval(dashboard_data)
+        // clearInterval(dashboard_data)
         clearInterval(grouped_devices_count)
         clearInterval(device_latest_data)
         $.ajax({
@@ -2775,7 +2848,7 @@
         .done(function(response){
             $('.message_from_database').removeClass("linear-background");
             $('.display_body').css('visibility','visible')
-            console.log("% % % %  Refreshing Dashboad Data SN#:"+device_serial + " % % % % %")
+            console.log("% % % %  Refreshing Status Data SN#:"+device_serial + " % % % % %")
             console.log(response);
             device_id = response.deviceDetails.id;
             if(response['deviceDetails'].latest_log != null){
@@ -3031,7 +3104,7 @@
                     volume_left_critic_acid = 0;
                     is_maintenance_needed = true;
                     $('#critic_acid_details').attr("hidden","true");
-                    $('#critic_acid_error').text("Critic acid refill needed!").css("color","red");
+                    $('#critic_acid_error').text("Citric acid refill needed!").css("color","red");
                     $('#btn_reset_critic_acid').attr('disabled',false);
                 }
                 if(volume_left_pre_filter < 0){
@@ -3077,7 +3150,7 @@
     }
 
     function pull_live_data(){
-        clearInterval(dashboard_data)
+        // clearInterval(dashboard_data)
         clearInterval(avg_data);
         clearInterval(grouped_devices_count);
         console.log("Pulling Live Data")
@@ -3353,217 +3426,13 @@
 
     }
     function pull_grouped_devices_data(){
-        clearInterval(dashboard_data)
+        // clearInterval(dashboard_data)
         clearInterval(avg_data);
         console.log('groups: @ '+ new Date())
         getIdleDevices();
         getRunningDevices();
         getStandbyDevices();
         getDisconnectedDevices();
-        // $.ajax({
-            //     // headers: {'X-CSRF-Token': $('[name="_token"]').val()},
-            //     type: "GET",
-            //     url: "/refreshDashboardCounts",
-            //     "_token": "{{ csrf_token() }}"
-            // }).done(function(response){
-            //     console.log("Refreshing Dashboard counts and tables started")
-            //     console.log(response)
-            //     $('#count-idle_devices').text(response.count.idle)
-            //     $('#count-running_devices').text(response.count.running)
-            //     $('#count-standby_devices').text(response.count.standby)
-            //     $('#count-disconnected_devices').text(response.count.disconnected)
-
-            //     count_idle = response.count.idle;
-            //     count_running = response.count.running;
-            //     count_standby = response.count.standby;
-            //     count_disconnected = response.count.disconnected;
-
-            //     // refresh tables if device changes its category
-            //     console.log("Refreshing tables")
-            //     table_idle = $('#table_lists_idle').DataTable();
-            //     let count = table_idle.rows().count();
-            //     if(table_idle.count() != response.count.idle){
-            //         console.log("Change of state found in devices")
-            //         table_idle.clear();
-            //         // console.log(response.devices.idle.length)
-            //         for(let i=0; i<response.devices.idle.length; i++){
-            //             //calculate status
-            //             let status = "";
-            //             switch(response.devices.idle[i].step){
-            //                 case 0:
-            //                 case 1:
-            //                 case 13:
-            //                     status = '<span style="color:black">IDLE</span>';break;
-            //                 case 6:
-            //                     status = '<span style="color:orange">STANDBY</span>';break;
-            //                 default:
-            //                     status = '<span style="color:green">RUNNING</span>';break;
-            //             }
-            //             //calculate water quality
-            //             let ec_target = response.devices.idle[i].setpoints.pure_EC_target;
-            //             let ec_avg = response.devices.idle[i].latest_log.ec;
-            //             let diff = Math.abs(ec_target - ec_avg);
-            //             let percentage = diff*100/ec_target;
-            //             let water_quality ;
-            //             // console.log(response.logs[0].ec+ "%")
-            //             if(percentage <= 10){
-            //                 water_quality = '<span style="color:green">On Target</span>'
-            //             }else{
-            //                 water_quality = '<span style="color:brown">Needs Attention</span>'
-            //             }
-            //             table_idle.row.add([
-            //                 response.devices.idle[i].serial_number,
-            //                 response.devices.idle[i].device_name,
-            //                 response.devices.idle[i].model.name,
-            //                 response.devices.idle[i].user_devices_count,
-            //                 status,
-            //                 water_quality,
-            //                 '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-            //                 '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-            //             ]).draw(true)
-            //             // data.draw();
-            //         }
-            //         table_idle.draw();
-            //     }
-            //     table_running = $('#table_lists_running').DataTable();
-            //     count = table_running.rows().count();
-            //     if(table_running.count() != response.count.running){
-            //         table_running.clear();
-            //         for(let i=0; i<response.devices.running.length; i++){
-            //             //calculate status
-            //             let status = "";
-            //             switch(response.devices.running[i].step){
-            //                 case 0:
-            //                 case 1:
-            //                 case 13:
-            //                     status = '<span style="color:black">IDLE</span>';break;
-            //                 case 6:
-            //                     status = '<span style="color:orange">STANDBY</span>';break;
-            //                 default:
-            //                     status = '<span style="color:green">RUNNING</span>';break;
-            //             }
-            //             //calculate water quality
-            //             let ec_target = response.devices.running[i].setpoints.pure_EC_target;
-            //             let ec_avg = response.devices.running[i].latest_log.ec;
-            //             let diff = Math.abs(ec_target - ec_avg);
-            //             let percentage = diff*100/ec_target;
-            //             let water_quality ;
-            //             // console.log(response.logs[0].ec+ "%")
-            //             if(percentage <= 10){
-            //                 water_quality = '<span style="color:green">On Target</span>'
-            //             }else{
-            //                 water_quality = '<span style="color:brown">Needs Attention</span>'
-            //             }
-            //             table_running.row.add([
-            //                 response.devices.running[i].serial_number,
-            //                 response.devices.running[i].device_name,
-            //                 response.devices.running[i].model.name,
-            //                 response.devices.running[i].user_devices_count,
-            //                 status,
-            //                 water_quality,
-            //                 '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-            //                 '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-            //             ]).draw(false)
-            //             // data.draw();
-            //         }
-            //         table_running.draw();
-
-            //     }
-            //     table_standby = $('#table_lists_standby').DataTable();
-            //     count = table_standby.rows().count();
-            //     if(count != response.count.standby){
-            //         table_standby.clear();
-            //         for(let i=0; i<response.devices.standby.length; i++){
-            //             //calculate status
-            //             let status = "";
-            //             switch(response.devices.standby[i].step){
-            //                 case 0:
-            //                 case 1:
-            //                 case 13:
-            //                     status = '<span style="color:black">IDLE</span>';break;
-            //                 case 6:
-            //                     status = '<span style="color:orange">STANDBY</span>';break;
-            //                 default:
-            //                     status = '<span style="color:green">RUNNING</span>';break;
-            //             }
-            //             //calculate water quality
-            //             let ec_target = response.devices.standby[i].setpoints.pure_EC_target;
-            //             let ec_avg = response.devices.standby[i].latest_log.ec;
-            //             let diff = Math.abs(ec_target - ec_avg);
-            //             let percentage = diff*100/ec_target;
-            //             let water_quality ;
-            //             // console.log(response.logs[0].ec+ "%")
-            //             if(percentage <= 10){
-            //                 water_quality = '<span style="color:green">On Target</span>'
-            //             }else{
-            //                 water_quality = '<span style="color:brown">Needs Attention</span>'
-            //             }
-            //             table_idle.row.add([
-            //                 response.devices.standby[i].serial_number,
-            //                 response.devices.standby[i].device_name,
-            //                 response.devices.standby[i].model.name,
-            //                 response.devices.standby[i].user_devices_count,
-            //                 status,
-            //                 water_quality,
-            //                 '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-            //                 '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-            //             ]).draw(false)
-            //             // data.draw();
-            //         }
-            //         table_standby.draw();
-            //     }
-            //     table_disconnected = $('#table_lists_disconnected').DataTable();
-            //     count = table_disconnected.rows().count();
-            //     // console.log(data.count())
-            //     console.log("DISCONNECTED COUNT : "+count)
-            //     if(count != response.count.disconnected){
-            //         table_disconnected.clear();
-            //         for(let i=0; i<response.devices.disconnected.length; i++){
-            //             //calculate status
-            //             let status = "No Data";
-            //             if(response.devices.disconnected[i].latest_log != null){
-            //                 switch(response.devices.disconnected[i].latest_log.step){
-            //                     case 0:
-            //                     case 1:
-            //                     case 13:
-            //                         status = '<span style="color:black">IDLE</span>';break;
-            //                     case 6:
-            //                         status = '<span style="color:orange">STANDBY</span>';break;
-            //                     default:
-            //                         status = '<span style="color:green">RUNNING</span>';break;
-            //                 }
-            //             }
-            //             //calculate water quality
-            //             if(response.devices.disconnected[i].setpoints != null && response.devices.disconnected[i].latest_log != null){
-            //                 let ec_target = response.devices.disconnected[i].setpoints.pure_EC_target;
-            //                 let ec_avg = response.devices.disconnected[i].latest_log.ec;
-            //                 let diff = Math.abs(ec_target - ec_avg);
-            //                 let percentage = diff*100/ec_target;
-            //                 let water_quality ;
-            //                 if(percentage <= 10){
-            //                     water_quality = '<span style="color:green">On Target</span>'
-            //                 }else{
-            //                     water_quality = '<span style="color:brown">Needs Attention</span>'
-            //                 }
-            //                 table_disconnected.row.add([
-            //                     response.devices.disconnected[i].serial_number,
-            //                     response.devices.disconnected[i].device_name,
-            //                     response.devices.disconnected[i].model.name,
-            //                     response.devices.disconnected[i].user_devices_count,
-            //                     status,
-            //                     water_quality,
-            //                     '<button class="btn btn-primary" id="view_device">View</button>&nbsp;'+
-            //                     '<button class="btn btn-secondary" id="logBook_device">Log Book</button>'
-            //                 ]).draw(true)
-            //             }
-            //         }
-            //         table_disconnected.draw();
-            //     }else{
-            //         console.log("No operation")
-            //     }
-
-        // });
-
     }
     function pull_latest_data(){
         if(view_mode == "dashboard"){
@@ -3578,7 +3447,7 @@
     }
     function pull_relay_data(){
         clearInterval(avg_data);
-        clearInterval(dashboard_data);
+        // clearInterval(dashboard_data);
         // console.log("Pulling relay data")
         // get the device relay values
         $.ajax({
@@ -3854,7 +3723,7 @@
 
                 })
                 .done(function(response){
-                    Swal.fire('Success','Critic Acid Updated','success')
+                    Swal.fire('Success','Citric Acid Updated','success')
                     $('#btn_save_critic_acid').attr("hidden", true);
                 });
             }else{
@@ -3927,7 +3796,7 @@
                 }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
-                        title: 'Resetting Critic Acid!',
+                        title: 'Resetting Citric Acid!',
                         html: 'Please Wait!',
                         allowOutsideClick: false,
                         allowEscapeKey: false,
@@ -3947,7 +3816,7 @@
                         $('#critic_acid_error').text("").trigger("change");
                         $('#critic_acid_details').removeAttr("hidden");
                         $('#critic_acid_volume_left').text(critic_acid_reset_value);
-                        Swal.fire('Done!','Critic acid refilled.','success')
+                        Swal.fire('Done!','Citric acid refilled.','success')
                         $('#btn_reset_critic_acid').attr('disabled',true);
                     })
                 }
@@ -4135,6 +4004,32 @@
             .done(function(response){
                 Swal.fire('Success','Command recorded.','success')
                 var date = new Date(response.created_at)
+                $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+            });
+        })
+        $('.btn_reset_factory_settings').on('click', function(){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/reset-factory-settings/"+ device_id,
+            })
+            .done(function(response){
+                console.log(response)
+                Swal.fire('Success','Command recorded.','success')
+                let date = new Date(response.created_at)
+                $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
+            });
+        })
+        $('.btn_reset_volume').on('click', function(){
+            $.ajax({
+                headers: {'X-CSRF-Token': $('[name="_token"]').val()},
+                type: "POST",
+                url: "/reset-volume/"+ device_id,
+            })
+            .done(function(response){
+                console.log(response)
+                Swal.fire('Success','Command recorded.','success')
+                let date = new Date(response.created_at)
                 $('#command').append('<tr><td>'+date+'</td><td>'+response.command+'</td><td></td><td></td></tr>');
             });
         })
@@ -5287,28 +5182,43 @@
         // alarms history logs
         $('#info_device_alarms_table').on('click', function(){
             $('#modal-alarms_history-title').text("Alarms' History : " + device_serial)
+            $('#alarms_history_row').html('');
+            $('#alarm_history_body').prepend('<div id="loading_message" style="margin:0 auto"><h3>Generating alarms history... Please Wait!</h3></div>');
             $.ajax({
                 headers: {'X-CSRF-Token': $('[name="_token"]').val()},
                 type: "GET",
-                url: "/getDeviceAlarms/"+device_id,
+                url: "/getDeviceAlarms/"+device_serial,
             })
             .done(function(response){
-                $('#alarms_history_row').html('');
-                for(var i=0 ;i< response.length; i++){
-                    if(response[i].alarms != 0){
-                        var alarm_names = calculateAlarm(response[i].alarms);
-                        $('#alarms_history_row').prepend('<li><div class="timeline-time"><span class="time">'+ new Date(response[i].start)+'</span></div>'+
-                            '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
-                            '<div class="timeline-body">'+
-                                '<div class="timeline-header">'+
-                                    '<span class="username">'+response[i].start +' - '+response[i].end+'</span>'+
+                console.log("GETTING ALARMS HISTORY FOR: "+device_serial)
+                console.log(response)
+                $('#alarm_history_body div#loading_message').attr('hidden',true);
+                if(response != "no-data"){
+                    $('#alarms_history_row').html('');
+
+                    let alarm_count = 0;
+                    for(var i=0 ;i< response.length; i++){
+                        if(response[i].alarms != 0){
+                            alarm_count++;
+                            var alarm_names = calculateAlarm(response[i].alarms);
+                            $('#alarms_history_row').prepend('<li><div class="timeline-time"><span class="time">'+ new Date(response[i].start)+'</span></div>'+
+                                '<div class="timeline-icon"><a href="javascript:;">&nbsp;</a></div>'+
+                                '<div class="timeline-body">'+
+                                    '<div class="timeline-header">'+
+                                        '<span class="username">'+response[i].start +' - '+response[i].end+'</span>'+
+                                    '</div>'+
+                                    '<div class="timeline-content">'+
+                                        alarm_names+
+                                    '</div>'+
                                 '</div>'+
-                                '<div class="timeline-content">'+
-                                    alarm_names+
-                                '</div>'+
-                            '</div>'+
-                        '</li>');
+                            '</li>');
+                        }
                     }
+                    // if(alarm_count<1){
+                    //     $('#alarms_history_row').prepend('<h3>No alarms in past 31 days</h3>')
+                    // }
+                }else{
+                    $('#alarm_history_body').prepend('<div id="loading_message_error" style="margin:0 auto; color:red"><h3>No alarms history found. Please check the status of the device</h3></div>');
                 }
             })
             $('#modal-view_alarms_history').modal('show');
